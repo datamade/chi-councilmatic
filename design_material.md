@@ -7,3 +7,5 @@
 * [Scope of Work for New York Councilmatic](https://docs.google.com/document/d/1aVWPRGfigws9_6jgyXf87JynDAiMfLsWAzVOQPvuoIo/edit) A newspaper in NYC wanted to do bring Councilmatic to NY. They ended up not biting.
 * [Rita Allen grant agreement - Councilmatic](https://docs.google.com/document/d/1de5z_qPlVRwCGO2vOOwNIGyfq7EfFJtTmNU9_d7neqM/edit) This is the grant agreement for David's work.
 * [Councilmatic NYC](https://docs.google.com/document/d/1Ew4_1wgXeUjFhhFzjuoKuOxmBbgdCE2_2RTAw_FCXL8/edit) Our SOW for David.
+* [Councilmatic 2.0 Desires](https://github.com/datamade/ops/issues/102) Our longstanding ops issue for Councilmatic 2.0
+* [Old Councilmatic Issues](https://github.com/open-city/councilmatic/issues)
