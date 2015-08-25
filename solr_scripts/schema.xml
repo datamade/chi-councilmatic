@@ -171,7 +171,7 @@
 
     <field name="bill_type_exact" type="string" indexed="true" stored="true" multiValued="false" />
 
-    <field name="from_organization" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
 
     <field name="ocd_id" type="string" indexed="false" stored="true" multiValued="false" />
 
