@@ -157,7 +157,7 @@
 
     <field name="slug" type="string" indexed="false" stored="true" multiValued="false" />
 
-    <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="from_organization_exact" type="string" indexed="true" stored="true" multiValued="false" />
 
     <field name="identifier" type="text_en" indexed="true" stored="true" multiValued="false" />
 
@@ -184,6 +184,10 @@
     <field name="sponsorships_exact" type="string" indexed="true" stored="true" multiValued="true" />
 
     <field name="actions" type="text_en" indexed="true" stored="true" multiValued="true" />
+
+    <field name="actions" type="text_en" indexed="true" stored="true" multiValued="true" />
+
+    <field name="source_note" type="text_en" indexed="true" stored="true" multiValued="false" />
 
   </fields>
 
