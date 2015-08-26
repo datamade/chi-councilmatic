@@ -185,7 +185,7 @@
 
     <field name="actions" type="text_en" indexed="true" stored="true" multiValued="true" />
 
-    <field name="actions" type="text_en" indexed="true" stored="true" multiValued="true" />
+    <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="source_note" type="text_en" indexed="true" stored="true" multiValued="false" />
 
