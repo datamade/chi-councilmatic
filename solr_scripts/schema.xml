@@ -155,9 +155,13 @@
 
     <field name="bill_type" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-    <field name="slug" type="string" indexed="false" stored="true" multiValued="false" />
+    <field name="controlling_body_exact" type="string" indexed="true" stored="true" multiValued="true" />
 
-    <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="abstract" type="text_en" indexed="true" stored="true" multiValued="false" />
+
+    <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
+
+    <field name="sponsorships" type="text_en" indexed="true" stored="true" multiValued="true" />
 
     <field name="identifier" type="text_en" indexed="true" stored="true" multiValued="false" />
 
@@ -165,11 +169,11 @@
 
     <field name="name" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-    <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
+    <field name="slug" type="string" indexed="false" stored="true" multiValued="false" />
 
     <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
 
-    <field name="bill_type" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="last_action_date" type="date" indexed="true" stored="true" multiValued="false" />
 
     <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
 
