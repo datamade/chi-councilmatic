@@ -155,11 +155,11 @@
 
     <field name="bill_type" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-    <field name="controlling_body_exact" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="inferred_status" type="text_en" indexed="true" stored="true" multiValued="false" />
+
+    <field name="sponsorships_exact" type="string" indexed="true" stored="true" multiValued="true" />
 
     <field name="abstract" type="text_en" indexed="true" stored="true" multiValued="false" />
-
-    <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
 
     <field name="sponsorships" type="text_en" indexed="true" stored="true" multiValued="true" />
 
@@ -169,7 +169,7 @@
 
     <field name="name" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-    <field name="slug" type="string" indexed="false" stored="true" multiValued="false" />
+    <field name="controlling_body_exact" type="string" indexed="true" stored="true" multiValued="true" />
 
     <field name="source_url" type="string" indexed="false" stored="true" multiValued="false" />
 
