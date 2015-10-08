@@ -414,12 +414,12 @@ class Command(BaseCommand):
 
             # save image to disk
             if page_json['image']:
-                print("   saving image for %s" % page_json['name'])
                 r = requests.get(page_json['image'])
                 if r.status_code == 200:
                     with open((HEADSHOT_PATH + page_json['id'] + ".jpg"), 'wb') as f:
                         for chunk in r.iter_content(1000):
                             f.write(chunk)
+                            f.flush()
 
             email = ''
             for contact_detail in page_json['contact_details']:
