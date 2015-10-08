@@ -11,7 +11,7 @@ DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'nyc_councilmatic',
+        'NAME': 'chi_councilmatic',
         'USER': '',
         'PASSWORD': '',
     }
