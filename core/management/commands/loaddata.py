@@ -343,13 +343,37 @@ class Command(BaseCommand):
         #     print('      adding action: %s' %action_json['description'])
 
         for related_entity_json in action_json['related_entities']:
-            obj, created = ActionRelatedEntity.objects.get_or_create(
-                action = action_obj,
-                entity_type = related_entity_json['entity_type'],
-                entity_name = related_entity_json['name'],
-                organization_ocd_id = related_entity_json['organization_id'] if related_entity_json['organization_id'] else "",
-                person_ocd_id = related_entity_json['person_id'] if related_entity_json['person_id'] else ""
-            )
+
+            action_related_entity = {
+                'action': action_obj,
+                'entity_name': related_entity_json['name'],
+                'entity_type': related_entity_json['entity_type'],
+                'organization_ocd_id': related_entity_json['organization_id'],
+                'person_ocd_id': related_entity_json['person_id'],
+            }
+            
+            if related_entity_json['entity_type'] == 'organization':
+                
+                if not related_entity_json.get('organization_id'):
+                    org = Organization.objects.filter(name=action_related_entity['entity_name']).first()
+                    if org:
+                        action_related_entity['organization_ocd_id'] = org.ocd_id
+                    else:
+                        raise Exception('organization called {0} does not exist'\
+                                            .format(action_related_entity['entity_name']))
+            
+            elif related_entity_json['entity_type'] == 'person':
+                
+                if not related_entity_json.get('person_id'):
+                    org = Person.objects.filter(name=action_related_entity['entity_name']).first()
+                    if org:
+                        action_related_entity['person_ocd_id'] = org.ocd_id
+                    else:
+                        raise Exception('person called {0} does not exist'\
+                                            .format(action_related_entity['entity_name']))
+
+
+            obj, created = ActionRelatedEntity.objects.get_or_create(**action_related_entity)
 
             # if created and DEBUG:
             #     print('         adding related entity: %s' %obj.entity_name)
