@@ -15,8 +15,8 @@ SITE_META = {
 }
 
 
-OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:ny/place:new_york/government'
-OCD_CITY_COUNCIL_ID = 'ocd-organization/0f63aae8-16fd-4d3c-b525-00747a482cf9'
+OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/government'
+OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
 
 
 TIMEZONE = 'US/Eastern'
