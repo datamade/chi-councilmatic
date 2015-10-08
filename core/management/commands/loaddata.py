@@ -245,74 +245,79 @@ class Command(BaseCommand):
         # only load bills that have a local classification
         # this is a temporary fix - remove when outdated bills are no longer in ocd
         # if 'local_classification' in page_json['extras']:
-        bill_type = page_json['extras']['local_classification']
+
+        if len(page_json['classification']) == 1:
+            bill_type = page_json['classification'][0]
+        else:
+            raise Exception(page_json['classification'])
 
         # skip bill types that will get loaded as events
-        if bill_type not in ['Town Hall Meeting', 'Oversight', 'Tour', 'Local Laws 2015']:
+        # if bill_type not in ['Town Hall Meeting', 'Oversight', 'Tour', 'Local Laws 2015']:
 
-            if 'full_text' in page_json['extras']:
-                full_text = page_json['extras']['full_text']
-            else:
-                full_text = ''
+        if 'full_text' in page_json['extras']:
+            full_text = page_json['extras']['full_text']
+        else:
+            full_text = ''
 
-            if page_json['abstracts']:
-                abstract = page_json['abstracts'][0]['abstract']
-            else:
-                abstract = ''
+        if page_json['abstracts']:
+            abstract = page_json['abstracts'][0]['abstract']
+        else:
+            abstract = ''
 
-            try:
-                obj, created = Bill.objects.get_or_create(
-                        ocd_id=bill_id,
-                        description=page_json['title'],
-                        identifier=page_json['identifier'],
-                        classification=page_json['classification'][0],
-                        date_created=page_json['created_at'],
-                        date_updated=page_json['updated_at'],
-                        source_url=page_json['sources'][0]['url'],
-                        source_note=page_json['sources'][0]['note'],
-                        from_organization=from_org,
-                        full_text=full_text,
-                        abstract=abstract,
-                        legislative_session=legislative_session,
-                        bill_type=bill_type,
-                        slug=slugify(page_json['identifier']),
-                    )
-            except IntegrityError:
-                ocd_id_part = bill_id.rsplit('-',1)[1]
-                obj, created = Bill.objects.get_or_create(
-                        ocd_id=bill_id,
-                        description=page_json['title'],
-                        identifier=page_json['identifier'],
-                        classification=page_json['classification'][0],
-                        date_created=page_json['created_at'],
-                        date_updated=page_json['updated_at'],
-                        source_url=page_json['sources'][0]['url'],
-                        source_note=page_json['sources'][0]['note'],
-                        from_organization=from_org,
-                        full_text=full_text,
-                        abstract=abstract,
-                        legislative_session=legislative_session,
-                        bill_type=bill_type,
-                        slug=slugify(page_json['identifier'])+ocd_id_part,
-                    )
+        try:
+            obj, created = Bill.objects.get_or_create(
+                    ocd_id=bill_id,
+                    description=page_json['title'],
+                    identifier=page_json['identifier'],
+                    classification=page_json['classification'][0],
+                    date_created=page_json['created_at'],
+                    date_updated=page_json['updated_at'],
+                    source_url=page_json['sources'][0]['url'],
+                    source_note=page_json['sources'][0]['note'],
+                    from_organization=from_org,
+                    full_text=full_text,
+                    abstract=abstract,
+                    legislative_session=legislative_session,
+                    bill_type=bill_type,
+                    slug=slugify(page_json['identifier']),
+                )
+        except IntegrityError:
+            ocd_id_part = bill_id.rsplit('-',1)[1]
+            obj, created = Bill.objects.get_or_create(
+                    ocd_id=bill_id,
+                    description=page_json['title'],
+                    identifier=page_json['identifier'],
+                    classification=page_json['classification'][0],
+                    date_created=page_json['created_at'],
+                    date_updated=page_json['updated_at'],
+                    source_url=page_json['sources'][0]['url'],
+                    source_note=page_json['sources'][0]['note'],
+                    from_organization=from_org,
+                    full_text=full_text,
+                    abstract=abstract,
+                    legislative_session=legislative_session,
+                    bill_type=bill_type,
+                    slug=slugify(page_json['identifier'])+ocd_id_part,
+                )
 
-            # if created and DEBUG:
-            #     print('   adding %s' % bill_id)
-            if created and DEBUG:
-                print('\u263A', end=' ', flush=True)
+        # if created and DEBUG:
+        #     print('   adding %s' % bill_id)
+        if created and DEBUG:
+            print('\u263A', end=' ', flush=True)
 
-            action_order = 0
-            for action_json in page_json['actions']:
-                self.load_action(action_json, obj, action_order)
-                action_order+=1
+        action_order = 0
+        for action_json in page_json['actions']:
+            self.load_action(action_json, obj, action_order)
+            action_order+=1
 
-            # update bill last_action_date with most recent action
-            obj.last_action_date = obj.get_last_action_date()
-            obj.save()
+        # update bill last_action_date with most recent action
+        obj.last_action_date = obj.get_last_action_date()
+        print(bill_id)
+        obj.save()
 
-            # update documents associated with a bill
-            for document_json in page_json['documents']:
-                self.load_bill_document(document_json, obj)
+        # update documents associated with a bill
+        for document_json in page_json['documents']:
+            self.load_bill_document(document_json, obj)
 
         # if bills don't have local classification, don't load them
         # else:
