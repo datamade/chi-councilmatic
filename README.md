@@ -1,4 +1,4 @@
-# New York City Councilmatic
+# Chicago Councilmatic
 
 Keep track of what New York City Council is doing.
 
@@ -16,13 +16,13 @@ We recommend using [virtualenv](http://virtualenv.readthedocs.org/en/latest/virt
 Once you have virtualenvwrapper set up,
 
 ```bash
-mkvirtualenv nyc-councilmatic
-git clone https://github.com/datamade/nyc-councilmatic.git
-cd nyc-councilmatic
+mkvirtualenv chi-councilmatic
+git clone https://github.com/datamade/chi-councilmatic.git
+cd chi-councilmatic
 pip install -r requirements.txt
 ```
 
-Afterwards, whenever you want to use this virtual environment to work on nyc-councilmatic, run `workon nyc-councilmatic`
+Afterwards, whenever you want to use this virtual environment to work on chi-councilmatic, run `workon chi-councilmatic`
 
 **Create your settings file**
 
@@ -38,7 +38,7 @@ Then edit `councilmatic/settings_local.py`:
 Before we can run the website, we need to create a database.
 
 ```bash
-createdb nyc_councilmatic
+createdb chi_councilmatic
 ```
 
 Then, run migrations
@@ -61,7 +61,7 @@ Run the loaddata management command. This will take a few minutes.
 python manage.py loaddata
 ```
 
-## Running NYC Councilmatic locally
+## Running Chicago Councilmatic locally
 
 ``` bash
 python manage.py runserver
@@ -114,7 +114,7 @@ sudo java -jar start.jar
 
 **Index the database**
 ```bash
-# back in the nyc-councilmatic directory:
+# back in the chi-councilmatic directory:
 python manage.py rebuild_index
 ```
 
@@ -171,7 +171,7 @@ In order for Solr to use the new schema file, you'll need to restart it.
 ## Errors / Bugs
 
 If something is not behaving intuitively, it is a bug, and should be reported.
-Report it here: https://github.com/datamade/nyc-councilmatic/issues
+Report it here: https://github.com/datamade/chi-councilmatic/issues
 
 ## Note on Patches/Pull Requests
  
@@ -182,4 +182,4 @@ Report it here: https://github.com/datamade/nyc-councilmatic/issues
 
 ## Copyright
 
-Copyright (c) 2015 Participatory Politics Foundation and DataMade. Released under the [MIT License](https://github.com/datamade/nyc-councilmatic/blob/master/LICENSE).
+Copyright (c) 2015 Participatory Politics Foundation and DataMade. Released under the [MIT License](https://github.com/datamade/chi-councilmatic/blob/master/LICENSE).
