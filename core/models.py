@@ -68,7 +68,7 @@ class Bill(models.Model):
         if self.current_action:
             related_orgs = self.current_action.related_entities.filter(entity_type='organization').all()
             if related_orgs:
-                controlling_bodies = [Organization.objects.all().filter(ocd_id=org.organization_ocd_id).first() for org in related_orgs]
+                controlling_bodies = [Organization.objects.get(ocd_id=org.organization_ocd_id) for org in related_orgs]
                 return controlling_bodies
             else:
                 return [self.current_action.organization]
@@ -140,6 +140,11 @@ class Bill(models.Model):
         else:
             return 'Active'
 
+    @property
+    def listing_description(self):
+        if self.abstract:
+            return self.abstract
+        return self.description
 
     def get_last_action_date(self):
         return self.actions.all().order_by('-order').first().date if self.actions.all() else None
@@ -244,6 +249,9 @@ class Sponsorship(models.Model):
     person = models.ForeignKey('Person', related_name='sponsorships')
     classification = models.CharField(max_length=255)
     is_primary = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{0} ({1})'.format(self.bill.identifier, self.person.name)
 
 class Event(models.Model):
     ocd_id = models.CharField(max_length=100, unique=True)
