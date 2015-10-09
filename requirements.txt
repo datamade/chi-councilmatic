@@ -4,3 +4,4 @@ requests==2.7.0
 pytz==2015.4
 django-haystack==2.4.0
 pysolr==3.3.2
+django-councilmatic==0.1
