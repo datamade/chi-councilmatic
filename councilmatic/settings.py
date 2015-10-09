@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
-ROOT_URLCONF = 'chi_city.urls'
+ROOT_URLCONF = 'councilmatic.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chi_city.wsgi.application'
+WSGI_APPLICATION = 'councilmatic.wsgi.application'
 
 
 # Internationalization
