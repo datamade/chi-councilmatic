@@ -19,9 +19,6 @@ OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/govern
 OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
 
 
-TIMEZONE = 'US/Eastern'
-
-
 SEARCH_PLACEHOLDER_TEXT = "Taxi, Resolution 815-2015, etc."
 
 

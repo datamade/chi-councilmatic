@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'councilmatic.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -102,3 +102,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 HEADSHOT_PATH = os.path.join(BASE_DIR, 'councilmatic_core/static/images/')
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
+CITY_COUNCIL_NAME = 'New York City Council'
+OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/government'
