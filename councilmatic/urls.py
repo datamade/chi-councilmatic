@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search/', FacetedSearchView(searchqueryset=sqs, 
                                        form_class=CouncilmaticSearchForm)),
+    url(r'^$', 'chicago.views.index', name='index'),
     url(r'', include('councilmatic_core.urls')),
 ]

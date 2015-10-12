@@ -41,19 +41,24 @@ CACHES = {
 
 # These top configs are required
 OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
-CITY_COUNCIL_NAME = 'New York City Council'
+CITY_COUNCIL_NAME = 'Chicago City Council'
 OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/government'
-CITY_NAME = 'New York City'
-CITY_NAME_SHORT = 'NYC'
+CITY_NAME = 'Chicago'
+CITY_NAME_SHORT = 'Chicago'
+
+HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
+                             '/chicago/static/images/')
 
 
 # The rest are optional
 
+LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
+
 SITE_META = {
-    'site_name' : 'NYC Councilmatic',
-    'site_desc' : 'New York City Council, demystified. Keep tabs on what your local representatives are up to.',
+    'site_name' : 'Chicago Councilmatic',
+    'site_desc' : 'Chicago City Council, demystified. Keep tabs on what your local representatives are up to.',
     'site_author' : 'PPF & DataMade',
-    'site_url' : 'http://nyc.councilmatic.org',
+    'site_url' : 'http://chicago.councilmatic.org',
     'twitter_site': '@ppolitics',
     'twitter_creator': '@DataMadeCo',
 }
@@ -127,7 +132,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
 ]
 
 # these keys should match committee slugs
-COMMITTEE_DESCIPTIONS = {
+COMMITTEE_DESCRIPTIONS = {
     "committee-on-aging" :                  "Department for the Aging and all federal, state and municipal programs pertinent to senior citizens",
     "committee-on-civil-rights" :           "Human Rights Commission, Equal Employment Practices Commission and Equal Employment Opportunity",
     "committee-on-civil-service-and-labor" : "Municipal Officers and Employees, Office of Labor Relations, Office of Collective Bargaining, Office of Labor Services, and Municipal Pension and Retirement Systems",
