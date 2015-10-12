@@ -3,4 +3,5 @@ from haystack import indexes
 from chicago.models import ChicagoBill
 
 class ChicagoBillIndex(BillIndex, indexes.Indexable):
-    model = ChicagoBill
+    def get_model(self):
+        return ChicagoBill
