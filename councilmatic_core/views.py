@@ -42,14 +42,14 @@ def index(request):
         'upcoming_committee_meetings': list(Event.upcoming_committee_meetings()),
     }
 
-    return render(request, 'core/index.html', context)
+    return render(request, 'councilmatic_core/index.html', context)
 
 def about(request):
 
-    return render(request, 'core/about.html')
+    return render(request, 'councilmatic_core/about.html')
 
 def not_found(request):
-    return render(request, 'core/404.html')
+    return render(request, 'councilmatic_core/404.html')
 
 def council_members(request):
     city_council = Organization.objects.filter(ocd_id=city_config.OCD_CITY_COUNCIL_ID).first()
@@ -57,7 +57,7 @@ def council_members(request):
         'city_council': city_council
     }
 
-    return render(request, 'core/council_members.html', context)
+    return render(request, 'councilmatic_core/council_members.html', context)
 
 def bill_detail(request, slug):
 
@@ -73,7 +73,7 @@ def bill_detail(request, slug):
         'actions': actions
     }
 
-    return render(request, 'core/legislation.html', context)
+    return render(request, 'councilmatic_core/legislation.html', context)
 
 def committees(request):
 
@@ -112,7 +112,7 @@ def committee_detail(request, slug):
         'committee_description': committee_description,
     }
 
-    return render(request, 'core/committee.html', context)
+    return render(request, 'councilmatic_core/committee.html', context)
 
 def person(request, slug):
 
@@ -163,7 +163,7 @@ def events(request, year=None, month=None):
             'month_options': month_options,
         }
 
-        return render(request, 'core/events.html', context)
+        return render(request, 'councilmatic_core/events.html', context)
     else:
         year = int(year)
         month = int(month)
@@ -185,7 +185,7 @@ def events(request, year=None, month=None):
             'month_options': month_options,
         }
 
-        return render(request, 'core/events.html', context)
+        return render(request, 'councilmatic_core/events.html', context)
 
 def event_detail(request, slug):
 
@@ -197,7 +197,7 @@ def event_detail(request, slug):
         'participants': participants
     }
 
-    return render(request, 'core/event.html', context)
+    return render(request, 'councilmatic_core/event.html', context)
 
 def user_login(request):
     if request.method == 'POST':

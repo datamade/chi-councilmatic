@@ -1,15 +1,15 @@
 # These are all the settings specific to a city
 
-CITY_NAME = 'New York City'
-CITY_NAME_SHORT = 'NYC'
-CITY_COUNCIL_NAME = 'New York City Council'
+CITY_NAME = 'Chicago'
+CITY_NAME_SHORT = 'Chicago'
+CITY_COUNCIL_NAME = 'Chicago City Council'
 
 
 SITE_META = {
-    'site_name' : 'NYC Councilmatic',
-    'site_desc' : 'New York City Council, demystified. Keep tabs on what your local representatives are up to.',
+    'site_name' : 'Chicago Councilmatic',
+    'site_desc' : 'Chicago City Council, demystified. Keep tabs on what your local representatives are up to.',
     'site_author' : 'PPF & DataMade',
-    'site_url' : 'http://nyc.councilmatic.org',
+    'site_url' : 'http://chicago.councilmatic.org',
     'twitter_site': '@ppolitics',
     'twitter_creator': '@DataMadeCo',
 }
@@ -19,7 +19,7 @@ OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/govern
 OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
 
 
-TIMEZONE = 'US/Eastern'
+TIMEZONE = 'US/Central'
 
 
 SEARCH_PLACEHOLDER_TEXT = "Taxi, Resolution 815-2015, etc."
@@ -130,6 +130,6 @@ COMMITTEE_DESCIPTIONS = {
     "committee-on-transportation" :         "Mass Transportation Agencies and facilities, Department of Transportation, New York City Transit Authority and Taxi and Limousine Commission",
     "committee-on-veterans" :               "Mayor’s Office of Veterans Affairs and other veteran related issues",
     "committee-on-waterfronts" :            "Matters relating to the waterfront",
-    "committee-on-womens-issues" :      "Issues relating to public policy concerns of women, domestic violence, Office to Combat Domestic Violence and Agency for Child Development",
+    "committee-on-womens-issues" :          "Issues relating to public policy concerns of women, domestic violence, Office to Combat Domestic Violence and Agency for Child Development",
     "committee-on-youth-services" :         "Youth Board, Department of Youth and Community Development, Interagency Coordinating Council on Youth, and youth related programs",
 }
