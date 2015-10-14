@@ -15,7 +15,12 @@ class ChicagoBill(Bill):
     def terminal_status(self):
         actions = self.actions.all()
         if actions:
-            if self.bill_type in ['order', 'appointment','resolution', 'ordinance']:
+            if self.bill_type == 'ordinance':
+                if 'passage' in [a.classification for a in actions]:
+                    return 'Passed'
+                elif 'failure' in [a.classification for a in actions] or 'committe-failure' in [a.classification for a in actions]:
+                    return 'Failed'
+            if self.bill_type in ['order', 'appointment','resolution']:
                 if 'passage' in [a.classification for a in actions]:
                     return 'Approved'
                 else:
@@ -38,7 +43,9 @@ class ChicagoBill(Bill):
 
     @property
     def inferred_status(self):
-        if self.bill_type:
+        if self.terminal_status:
+            return self.terminal_status
+        else:
             return 'Active'
 
     @property
