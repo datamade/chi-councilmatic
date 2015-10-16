@@ -66,6 +66,14 @@ SITE_META = {
     'twitter_creator': '@DataMadeCo',
 }
 
+FOOTER_CREDITS = [
+    {
+        'name':     'DataMade',
+        'url':      'http://datamade.us/',
+        'image':    'datamade-logo.png',
+    },
+]
+
 SEARCH_PLACEHOLDER_TEXT = "Taxi, Resolution 815-2015, etc."
 
 LEGISLATION_TYPE_DESCRIPTIONS = [
