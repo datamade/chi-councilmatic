@@ -11,6 +11,10 @@ class ChicagoBill(Bill):
         nums = self.identifier.split(' ')[-1]
         return self.bill_type.title() + ' ' + nums
 
+    @property
+    def date_passed(self):
+        return self.actions.filter(classification='passage').order_by('-order').first().date if self.actions.all() else None
+
     def _terminal_status(self, history, bill_type):
         if history:
             if bill_type == 'ordinance':
