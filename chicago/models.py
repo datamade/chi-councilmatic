@@ -11,40 +11,40 @@ class ChicagoBill(Bill):
         nums = self.identifier.split(' ')[-1]
         return self.bill_type.title() + ' ' + nums
 
-    @property
-    def terminal_status(self):
-        actions = self.actions.all()
-        if actions:
-            if self.bill_type == 'ordinance':
-                if 'passage' in [a.classification for a in actions]:
+    def _terminal_status(self, history, bill_type):
+        if history:
+            if bill_type == 'ordinance':
+                if 'passage' in history:
                     return 'Passed'
-                elif 'failure' in [a.classification for a in actions] or 'committe-failure' in [a.classification for a in actions]:
+                elif 'failure' in history or 'committe-failure' in history:
                     return 'Failed'
-            if self.bill_type in ['order', 'appointment','resolution']:
-                if 'passage' in [a.classification for a in actions]:
+            if bill_type in ['order', 'appointment','resolution']:
+                if 'passage' in history:
                     return 'Approved'
                 else:
                     return False
 
         return False
 
-    @property
-    def is_stale(self):
-    # stale = no action for 2 months
-        if self.current_action:
-            timediff = datetime.now().replace(tzinfo=app_timezone) - self.current_action.date
-            return (timediff.days > 60)
-        else:
-            return True
+    # def _is_stale(self):
+    # # stale = no action for 2 months
+    #     if self.current_action:
+    #         timediff = datetime.now().replace(tzinfo=app_timezone) - self.current_action.date
+    #         return (timediff.days > 60)
+    #     else:
+    #         return True
 
-    @property
-    def is_approved(self):
-        return 'Approved!'
+    # def _is_approved(self):
+    #     return 'Approved!'
 
     @property
     def inferred_status(self):
-        if self.terminal_status:
-            return self.terminal_status
+        actions = self.actions.all().order_by('-order')
+        classification_hist = [a.classification for a in actions]
+        bill_type = self.bill_type
+
+        if self._terminal_status(classification_hist, bill_type):
+            return self._terminal_status(classification_hist, bill_type)
         else:
             return 'Active'
 
