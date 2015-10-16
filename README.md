@@ -31,7 +31,8 @@ cp councilmatic/settings_local.py.example councilmatic/settings_local.py
 ```
 
 Then edit `councilmatic/settings_local.py`:
-- `USER` should be your username
+- `DATABASES['default']['USER']` should be your username
+- if you're setting up councilmatic for local development, use a dummy cache by setting `CACHES['default']['BACKEND']` to `'django.core.cache.backends.dummy.DummyCache'`. if you're deploying, leave it as is
 
 **Setup your database**
 
