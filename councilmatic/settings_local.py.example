@@ -37,23 +37,34 @@ CACHES = {
     }
 }
 
+# Set this to flush the cache at /flush-cache/{FLUSH_KEY}
+FLUSH_KEY = 'super secret junk'
+
+# Set this to allow Disqus comments to render
+DISQUS_SHORTNAME = None
+
 #################################################
 # These are all the settings specific to a city #
 #################################################
 
-# These top configs are required
-OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
-CITY_COUNCIL_NAME = 'Chicago City Council'
-OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/government'
+# ------------------------------------------
+# These following city settings are required
+# ------------------------------------------
+
 CITY_NAME = 'Chicago'
 CITY_NAME_SHORT = 'Chicago'
+CITY_COUNCIL_NAME = 'Chicago City Council'
+
+OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
+OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/government'
 
 HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
                              '/chicago/static/images/')
 APP_NAME = 'chicago'
 
-
-# The rest are optional
+# ---------------------------------------
+# The rest of these settings are optional
+# ---------------------------------------
 
 LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
 
