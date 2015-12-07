@@ -3,6 +3,7 @@ from django.db import models
 from councilmatic_core.models import Bill
 from datetime import datetime
 import pytz
+from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -65,5 +66,15 @@ class ChicagoBill(Bill):
             return self.abstract
         else:
             return self.description
-    
+
+    @property
+    def topics(self):
+        tags = topic_classifier(self.description)
+        if 'Routine' in tags:
+            tags.remove('Routine')
+            tags = ['Routine'] + tags
+        elif 'Non-Routine' in tags:
+            tags.remove('Non-Routine')
+            tags = ['Non-Routine'] + tags
+        return tags
     
