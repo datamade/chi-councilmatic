@@ -3,5 +3,11 @@ from haystack import indexes
 from chicago.models import ChicagoBill
 
 class ChicagoBillIndex(BillIndex, indexes.Indexable):
-    def get_model(self):
-        return ChicagoBill
+
+	topics = indexes.MultiValueField(faceted=True)
+
+	def get_model(self):
+		return ChicagoBill
+
+	def prepare_topics(self, obj):
+		return obj.topics

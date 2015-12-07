@@ -24,6 +24,7 @@ sqs = SearchQuerySet().facet('bill_type')\
                       .facet('sponsorships', sort='index')\
                       .facet('controlling_body')\
                       .facet('inferred_status')\
+                      .facet('topics')\
                       .order_by('-last_action_date')
 
 urlpatterns = [
