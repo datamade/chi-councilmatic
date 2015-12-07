@@ -1,5 +1,10 @@
+from django.conf import settings
 from django.db import models
 from councilmatic_core.models import Bill
+from datetime import datetime
+import pytz
+
+app_timezone = pytz.timezone(settings.TIME_ZONE)
 
 class ChicagoBill(Bill):
 
@@ -17,12 +22,12 @@ class ChicagoBill(Bill):
 
     def _terminal_status(self, history, bill_type):
         if history:
-            if bill_type == 'ordinance':
+            if bill_type.lower() == 'ordinance':
                 if 'passage' in history:
                     return 'Passed'
                 elif 'failure' in history or 'committe-failure' in history:
                     return 'Failed'
-            if bill_type in ['order', 'appointment','resolution']:
+            if bill_type.lower() in ['order', 'appointment','resolution']:
                 if 'passage' in history:
                     return 'Approved'
                 else:
@@ -30,25 +35,27 @@ class ChicagoBill(Bill):
 
         return False
 
-    # def _is_stale(self):
-    # # stale = no action for 2 months
-    #     if self.current_action:
-    #         timediff = datetime.now().replace(tzinfo=app_timezone) - self.current_action.date
-    #         return (timediff.days > 60)
-    #     else:
-    #         return True
-
-    # def _is_approved(self):
-    #     return 'Approved!'
+    def _is_stale(self, last_action_date):
+    # stale = no action for 5 months
+        if last_action_date:
+            timediff = datetime.now().replace(tzinfo=app_timezone) - last_action_date
+            return (timediff.days > 180)
+        else:
+            return True
 
     @property
     def inferred_status(self):
         actions = self.actions.all().order_by('-order')
         classification_hist = [a.classification for a in actions]
+        last_action_date = actions[0].date if actions else None
         bill_type = self.bill_type
 
+        if bill_type.lower() in ['communication', 'oath of office']:
+            return None
         if self._terminal_status(classification_hist, bill_type):
             return self._terminal_status(classification_hist, bill_type)
+        elif self._is_stale(last_action_date):
+            return 'Stale'
         else:
             return 'Active'
 
