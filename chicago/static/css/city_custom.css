@@ -1,1 +1,33 @@
-// Chicago specific CSS
+/* Chicago specific CSS */
+
+a {
+	color: #C00000;
+}
+
+.btn-primary {
+	background-color: #C00000;
+	border-color: #C00000;
+}
+
+.badge-muted {
+	background-color: #DBEEFA;
+	color: #333;
+}
+
+
+/* bill status labels */
+.label-stale{
+    background-color: #999;
+}
+.label-passed{
+    background-color: #82D14C;
+}
+.label-approved{
+    background-color: #82D14C;
+}
+.label-active{
+    background-color: #7cc1e9;
+}
+.label-failed{
+    background-color: #E96363;
+}
