@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 from haystack.query import SearchQuerySet
 from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedSearchView
 from chicago.views import *
@@ -34,4 +35,5 @@ urlpatterns = [
     url(r'^about/$', ChicagoAboutView.as_view(), name='about'),
     url(r'^legislation/(?P<slug>.*)/$', ChicagoBillDetailView.as_view(), name='bill_detail'),
     url(r'', include('councilmatic_core.urls')),
+    url(r'^members/$', RedirectView.as_view(url='/council-members', permanent=True), name='council_members'),
 ]
