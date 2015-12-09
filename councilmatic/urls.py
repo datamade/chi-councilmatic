@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from haystack.query import SearchQuerySet
-# from haystack.views import FacetedSearchView
 from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedSearchView
 from chicago.views import *
 
