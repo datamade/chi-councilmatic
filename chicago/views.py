@@ -12,6 +12,18 @@ class ChicagoIndexView(IndexView):
 class ChicagoAboutView(AboutView):
     template_name = 'chicago/about.html'
 
+def bill_detail_redirect(request, old_id):
+    print("HI")
+    pattern = '?ID=%s&GUID' %old_id
+
+    try:
+        obj = ChicagoBill.objects.get(source_url__contains=pattern)
+    except:
+        raise Http404("No bill found matching the query")
+
+    return redirect('bill_detail', slug=obj.slug)
+
+
 class ChicagoBillDetailView(BillDetailView):
     model = ChicagoBill
 
@@ -40,12 +52,6 @@ class ChicagoBillDetailView(BillDetailView):
             # Get the single item from the filtered queryset
             obj = queryset.get()
         except queryset.model.DoesNotExist:
-
-            # Try looking up by legistar id
-            pattern = '?ID=%s&GUID' %slug
-
-            try:
-                obj = ChicagoBill.objects.get(source_url__contains=pattern)
-            except:
-                raise Http404("No bill found matching the query")
+            raise Http404("No bill found matching the query")
+            
         return obj
