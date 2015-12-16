@@ -13,7 +13,6 @@ class ChicagoAboutView(AboutView):
     template_name = 'chicago/about.html'
 
 def bill_detail_redirect(request, old_id):
-    print("HI")
     pattern = '?ID=%s&GUID' %old_id
 
     try:
@@ -53,5 +52,5 @@ class ChicagoBillDetailView(BillDetailView):
             obj = queryset.get()
         except queryset.model.DoesNotExist:
             raise Http404("No bill found matching the query")
-            
+
         return obj
