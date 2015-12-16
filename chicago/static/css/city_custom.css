@@ -14,6 +14,23 @@ a {
 	color: #333;
 }
 
+.well {
+	border: none;
+	border-radius: 0px;
+	box-shadow: none;
+}
+
+.bg-info{
+	background-color: #DBEEFA;
+}
+.padded-bg{
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.divider {
+	height: 30px;
+}
 
 /* bill status labels */
 .label-stale{
