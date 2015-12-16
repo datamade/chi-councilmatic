@@ -54,6 +54,8 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
 # if this is set, committees will display chairs
 COMMITTEE_CHAIR_TITLE = 'Chairman'
 
+COMMITTEE_MEMBER_TITLE = 'Member'
+
 # these keys should match committee slugs
 COMMITTEE_DESCRIPTIONS = {
     "committee" :                  "committee description",
