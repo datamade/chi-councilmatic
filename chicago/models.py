@@ -77,4 +77,13 @@ class ChicagoBill(Bill):
             tags.remove('Non-Routine')
             tags = ['Non-Routine'] + tags
         return tags
-    
+
+    @property
+    def full_text_doc_url(self):
+        """
+        override this if instead of having full text as string stored in
+        full_text, it is a PDF document that you can embed on the page
+        """
+        base_url = 'https://pic.datamade.us/chicago/document/?'
+        legistar_doc_url = self.documents.filter(document_type='V').first().document.url
+        return base_url+legistar_doc_url.split('?')[1]
