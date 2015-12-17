@@ -50,6 +50,9 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
 ]
 
+# by default, councilmatic will refer to a municipal district as 'District'
+MUNICIPAL_DISTRICT_NAME = 'Ward'
+
 # this is the name of the meetings where the entire city council meets
 CITY_COUNCIL_MEETING_NAME = 'City Council'
 
