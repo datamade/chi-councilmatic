@@ -30,6 +30,25 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid" id="section-events">
+        <div class="row-fluid">
+            <div class='col-sm-10 col-sm-offset-1'>
+                <h2>
+                    <i class="fa fa-fw fa-clock-o"></i>Recent Activity
+                </h2>
+                <p class="big">
+                    Since the
+                    <a href="{{last_council_meeting.event_page_url}}">
+                        last city council meeting
+                    </a>
+                    on <strong>{{last_council_meeting.start_time | date:"m/d"}}</strong>, there have been
+                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, consisting of <strong>{{recent_activity.new_routine | length}}</strong> <a href="/search/?q=&selected_facets=topics_exact:Routine">routine</a> &
+                    <strong>{{recent_activity.new_nonroutine | length}}</strong> <a href="/search/?q=&selected_facets=topics_exact:Non-Routine">non-routine</a>.
+                </p>
+                <div class="divider"></div>
+            </div>
+        </div>
+    </div>
 
     {% if next_council_meeting or upcoming_committee_meetings %}
     <div class="container-fluid" id="section-events">
