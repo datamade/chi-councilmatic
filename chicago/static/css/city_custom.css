@@ -48,3 +48,7 @@ a {
 .label-failed{
     background-color: #E96363;
 }
+
+#logo {
+    top: -12px;
+}
