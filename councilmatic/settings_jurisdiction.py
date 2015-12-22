@@ -18,8 +18,7 @@ APP_NAME = 'chicago'
 # The rest are optional #
 #########################
 
-LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
-
+# this is for populating meta tags
 SITE_META = {
     'site_name' : 'Chicago Councilmatic',
     'site_desc' : 'Chicago City Council, demystified. Keep tabs on what your local representatives are up to.',
@@ -29,6 +28,9 @@ SITE_META = {
     'twitter_creator': '@DataMadeCo',
 }
 
+
+LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
+
 FOOTER_CREDITS = [
     {
         'name':     'DataMade',
@@ -37,8 +39,41 @@ FOOTER_CREDITS = [
     },
 ]
 
-SEARCH_PLACEHOLDER_TEXT = "Taxi, Resolution 815-2015, etc."
+# this is the default text in search bars
+SEARCH_PLACEHOLDER_TEXT = "police, zoning, O2015-7825, etc."
 
+
+
+# these should live in APP_NAME/static/images/
+IMAGES = {
+    'favicon': 'favicon.ico',
+    'logo': 'logo.png',
+}
+
+
+
+# by default, councilmatic will refer to a municipal district as 'District'
+MUNICIPAL_DISTRICT_NAME = 'Ward'
+
+
+
+# this is the name of the meetings where the entire city council meets
+# as stored in legistar
+CITY_COUNCIL_MEETING_NAME = 'City Council'
+
+# this is the name of the role of committee chairs, e.g. 'CHAIRPERSON' or 'Chair'
+# as stored in legistar
+# if this is set, committees will display chairs
+COMMITTEE_CHAIR_TITLE = 'Chairman'
+
+# this is the anme of the role of committee members,
+# as stored in legistar
+COMMITTEE_MEMBER_TITLE = 'Member'
+
+
+
+# this is for convenience, & used to populate a table
+# describing legislation types on the about page template
 LEGISLATION_TYPE_DESCRIPTIONS = [
     {
         'name': 'Ordinance',
@@ -49,18 +84,6 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
 
     },
 ]
-
-# by default, councilmatic will refer to a municipal district as 'District'
-MUNICIPAL_DISTRICT_NAME = 'Ward'
-
-# this is the name of the meetings where the entire city council meets
-CITY_COUNCIL_MEETING_NAME = 'City Council'
-
-# this is the name of the role of committee chairs, e.g. 'CHAIRPERSON' or 'Chair'
-# if this is set, committees will display chairs
-COMMITTEE_CHAIR_TITLE = 'Chairman'
-
-COMMITTEE_MEMBER_TITLE = 'Member'
 
 # these keys should match committee slugs
 COMMITTEE_DESCRIPTIONS = {
