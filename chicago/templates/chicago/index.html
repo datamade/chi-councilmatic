@@ -3,7 +3,7 @@
 {% block title %}Chicago City Council, demystified{% endblock %}
 
 {% block full_content %}
-    <div class="container-fluid">
+    <div class="container-fluid" id="section-photo">
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
                 <br/>
@@ -11,21 +11,22 @@
                     <h1>{{ CITY_COUNCIL_NAME }}, demystified</h1>
                 </h2>
                 <br/>
-                <div class="well">
-                    <p class="h3 no-pad-top">
-                        <span>Search {{CITY_NAME}} legislation</span>
-                    </p>
-                    <form class="search form-search=" action="/search/" method="GET">
-                        <div class="input-group site-intro-search">
-                            <input name="q" type="text" class="input-lg form-control" placeholder="{{SEARCH_PLACEHOLDER_TEXT}}">
-                            <div class='input-group-btn'>
-                                <button type="submit" class="btn btn-lg btn-primary">
-                                    <i class='fa fa-fw fa-search'></i>
-                                </button>
-                            </div>
+
+                <p class="h3 no-pad-top">
+                    <span>Search {{CITY_NAME}} legislation</span>
+                </p>
+
+                <form class="search form-search=" action="/search/" method="GET">
+                    <div class="input-group site-intro-search">
+                        <input name="q" type="text" class="input-lg form-control" placeholder="{{SEARCH_PLACEHOLDER_TEXT}}">
+                        <div class='input-group-btn'>
+                            <button type="submit" class="btn btn-lg btn-primary">
+                                <i class='fa fa-fw fa-search'></i>
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+                
                 <div class="divider"></div>
             </div>
         </div>

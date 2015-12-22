@@ -86,6 +86,22 @@ a {
 }
 
 /* homepage */
+#section-photo{
+    background-image:
+        linear-gradient(
+          rgba(28, 135, 202, 0.3),
+          rgba(28, 135, 202, 0.3)
+        ),
+        url('../images/city_hall.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 300px;
+}
+#section-photo .h3, #section-photo h1{
+	color: #fff;
+}
+
 #next-council-meeting-well{
     background-image:
         linear-gradient(
