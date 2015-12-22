@@ -8,6 +8,16 @@ a {
 	background-color: #C00000;
 	border-color: #C00000;
 }
+.btn-info {
+	background-color: #DBEEFA;
+	border-color: #DBEEFA;
+	color: #333;
+}
+.btn-info:hover, .btn-info:active {
+	background-color: #fff;
+	border-color: #fff;
+	color: #333;
+}
 
 .badge-muted {
 	background-color: #DBEEFA;
@@ -51,4 +61,24 @@ a {
 
 #logo {
     top: -12px;
+}
+
+/* homepage */
+#next-council-meeting-well{
+    background-image:
+        linear-gradient(
+          rgba(192, 0, 0, 0.25),
+          rgba(192, 0, 0, 0.25)
+        ),
+        url('../images/council_chambers.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    max-width: 500px;
+}
+#next-council-meeting-well > .h4 {
+	color: #DBEEFA;
+}
+#next-council-meeting-well > .h3 {
+	color: #fff;
 }

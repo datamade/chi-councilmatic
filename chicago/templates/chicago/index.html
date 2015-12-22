@@ -56,13 +56,20 @@
             <div class='col-sm-10 col-sm-offset-1'>
                 <h2><i class="fa fa-fw fa-calendar-o"></i>Upcoming Events</h2>
                 {% if next_council_meeting %}
-                    <h4 class="padded-bg bg-info">
-                        Next City Council Meeting on
-                        <a href="{{next_council_meeting.event_page_url}}">
+
+                    <div class="well" id="next-council-meeting-well">
+                        <p class="h4">
+                            Next City Council Meeting:
+                        </p>
+                        <p class="h3">
                             {{next_council_meeting.start_time | date:"D n/d/Y"}} 
-                            <i class="fa fa-fw fa-chevron-right"></i>
-                        </a>
-                    </h4>
+                            &nbsp;
+                            <a class="btn btn-sm btn-info" href="{{next_council_meeting.event_page_url}}">
+                                Details
+                                <i class="fa fa-fw fa-chevron-right"></i>
+                            </a>
+                        </p>
+                    </div>
 
                 {% endif %}
 
