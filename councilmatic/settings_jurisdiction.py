@@ -44,10 +44,10 @@ SEARCH_PLACEHOLDER_TEXT = "police, zoning, O2015-7825, etc."
 
 
 
-# these should live in APP_NAME/static/images/
+# these should live in APP_NAME/static/
 IMAGES = {
-    'favicon': 'favicon.ico',
-    'logo': 'logo.png',
+    'favicon': 'images/favicon.ico',
+    'logo': 'images/logo.png',
 }
 
 
