@@ -14,10 +14,27 @@ a {
 	color: #333;
 }
 .btn-info:hover, .btn-info:active {
-	background-color: #fff;
-	border-color: #fff;
-	color: #333;
+	background-color: #54afe8; /* medium blue */;
+	border-color: #54afe8; /* medium blue */
+	color: #fff;
 }
+.btn-bill-detail:hover, .btn-bill-detail:active{
+	background-color: #54afe8; /* medium blue */
+	color: #fff;
+}
+
+
+.nav-pills > li > a {
+	color: #1c87ca; /* dark blue */
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li > a:hover {
+    background: none;
+    color: #1c87ca; /* dark blue */
+    border-bottom: 8px solid #1c87ca; /* dark blue */
+}
+
+
+
 
 .badge-muted {
 	background-color: #DBEEFA;
@@ -42,21 +59,26 @@ a {
 	height: 30px;
 }
 
+
+
+
+
+
 /* bill status labels */
 .label-stale{
-    background-color: #999;
+    background-color: #999; /* dark grey */
 }
 .label-passed{
-    background-color: #82D14C;
+    background-color: #009a00; /* green */
 }
 .label-approved{
-    background-color: #82D14C;
+    background-color: #009a00; /* green */
 }
 .label-active{
-    background-color: #7cc1e9;
+    background-color: #54afe8; /* medium blue */
 }
 .label-failed{
-    background-color: #E96363;
+    background-color: #720000; /* dark red */
 }
 
 #logo {
