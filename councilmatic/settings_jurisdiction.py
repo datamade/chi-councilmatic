@@ -28,8 +28,24 @@ SITE_META = {
     'twitter_creator': '@DataMadeCo',
 }
 
-
 LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
+
+
+# this is for the boundaries of municipal districts, to add 
+# shapes to posts & ultimately display a map with the council
+# member listing. the boundary set should be the relevant
+# slug from the ocd api's boundary service
+# available boundary sets here: http://ocd.datamade.us/boundary-sets/
+BOUNDARY_SET = 'chicago-wards-2015'
+
+# this is for configuring a map of council districts using data from the posts
+# set MAP_CONFIG = None to hide map
+MAP_CONFIG = {
+    'center': [41.8369, -87.6847],
+    'zoom': 11,
+    'color': "#54afe8"
+}
+
 
 FOOTER_CREDITS = [
     {
