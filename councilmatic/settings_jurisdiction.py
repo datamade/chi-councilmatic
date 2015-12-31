@@ -43,7 +43,8 @@ BOUNDARY_SET = 'chicago-wards-2015'
 MAP_CONFIG = {
     'center': [41.8369, -87.6847],
     'zoom': 11,
-    'color': "#54afe8"
+    'color': "#54afe8",
+    'highlight_color': "#C00000",
 }
 
 
