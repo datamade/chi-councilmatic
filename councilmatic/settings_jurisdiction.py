@@ -124,6 +124,7 @@ COMMITTEE_DESCRIPTIONS = {
 }
 
 MANUAL_HEADSHOTS = {
+    'emanuel-rahm':         'manual-headshots/emanuel-rahm.jpg',
     'hopkins-brian':        'manual-headshots/hopkins-brian.jpg',
     'burns-william-d':      'manual-headshots/burns-william-d.jpg',
     'sawyer-roderick-t':    'manual-headshots/sawyer-roderick-t.jpg',
