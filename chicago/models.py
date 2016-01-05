@@ -87,7 +87,9 @@ class ChicagoBill(Bill):
         override this in custom subclass
         """
         if 'Ward Matters' in self.topics:
-            pattern = "((\d|-)+\s?(\S*[a-z]\S*\s)+(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
+            addr_pattern = "(\d(\d|-)*\s(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
+            intersec_pattern = exp = "((?<=\sat\s)(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)\s?and\s?(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
+            pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
             matches = re.findall(pattern, self.description.lower())
             addresses = [m[0] for m in matches]
             return addresses
