@@ -124,6 +124,15 @@ COMMITTEE_DESCRIPTIONS = {
 }
 
 MANUAL_HEADSHOTS = {
+    'oconnor-patrick':      'manual-headshots/oconnor-patrick.jpg',
+    'austin-carrie-m':      'manual-headshots/austin-carrie-m.jpg',
+    'burnett-jr-walter':    'manual-headshots/burnett-jr-walter.jpg',
+    'solis-daniel':         'manual-headshots/solis-daniel.jpg',
+    'munoz-ricardo':        'manual-headshots/munoz-ricardo.jpg',
+    'burke-edward-m':       'manual-headshots/burke-edward-m.jpg',
+    'cardenas-george-a':    'manual-headshots/cardenas-george-a.jpg',
+    'beale-anthony':        'manual-headshots/beale-anthony.jpg',
+    'moreno-proco-joe':     'manual-headshots/moreno-proco-joe.jpg',
     'emanuel-rahm':         'manual-headshots/emanuel-rahm.jpg',
     'hopkins-brian':        'manual-headshots/hopkins-brian.jpg',
     'burns-william-d':      'manual-headshots/burns-william-d.jpg',
