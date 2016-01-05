@@ -124,6 +124,10 @@ COMMITTEE_DESCRIPTIONS = {
 }
 
 MANUAL_HEADSHOTS = {
+    'harris-michelle-a':    'manual-headshots/harris-michelle-a.jpg',
+    'hairston-leslie-a':    'manual-headshots/hairston-leslie-a.jpg',
+    'dowell-pat':           'manual-headshots/dowell-pat.jpg',
+    'maldonado-roberto':    'manual-headshots/maldonado-roberto.jpg',
     'oconnor-patrick':      'manual-headshots/oconnor-patrick.jpg',
     'austin-carrie-m':      'manual-headshots/austin-carrie-m.jpg',
     'burnett-jr-walter':    'manual-headshots/burnett-jr-walter.jpg',
