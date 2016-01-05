@@ -4,6 +4,7 @@ from councilmatic_core.models import Bill
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
+import re
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -77,6 +78,21 @@ class ChicagoBill(Bill):
             tags.remove('Non-Routine')
             tags = ['Non-Routine'] + tags
         return tags
+
+    @property
+    def addresses(self):
+        """
+        returns a list of relevant addresses for a bill
+
+        override this in custom subclass
+        """
+        if 'Ward Matters' in self.topics:
+            pattern = "((\d|-)+\s?(\S*[a-z]\S*\s)+(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
+            matches = re.findall(pattern, self.description.lower())
+            addresses = [m[0] for m in matches]
+            return addresses
+
+        return []
 
     @property
     def full_text_doc_url(self):
