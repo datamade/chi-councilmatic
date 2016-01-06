@@ -87,6 +87,10 @@ a {
     top: -12px;
 }
 
+#person-detail-headshot{
+    max-height: 250px;
+}
+
 /* homepage */
 #section-photo{
     background-image:
