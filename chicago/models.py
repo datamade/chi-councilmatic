@@ -86,11 +86,18 @@ class ChicagoBill(Bill):
 
         override this in custom subclass
         """
-        if 'Ward Matters' in self.topics:
-            addr_pattern = "(\d(\d|-)*\s(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
-            intersec_pattern = exp = "((?<=\sat\s)(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)\s?and\s?(\S*[a-z]\S*\s){1,4}?(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way))"
+        if 'Ward Matters' in self.topics or 'City Matters' in self.topics:
+            stname_pattern = "(\S*[a-z]\S*\s){1,4}?"
+            sttype_pattern = "(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
+            st_pattern = stname_pattern + sttype_pattern
+
+            addr_pattern = "(\d(\d|-)*\s%s)" %st_pattern
+            intersec_pattern = exp = "((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
+
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
-            matches = re.findall(pattern, self.description.lower())
+
+            matches = re.findall(pattern, self.description, re.IGNORECASE)
+
             addresses = [m[0] for m in matches]
             return addresses
 
