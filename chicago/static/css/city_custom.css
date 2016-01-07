@@ -95,8 +95,8 @@ a {
 #section-photo{
     background-image:
         linear-gradient(
-          rgba(28, 135, 202, 0.3),
-          rgba(28, 135, 202, 0.3)
+            rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 0.3)
         ),
         url('../images/city_hall.jpg');
     background-size: cover;

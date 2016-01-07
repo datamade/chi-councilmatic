@@ -35,16 +35,12 @@
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
                 <h2>
-                    <i class="fa fa-fw fa-clock-o"></i>Recent Activity
+                    <i class="fa fa-fw fa-clock-o"></i>Activity since last council meeting
                 </h2>
                 <p class="big">
-                    Since the
-                    <a href="{{last_council_meeting.event_page_url}}">
-                        last city council meeting
-                    </a>
-                    on <strong>{{last_council_meeting.start_time | date:"m/d"}}</strong>, there have been
-                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, consisting of <strong>{{recent_activity.new_routine | length}}</strong> <a href="/search/?q=&selected_facets=topics_exact:Routine">routine</a> &
-                    <strong>{{recent_activity.new_nonroutine | length}}</strong> <a href="/search/?q=&selected_facets=topics_exact:Non-Routine">non-routine</a>.
+                    Since <a href="{{last_council_meeting.event_page_url}}"><strong>{{last_council_meeting.start_time | date:"M jS"}}</strong></a>, City Council has introduced
+                    <a href="/search/?q=&selected_facets=topics_exact:Routine"><strong>{{recent_activity.new_routine | length}}</strong> routine</a> &
+                    <a href="/search/?q=&selected_facets=topics_exact:Non-Routine"><strong>{{recent_activity.new_nonroutine | length}}</strong> non-routine</a> pieces of legislation.
                 </p>
                 <div class="divider"></div>
             </div>
@@ -58,19 +54,30 @@
                 <h2><i class="fa fa-fw fa-calendar-o"></i>Upcoming Events</h2>
                 {% if next_council_meeting %}
 
-                    <div class="well" id="next-council-meeting-well">
-                        <p class="h4">
-                            <i class="fa fa-fw fa-institution"></i>
-                            Next City Council Meeting:
-                        </p>
-                        <p class="h3">
-                            {{next_council_meeting.start_time | date:"D n/d/Y"}} 
-                            &nbsp;
-                            <a class="btn btn-sm btn-info" href="{{next_council_meeting.event_page_url}}">
-                                Details
-                                <i class="fa fa-fw fa-chevron-right"></i>
-                            </a>
-                        </p>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class='row'>
+                                <div class='col-sm-4'>
+                                    <a href='{{next_council_meeting.event_page_url}}'><img class='img-responsive img-thumbnail' src='/static/images/council_chambers.jpg' /></a>
+                                </div>
+                                <div class='col-sm-8'>
+                                    <h4><a href="{{next_council_meeting.event_page_url}}"><i class="fa fa-fw fa-institution"></i> Next City Council Meeting</a></h4>
+                                    <p></p>
+
+                                    <p class="small text-muted">
+                                        <i class="fa fa-fw fa-calendar-o"></i> {{next_council_meeting.start_time | date:"D n/d/Y"}}<br/>
+                                        <i class="fa fa-fw fa-clock-o"></i> {{next_council_meeting.start_time| date:"g:ia"}}<br/>
+                                        <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
+                                        <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
+                                    </p>
+                                    <a class='btn btn-primary btn-sm' href="{{next_council_meeting.event_page_url}}">
+                                        Details
+                                        <i class="fa fa-fw fa-chevron-right"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 {% endif %}

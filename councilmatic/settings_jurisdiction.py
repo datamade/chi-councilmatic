@@ -10,6 +10,7 @@ OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/govern
 LEGISLATIVE_SESSIONS = ['2011', '2015'] # the last one in this list should be the current legislative session
 CITY_NAME = 'Chicago'
 CITY_NAME_SHORT = 'Chicago'
+CITY_SOURCE_NAME = 'Chicago City Clerk'
 
 APP_NAME = 'chicago'
 
