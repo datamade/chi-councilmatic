@@ -63,6 +63,11 @@ FOOTER_CREDITS = [
         'url':      'http://datamade.us/',
         'image':    'datamade-logo.png',
     },
+    {
+        'name':     'Sunlight Foundation',
+        'url':      'http://sunlightfoundation.org/',
+        'image':    'sunlight-logo.png',
+    },
 ]
 
 # this is the default text in search bars

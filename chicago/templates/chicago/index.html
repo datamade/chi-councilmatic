@@ -34,8 +34,103 @@
     <div class="container-fluid" id="section-events">
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
+
                 <h2>
-                    <i class="fa fa-fw fa-clock-o"></i>Activity since last council meeting
+                    <i class="fa fa-fw fa-institution"></i>Engaging Chicago City Council
+                </h2>
+
+                <div class='row'>
+                    <div class='col-sm-8'>
+                        <p>Chicago City Council is the legislative body of the City of Chicago. It consists of <a href='/council-members'>50 elected aldermen</a> from 50 wards. City Council meets monthly and is presided over by <a href='/person/emanuel-rahm/'>Rahm Emanuel</a>, the Mayor of Chicago. The secretary is <a href='/person/mendoza-susana-a/'>Susana Mendoza</a>, City Clerk of Chicago</a>.</p>
+
+                        <p><strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council: the <a href='/search/'>legislation</a> introduced and passed, it's various <a href='/committees/'>committees</a> and the <a href='/events/'>meetings</a> they hold, and the <a href='/council-members/'>aldermen</a> themselves. Read more about how <a href='/about#about-city-council'>City Council works &raquo;</a></p>
+
+                        <div class='row'>
+                            <div class='col-sm-6'>
+                                <h4>Citywide issues</h4>
+                                <p>The Mayor of Chicago generally sets citywide policy. This includes <a href='/search/?q=&selected_facets=topics_exact:City Business'>business transactions</a>, changes to the <a href='/search/?q=&selected_facets=topics_exact:Municipal Code'>municipal code</a>, <a href='/search/?q=&selected_facets=topics_exact:Bonds'>issuing bonds</a> and <a href='/search/?q=&selected_facets=topics_exact:Appointment'>appointments</a>.</p>
+
+                                <p>
+                                    <a class='btn btn-primary' href='/search/?q=&selected_facets=topics_exact:City Matters'>View citywide legislation <i class="fa fa-fw fa-chevron-right"></i></a>
+                                </p>
+                            </div>
+                            <div class='col-sm-6'>
+                                <h4>Local issues</h4>
+                                <p>At the local level, Aldermen have control over all <a href='/search/?q=&selected_facets=topics_exact:Ward Matters'>matters in their ward</a>, including <a href='/search/?q=&selected_facets=topics_exact:Business Permits and Privileges'>business permits</a>, <a href='/search/?q=&selected_facets=topics_exact:Land Use'>land use</a>, <a href='/search/?q=&selected_facets=topics_exact:Parking'>parking</a> and <a href='/search/?q=&selected_facets=topics_exact:Residents'>residents issues</a>.</p>
+
+                                <p><a class='btn btn-primary' href='/council-members/'>Find your alderman <i class="fa fa-fw fa-chevron-right"></i></a></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class= 'col-sm-4'>
+
+                        <p class='text-center'>
+                            <a href='/council-members/'><img src='/static/images/chicago_map.jpg' class='img-responsive img-rounded' title='City of Chicago Wards' alt="Chicago's 50 Wards" /></a>
+                            <em>Chicago's 50 Wards</em>
+                        </p>
+
+                        
+                    </div>
+                </div>
+
+                {% if next_council_meeting or upcoming_committee_meetings %}
+                    <br />
+                    <h2><i class="fa fa-fw fa-calendar-o"></i>Upcoming Meetings</h2>
+                    {% if next_council_meeting %}
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class='row'>
+                                    <div class='col-sm-4'>
+                                        <a href='{{next_council_meeting.event_page_url}}'><img class='img-responsive img-thumbnail' src='/static/images/council_chambers.jpg' /></a>
+                                    </div>
+                                    <div class='col-sm-8'>
+                                        <h4><a href="{{next_council_meeting.event_page_url}}"><i class="fa fa-fw fa-institution"></i> Next City Council Meeting</a></h4>
+                                        <p></p>
+
+                                        <p class="small text-muted">
+                                            <i class="fa fa-fw fa-calendar-o"></i> {{next_council_meeting.start_time | date:"D n/d/Y"}}<br/>
+                                            <i class="fa fa-fw fa-clock-o"></i> {{next_council_meeting.start_time| date:"g:ia"}}<br/>
+                                            <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
+                                            <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
+                                        </p>
+                                        <a class='btn btn-primary btn-sm' href="{{next_council_meeting.event_page_url}}">
+                                            Details
+                                            <i class="fa fa-fw fa-chevron-right"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    {% if upcoming_committee_meetings %}
+                        <h4>
+                            Committee Meetings
+                        </h4>
+                        {% for event in upcoming_committee_meetings %}
+                            <p>
+                                {{event.start_time | date:"D"}} 
+                                {{event.start_time | date:"m/d"}} - 
+                                
+                                {{ event.link_html | safe }}
+
+                            </p>
+                        {% endfor %}
+                        <br/>
+                        <a href="/events/" class="btn btn-sm btn-primary">
+                            View All Upcoming Events
+                            <i class="fa fa-fw fa-chevron-right"></i>
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+                <br /><br />
+                <h2>
+                    <i class="fa fa-fw fa-clock-o"></i>Since the last Council Meeting
                 </h2>
                 <p class="big">
                     Since <a href="{{last_council_meeting.event_page_url}}"><strong>{{last_council_meeting.start_time | date:"M jS"}}</strong></a>, City Council has introduced
@@ -47,79 +142,15 @@
         </div>
     </div>
 
-    {% if next_council_meeting or upcoming_committee_meetings %}
-    <div class="container-fluid" id="section-events">
-        <div class="row-fluid">
-            <div class='col-sm-10 col-sm-offset-1'>
-                <h2><i class="fa fa-fw fa-calendar-o"></i>Upcoming Events</h2>
-                {% if next_council_meeting %}
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class='row'>
-                                <div class='col-sm-4'>
-                                    <a href='{{next_council_meeting.event_page_url}}'><img class='img-responsive img-thumbnail' src='/static/images/council_chambers.jpg' /></a>
-                                </div>
-                                <div class='col-sm-8'>
-                                    <h4><a href="{{next_council_meeting.event_page_url}}"><i class="fa fa-fw fa-institution"></i> Next City Council Meeting</a></h4>
-                                    <p></p>
-
-                                    <p class="small text-muted">
-                                        <i class="fa fa-fw fa-calendar-o"></i> {{next_council_meeting.start_time | date:"D n/d/Y"}}<br/>
-                                        <i class="fa fa-fw fa-clock-o"></i> {{next_council_meeting.start_time| date:"g:ia"}}<br/>
-                                        <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
-                                        <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
-                                    </p>
-                                    <a class='btn btn-primary btn-sm' href="{{next_council_meeting.event_page_url}}">
-                                        Details
-                                        <i class="fa fa-fw fa-chevron-right"></i>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                {% endif %}
-
-                {% if upcoming_committee_meetings %}
-                    <h4>
-                        Committee Meetings
-                    </h4>
-                    {% for event in upcoming_committee_meetings %}
-                        <p>
-                            {{event.start_time | date:"D"}} 
-                            {{event.start_time | date:"m/d"}} - 
-                            
-                            {{ event.link_html | safe }}
-
-                        </p>
-                    {% endfor %}
-                    <br/>
-                    <a href="/events/" class="btn btn-sm btn-primary">
-                        View All Upcoming Events
-                        <i class="fa fa-fw fa-chevron-right"></i>
-                    </a>
-                {% endif %}
-
-                <div class="divider"></div>
-
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-
     {% if recently_passed %}
     <div class="container-fluid" id="section-recently-passed">
         <div class="row-fluid">
-            <div class='col-sm-8 col-sm-offset-1'>
-                <h2>
-                    <i class="fa fa-fw fa-check"></i>
-                    Recently Passed<br/><span class="text-muted small">Legislation recently signed into law</span>
-                </h2>
-                {% for legislation in recently_passed %}
-                    {% include "partials/legislation_item_passed.html" %}
+            <div class='col-sm-10 col-sm-offset-1'>
+                <h4>
+                    Non-routine legislation introduced
+                </h4>
+                {% for legislation in recent_activity.new_nonroutine %}
+                    {% include "partials/legislation_item.html" %}
                 {% endfor %}
             </div>
         </div>
