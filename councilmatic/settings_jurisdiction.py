@@ -114,6 +114,62 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
         'desc': '',
 
     },
+    {
+        'name': 'Claim',
+        'search_term': 'Claim',
+        'fa_icon': 'dollar',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Resolution',
+        'search_term': 'Resolution',
+        'fa_icon': 'commenting-o',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Order',
+        'search_term': 'Order',
+        'fa_icon': 'file-text-o',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Appointment',
+        'search_term': 'Appointment',
+        'fa_icon': 'user',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Report',
+        'search_term': 'Report',
+        'fa_icon': 'file-text-o',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Communication',
+        'search_term': 'Communication',
+        'fa_icon': 'bullhorn',
+        'html_desc': True,
+        'desc': '',
+
+    },
+    {
+        'name': 'Oath Of Office',
+        'search_term': 'Oath Of Office',
+        'fa_icon': 'user',
+        'html_desc': True,
+        'desc': '',
+
+    },
 ]
 
 # these keys should match committee slugs
