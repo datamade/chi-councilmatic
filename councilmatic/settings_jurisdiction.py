@@ -10,7 +10,15 @@ OCD_JURISDICTION_ID = 'ocd-jurisdiction/country:us/state:il/place:chicago/govern
 LEGISLATIVE_SESSIONS = ['2011', '2015'] # the last one in this list should be the current legislative session
 CITY_NAME = 'Chicago'
 CITY_NAME_SHORT = 'Chicago'
-CITY_SOURCE_NAME = 'Chicago City Clerk'
+
+# VOCAB SETTINGS FOR FRONT-END DISPLAY
+CITY_VOCAB = {
+    'MUNICIPAL_DISTRICT_NAME': 'Ward',          # e.g. 'District'
+    'SOURCE_NAME': 'Chicago City Clerk',
+    'COUNCIL_MEMBER_NAME': 'Alderman',          # e.g. 'Council Member'
+    'COUNCIL_MEMBER_NAME_PLURAL': 'Aldermen',   # e.g. 'Council Members'
+    'EVENTS_NAME': 'Meetings',                  # label for the events listing, e.g. 'Events'
+}
 
 APP_NAME = 'chicago'
 
@@ -70,10 +78,9 @@ IMAGES = {
 
 
 
-# by default, councilmatic will refer to a municipal district as 'District'
-MUNICIPAL_DISTRICT_NAME = 'Ward'
 
-
+# THE FOLLOWING ARE VOCAB SETTINGS RELEVANT TO DATA MODELS, LOGIC
+# (this is diff from VOCAB above, which is all for the front end)
 
 # this is the name of the meetings where the entire city council meets
 # as stored in legistar
@@ -87,6 +94,7 @@ COMMITTEE_CHAIR_TITLE = 'Chairman'
 # this is the anme of the role of committee members,
 # as stored in legistar
 COMMITTEE_MEMBER_TITLE = 'Member'
+
 
 
 
