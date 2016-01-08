@@ -13,11 +13,11 @@ CITY_NAME_SHORT = 'Chicago'
 
 # VOCAB SETTINGS FOR FRONT-END DISPLAY
 CITY_VOCAB = {
-    'MUNICIPAL_DISTRICT_NAME': 'Ward',          # e.g. 'District'
-    'SOURCE_NAME': 'Chicago City Clerk',
-    'COUNCIL_MEMBER_NAME': 'Alderman',          # e.g. 'Council Member'
-    'COUNCIL_MEMBER_NAME_PLURAL': 'Aldermen',   # e.g. 'Council Members'
-    'EVENTS_NAME': 'Meetings',                  # label for the events listing, e.g. 'Events'
+    'MUNICIPAL_DISTRICT': 'Ward',       # e.g. 'District'
+    'SOURCE': 'Chicago City Clerk',
+    'COUNCIL_MEMBER': 'Alderman',       # e.g. 'Council Member'
+    'COUNCIL_MEMBERS': 'Aldermen',      # e.g. 'Council Members'
+    'EVENTS': 'Meetings',               # label for the events listing, e.g. 'Events'
 }
 
 APP_NAME = 'chicago'
