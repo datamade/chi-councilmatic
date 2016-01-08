@@ -184,3 +184,11 @@ MANUAL_HEADSHOTS = {
     'waguespack-scott':     'manual-headshots/waguespack-scott.jpg',
     'zalewski-michael-r':   'manual-headshots/zalewski-michael-r.jpg',
 }
+
+
+# notable positions that aren't district representatives, e.g. mayor & city clerk
+# keys should match person slugs
+EXTRA_TITLES = {
+    'mendoza-susana-a': 'City Clerk',
+    'emanuel-rahm': 'Mayor',
+}
