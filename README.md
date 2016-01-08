@@ -24,6 +24,17 @@ pip install -r requirements.txt
 
 Afterwards, whenever you want to use this virtual environment to work on chi-councilmatic, run `workon chi-councilmatic`
 
+**OPTIONAL: install django-councilmatic locally**  
+If you plan on making changes to core councilmatic features (as opposed to Chicago-specific stuff), you'll want to install django-councilmatic locally instead of installing from pypi.
+
+```bash
+cd ..
+git clone https://github.com/datamade/django-councilmatic.git
+cd django-councilmatic
+python setup.py develop
+cd ../chi-councilmatic
+```
+
 **Create your settings file**
 
 ```bash
