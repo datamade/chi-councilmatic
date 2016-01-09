@@ -126,3 +126,10 @@ a {
 #next-council-meeting-well > .h3 {
 	color: #fff;
 }
+
+/* lil screens */
+@media only screen and (max-width : 360px) {
+    #logo {
+        top: -6px;
+    }
+}
