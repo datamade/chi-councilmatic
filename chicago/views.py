@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from chicago.models import ChicagoBill
 from councilmatic_core.models import Event
 from councilmatic_core.views import *
+from django.conf import settings
 
 
 class ChicagoIndexView(IndexView):
@@ -51,6 +52,7 @@ class ChicagoIndexView(IndexView):
             'last_council_meeting': Event.most_recent_past_city_council_meeting(),
             'next_council_meeting': Event.next_city_council_meeting(),
             'upcoming_committee_meetings': upcoming_meetings,
+            'topic_hierarchy': settings.TOPIC_HIERARCHY,
         }
 
 class ChicagoAboutView(AboutView):
