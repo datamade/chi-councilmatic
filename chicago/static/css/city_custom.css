@@ -43,9 +43,9 @@ a {
     color: #333;
 }
 .badge-default-light {
-    background-color: #eee;
+    background-color: #DBEEFA;
     font-weight: normal;
-    color: #333;
+    color: #777;
 }
 .badge-muted {
 	background-color: #DBEEFA;
@@ -75,8 +75,12 @@ a {
 .panel-heading{
     border-radius: 0px;
 }
-
-
+.topic-hierarchy .plusminus{
+    margin-top: 4px;
+}
+.topic-hierarchy ul{
+    list-style: none;
+}
 
 
 

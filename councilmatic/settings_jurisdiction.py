@@ -359,8 +359,9 @@ TOPIC_HIERARCHY = [
             {
                 'name': 'Small Claims',
                 'children': [   {'name': 'Damage to vehicle claim'},
+                                {'name': 'Damage to property claim'},
                                 {'name': 'Settlement of Claims'},
-                                {'name': 'Damage to property claim'},],
+                                {'name': 'Excessive water rate claim'},],
             },
             {
                 'name': 'Honorifics',

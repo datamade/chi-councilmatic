@@ -178,36 +178,39 @@
 
                 {% for parent in topic_hierarchy %}
 
-                <div id="accordion-{{parent|slugify}}">
+                <div id="accordion-{{parent.name|slugify}}" class="topic-hierarchy">
                     <div class="panel panel-default panel-filter">
-                        <div class="panel-heading" href="#collapse-{{parent|slugify}}" data-parent="#accordion-{{parent|slugify}}" data-toggle="collapse">
-                            <i class="fa fa-lg plusminus fa-chevron-circle-right"></i>
+                        <div class="panel-heading" href="#collapse-{{parent.name|slugify}}" data-parent="#accordion-{{parent.name|slugify}}" data-toggle="collapse">
+                            <i class="fa fa-lg plusminus fa-plus pull-right"></i>
                             <span class="badge badge-default">{{parent.count}}</span> {{parent.name}}
                         </div>
-                        <div id="collapse-{{parent|slugify}}" class="panel-collapse collapse">
+                        <div id="collapse-{{parent.name|slugify}}" class="panel-collapse collapse">
                             <div class="panel-body">
                                 {% for child in parent.children %}
-                                    <p>
+                                    <p class="no-pad-bottom">
                                         {% if child.count = 0 %}
                                             <span class="badge badge-default-light">{{child.count}}</span>
                                         {% else %}
                                             <span class="badge badge-default">{{child.count}}</span>
                                         {% endif %}
-                                        {{child.name}}</p>
-                                    <p>
-                                        <ul>
-                                        {% for grandchild in child.children %}
-                                            <li>
-                                                {% if grandchild.count = 0 %}
-                                                    <span class="badge badge-default-light">{{grandchild.count}}</span>
-                                                {% else %}
-                                                    <span class="badge badge-default">{{grandchild.count}}</span>
-                                                {% endif %}
-                                                {{grandchild.name}}
-                                            </li>
-                                        {% endfor %}
-                                        </ul>
+                                        <a href="/search/?q=&selected_facets=topics_exact:{{child.name}}">
+                                            {{child.name}}
+                                        </a>
                                     </p>
+                                    <ul>
+                                    {% for grandchild in child.children %}
+                                        <li class="small">
+                                            {% if grandchild.count = 0 %}
+                                                <span class="badge badge-default-light">{{grandchild.count}}</span>
+                                            {% else %}
+                                                <span class="badge badge-default">{{grandchild.count}}</span>
+                                            {% endif %}
+                                            <a href="/search/?q=&selected_facets=topics_exact:{{grandchild.name}}">
+                                                {{grandchild.name}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
                                 {% endfor %}
                             </div>
                         </div>
@@ -236,9 +239,9 @@
         $(document).ready(function() {
             $(".plusminus").parent().parent().click(function () {
                 if ($(this).children().eq(1).hasClass("panel-collapse collapse in")){
-                    $(this).find('i').removeClass("fa-chevron-circle-down").addClass("fa-chevron-circle-right");
+                    $(this).find('i').removeClass("fa-minus").addClass("fa-plus");
                 } else{
-                    $(this).find('i').removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-down");
+                    $(this).find('i').removeClass("fa-plus").addClass("fa-minus");
                 }
             });
         });
