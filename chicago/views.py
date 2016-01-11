@@ -54,7 +54,7 @@ class ChicagoIndexView(IndexView):
                 try:
                     recent_topic_tag_counts[topic] += 1
                 except KeyError:
-                    recent_topic_tag_counts[topic] = 0
+                    recent_topic_tag_counts[topic] = 1
         # put together data blob for topic hierarchy
         for parent_blob in topic_hierarchy:
             parent_blob['count'] = 0
