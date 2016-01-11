@@ -255,88 +255,119 @@ EXTRA_TITLES = {
 }
 
 
-TOPIC_HIERARCHY = (
-    ('Chicago', (
-        ('Municipal Code', [] ),
-        ('City Businesses', [
-            'Getting and Giving Land',
-            'Intergovernmental Agreement',
-            'Lease Agreement',
-            'Vacation of Public Street',
-            ]
-        ),
-        ('Finances', ['Bonds']),
-        ('Appointment', []),
-        ('Oath of Office', []),
-        ('Airports', []),
-        ('Special Funds', ['Open Space Impact Funds']),
-        ('Inspector General', []),
-        ),
-        ('Council Matters', [
-            'Call for Action',
-            'Transfer of Committee Funds',
-            'Correction of City Council Journal',
-            'Next Meeting',
-            ])
-    ),
-    ('Wards', (
-        ('Business Permits and Privileges', [
-            'Grant of privilege in public way',
-            'Awnings',
-            'Sign permits',
-            'Physical barrier exemption',
-            'Canopy',
-            ],
-        ),
-        ('Residents', [
-            'Handicapped Parking Permit',
-            'Residential permit parking',
-            'Condo Refuse Claim',
-            'Senior citizen sewer refund',
-            ],
-        ),
-        ('Land Use', [
-            'Zoning Reclassification',
-            'Liquor and Package Store Restrictions',
-            ],
-        ),
-        ('Parking', [
-            'Loading/Standing/Tow Zone',
-            'Parking Restriction',
-            ],
-        ),
-        ('Economic Development', [
-            'Special Service Area',
-            'Tax Incentives',
-            'Tax Increment Financing',
-            ],
-        ),
-        ('Traffic', [
-            'Traffic signs and signals',
-            'Vehicle Weight Limitation',
-            ],
-        ),
-        ('Churches and Non-Profits', [
-            'Tag Day Permits'
-            ],
-        ),
-        ('Redevelopment Agreement', [],
-        ),
-        ),
-    ),
-    ('Individuals', (
-        ('Small Claims', [
-            'Damage to vehicle claim',
-            'Settlement of Claims',
-            'Damage to property claim',
-            ]
-        ),
-        ('Honorifics', [
-            'Honorific Resolution',
-            'Honorary street',
-            ]
-        ),
-        ),
-    )
-)
+TOPIC_HIERARCHY = [
+    {
+        'name': 'Chicago',
+        'children': [
+            {
+                'name': 'Municipal Code',
+                'children': [],
+            },
+            {
+                'name': 'City Businesses',
+                'children': [   'Getting and Giving Land',
+                                'Intergovernmental Agreement',
+                                'Lease Agreement',
+                                'Vacation of Public Street',],
+            },
+            {
+                'name': 'Finances',
+                'children': ['Bonds'],
+            },
+            {
+                'name': 'Appointment',
+                'children': [],
+            },
+            {
+                'name': 'Oath of Office',
+                'children': [],
+            },
+            {
+                'name': 'Airports',
+                'children': [],
+            },
+            {
+                'name': 'Special Funds',
+                'children': ['Open Space Impact Funds'],
+            },
+            {
+                'name': 'Inspector General',
+                'children': [],
+            },
+            {
+                'name': 'Council Matters',
+                'children': [   'Call for Action',
+                                'Transfer of Committee Funds',
+                                'Correction of City Council Journal',
+                                'Next Meeting',],
+            },
+        ]
+
+    },
+    {
+        'name': 'Wards',
+        'children': [
+            {
+                'name': 'Business Permits and Privileges',
+                'children': [   'Grant of privilege in public way',
+                                'Awnings',
+                                'Sign permits',
+                                'Physical barrier exemption',
+                                'Canopy'],
+            },
+            {
+                'name': 'Residents',
+                'children': [   'Handicapped Parking Permit',
+                                'Residential permit parking',
+                                'Condo Refuse Claim',
+                                'Senior citizen sewer refund',],
+            },
+            {
+                'name': 'Land Use',
+                'children': [   'Zoning Reclassification',
+                                'Liquor and Package Store Restrictions',],
+            },
+            {
+                'name': 'Parking',
+                'children': [   'Loading/Standing/Tow Zone',
+                                'Parking Restriction',],
+            },
+            {
+                'name': 'Economic Development',
+                'children': [   'Special Service Area',
+                                'Tax Incentives',
+                                'Tax Increment Financing',],
+            },
+            {
+                'name': 'Traffic',
+                'children': [   'Traffic signs and signals',
+                                'Vehicle Weight Limitation',],
+            },
+            {
+                'name': 'Churches and Non-Profits',
+                'children': ['Tag Day Permits'],
+            },
+            {
+                'name': 'Redevelopment Agreement',
+                'children': [],
+            },
+        ],
+    },
+    {
+        'name': 'Individuals',
+        'children': [
+            {
+                'name': 'Small Claims',
+                'children': [   'Damage to vehicle claim',
+                                'Settlement of Claims',
+                                'Damage to property claim',],
+            },
+            {
+                'name': 'Honorifics',
+                'children': [   'Honorific Resolution',
+                                'Honorary street',],
+            },
+        ],
+    }
+]
 

@@ -176,21 +176,21 @@
                     Legislative Topics
                 </h4>
 
-                {% for parent, children in topic_hierarchy %}
+                {% for parent in topic_hierarchy %}
 
                 <div id="accordion-{{parent|slugify}}">
                     <div class="panel panel-default panel-filter">
                         <div class="panel-heading" href="#collapse-{{parent|slugify}}" data-parent="#accordion-{{parent|slugify}}" data-toggle="collapse">
                             <i class="fa fa-lg plusminus fa-chevron-circle-right"></i>
-                            {{parent}}
+                            {{parent.name}}
                         </div>
                         <div id="collapse-{{parent|slugify}}" class="panel-collapse collapse">
                             <div class="panel-body">
-                                {% for child, grandchildren in children %}
-                                    <p>{{child}}</p>
+                                {% for child in parent.children %}
+                                    <p>{{child.name}}</p>
                                     <p>
                                         <ul>
-                                        {% for grandchild in grandchildren %}
+                                        {% for grandchild in child.children %}
                                             <li>{{grandchild}}</li>
                                         {% endfor %}
                                         </ul>
