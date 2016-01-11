@@ -46,13 +46,34 @@ class ChicagoIndexView(IndexView):
         recent_activity['updated_routine'] = [b for b in updated_bills if 'Routine' in b.topics]
         recent_activity['updated_nonroutine'] = [b for b in updated_bills if 'Non-Routine' in b.topics]
 
+        # getting topic counts for recent bills
+        topic_hierarchy = settings.TOPIC_HIERARCHY
+        recent_topic_tag_counts = {}
+        for b in new_bills:
+            for topic in b.topics:
+                try:
+                    recent_topic_tag_counts[topic] += 1
+                except KeyError:
+                    recent_topic_tag_counts[topic] = 0
+        # put together data blob for topic hierarchy
+        for parent_blob in topic_hierarchy:
+            parent_blob['count'] = 0
+            for child_blob in parent_blob['children']:
+                child_name = child_blob['name']
+                child_blob['count'] = recent_topic_tag_counts[child_name] if child_name in recent_topic_tag_counts else 0
+                parent_blob['count'] += child_blob['count']
+                for gchild_blob in child_blob['children']:
+                    gchild_name = gchild_blob['name']
+                    gchild_blob['count'] = recent_topic_tag_counts[gchild_name] if gchild_name in recent_topic_tag_counts else 0
+
+
         return {
             'recent_activity': recent_activity,
             'recently_passed': recently_passed,
             'last_council_meeting': Event.most_recent_past_city_council_meeting(),
             'next_council_meeting': Event.next_city_council_meeting(),
             'upcoming_committee_meetings': upcoming_meetings,
-            'topic_hierarchy': settings.TOPIC_HIERARCHY,
+            'topic_hierarchy': topic_hierarchy,
         }
 
 class ChicagoAboutView(AboutView):

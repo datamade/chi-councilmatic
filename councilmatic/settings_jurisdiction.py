@@ -265,14 +265,14 @@ TOPIC_HIERARCHY = [
             },
             {
                 'name': 'City Businesses',
-                'children': [   'Getting and Giving Land',
-                                'Intergovernmental Agreement',
-                                'Lease Agreement',
-                                'Vacation of Public Street',],
+                'children': [   {'name': 'Getting and Giving Land'},
+                                {'name': 'Intergovernmental Agreement'},
+                                {'name': 'Lease Agreement'},
+                                {'name': 'Vacation of Public Street'},],
             },
             {
                 'name': 'Finances',
-                'children': ['Bonds'],
+                'children': [ {'name': 'Bonds'} ],
             },
             {
                 'name': 'Appointment',
@@ -288,7 +288,7 @@ TOPIC_HIERARCHY = [
             },
             {
                 'name': 'Special Funds',
-                'children': ['Open Space Impact Funds'],
+                'children': [   {'name': 'Open Space Impact Funds'} ],
             },
             {
                 'name': 'Inspector General',
@@ -296,10 +296,10 @@ TOPIC_HIERARCHY = [
             },
             {
                 'name': 'Council Matters',
-                'children': [   'Call for Action',
-                                'Transfer of Committee Funds',
-                                'Correction of City Council Journal',
-                                'Next Meeting',],
+                'children': [   {'name': 'Call for Action'},
+                                {'name': 'Transfer of Committee Funds'},
+                                {'name': 'Correction of City Council Journal'},
+                                {'name': 'Next Meeting'},],
             },
         ]
 
@@ -309,43 +309,43 @@ TOPIC_HIERARCHY = [
         'children': [
             {
                 'name': 'Business Permits and Privileges',
-                'children': [   'Grant of privilege in public way',
-                                'Awnings',
-                                'Sign permits',
-                                'Physical barrier exemption',
-                                'Canopy'],
+                'children': [   {'name': 'Grant of privilege in public way'},
+                                {'name': 'Awnings'},
+                                {'name': 'Sign permits'},
+                                {'name': 'Physical barrier exemption'},
+                                {'name': 'Canopy'}],
             },
             {
                 'name': 'Residents',
-                'children': [   'Handicapped Parking Permit',
-                                'Residential permit parking',
-                                'Condo Refuse Claim',
-                                'Senior citizen sewer refund',],
+                'children': [   {'name': 'Handicapped Parking Permit'},
+                                {'name': 'Residential permit parking'},
+                                {'name': 'Condo Refuse Claim'},
+                                {'name': 'Senior citizen sewer refund'},],
             },
             {
                 'name': 'Land Use',
-                'children': [   'Zoning Reclassification',
-                                'Liquor and Package Store Restrictions',],
+                'children': [   {'name': 'Zoning Reclassification'},
+                                {'name': 'Liquor and Package Store Restrictions'},],
             },
             {
                 'name': 'Parking',
-                'children': [   'Loading/Standing/Tow Zone',
-                                'Parking Restriction',],
+                'children': [   {'name': 'Loading/Standing/Tow Zone'},
+                                {'name': 'Parking Restriction'},],
             },
             {
                 'name': 'Economic Development',
-                'children': [   'Special Service Area',
-                                'Tax Incentives',
-                                'Tax Increment Financing',],
+                'children': [   {'name': 'Special Service Area'},
+                                {'name': 'Tax Incentives'},
+                                {'name': 'Tax Increment Financing'},],
             },
             {
                 'name': 'Traffic',
-                'children': [   'Traffic signs and signals',
-                                'Vehicle Weight Limitation',],
+                'children': [   {'name': 'Traffic signs and signals'},
+                                {'name': 'Vehicle Weight Limitation'},],
             },
             {
                 'name': 'Churches and Non-Profits',
-                'children': ['Tag Day Permits'],
+                'children': [   {'name': 'Tag Day Permits'} ],
             },
             {
                 'name': 'Redevelopment Agreement',
@@ -358,14 +358,14 @@ TOPIC_HIERARCHY = [
         'children': [
             {
                 'name': 'Small Claims',
-                'children': [   'Damage to vehicle claim',
-                                'Settlement of Claims',
-                                'Damage to property claim',],
+                'children': [   {'name': 'Damage to vehicle claim'},
+                                {'name': 'Settlement of Claims'},
+                                {'name': 'Damage to property claim'},],
             },
             {
                 'name': 'Honorifics',
-                'children': [   'Honorific Resolution',
-                                'Honorary street',],
+                'children': [   {'name': 'Honorific Resolution'},
+                                {'name': 'Honorary street'},],
             },
         ],
     }
