@@ -18,6 +18,10 @@ a {
 	border-color: #54afe8; /* medium blue */
 	color: #fff;
 }
+.btn-bill-detail{
+    padding: 16px 0px;
+    top: 12px;
+}
 .btn-bill-detail:hover, .btn-bill-detail:active{
 	background-color: #54afe8; /* medium blue */
 	color: #fff;
@@ -153,5 +157,10 @@ a {
 @media only screen and (max-width : 360px) {
     #logo {
         top: -6px;
+    }
+
+    .btn-bill-detail{
+        padding: 20px 0px;
+        top: 20px;
     }
 }
