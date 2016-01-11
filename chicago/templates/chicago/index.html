@@ -103,7 +103,7 @@
                                         <a href='{{next_council_meeting.event_page_url}}'><img class='img-responsive img-thumbnail' src='/static/images/council_chambers.jpg' /></a>
                                     </div>
                                     <div class='col-sm-8'>
-                                        <h4><a href="{{next_council_meeting.event_page_url}}"><i class="fa fa-fw fa-institution"></i> Next City Council Meeting</a></h4>
+                                        <h4><a href="{{next_council_meeting.event_page_url}}"><i class="fa fa-fw fa-institution"></i> Next City Council meeting</a></h4>
                                         <p></p>
 
                                         <p class="small text-muted">
@@ -126,7 +126,7 @@
 
                     {% if upcoming_committee_meetings %}
                         <h4>
-                            Committee Meetings
+                            Committee meetings
                         </h4>
                         {% for event in upcoming_committee_meetings %}
                             <p>
@@ -139,7 +139,7 @@
                         {% endfor %}
                         <br/>
                         <a href="/events/" class="btn btn-sm btn-primary">
-                            View All Upcoming Events
+                            View all upcoming events
                             <i class="fa fa-fw fa-chevron-right"></i>
                         </a>
                     {% endif %}
@@ -147,7 +147,7 @@
 
                 <br /><br />
                 <h2>
-                    <i class="fa fa-fw fa-clock-o"></i>Since the last Council Meeting
+                    <i class="fa fa-fw fa-clock-o"></i>Since the last council meeting
                 </h2>
                 <p class="big">
                     Since <a href="{{last_council_meeting.event_page_url}}"><strong>{{last_council_meeting.start_time | date:"M jS"}}</strong></a>, City Council has introduced
@@ -173,7 +173,7 @@
 
             <div class='col-sm-4'>
                 <h4>
-                    Legislative Topics
+                    Legislative topics
                 </h4>
 
                 {% for parent in topic_hierarchy %}

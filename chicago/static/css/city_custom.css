@@ -82,6 +82,10 @@ a {
     list-style: none;
 }
 
+.panel-heading {
+    cursor: pointer;
+}
+
 
 
 /* bill status labels */

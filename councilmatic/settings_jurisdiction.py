@@ -257,14 +257,14 @@ EXTRA_TITLES = {
 
 TOPIC_HIERARCHY = [
     {
-        'name': 'Chicago',
+        'name': 'Citywide matters',
         'children': [
             {
                 'name': 'Municipal Code',
                 'children': [],
             },
             {
-                'name': 'City Businesses',
+                'name': 'City businesses',
                 'children': [   {'name': 'Getting and Giving Land'},
                                 {'name': 'Intergovernmental Agreement'},
                                 {'name': 'Lease Agreement'},
@@ -305,7 +305,7 @@ TOPIC_HIERARCHY = [
 
     },
     {
-        'name': 'Wards',
+        'name': 'Ward matters',
         'children': [
             {
                 'name': 'Business Permits and Privileges',
@@ -354,7 +354,7 @@ TOPIC_HIERARCHY = [
         ],
     },
     {
-        'name': 'Individuals',
+        'name': 'Individual matters',
         'children': [
             {
                 'name': 'Small Claims',
