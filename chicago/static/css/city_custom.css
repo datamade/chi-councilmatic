@@ -38,6 +38,15 @@ a {
 
 
 
+.badge-default {
+    background-color: #DBEEFA;
+    color: #333;
+}
+.badge-default-light {
+    background-color: #eee;
+    font-weight: normal;
+    color: #333;
+}
 .badge-muted {
 	background-color: #DBEEFA;
 	color: #333;
@@ -61,6 +70,11 @@ a {
 	height: 30px;
 }
 
+
+/* topic hierarchy */
+.panel-heading{
+    border-radius: 0px;
+}
 
 
 

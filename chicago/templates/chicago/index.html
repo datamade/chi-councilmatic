@@ -182,16 +182,29 @@
                     <div class="panel panel-default panel-filter">
                         <div class="panel-heading" href="#collapse-{{parent|slugify}}" data-parent="#accordion-{{parent|slugify}}" data-toggle="collapse">
                             <i class="fa fa-lg plusminus fa-chevron-circle-right"></i>
-                            {{parent.name}}
+                            <span class="badge badge-default">{{parent.count}}</span> {{parent.name}}
                         </div>
                         <div id="collapse-{{parent|slugify}}" class="panel-collapse collapse">
                             <div class="panel-body">
                                 {% for child in parent.children %}
-                                    <p>{{child.name}}</p>
+                                    <p>
+                                        {% if child.count = 0 %}
+                                            <span class="badge badge-default-light">{{child.count}}</span>
+                                        {% else %}
+                                            <span class="badge badge-default">{{child.count}}</span>
+                                        {% endif %}
+                                        {{child.name}}</p>
                                     <p>
                                         <ul>
                                         {% for grandchild in child.children %}
-                                            <li>{{grandchild}}</li>
+                                            <li>
+                                                {% if grandchild.count = 0 %}
+                                                    <span class="badge badge-default-light">{{grandchild.count}}</span>
+                                                {% else %}
+                                                    <span class="badge badge-default">{{grandchild.count}}</span>
+                                                {% endif %}
+                                                {{grandchild.name}}
+                                            </li>
                                         {% endfor %}
                                         </ul>
                                     </p>
