@@ -193,6 +193,13 @@ COMMITTEE_DESCRIPTIONS = {
     "committee-on-zoning-landmarks-and-building-standards" : "The Committee on Zoning, Landmarks and Building Standards shall have jurisdiction over all zoning matters and the operation of the Zoning Board of Appeals and the office of the Zoning Administrator; land use policy generally and land use recommendations of the Chicago Plan Commission and the Department of Planning and Development; building code ordinances and matters generally affecting the Department of Buildings; and designation, maintenance and preservation of historical and architectural landmarks. The Committee shall work in cooperation with those public and private organizations similarly engaged in matters affecting landmarks.",
 }
 
+ABOUT_BLURBS = {
+    "COMMITTEES" : "<p>Most of the Council's legislative work is done in committee. It is there that proposed legislation is initially debated and the members of other government branches and the public are given a chance to comment.</p><p>Each committee is has a Chair, who has control over committee meeting agendas and all legislation to be considered.</p><p>The jurisdiction, membership and appointment of chairman and vice-chairman are approved by the City Council. Subcommittees may be established for consideration of subject matter under the authority of the parent committee as determined by the chairman.</p>",
+    "EVENTS": "<p>Most of the Council's legislative action happens in <a href='/committees/'>committees</a>. Each committee meets in public where proposed legislation is debated. Members of other government branches, as well as the public, are able to attend and comment at these hearings.</p></p>Meetings of the entire City Council generally occur once a month at City Hall in downtown Chicago.</p>",
+    "COUNCIL_MEMBERS": "" 
+    
+}
+
 # MANUAL_HEADSHOTS = {
 #     'arena-john':           'manual-headshots/arena-john.jpg',
 #     'austin-carrie-m':      'manual-headshots/austin-carrie-m.jpg',
