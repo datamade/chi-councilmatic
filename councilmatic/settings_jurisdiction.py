@@ -194,8 +194,13 @@ COMMITTEE_DESCRIPTIONS = {
 }
 
 ABOUT_BLURBS = {
-    "COMMITTEES" : "<p>Most of the Council's legislative work is done in committee. It is there that proposed legislation is initially debated and the members of other government branches and the public are given a chance to comment.</p><p>Each committee is has a Chair, who has control over committee meeting agendas and all legislation to be considered.</p><p>The jurisdiction, membership and appointment of chairman and vice-chairman are approved by the City Council. Subcommittees may be established for consideration of subject matter under the authority of the parent committee as determined by the chairman.</p>",
-    "EVENTS": "<p>Most of the Council's legislative action happens in <a href='/committees/'>committees</a>. Each committee meets in public where proposed legislation is debated. Members of other government branches, as well as the public, are able to attend and comment at these hearings.</p></p>Meetings of the entire City Council generally occur once a month at City Hall in downtown Chicago.</p>",
+    "COMMITTEES" : "<p>Most of the Council's legislative work is done in committee. It is there that proposed legislation is initially debated and the members of other government branches and the public are given a chance to comment.</p>\
+                    <p>Each committee is has a Chair, who has control over committee meeting agendas and all legislation to be considered.</p>\
+                    <p>The jurisdiction, membership and appointment of chairman and vice-chairman are approved by the City Council. Subcommittees may be established for consideration of subject matter under the authority of the parent committee as determined by the chairman.</p>",
+    "EVENTS":       "<p>There are two types of meetings: committee meetings and full city council meetings.</p>\
+                    <p>Most of the time, meaningful legislative debate happens in committee meetings, which occur several times a month.</p>\
+                    <p>Meetings of the entire City Council generally occur once a month at City Hall.</p>\
+                    <p>All City Council meetings are open to public participation.</p>",
     "COUNCIL_MEMBERS": "" 
     
 }
