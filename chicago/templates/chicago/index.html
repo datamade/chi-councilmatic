@@ -53,8 +53,15 @@
                                     the <a href='/council-members/'>aldermen</a> themselves
                                 </li>
                             </ul>
+                        </p>
+                        <p>
+                            <span class="non-mobile-only">
+                                Read more about how <a href='/about#about-city-council'>City Council works &raquo;</a>
+                            </span>
+                            <span class="mobile-only">
+                                <a href='/about#about-city-council'>More on how City Council works &raquo;</a>
+                            </span>
 
-                            Read more about how <a href='/about#about-city-council'>City Council works &raquo;</a>
                         </p>
                     </div>
 
@@ -78,7 +85,13 @@
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
                 <h2>
-                    <i class="fa fa-fw fa-institution"></i>Engaging Chicago City Council
+                    <span class="non-mobile-only">
+                        <i class="fa fa-fw fa-institution"></i>Engage Chicago City Council
+                    </span>
+                    <span class="mobile-only">
+                        <i class="fa fa-institution"></i>
+                        Engage City Council
+                    </span>
                 </h2>
 
                 <div class='row'>
@@ -87,18 +100,26 @@
                         <p>The Mayor proposes most city-wide policies. These include <a href='/search/?q=&selected_facets=topics_exact:City Business'>business transactions</a>, changes to the <a href='/search/?q=&selected_facets=topics_exact:Municipal Code'>municipal code</a>, <a href='/search/?q=&selected_facets=topics_exact:Bonds'>issuing bonds</a> and <a href='/search/?q=&selected_facets=topics_exact:Appointment'>appointments</a>.</p>
 
                         <p>
-                            <a class='btn btn-primary' href='/search/?q=&selected_facets=topics_exact:City Matters'>View citywide legislation <i class="fa fa-fw fa-chevron-right"></i></a>
+                            <a class='btn btn-primary' href='/search/?q=&selected_facets=topics_exact:City Matters'>
+                                View citywide legislation <i class="fa fa-fw fa-chevron-right"></i>
+                            </a>
                         </p>
+                        <br/>
                     </div>
                     <div class='col-sm-6'>
                         <h4>Local issues</h4>
                         <p>At the local level, matters like <a href='/search/?q=&selected_facets=topics_exact:Land Use'>land use</a>, <a href='/search/?q=&selected_facets=topics_exact:Sign permits'>signs</a>, <a href='/search/?q=&selected_facets=topics_exact:Parking'>street parking</a>, <a href='/search/?q=&selected_facets=topics_exact:Business Permits and Privileges'>business permits</a>, and other <a href='/search/?q=&selected_facets=topics_exact:Residents'>resident's issues</a> require the local Alderman's support.</p>
 
-                        <p><a class='btn btn-primary' href='/council-members/'>Find your alderman <i class="fa fa-fw fa-chevron-right"></i></a></p>
+                        <p>
+                            <a class='btn btn-primary' href='/council-members/'>
+                                Find your alderman <i class="fa fa-fw fa-chevron-right"></i>
+                            </a>
+                        </p>
+                        <br/>
                     </div>
+                    <div class="divider"></div>
                 </div>
 
-                <div class="divider"></div>
 
             </div>
         </div>
@@ -111,7 +132,8 @@
 
                 {% if next_council_meeting or upcoming_committee_meetings %}
                     <h2>
-                        <i class="fa fa-fw fa-calendar-o"></i>
+                        <i class="fa fa-fw fa-calendar-o non-mobile-only"></i>
+                        <i class="fa fa-calendar-o mobile-only"></i>
                         Upcoming Meetings
                     </h2>
                     <br/>
