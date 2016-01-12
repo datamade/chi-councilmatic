@@ -181,6 +181,19 @@ a {
 	color: #fff;
 }
 
+
+
+
+/* about page */
+ul.plain-list{
+    list-style: none;
+    padding-left: 0px;
+}
+
+
+
+
+
 /* lil screens */
 @media only screen and (max-width : 360px) {
     #logo {
