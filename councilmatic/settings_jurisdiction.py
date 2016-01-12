@@ -241,6 +241,7 @@ MANUAL_HEADSHOTS = {
     'sposato-nicholas':     'manual-headshots/sposato-nicholas.jpg',
     'taliaferro-chris':     'manual-headshots/taliaferro-chris.jpg',
     'thompson-patrick-d':   'manual-headshots/thompson-patrick-d.jpg',
+    'tunney-thomas':        'manual-headshots/tunney-thomas.jpg',
     'villegas-gilbert':     'manual-headshots/villegas-gilbert.jpg',
     'waguespack-scott':     'manual-headshots/waguespack-scott.jpg',
     'zalewski-michael-r':   'manual-headshots/zalewski-michael-r.jpg',
