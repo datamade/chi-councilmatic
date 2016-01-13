@@ -73,6 +73,15 @@ Run the loaddata management command. This will take a few minutes.
 python manage.py loaddata
 ```
 
+Running the loaddata managment command without any arguments will by default
+check to see when the most recently updated bill was updated on the OCD API and
+then add everything after that point. If you're starting with a new database,
+this means it will load everything and may take quite a while depending on how
+many pieces of legislation are available in the API. If you'd like to load
+things that are older than what you currently have loaded, you can run the
+loaddata management command with a `--delete` option which will remove
+everything from the database and then start clean.
+
 ## Running Chicago Councilmatic locally
 
 ``` bash
