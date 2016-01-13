@@ -1,6 +1,6 @@
 # Chicago Councilmatic
 
-Keep track of what New York City Council is doing.
+Keep track of what Chicago City Council is doing.
 
 ## Setup
 
