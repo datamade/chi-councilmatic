@@ -16,9 +16,14 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
     def prepare(self, obj):
         data = super(ChicagoBillIndex, self).prepare(obj)
-        now = app_timezone.localize(datetime.now())
-        weeks_passed = (now - obj.last_action_date).days / 7 + 1
-        data['boost'] = 1 + 1.0 / weeks_passed
+        
+        boost = 0
+        if obj.last_action_date:
+            now = app_timezone.localize(datetime.now())
+            weeks_passed = (now - obj.last_action_date).days / 7 + 1
+            boost = 1 + 1.0 / weeks_passed
+
+        data['boost'] = boost
 
         return data
 
