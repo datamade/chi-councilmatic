@@ -136,6 +136,9 @@ a {
 #section-intro, #section-engage{
     line-height: 1.6em;
 }
+#map-screenshot{
+    max-height: 220px;
+}
 
 #section-engage{
     background-color: #DBEEFA;
