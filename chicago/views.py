@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from datetime import date, timedelta
-from chicago.models import ChicagoBill
-from councilmatic_core.models import Event
+from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import *
 from django.conf import settings
 
@@ -9,6 +8,7 @@ from django.conf import settings
 class ChicagoIndexView(IndexView):
     template_name = 'chicago/index.html'
     bill_model = ChicagoBill
+    event_model = ChicagoEvent
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -34,8 +34,13 @@ class ChicagoIndexView(IndexView):
 
         upcoming_meetings = list(self.event_model.upcoming_committee_meetings())
 
+
+        # populating activity at last council meeting
+        date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
+
+
+        # populating recent activitiy (since last council meeting)
         recent_activity = {}
-        date_cutoff = Event.most_recent_past_city_council_meeting().start_time
 
         new_bills = ChicagoBill.new_bills_since(date_cutoff)
         recent_activity['new'] = new_bills
@@ -70,8 +75,8 @@ class ChicagoIndexView(IndexView):
         return {
             'recent_activity': recent_activity,
             'recently_passed': recently_passed,
-            'last_council_meeting': Event.most_recent_past_city_council_meeting(),
-            'next_council_meeting': Event.next_city_council_meeting(),
+            'last_council_meeting': self.event_model.most_recent_past_city_council_meeting(),
+            'next_council_meeting': self.event_model.next_city_council_meeting(),
             'upcoming_committee_meetings': upcoming_meetings,
             'topic_hierarchy': topic_hierarchy,
         }
