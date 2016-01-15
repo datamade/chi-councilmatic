@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from datetime import date, timedelta
 from chicago.models import ChicagoBill, ChicagoEvent
+from councilmatic_core.models import Action
 from councilmatic_core.views import *
 from django.conf import settings
 
@@ -34,9 +35,12 @@ class ChicagoIndexView(IndexView):
 
         upcoming_meetings = list(self.event_model.upcoming_committee_meetings())
 
+        date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
 
         # populating activity at last council meeting
-        date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
+        meeting_activity = {}
+        meeting_activity['actions'] = Action.actions_on_date(date_cutoff.date())
+
 
 
         # populating recent activitiy (since last council meeting)
@@ -73,6 +77,7 @@ class ChicagoIndexView(IndexView):
 
 
         return {
+            'meeting_activity': meeting_activity,
             'recent_activity': recent_activity,
             'recently_passed': recently_passed,
             'last_council_meeting': self.event_model.most_recent_past_city_council_meeting(),
