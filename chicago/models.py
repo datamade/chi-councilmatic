@@ -112,7 +112,10 @@ class ChicagoBill(Bill):
         base_url = 'https://pic.datamade.us/chicago/document/?'
         if self.documents.filter(document_type='V').all():
             legistar_doc_url = self.documents.filter(document_type='V').first().document.url
-            return base_url+legistar_doc_url.split('?')[1] 
+            if '?' in legistar_doc_url :
+                return base_url+legistar_doc_url.split('?')[1]
+            else :
+                return legistar_doc_url
         else:
             return None
 
