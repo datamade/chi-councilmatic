@@ -14,9 +14,9 @@ a {
 	color: #333;
 }
 .btn-info:hover, .btn-info:active {
-	background-color: #54afe8; /* medium blue */;
-	border-color: #54afe8; /* medium blue */
-	color: #fff;
+    background-color: #DBEEFA;
+    border-color: #DBEEFA;
+	color: #1c87ca;
 }
 .btn-bill-detail{
     padding: 16px 0px;
@@ -91,7 +91,6 @@ a {
 }
 
 
-
 /* bill status labels */
 .label-stale{
     background-color: #999; /* dark grey */
@@ -134,6 +133,38 @@ a {
 	color: #fff;
 }
 
+#section-intro, #section-engage{
+    line-height: 1.6em;
+}
+#map-screenshot{
+    max-height: 220px;
+}
+
+#section-engage{
+    background-color: #DBEEFA;
+}
+#section-events{
+    background-image:
+        linear-gradient(
+            rgba(80, 0, 0, 0.4),
+            rgba(80, 0, 0, 0.4)
+        ),
+        url('../images/council_meeting.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+}
+#section-events h2{
+    color: #fff;
+}
+#section-events h4, #section-events h3, #section-events p{
+    color: #ddd;
+}
+#section-events p>a{
+    color: #DBEEFA;
+}
+
 #next-council-meeting-well{
     background-image:
         linear-gradient(
@@ -153,6 +184,19 @@ a {
 	color: #fff;
 }
 
+
+
+
+/* about page */
+ul.plain-list{
+    list-style: none;
+    padding-left: 0px;
+}
+
+
+
+
+
 /* lil screens */
 @media only screen and (max-width : 360px) {
     #logo {
@@ -163,4 +207,6 @@ a {
         padding: 20px 0px;
         top: 20px;
     }
+
+    
 }

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from councilmatic_core.models import Bill
+from councilmatic_core.models import Bill, Event
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
@@ -113,5 +113,18 @@ class ChicagoBill(Bill):
         if self.documents.filter(document_type='V').all():
             legistar_doc_url = self.documents.filter(document_type='V').first().document.url
             return base_url+legistar_doc_url.split('?')[1] 
+        else:
+            return None
+
+class ChicagoEvent(Event):
+
+    class Meta:
+        proxy = True
+
+    @classmethod
+    def most_recent_past_city_council_meeting(cls):
+        if hasattr(settings, 'CITY_COUNCIL_MEETING_NAME'):
+            return cls.objects.filter(name__icontains=settings.CITY_COUNCIL_MEETING_NAME)\
+                  .filter(start_time__lt=datetime.now()).filter(description='').order_by('-start_time').first()
         else:
             return None
