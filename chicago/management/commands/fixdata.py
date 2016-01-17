@@ -7,6 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         self.fix_action_dates()
+        self.delete_test_bills()
 
     def fix_action_dates(self):
         bad_year = 3013
@@ -19,3 +20,10 @@ class Command(BaseCommand):
             # update bill last_action_date with most recent action
             b.last_action_date = b.get_last_action_date()
             b.save()
+
+    def delete_test_bills(self):
+        invalid_bills = Bill.objects.filter(description='Test')
+        invalid_bills.delete()
+
+        invalid_bills = Bill.objects.filter(description__contains='TEST')
+        invalid_bills.delete()
