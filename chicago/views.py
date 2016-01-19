@@ -14,25 +14,6 @@ class ChicagoIndexView(IndexView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         
-        recently_passed = []
-        # go back in time at 10-day intervals til you find 3 passed bills
-        for i in range(0,-100, -10):
-            begin = date.today() + timedelta(days=i)
-            end = date.today() + timedelta(days=i-10)
-
-            leg_in_range = self.bill_model.objects\
-                                 .exclude(last_action_date=None)\
-                                 .filter(last_action_date__lte=begin)\
-                                 .filter(last_action_date__gt=end)\
-                                 .order_by('-last_action_date')
-            passed_in_range = [l for l in leg_in_range \
-                               if l.inferred_status == 'Passed']
-
-            recently_passed.extend(passed_in_range)
-            if len(recently_passed) >= 3:
-                recently_passed = recently_passed[:3]
-                break
-
         upcoming_meetings = list(self.event_model.upcoming_committee_meetings())
 
         date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
@@ -40,6 +21,11 @@ class ChicagoIndexView(IndexView):
         # populating activity at last council meeting
         meeting_activity = {}
         meeting_activity['actions'] = Action.actions_on_date(date_cutoff.date())
+        meeting_bills = list(set([a.bill for a in meeting_activity['actions']]))
+        meeting_activity['bills'] = meeting_bills
+        meeting_activity['bills_routine'] = [b for b in meeting_bills if 'Routine' in b.topics]
+        meeting_activity['bills_nonroutine'] = [b for b in meeting_bills if 'Non-Routine' in b.topics]
+        
 
 
 
@@ -55,31 +41,30 @@ class ChicagoIndexView(IndexView):
         recent_activity['updated_routine'] = [b for b in updated_bills if 'Routine' in b.topics]
         recent_activity['updated_nonroutine'] = [b for b in updated_bills if 'Non-Routine' in b.topics]
 
-        # getting topic counts for recent bills
+        # getting topic counts for meeting bills
         topic_hierarchy = settings.TOPIC_HIERARCHY
-        recent_topic_tag_counts = {}
-        for b in new_bills:
+        topic_tag_counts = {}
+        for b in meeting_bills:
             for topic in b.topics:
                 try:
-                    recent_topic_tag_counts[topic] += 1
+                    topic_tag_counts[topic] += 1
                 except KeyError:
-                    recent_topic_tag_counts[topic] = 1
+                    topic_tag_counts[topic] = 1
         # put together data blob for topic hierarchy
         for parent_blob in topic_hierarchy:
             parent_blob['count'] = 0
             for child_blob in parent_blob['children']:
                 child_name = child_blob['name']
-                child_blob['count'] = recent_topic_tag_counts[child_name] if child_name in recent_topic_tag_counts else 0
+                child_blob['count'] = topic_tag_counts[child_name] if child_name in topic_tag_counts else 0
                 parent_blob['count'] += child_blob['count']
                 for gchild_blob in child_blob['children']:
                     gchild_name = gchild_blob['name']
-                    gchild_blob['count'] = recent_topic_tag_counts[gchild_name] if gchild_name in recent_topic_tag_counts else 0
+                    gchild_blob['count'] = topic_tag_counts[gchild_name] if gchild_name in topic_tag_counts else 0
 
 
         return {
             'meeting_activity': meeting_activity,
             'recent_activity': recent_activity,
-            'recently_passed': recently_passed,
             'last_council_meeting': self.event_model.most_recent_past_city_council_meeting(),
             'next_council_meeting': self.event_model.next_city_council_meeting(),
             'upcoming_committee_meetings': upcoming_meetings,
