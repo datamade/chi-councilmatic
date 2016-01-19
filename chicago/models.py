@@ -115,9 +115,9 @@ class ChicagoBill(Bill):
         
         if self.documents.filter(document_type='V').all():
             legistar_doc_url = self.documents.filter(document_type='V').first().document.url
-            doc_url = quote('{0}?filename={2}&document_url={1}'.format(base_url, 
-                                                                       legistar_doc_url, 
-                                                                       self.identifier))
+            doc_url = '{0}?filename={2}&document_url={1}'.format(base_url, 
+                                                                 legistar_doc_url, 
+                                                                 self.identifier)
             return doc_url
         else:
             return None
