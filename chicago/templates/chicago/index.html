@@ -191,7 +191,7 @@
                 </h2>
 
                 <p class="big">
-                    At the <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, there were {{meeting_activity.actions | length}} actions.
+                    At the <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took {{meeting_activity.actions | length}} actions on legislation.
                 </p>
 
 
@@ -210,8 +210,8 @@
                 </h2>
                 <p class="big">
                     Since <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>{{last_council_meeting.start_time | date:"M jS"}}</strong></a>, City Council has introduced
-                    <a href="/search/?q=&selected_facets=topics_exact:Routine" target="_blank"><strong>{{recent_activity.new_routine | length}}</strong> routine</a> &
-                    <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank"><strong>{{recent_activity.new_nonroutine | length}}</strong> non-routine</a> pieces of legislation.
+                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, including <strong>{{recent_activity.new_nonroutine | length}}</strong> that are 
+                    <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
                 <div class="divider"></div>
             </div>
