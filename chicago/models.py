@@ -5,6 +5,7 @@ from datetime import datetime
 import pytz
 from .helpers import topic_classifier
 import re
+from urllib.parse import quote
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -109,13 +110,15 @@ class ChicagoBill(Bill):
         override this if instead of having full text as string stored in
         full_text, it is a PDF document that you can embed on the page
         """
-        base_url = 'https://pic.datamade.us/chicago/document/?'
+        base_url = 'https://pic.datamade.us/chicago/document/'
+        # base_url = 'http://127.0.0.1:5000/chicago/document/'
+        
         if self.documents.filter(document_type='V').all():
             legistar_doc_url = self.documents.filter(document_type='V').first().document.url
-            if '?' in legistar_doc_url :
-                return base_url+legistar_doc_url.split('?')[1]
-            else :
-                return legistar_doc_url
+            doc_url = quote('{0}?filename={2}&document_url={1}'.format(base_url, 
+                                                                       legistar_doc_url, 
+                                                                       self.identifier))
+            return doc_url
         else:
             return None
 
