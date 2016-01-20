@@ -125,5 +125,6 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         seo.update(settings.SITE_META)
         seo['site_desc'] = "Look up your local Alderman, and see what they're doing in your ward & your city"
         seo['image'] = '/static/images/chicago_map.jpg'
+        seo['title'] = 'Wards & Aldermen - Chicago Councilmatic'
 
         return seo
