@@ -212,8 +212,15 @@
                     Non-Routine Activity
                 </h4>
                 {% for legislation in meeting_activity.bills_nonroutine %}
+                <div class="bill-meeting">
                     {% include "partials/legislation_item.html" %}
+                </div>
                 {% endfor %}
+                {% if meeting_activity.bills_nonroutine|length > 4%}
+                    <a href="" id="more-bills-meeting" class="btn btn-info"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                    <a href="" id="fewer-bills-meeting" class="btn btn-info"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+                {% endif %}
+                <div class="divider"></div>
             </div>
 
             <div class='col-sm-4'>
@@ -263,11 +270,7 @@
                 </div>
 
 
-
                 {% endfor %}
-
-
-
 
 
             </div>
@@ -280,6 +283,7 @@
     <div class="container-fluid" id="section-recent-activity">
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
+                <div class="divider"></div>
                 <h2>
                     <i class="fa fa-fw fa-clock-o"></i>Since the last council meeting
                 </h2>
@@ -288,7 +292,6 @@
                     <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, including <strong>{{recent_activity.new_nonroutine | length}}</strong> that are 
                     <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
-                <div class="divider"></div>
             </div>
         </div>
         <div class="row-fluid">
@@ -297,8 +300,15 @@
                     Non-routine legislation introduced
                 </h4>
                 {% for legislation in recent_activity.new_nonroutine %}
+                <div class="bill-recent">
                     {% include "partials/legislation_item.html" %}
+                </div>
                 {% endfor %}
+                {% if recent_activity.new_nonroutine|length > 4%}
+                    <a href="" id="more-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                    <a href="" id="fewer-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+                {% endif %}
+                <div class="divider"></div>
             </div>
 
         </div>
@@ -319,6 +329,50 @@
                     $(this).find('i').removeClass("fa-plus").addClass("fa-minus");
                 }
             });
+
+
+            function collapseBillsMeeting(){
+                $(".bill-meeting:gt(3)").hide();
+                $("#more-bills-meeting").show();
+                $("#fewer-bills-meeting").hide();
+            }
+            function expandBillsMeeting(){
+                $(".bill-meeting:gt(3)").show();
+                $("#more-bills-meeting").hide();
+                $("#fewer-bills-meeting").show();
+            }
+            function collapseBillsRecent(){
+                $(".bill-recent:gt(3)").hide();
+                $("#more-bills-recent").show();
+                $("#fewer-bills-recent").hide();
+            }
+            function expandBillsRecent(){
+                $(".bill-recent:gt(3)").show();
+                $("#more-bills-recent").hide();
+                $("#fewer-bills-recent").show();
+            }
+
+            collapseBillsMeeting();
+            collapseBillsRecent();
+
+            $("#more-bills-meeting").click(function() {
+                expandBillsMeeting();
+                return false;
+            });
+            $("#fewer-bills-meeting").click(function() {
+                collapseBillsMeeting();
+                return false;
+            });
+            $("#more-bills-recent").click(function() {
+                expandBillsRecent();
+                return false;
+            });
+            $("#fewer-bills-recent").click(function() {
+                collapseBillsRecent();
+                return false;
+            });
+
+
         });
     </script>
 {% endblock %}
