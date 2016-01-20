@@ -30,10 +30,10 @@ APP_NAME = 'chicago'
 # this is for populating meta tags
 SITE_META = {
     'site_name' : 'Chicago Councilmatic',
-    'site_desc' : 'Chicago City Council, demystified. Keep tabs on what your local representatives are up to.',
-    'site_author' : 'PPF & DataMade',
+    'site_desc' : 'City Council, demystified. Keep tabs on Chicago legislation, aldermen, & meetings.',
+    'site_author' : 'DataMade',
     'site_url' : 'http://chicago.councilmatic.org',
-    'twitter_site': '@ppolitics',
+    'twitter_site': '@DataMadeCo',
     'twitter_creator': '@DataMadeCo',
 }
 
