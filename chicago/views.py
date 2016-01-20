@@ -61,6 +61,9 @@ class ChicagoIndexView(IndexView):
                     gchild_name = gchild_blob['name']
                     gchild_blob['count'] = topic_tag_counts[gchild_name] if gchild_name in topic_tag_counts else 0
 
+        seo = {}
+        seo.update(settings.SITE_META)
+        seo['image'] = '/static/images/city_hall.jpg'
 
         return {
             'meeting_activity': meeting_activity,
@@ -69,6 +72,7 @@ class ChicagoIndexView(IndexView):
             'next_council_meeting': self.event_model.next_city_council_meeting(),
             'upcoming_committee_meetings': upcoming_meetings,
             'topic_hierarchy': topic_hierarchy,
+            'seo': seo,
         }
 
 class ChicagoAboutView(AboutView):
