@@ -25,7 +25,8 @@ sqs = SearchQuerySet().facet('bill_type')\
                       .facet('controlling_body')\
                       .facet('inferred_status')\
                       .facet('topics')\
-                      .facet('legislative_session')
+                      .facet('legislative_session')\
+                      .highlight()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
