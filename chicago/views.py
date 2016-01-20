@@ -117,3 +117,13 @@ class ChicagoBillDetailView(BillDetailView):
             raise Http404("No bill found matching the query")
 
         return obj
+
+class ChicagoCouncilMembersView(CouncilMembersView):
+
+    def get_seo_blob(self):
+        seo = {}
+        seo.update(settings.SITE_META)
+        seo['site_desc'] = "Look up your local Alderman, and see what they're doing in your ward & your city"
+        seo['image'] = '/static/images/chicago_map.jpg'
+
+        return seo
