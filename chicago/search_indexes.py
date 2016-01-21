@@ -21,7 +21,7 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
         if obj.last_action_date:
             now = app_timezone.localize(datetime.now())
             weeks_passed = (now - obj.last_action_date).days / 7 + 1
-            boost = 1 + 1.0 / weeks_passed
+            boost = 1 + 1.0 / max(weeks_passed, 1)
 
         data['boost'] = boost
 
