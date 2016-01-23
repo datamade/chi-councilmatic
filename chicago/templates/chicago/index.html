@@ -38,7 +38,7 @@
 
                 <div class='row'>
                     <div class='col-sm-8'>
-                        <p>Chicago City Council consists of <a href='/council-members' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/emanuel-rahm/'  target="_blank">Rahm Emanuel</a>, the Mayor, and <a href='/person/mendoza-susana-a/' target="_blank">Susana Mendoza</a>, the City Clerk.</p>
+                        <p>Chicago City Council consists of <a href='/council-members/' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/emanuel-rahm/'  target="_blank">Rahm Emanuel</a>, the Mayor, and <a href='/person/mendoza-susana-a/' target="_blank">Susana Mendoza</a>, the City Clerk.</p>
 
                         <p>
                             <strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council: 
@@ -149,7 +149,7 @@
                         <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
                         <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
                     </p>
-                    <a class='btn btn-info btn-sm' href="{{next_council_meeting.event_page_url}}">
+                    <a class='btn btn-info btn-sm' href="{{next_council_meeting.event_page_url}}/">
                         Details
                         <i class="fa fa-fw fa-chevron-right"></i>
                     </a>
@@ -191,7 +191,7 @@
                 </h2>
 
                 <p class="big">
-                    At the <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{meeting_activity.bills | length}}</strong> pieces of legislation, including <strong>{{meeting_activity.bills_nonroutine | length}}</strong> that are 
+                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{meeting_activity.bills | length}}</strong> pieces of legislation, including <strong>{{meeting_activity.bills_nonroutine | length}}</strong> that are 
                     <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
 
