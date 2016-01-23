@@ -87,7 +87,7 @@ def bill_detail_redirect(request, old_id):
     except:
         raise Http404("No bill found matching the query")
 
-    return redirect('bill_detail', slug=obj.slug)
+    return redirect('bill_detail', slug=obj.slug, permanent=True)
 
 
 class ChicagoBillDetailView(BillDetailView):
