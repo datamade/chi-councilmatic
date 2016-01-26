@@ -32,7 +32,7 @@ SITE_META = {
     'site_name' : 'Chicago Councilmatic',
     'site_desc' : 'City Council, demystified. Keep tabs on Chicago legislation, aldermen, & meetings.',
     'site_author' : 'DataMade',
-    'site_url' : 'http://chicago.councilmatic.org',
+    'site_url' : 'https://chicago.councilmatic.org',
     'twitter_site': '@DataMadeCo',
     'twitter_creator': '@DataMadeCo',
 }
