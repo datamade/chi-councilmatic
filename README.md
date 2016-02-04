@@ -67,20 +67,15 @@ python manage.py createsuperuser
 
 ## Importing data from the open civic data api
 
-Run the loaddata management command. This will take a few minutes.
+Run the loaddata management command. This will take a while, depending on volume (Chicago has ~70k bills, & it takes ~1 hour to load the data).
 
 ```bash
 python manage.py loaddata
 ```
 
-Running the loaddata managment command without any arguments will by default
-check to see when the most recently updated bill was updated on the OCD API and
-then add everything after that point. If you're starting with a new database,
-this means it will load everything and may take quite a while depending on how
-many pieces of legislation are available in the API. If you'd like to load
-things that are older than what you currently have loaded, you can run the
-loaddata management command with a `--delete` option which will remove
-everything from the database and then start clean.
+By default, the loaddata command is smart about what it looks at on the OCD API. If you already have bills loaded, it won't look at everything on the API - it'll look at the most recently updated bill in your database, see when that bill was last updated on the OCD API, & then look through everything on the API that was updated after that point. If you'd like to load things that are older than what you currently have loaded, you can run the loaddata management command with a `--delete` option, which removes everything from your database before loading.
+
+The loaddata command has some more nuance than the description above, for the different types of data it loads. If you have any questions, open up an issue and pester us to write better documentation.
 
 ## Running Chicago Councilmatic locally
 
