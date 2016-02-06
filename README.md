@@ -16,7 +16,7 @@ We recommend using [virtualenv](http://virtualenv.readthedocs.org/en/latest/virt
 Once you have virtualenvwrapper set up,
 
 ```bash
-mkvirtualenv chi-councilmatic
+mkvirtualenv chi-councilmatic --python=`which python3`
 git clone https://github.com/datamade/chi-councilmatic.git
 cd chi-councilmatic
 pip install -r requirements.txt
@@ -80,6 +80,7 @@ The loaddata command has some more nuance than the description above, for the di
 ## Running Chicago Councilmatic locally
 
 ``` bash
+python manage.py collectstatic
 python manage.py runserver
 ```
 
