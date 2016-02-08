@@ -1,6 +1,6 @@
-# Chicago Councilmatic
+# Miami Councilmatic
 
-Keep track of what Chicago City Council is doing.
+Keep track of what Miami-Dade County Council is doing.
 
 ## Setup
 
