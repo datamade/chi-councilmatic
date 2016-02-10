@@ -50,3 +50,5 @@ ANALYTICS_TRACKING_CODE = ''
 
 HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
                              '/chicago/static/images/')
+
+EXTRA_APPS = ()

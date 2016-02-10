@@ -45,6 +45,11 @@ INSTALLED_APPS = (
     'chicago',
 )
 
+try:
+    INSTALLED_APPS += EXTRA_APPS
+except NameError:
+    pass
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
