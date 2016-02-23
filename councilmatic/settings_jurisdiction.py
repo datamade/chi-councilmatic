@@ -278,7 +278,7 @@ TOPIC_HIERARCHY = [
                 'children': [],
             },
             {
-                'name': 'City businesses',
+                'name': 'City Business',
                 'children': [   {'name': 'Getting and Giving Land'},
                                 {'name': 'Intergovernmental Agreement'},
                                 {'name': 'Lease Agreement'},
