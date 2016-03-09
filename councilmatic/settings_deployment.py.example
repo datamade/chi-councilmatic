@@ -52,3 +52,9 @@ HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
                              '/chicago/static/images/')
 
 EXTRA_APPS = ()
+
+# Uncomment for HTTPS sites
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# os.environ['HTTPS'] = "on"
+# os.environ['wsgi.url_scheme'] = 'https'
