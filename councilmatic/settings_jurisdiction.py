@@ -259,6 +259,7 @@ MANUAL_HEADSHOTS = {
     'sposato-nicholas':     {'source': 'aldermansposato.com', 'image': 'manual-headshots/sposato-nicholas.png' },
     'emanuel-rahm':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
     'mendoza-susana-a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
+    'king-sophia':          {'source': 'hpherald.com', 'image': 'manual-headshots/king-sophia.jpg' },
 }
 
 
