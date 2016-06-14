@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^search/rss/',
         ChicagoCouncilmaticFacetedSearchFeed(), name='councilmatic_search_feed'),
     url(r'^search/', CouncilmaticFacetedSearchView(searchqueryset=sqs, 
-                                       form_class=CouncilmaticSearchForm)),
+                                       form_class=CouncilmaticSearchForm), name="councilmatic_search"),
     url(r'^$', ChicagoIndexView.as_view(), name='index'),
     url(r'^about/$', ChicagoAboutView.as_view(), name='about'),
     url(r'^legislation/(?P<slug>[^/]+)/$', ChicagoBillDetailView.as_view(), name='bill_detail'),
