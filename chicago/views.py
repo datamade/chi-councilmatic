@@ -4,7 +4,7 @@ from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.models import Action
 from councilmatic_core.views import *
 from django.conf import settings
-
+from django.http import Http404
 
 class ChicagoIndexView(IndexView):
     template_name = 'chicago/index.html'
