@@ -80,7 +80,7 @@ class ChicagoAboutView(AboutView):
 
 # this is for handling bill detail urls from the old chicago councilmatuc
 def bill_detail_redirect(request, old_id):
-    pattern = '?ID=%s&GUID' %old_id
+    pattern = '?ID=%s&GUID' % old_id
 
     try:
         obj = ChicagoBill.objects.get(source_url__contains=pattern)
@@ -89,6 +89,8 @@ def bill_detail_redirect(request, old_id):
 
     return redirect('bill_detail', slug=obj.slug, permanent=True)
 
+def substitute_ordinance_redirect(request, substitute_ordinance_slug):
+    return redirect('bill_detail', slug=substitute_ordinance_slug[1:], permanent=True)
 
 class ChicagoBillDetailView(BillDetailView):
     model = ChicagoBill
