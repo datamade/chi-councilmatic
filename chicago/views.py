@@ -124,6 +124,13 @@ class ChicagoBillDetailView(BillDetailView):
 
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
+        bill_classification = context['object'].classification
+        if bill_classification in {'claim'}:
+            context['seo']['nofollow'] = True
+        return context
+
 class ChicagoCouncilMembersView(CouncilMembersView):
 
     def get_seo_blob(self):
