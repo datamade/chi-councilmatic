@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.html import mark_safe
 from councilmatic_core.models import Bill, Event
 from datetime import datetime
 import pytz
@@ -121,22 +122,30 @@ class ChicagoBill(Bill):
 
     @property
     def linked_description(self):
+        # Sections
         description = re.sub(r'((Section)*s* *(\d+-\d+-\d+)\S*)',
                              r"<a href='https://chicagocode.org/\3/'>\1</a>",
                              self.description)
 
+        # Chapters
+        # 8 and 16-13
         description = re.sub(r'(\d+-\d+ and )((\d+)-\d+)',
                              r"\1<a href='https://chicagocode.org/\3/\2/'>\2</a>",
                              description)
+        # , 14-3, 12-1, 5-17 and
         description = re.sub(r'(?<=\d, )((\d+)-\d+)(?=, \d| and )',
                              r"<a href='https://chicagocode.org/\2/\1/'>\1</a>",
                              description)
         description = re.sub(r'(Chapters* ((\d+)-\d+))',
                              r"<a href='https://chicagocode.org/\3/\2/'>\1</a>",
                              description)
+
+        # Titles
+        # 8 and 9
         description = re.sub(r'(\d+ and )(\d+)',
                              r"\1<a href='https://chicagocode.org/\2/'>\2</a>",
                              description)
+        # , 3, 4, 4 and
         description = re.sub(r'(?<=\d, )(\d+)(?=, \d| and )',
                              r"<a href='https://chicagocode.org/\1/'>\1</a>",
                              description)
@@ -144,7 +153,7 @@ class ChicagoBill(Bill):
                              r"<a href='https://chicagocode.org/\2/'>\1</a>",
                              description)
 
-        return description
+        return mark_safe(description)
 
 class ChicagoEvent(Event):
 
