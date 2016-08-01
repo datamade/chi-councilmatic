@@ -93,6 +93,8 @@ def substitute_ordinance_redirect(request, substitute_ordinance_slug):
     return redirect('bill_detail', slug=substitute_ordinance_slug[1:], permanent=True)
 
 class ChicagoBillDetailView(BillDetailView):
+    template_name = 'chicago/legislation.html'
+    
     model = ChicagoBill
 
     def get_object(self, queryset=None):

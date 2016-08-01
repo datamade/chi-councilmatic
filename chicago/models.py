@@ -64,10 +64,7 @@ class ChicagoBill(Bill):
 
     @property
     def listing_description(self):
-        if self.abstract:
-            return self.abstract
-        else:
-            return self.description
+        return self.description
 
     @property
     def topics(self):
@@ -121,6 +118,33 @@ class ChicagoBill(Bill):
             return doc_url
         else:
             return None
+
+    @property
+    def linked_description(self):
+        description = re.sub(r'((Section)*s* *(\d+-\d+-\d+)\S*)',
+                             r"<a href='https://chicagocode.org/\3/'>\1</a>",
+                             self.description)
+
+        description = re.sub(r'(\d+-\d+ and )((\d+)-\d+)',
+                             r"\1<a href='https://chicagocode.org/\3/\2/'>\2</a>",
+                             description)
+        description = re.sub(r'(?<=\d, )((\d+)-\d+)(?=, \d| and )',
+                             r"<a href='https://chicagocode.org/\2/\1/'>\1</a>",
+                             description)
+        description = re.sub(r'(Chapters* ((\d+)-\d+))',
+                             r"<a href='https://chicagocode.org/\3/\2/'>\1</a>",
+                             description)
+        description = re.sub(r'(\d+ and )(\d+)',
+                             r"\1<a href='https://chicagocode.org/\2/'>\2</a>",
+                             description)
+        description = re.sub(r'(?<=\d, )(\d+)(?=, \d| and )',
+                             r"<a href='https://chicagocode.org/\1/'>\1</a>",
+                             description)
+        description = re.sub(r'(Titles* (\d+))',
+                             r"<a href='https://chicagocode.org/\2/'>\1</a>",
+                             description)
+
+        return description
 
 class ChicagoEvent(Event):
 
