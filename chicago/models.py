@@ -90,7 +90,8 @@ class ChicagoBill(Bill):
             sttype_pattern = "(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
             st_pattern = stname_pattern + sttype_pattern
 
-            addr_pattern = "(\d(\d|-)*\s%s)" %st_pattern
+            # match 123 and 123-125, but not 123-125-127
+            addr_pattern = r"((?<!-)\b\d{1,4}(-\d{1,4})?\s%s)" %st_pattern
             intersec_pattern = exp = "((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
 
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
@@ -123,33 +124,33 @@ class ChicagoBill(Bill):
     @property
     def linked_description(self):
         # Sections
-        description = re.sub(r'((Section)*s* *(\d+-\d+-\d+)\S*)',
+        description = re.sub(r'((Section)*s* *(\d{1,2}-\d{1,3}-\d+)\S*)',
                              r"<a href='https://chicagocode.org/\3/'>\1</a>",
                              self.description)
 
         # Chapters
         # 8 and 16-13
-        description = re.sub(r'(\d+-\d+ and )((\d+)-\d+)',
+        description = re.sub(r'(\d{1,2}-\d{1,3} and )((\d{1,2})-\d{1,3})',
                              r"\1<a href='https://chicagocode.org/\3/\2/'>\2</a>",
                              description)
         # , 14-3, 12-1, 5-17 and
-        description = re.sub(r'(?<=\d, )((\d+)-\d+)(?=, \d| and )',
+        description = re.sub(r'(?<=\d, )((\d{1,2})-\d{1,3})(?=, \d| and )',
                              r"<a href='https://chicagocode.org/\2/\1/'>\1</a>",
                              description)
-        description = re.sub(r'(Chapters* ((\d+)-\d+))',
+        description = re.sub(r'(Chapters* ((\d{1,2})-\d{1,3}))',
                              r"<a href='https://chicagocode.org/\3/\2/'>\1</a>",
                              description)
 
         # Titles
         # 8 and 9
-        description = re.sub(r'(\d+ and )(\d+)',
+        description = re.sub(r'(\d{1,2} and )(\d{1,2})',
                              r"\1<a href='https://chicagocode.org/\2/'>\2</a>",
                              description)
         # , 3, 4, 4 and
-        description = re.sub(r'(?<=\d, )(\d+)(?=, \d| and )',
+        description = re.sub(r'(?<=\d, )(\d{1,2})(?=, \d| and )',
                              r"<a href='https://chicagocode.org/\1/'>\1</a>",
                              description)
-        description = re.sub(r'(Titles* (\d+))',
+        description = re.sub(r'(Titles* (\d{1,2}))',
                              r"<a href='https://chicagocode.org/\2/'>\1</a>",
                              description)
 
