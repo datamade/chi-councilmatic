@@ -91,7 +91,7 @@ class ChicagoBill(Bill):
             st_pattern = stname_pattern + sttype_pattern
 
             # match 123 and 123-125, but not 123-125-127
-            addr_pattern = r"((?<!-)\b\d{1,4}(-\d{1,4})?\s%s)" %st_pattern
+            addr_pattern = r"((?<!-)\b\d{1,5}(-\d{1,5})?\s%s)" %st_pattern
             intersec_pattern = exp = "((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
 
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
