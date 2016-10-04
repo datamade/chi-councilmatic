@@ -375,4 +375,17 @@
 
         });
     </script>
+    <script type="application/ld+json">
+      {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name" : "Chicago Councilmatic",
+      "url": "https://chicago.councilmatic.org/",
+      "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://chicago.councilmatic.org/search/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+          }
+      }
+    </script>
 {% endblock %}

@@ -80,7 +80,7 @@ class ChicagoAboutView(AboutView):
 
 # this is for handling bill detail urls from the old chicago councilmatuc
 def bill_detail_redirect(request, old_id):
-    pattern = '?ID=%s&GUID' %old_id
+    pattern = '?ID=%s&GUID' % old_id
 
     try:
         obj = ChicagoBill.objects.get(source_url__contains=pattern)
@@ -89,8 +89,12 @@ def bill_detail_redirect(request, old_id):
 
     return redirect('bill_detail', slug=obj.slug, permanent=True)
 
+def substitute_ordinance_redirect(request, substitute_ordinance_slug):
+    return redirect('bill_detail', slug=substitute_ordinance_slug[1:], permanent=True)
 
 class ChicagoBillDetailView(BillDetailView):
+    template_name = 'chicago/legislation.html'
+    
     model = ChicagoBill
 
     def get_object(self, queryset=None):
@@ -121,6 +125,13 @@ class ChicagoBillDetailView(BillDetailView):
             raise Http404("No bill found matching the query")
 
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
+        bill_classification = context['object'].classification
+        if bill_classification in {'claim'}:
+            context['seo']['nofollow'] = True
+        return context
 
 class ChicagoCouncilMembersView(CouncilMembersView):
 
