@@ -16,7 +16,11 @@ class ChicagoIndexView(IndexView):
         
         upcoming_meetings = list(self.event_model.upcoming_committee_meetings())
 
-        date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
+        if upcoming_meetings:
+            date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
+        else:
+            date_cutoff = datetime.now()
+
 
         # populating activity at last council meeting
         meeting_activity = {}
