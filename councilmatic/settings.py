@@ -43,6 +43,9 @@ INSTALLED_APPS = (
     'haystack',
     'councilmatic_core',
     'chicago',
+    'notifications',
+    'django_rq',
+    'password_reset'
 )
 
 try:

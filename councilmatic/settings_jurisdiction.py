@@ -45,7 +45,7 @@ LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
 # member listing. the boundary set should be the relevant
 # slug from the ocd api's boundary service
 # available boundary sets here: http://ocd.datamade.us/boundary-sets/
-BOUNDARY_SET = 'chicago-wards-2015'
+BOUNDARY_SET = ['chicago-wards-2015']
 
 # this is for configuring a map of council districts using data from the posts
 # set MAP_CONFIG = None to hide map
@@ -388,3 +388,4 @@ TOPIC_HIERARCHY = [
     }
 ]
 
+USING_NOTIFICATIONS = True
