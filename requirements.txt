@@ -1,3 +1,4 @@
 https://github.com/datamade/django-councilmatic/zipball/master
 django-councilmatic-notifications<0.2
 django-password-reset==0.9
+raven==5.30.0
