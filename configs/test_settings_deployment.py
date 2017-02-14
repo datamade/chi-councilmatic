@@ -28,7 +28,7 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
         #'URL': 'http://127.0.0.1:8983/solr'
         # ...or for multicore...
-        'URL': 'http://127.0.0.1:8983/solr/lametro',
+        'URL': 'http://127.0.0.1:8983/solr/chicago',
     },
 }
 
@@ -51,10 +51,30 @@ DISQUS_SHORTNAME = None
 ANALYTICS_TRACKING_CODE = ''
 
 HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
-                             '/lametro/static/images/')
+                             '/chicago/static/images/')
 
 EXTRA_APPS = ('raven.contrib.django.raven_compat',)
 
 RAVEN_CONFIG = {
     'dsn': 'https://4a1f7af075cd4fd4bedebe4db50d9c3d:f49e4e9b89ed41e889f69be65b4f6f21@sentry.io/107858',
 }
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 1,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+    }
+}
+
+#RQ_EXCEPTION_HANDLERS = ['path.to.my.handler'] # If you need custom exception handlers
+RQ_SHOW_ADMIN_LINK = True
+
+EMAIL_HOST='smtp.example.com'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER='user'
+EMAIL_HOST_PASSWORD='password'
+DEFAULT_FROM_EMAIL='Chicago Councilmatic <info@councilmatic.org>'
