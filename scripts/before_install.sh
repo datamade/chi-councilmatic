@@ -2,18 +2,18 @@
 
 # Make project directory if it doesn't exist. This is mainly to ensure that these scripts work on a bare server
 
-rm -Rf /home/datamade/la-metro-councilmatic
-mkdir -p /home/datamade/la-metro-councilmatic
+rm -Rf /home/datamade/chi-councilmatic
+mkdir -p /home/datamade/chi-councilmatic
 
 if [ "$DEPLOYMENT_GROUP_NAME" == "staging" ]
 then
-    rm -Rf /home/datamade/lametro-staging
-    mkdir -p /home/datamade/lametro-staging
+    rm -Rf /home/datamade/chicago-staging
+    mkdir -p /home/datamade/chicago-staging
 fi
 if [ "$DEPLOYMENT_GROUP_NAME" == "production" ]
 then
-    rm -Rf /home/datamade/lametro
-    mkdir -p /home/datamade/lametro
+    rm -Rf /home/datamade/chicago
+    mkdir -p /home/datamade/chicago
 fi
 
 # Decrypt files encrypted with blackbox
