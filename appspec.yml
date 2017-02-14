@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/datamade/la-metro-councilmatic
+    destination: /home/datamade/chi-councilmatic
 hooks:
   BeforeInstall:
     - location: scripts/before_install.sh
