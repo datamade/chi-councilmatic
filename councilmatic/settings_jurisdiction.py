@@ -109,7 +109,7 @@ COMMITTEE_MEMBER_TITLE = 'Member'
 LEGISLATION_TYPE_DESCRIPTIONS = [
     {
         'name': 'Ordinance',
-        'search_term': 'Ordinance',
+        'search_term': 'ordinance',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': 'Ordinances are proposed changes to Chicago’s local laws. Some of these are changes to Chicago’s Municipal Code and others, called uncompiled statutes, are recorded in the Council’s Journal of Proceedings.',
@@ -117,7 +117,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Claim',
-        'search_term': 'Claim',
+        'search_term': 'claim',
         'fa_icon': 'dollar',
         'html_desc': True,
         'desc': "If you are harmed by the City of Chicago, you can make a claim against the City for your costs. Minor harms, like personal injury or automotive damage, are settled through City Council as Claims. If you sue the City for harm and come to a settlement, the settlement must also be approved by the Council.",
@@ -125,7 +125,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Resolution',
-        'search_term': 'Resolution',
+        'search_term': 'resolution',
         'fa_icon': 'commenting-o',
         'html_desc': True,
         'desc': "Resolutions are typically symbolic, non-binding documents used for calling someone or some organization to take an action, statements announcing the City Council's intentions or honoring an individual.",
@@ -133,7 +133,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Order',
-        'search_term': 'Order',
+        'search_term': 'order',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': "Orders direct a City Agency to do or not do something. They are typically used for ward matters like issuing business permits, designating parking zones and installing new signs and traffic signals.",
@@ -141,7 +141,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Appointment',
-        'search_term': 'Appointment',
+        'search_term': 'appointment',
         'fa_icon': 'user',
         'html_desc': True,
         'desc': "Used for appointing individuals to positions within various official City of Chicago and intergovernmental boards.",
@@ -149,7 +149,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Report',
-        'search_term': 'Report',
+        'search_term': 'report',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': "Submissions of official reports by departments, boards and sister agencies. ",
@@ -157,7 +157,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Communication',
-        'search_term': 'Communication',
+        'search_term': 'communication',
         'fa_icon': 'bullhorn',
         'html_desc': True,
         'desc': "Similar to reports and used for notifying City Council of intentions or actions.",
@@ -165,7 +165,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Oath Of Office',
-        'search_term': 'Oath Of Office',
+        'search_term': 'oath Of Office',
         'fa_icon': 'user',
         'html_desc': True,
         'desc': "Official swearing in of individuals to leadership positions at the City of Chicago, including Aldermen and board members.",
