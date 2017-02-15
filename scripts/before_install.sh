@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Make project directory if it doesn't exist. This is mainly to ensure that these scripts work on a bare server
 
