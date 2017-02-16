@@ -15,10 +15,12 @@ class ChicagoBill(Bill):
     class Meta:
         proxy = True
 
+    @property
     def friendly_name(self):
         nums = self.identifier.split(' ')[-1]
         return self.bill_type.title() + ' ' + nums
 
+    @property
     def date_passed(self):
         return self.actions.filter(classification='passage').order_by('-order').first().date if self.actions.all() else None
 
@@ -45,6 +47,7 @@ class ChicagoBill(Bill):
         else:
             return True
 
+    @property
     def inferred_status(self):
         actions = self.actions.all().order_by('-order')
         classification_hist = [a.classification for a in actions]
@@ -60,9 +63,11 @@ class ChicagoBill(Bill):
         else:
             return 'Active'
 
+    @property
     def listing_description(self):
         return self.description
 
+    @property
     def topics(self):
         tags = topic_classifier(self.description)
         if 'Routine' in tags:
@@ -73,6 +78,7 @@ class ChicagoBill(Bill):
             tags = ['Non-Routine'] + tags
         return tags
 
+    @property
     def addresses(self):
         """
         returns a list of relevant addresses for a bill
@@ -97,6 +103,7 @@ class ChicagoBill(Bill):
 
         return []
 
+    @property
     def full_text_doc_url(self):
         """
         override this if instead of having full text as string stored in
@@ -110,11 +117,11 @@ class ChicagoBill(Bill):
             doc_url = '{0}?filename={2}&document_url={1}'.format(base_url, 
                                                                  legistar_doc_url, 
                                                                  self.identifier)
-            
             return doc_url
         else:
             return None
 
+    @property
     def linked_description(self):
         # Sections
         description = re.sub(r'((Section)*s* *(\d{1,2}-\d{1,3}-\d+)\S*)',
