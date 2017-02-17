@@ -165,7 +165,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Oath Of Office',
-        'search_term': 'oath Of Office',
+        'search_term': 'oath of office',
         'fa_icon': 'user',
         'html_desc': True,
         'desc': "Official swearing in of individuals to leadership positions at the City of Chicago, including Aldermen and board members.",
