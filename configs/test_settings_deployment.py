@@ -3,21 +3,23 @@
 import os
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'replacethiswithsomethingsecret'
+SECRET_KEY = 'testing secrets'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set this to True while you are developing
-DEBUG = False
+DEBUG = True
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'chi_councilmatic',
-        'USER': '',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'travis',
+        'USER': 'travis',
         'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -51,14 +53,11 @@ ANALYTICS_TRACKING_CODE = ''
 HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
                              '/chicago/static/images/')
 
-EXTRA_APPS = ()
+EXTRA_APPS = ('raven.contrib.django.raven_compat',)
 
-# Uncomment for HTTPS sites
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# os.environ['HTTPS'] = "on"
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# os.environ['wsgi.url_scheme'] = 'https'
+RAVEN_CONFIG = {
+    'dsn': 'https://4a1f7af075cd4fd4bedebe4db50d9c3d:f49e4e9b89ed41e889f69be65b4f6f21@sentry.io/107858',
+}
 
 RQ_QUEUES = {
     'default': {

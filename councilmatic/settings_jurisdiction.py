@@ -45,7 +45,7 @@ LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
 # member listing. the boundary set should be the relevant
 # slug from the ocd api's boundary service
 # available boundary sets here: http://ocd.datamade.us/boundary-sets/
-BOUNDARY_SET = 'chicago-wards-2015'
+BOUNDARY_SET = ['chicago-wards-2015']
 
 # this is for configuring a map of council districts using data from the posts
 # set MAP_CONFIG = None to hide map
@@ -109,7 +109,7 @@ COMMITTEE_MEMBER_TITLE = 'Member'
 LEGISLATION_TYPE_DESCRIPTIONS = [
     {
         'name': 'Ordinance',
-        'search_term': 'Ordinance',
+        'search_term': 'ordinance',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': 'Ordinances are proposed changes to Chicago’s local laws. Some of these are changes to Chicago’s Municipal Code and others, called uncompiled statutes, are recorded in the Council’s Journal of Proceedings.',
@@ -117,7 +117,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Claim',
-        'search_term': 'Claim',
+        'search_term': 'claim',
         'fa_icon': 'dollar',
         'html_desc': True,
         'desc': "If you are harmed by the City of Chicago, you can make a claim against the City for your costs. Minor harms, like personal injury or automotive damage, are settled through City Council as Claims. If you sue the City for harm and come to a settlement, the settlement must also be approved by the Council.",
@@ -125,7 +125,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Resolution',
-        'search_term': 'Resolution',
+        'search_term': 'resolution',
         'fa_icon': 'commenting-o',
         'html_desc': True,
         'desc': "Resolutions are typically symbolic, non-binding documents used for calling someone or some organization to take an action, statements announcing the City Council's intentions or honoring an individual.",
@@ -133,7 +133,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Order',
-        'search_term': 'Order',
+        'search_term': 'order',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': "Orders direct a City Agency to do or not do something. They are typically used for ward matters like issuing business permits, designating parking zones and installing new signs and traffic signals.",
@@ -141,7 +141,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Appointment',
-        'search_term': 'Appointment',
+        'search_term': 'appointment',
         'fa_icon': 'user',
         'html_desc': True,
         'desc': "Used for appointing individuals to positions within various official City of Chicago and intergovernmental boards.",
@@ -149,7 +149,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Report',
-        'search_term': 'Report',
+        'search_term': 'report',
         'fa_icon': 'file-text-o',
         'html_desc': True,
         'desc': "Submissions of official reports by departments, boards and sister agencies. ",
@@ -157,7 +157,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Communication',
-        'search_term': 'Communication',
+        'search_term': 'communication',
         'fa_icon': 'bullhorn',
         'html_desc': True,
         'desc': "Similar to reports and used for notifying City Council of intentions or actions.",
@@ -165,7 +165,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
     },
     {
         'name': 'Oath Of Office',
-        'search_term': 'Oath Of Office',
+        'search_term': 'oath of office',
         'fa_icon': 'user',
         'html_desc': True,
         'desc': "Official swearing in of individuals to leadership positions at the City of Chicago, including Aldermen and board members.",
@@ -207,59 +207,59 @@ ABOUT_BLURBS = {
 }
 
 MANUAL_HEADSHOTS = {
-    'arena-john':           {'source': '45th Ward Office', 'image': 'manual-headshots/arena-john.jpg' },
-    'beale-anthony':        {'source': '@Alderman_Beale, Twitter', 'image': 'manual-headshots/beale-anthony.jpg' },
-    'burns-william-d':      {'source': 'Masp360', 'image': 'manual-headshots/burns-william-d.jpg' },
-    'cappleman-james':      {'source': 'james46.org', 'image': 'manual-headshots/cappleman-james.jpg' },
-    'cochran-willie':       {'source': 'williebcochran.com', 'image': 'manual-headshots/cochran-willie.jpg' },
-    'harris-michelle-a':    {'source': 'www.aldermanmichelleharris.net', 'image': 'manual-headshots/harris-michelle-a.jpg' },
-    'mell-deborah':         {'source': 'www.33rdward.org', 'image': 'manual-headshots/mell-deborah.jpg' },
-    'mitchell-gregory-i':   {'source': 'mitchellforalderman.com', 'image': 'manual-headshots/mitchell-gregory-i.jpg' },
-    'moore-joseph':         {'source': 'participatorybudgeting49.wordpress.com', 'image': 'manual-headshots/moore-joseph.jpg' },
-    'munoz-ricardo':        {'source': 'www.munoz22.com', 'image': 'manual-headshots/munoz-ricardo.jpg' },
-    'napolitano-anthony-v': {'source': 'www.norwoodpark.org', 'image': 'manual-headshots/napolitano-anthony-v.jpg' },
-    'oshea-matthew-j':      {'source': 'takebackchicago.org', 'image': 'manual-headshots/oshea-matthew-j.jpg' },
-    'osterman-harry':       {'source': '48thward.org', 'image': 'manual-headshots/osterman-harry.jpg' },
-    'ramirez-rosa-carlos':  {'source': 'www.aldermancarlosrosa.org', 'image': 'manual-headshots/ramirez-rosa-carlos.jpg' },
-    'reboyras-ariel':       {'source': 'www.reboyras.com', 'image': 'manual-headshots/reboyras-ariel.jpg' },
-    'sadlowski-garza-susan':{'source': 'calumetareaindustrial.com', 'image': 'manual-headshots/sadlowski-garza-susan.jpg' },
-    'sawyer-roderick-t':    {'source': '@rodericktsawyer, Twitter', 'image': 'manual-headshots/sawyer-roderick-t.jpg' },
-    'silverstein-debra-l':  {'source': 'ppiachicago.org', 'image': 'manual-headshots/silverstein-debra-l.jpg' },
-    'solis-daniel':         {'source': 'ward25.com', 'image': 'manual-headshots/solis-daniel.jpg' },
-    'taliaferro-chris':     {'source': 'Facebook', 'image': 'manual-headshots/taliaferro-chris.jpg' },
-    'villegas-gilbert':     {'source': '@gilbert36ward, Twitter', 'image': 'manual-headshots/villegas-gilbert.jpg' },
+    'arena-john-efb089cf452f':           {'source': '45th Ward Office', 'image': 'manual-headshots/arena-john.jpg' },
+    'beale-anthony-d0af6d98e2c9':        {'source': '@Alderman_Beale, Twitter', 'image': 'manual-headshots/beale-anthony.jpg' },
+    'burns-william-d-74409520db8c':      {'source': 'Masp360', 'image': 'manual-headshots/burns-william-d.jpg' },
+    'cappleman-james-002b972dfe61':      {'source': 'james46.org', 'image': 'manual-headshots/cappleman-james.jpg' },
+    'cochran-willie-cd55189947e8':       {'source': 'williebcochran.com', 'image': 'manual-headshots/cochran-willie.jpg' },
+    'harris-michelle-a-8393ee91dad4':    {'source': 'www.aldermanmichelleharris.net', 'image': 'manual-headshots/harris-michelle-a.jpg' },
+    'mell-deborah-f4fe619aa06b':         {'source': 'www.33rdward.org', 'image': 'manual-headshots/mell-deborah.jpg' },
+    'mitchell-gregory-i-f9ada0312fd4':   {'source': 'mitchellforalderman.com', 'image': 'manual-headshots/mitchell-gregory-i.jpg' },
+    'moore-joseph-3c9ae7316619':         {'source': 'participatorybudgeting49.wordpress.com', 'image': 'manual-headshots/moore-joseph.jpg' },
+    'munoz-ricardo-84abb73d8f0d':        {'source': 'www.munoz22.com', 'image': 'manual-headshots/munoz-ricardo.jpg' },
+    'napolitano-anthony-v-9485de070342': {'source': 'www.norwoodpark.org', 'image': 'manual-headshots/napolitano-anthony-v.jpg' },
+    'oshea-matthew-j-29837f746f21':      {'source': 'takebackchicago.org', 'image': 'manual-headshots/oshea-matthew-j.jpg' },
+    'osterman-harry-82abc912aa37':       {'source': '48thward.org', 'image': 'manual-headshots/osterman-harry.jpg' },
+    'ramirez-rosa-carlos-c1298906ffdb':  {'source': 'www.aldermancarlosrosa.org', 'image': 'manual-headshots/ramirez-rosa-carlos.jpg' },
+    'reboyras-ariel-5af7f2500554':       {'source': 'www.reboyras.com', 'image': 'manual-headshots/reboyras-ariel.jpg' },
+    'sadlowski-garza-susan-8cd552abaa62':{'source': 'calumetareaindustrial.com', 'image': 'manual-headshots/sadlowski-garza-susan.jpg' },
+    'sawyer-roderick-t-2b858b937d2b':    {'source': '@rodericktsawyer, Twitter', 'image': 'manual-headshots/sawyer-roderick-t.jpg' },
+    'silverstein-debra-l-6ee886cb8b24':  {'source': 'ppiachicago.org', 'image': 'manual-headshots/silverstein-debra-l.jpg' },
+    'solis-daniel-715b0180ba21':         {'source': 'ward25.com', 'image': 'manual-headshots/solis-daniel.jpg' },
+    'taliaferro-chris-8d0985efd820':     {'source': 'Facebook', 'image': 'manual-headshots/taliaferro-chris.jpg' },
+    'villegas-gilbert-5f9355594120':     {'source': '@gilbert36ward, Twitter', 'image': 'manual-headshots/villegas-gilbert.jpg' },
     # 'moreno-proco-joe':     {'source': '', 'image': 'manual-headshots/moreno-proco-joe.jpg' },
     # 'waguespack-scott':     {'source': '', 'image': 'manual-headshots/waguespack-scott.jpg' },
     # 'zalewski-michael-r':   {'source': '', 'image': 'manual-headshots/zalewski-michael-r.jpg' },
     # 'austin-carrie-m':      {'source': '', 'image': 'manual-headshots/austin-carrie-m.jpg' },
-    'thompson-patrick-d':   {'source': 'www.ward11.org', 'image': 'manual-headshots/thompson-patrick-d.jpg' },
+    'thompson-patrick-d-3988b4dcf65d':   {'source': 'www.ward11.org', 'image': 'manual-headshots/thompson-patrick-d.jpg' },
     # 'tunney-thomas':        {'source': '', 'image': 'manual-headshots/tunney-thomas.jpg' },
     # 'brookins-jr-howard':   {'source': '', 'image': 'manual-headshots/brookins-jr-howard.jpg' },
     # 'burke-edward-m':       {'source': '', 'image': 'manual-headshots/burke-edward-m.jpg' },
     # 'burnett-jr-walter':    {'source': '', 'image': 'manual-headshots/burnett-jr-walter.jpg' },
     # 'cardenas-george-a':    {'source': '', 'image': 'manual-headshots/cardenas-george-a.jpg' },
-    'curtis-derrick-g':     {'source': 'Chicago City Clerk', 'image': 'manual-headshots/curtis-derrick-g.jpg' },
+    'curtis-derrick-g-05581e656c48':     {'source': 'Chicago City Clerk', 'image': 'manual-headshots/curtis-derrick-g.jpg' },
     # 'dowell-pat':           {'source': '', 'image': 'manual-headshots/dowell-pat.jpg' },
-    'ervin-jason-c':        {'source': '@aldermanervin, Twitter', 'image': 'manual-headshots/ervin-jason-c.jpg' },
+    'ervin-jason-c-bcb432e59981':        {'source': '@aldermanervin, Twitter', 'image': 'manual-headshots/ervin-jason-c.jpg' },
     # 'foulkes-toni':         {'source': '', 'image': 'manual-headshots/foulkes-toni.jpg' },
     # 'hairston-leslie-a':    {'source': '', 'image': 'manual-headshots/hairston-leslie-a.jpg' },
-    'hopkins-brian':        {'source': '@aldermanhopkins, Twitter', 'image': 'manual-headshots/hopkins-brian.jpg' },
+    'hopkins-brian-4fdf51d5a81f':        {'source': '@aldermanhopkins, Twitter', 'image': 'manual-headshots/hopkins-brian.jpg' },
     # 'laurino-margaret':     {'source': '', 'image': 'manual-headshots/laurino-margaret.jpg' },
-    'lopez-raymond-a':      {'source': '@rlopez15thward, Twitter', 'image': 'manual-headshots/lopez-raymond-a.jpg' },
+    'lopez-raymond-a-7a2466a1db7c':      {'source': '@rlopez15thward, Twitter', 'image': 'manual-headshots/lopez-raymond-a.jpg' },
     # 'maldonado-roberto':    {'source': '', 'image': 'manual-headshots/maldonado-roberto.jpg' },
     # 'mitts-emma':           {'source': '', 'image': 'manual-headshots/mitts-emma.jpg' },
-    'moore-david-h':        {'source': 'Chicago City Clerk', 'image': 'manual-headshots/moore-david-h.jpg' },
+    'moore-david-h-255654fbec92':        {'source': 'Chicago City Clerk', 'image': 'manual-headshots/moore-david-h.jpg' },
     # 'oconnor-patrick':      {'source': '', 'image': 'manual-headshots/oconnor-patrick.jpg' },
-    'pawar-ameya':          {'source': 'chicago47.org', 'image': 'manual-headshots/pawar-ameya.jpg' },
-    'quinn-marty':          {'source': 'Chicago City Clerk', 'image': 'manual-headshots/quinn-marty.jpg' },
+    'pawar-ameya-4f16e376f209':          {'source': 'chicago47.org', 'image': 'manual-headshots/pawar-ameya.jpg' },
+    'quinn-marty-b125bff861ff':          {'source': 'Chicago City Clerk', 'image': 'manual-headshots/quinn-marty.jpg' },
     # 'reilly-brendan':       {'source': '', 'image': 'manual-headshots/reilly-brendan.jpg' },
-    'santiago-milagros-s':  {'source': 'Chicago City Clerk', 'image': 'manual-headshots/santiago-milagros-s.jpg' },
-    'scott-jr-michael':     {'source': 'citizensformichaelscottjr.com/', 'image': 'manual-headshots/scott-jr-michael.jpg' },
-    'smith-michele':        {'source': '@aldermansmith43, Twitter', 'image': 'manual-headshots/smith-michele.jpg' },
-    'sposato-nicholas':     {'source': 'aldermansposato.com', 'image': 'manual-headshots/sposato-nicholas.png' },
-    'emanuel-rahm':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
-    'mendoza-susana-a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
-    'king-sophia':          {'source': 'hpherald.com', 'image': 'manual-headshots/king-sophia.jpg' },
+    'santiago-milagros-s-3b4d8915313f':  {'source': 'Chicago City Clerk', 'image': 'manual-headshots/santiago-milagros-s.jpg' },
+    'scott-jr-michael-79cf7c8f712b':     {'source': 'citizensformichaelscottjr.com/', 'image': 'manual-headshots/scott-jr-michael.jpg' },
+    'smith-michele-0a76886ddf03':        {'source': '@aldermansmith43, Twitter', 'image': 'manual-headshots/smith-michele.jpg' },
+    'sposato-nicholas-bb126cbdec2a':     {'source': 'aldermansposato.com', 'image': 'manual-headshots/sposato-nicholas.png' },
+    'emanuel-rahm-fd7442c3945c':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
+    'mendoza-susana-a-a465109bd96a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
+    'king-sophia-c13e6a352d8b':          {'source': 'hpherald.com', 'image': 'manual-headshots/king-sophia.jpg' },
 }
 
 
@@ -388,3 +388,4 @@ TOPIC_HIERARCHY = [
     }
 ]
 
+USING_NOTIFICATIONS = True

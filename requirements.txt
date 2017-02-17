@@ -1,2 +1,4 @@
-psycopg2==2.6.1
--e git://github.com/datamade/django-councilmatic.git@b7a6da4f7142a8027956e04c0a893707700da790#egg=django-councilmatic
+https://github.com/datamade/django-councilmatic/zipball/master
+django-councilmatic-notifications<0.2
+raven==5.30.0
+gunicorn==19.6.0

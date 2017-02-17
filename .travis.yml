@@ -1,0 +1,27 @@
+branches:
+  only:
+  - "/^v0.*$/"
+  - master
+  - notifications
+language: python
+python:
+- '3.5'
+cache: pip
+install:
+- pip install --upgrade pip
+- pip install --upgrade -r requirements.txt
+addons:
+  postgresql: '9.4'
+before_script:
+- mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
+script: python manage.py migrate
+deploy:
+  provider: codedeploy
+  access_key_id: AKIAJNYGDLOJKHOUWCAA
+  secret_access_key:
+    secure: dwnxZ5wnsx7wRPxRI20sf5a2wVbc3xeIwzlj7rSis0MLK3smkkv29ecVVUx4/s1p2OVxTbdVpVi3oiq1FluZOVhhgdW0ZuTXL+AUupRNqqsPZaXnE7B7dwlShbwlQ8bhXriI+Jgax0YykqQncYjnzJhnqvkQRpxgfvQZv5d0yS3PppI7b9E4lj8EME87zXNHK7h1nZVEdxcTNzpexEWzvh1GwQeJSdLriZYmUONMCgncWCA9OtLd8dzfBwfKbz0/cgmm5RX8mDGe6dVxlMFU5FWmiGwtXjAaCMrC3ja4OGEv8+AboVoBNXJhLSaG5pQSCbQT6JEDup4AKiUNq2xVJfLsE/dXUKQgnF8IzvXMgOr7kCaq5EmXZbjKF1K3zbB4J+sgJqsIr2utUQVl9uQigV2bwIhd/2vnAfE+bm/MZfwbiQiY6JYxIUjVhZfmU65n8OnunqjG7ZQtmeK9+hrXzPYkA+x0rsSNv+FeILVy+r0fg0prtJ8Rh52rxQ25U5OMDnMcU6XWJNg/mFb3xTNFQOxTH69lPlRvuzCiSCAdGDZvickTW46NqFwQNcNguv5qVnf0nO592YU0unOct4TWjtxEJfTnpiguiZVQVC74pgn6JnmbKsXuZcTsNejwWRL/7xXIu9SoD5AuqRpyPg9I+iygpU7AxQRMoN+DqX8uJO0=
+  application: chicago-councilmatic
+  deployment_group: staging
+  on:
+    repo: datamade/chi-councilmatic
+    branch: notifications
