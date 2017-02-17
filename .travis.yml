@@ -2,7 +2,6 @@ branches:
   only:
   - "/^v0.*$/"
   - master
-  - notifications
 language: python
 python:
 - '3.5'
@@ -23,5 +22,4 @@ deploy:
   application: chicago-councilmatic
   deployment_group: staging
   on:
-    repo: datamade/chi-councilmatic
-    branch: notifications
+    branch: master
