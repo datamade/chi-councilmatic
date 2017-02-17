@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'chicago',
     'notifications',
     'django_rq',
-    'password_reset'
+    'password_reset',
+    'adv_cache_tag'
 )
 
 try:
