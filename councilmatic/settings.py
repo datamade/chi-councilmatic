@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'notifications',
     'django_rq',
     'password_reset',
-    'adv_cache_tag'
+    'adv_cache_tag',
 )
 
 try:
@@ -99,6 +99,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+USE_ETAGS = True
 
 
 # Static files (CSS, JavaScript, Images)
