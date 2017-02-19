@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.models import Action
 from councilmatic_core.views import *
@@ -11,40 +11,51 @@ class ChicagoIndexView(IndexView):
     bill_model = ChicagoBill
     event_model = ChicagoEvent
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        
-        upcoming_meetings = list(self.event_model.upcoming_committee_meetings())
+    def last_meeting(self):
+        return ChicagoEvent.objects\
+                           .filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
+                           .filter(start_time__lt=datetime.now())\
+                           .latest('start_time')
 
-        date_cutoff = self.event_model.most_recent_past_city_council_meeting().start_time
+    def date_cutoff(self):
+        return self.last_meeting().start_time.date()
 
-        # populating activity at last council meeting
-        meeting_activity = {}
-        meeting_activity['actions'] = Action.actions_on_date(date_cutoff.date())
-        meeting_bills = list(set([a.bill for a in meeting_activity['actions']]))
-        meeting_activity['bills'] = meeting_bills
-        meeting_activity['bills_routine'] = [b for b in meeting_bills if 'Routine' in b.topics]
-        meeting_activity['bills_nonroutine'] = [b for b in meeting_bills if 'Non-Routine' in b.topics]
-        
+    def actions(self):
+        return Action.actions_on_date(self.date_cutoff())
+
+    def meeting_bills(self):
+        return {a.bill for a in self.actions()}
+
+    def meeting_bills_routine(self):
+        return (b for b in self.meeting_bills() if 'Routine' in b.topics)
+
+    def meeting_bills_nonroutine(self):
+        return (b for b in self.meeting_bills() if 'Non-Routine' in b.topics)
 
 
+    def new_bills(self):
+        return ChicagoBill.new_bills_since(self.date_cutoff())
 
-        # populating recent activitiy (since last council meeting)
-        recent_activity = {}
+    def new_routine(self):
+        return (b for b in self.new_bills() if 'Routine' in b.topics)
 
-        new_bills = ChicagoBill.new_bills_since(date_cutoff)
-        recent_activity['new'] = new_bills
-        recent_activity['new_routine'] = [b for b in new_bills if 'Routine' in b.topics]
-        recent_activity['new_nonroutine'] = [b for b in new_bills if 'Non-Routine' in b.topics]
-        
-        updated_bills = ChicagoBill.updated_bills_since(date_cutoff)
-        recent_activity['updated_routine'] = [b for b in updated_bills if 'Routine' in b.topics]
-        recent_activity['updated_nonroutine'] = [b for b in updated_bills if 'Non-Routine' in b.topics]
+    def new_nonroutine(self):
+        return (b for b in self.new_bills() if 'Non-Routine' in b.topics)
 
+    def updated_bills(self):
+        return ChicagoBill.updated_bills_since(self.date_cutoff())
+
+    def updated_routine(self):
+        return (b for b in self.updated_bills() if 'Routine' in b.topics)
+
+    def updated_nonroutine(self):
+        return (b for b in self.updated_bills() if 'Non-Routine' in b.topics)
+
+    def topic_hierarchy(self):
         # getting topic counts for meeting bills
         topic_hierarchy = settings.TOPIC_HIERARCHY
         topic_tag_counts = {}
-        for b in meeting_bills:
+        for b in self.meeting_bills():
             for topic in b.topics:
                 try:
                     topic_tag_counts[topic] += 1
@@ -61,6 +72,30 @@ class ChicagoIndexView(IndexView):
                     gchild_name = gchild_blob['name']
                     gchild_blob['count'] = topic_tag_counts[gchild_name] if gchild_name in topic_tag_counts else 0
 
+        return topic_hierarchy
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        
+        # populating activity at last council meeting
+        meeting_activity = {}
+        meeting_activity['actions'] = self.actions
+        meeting_activity['bills'] = self.meeting_bills
+        meeting_activity['bills_routine'] = self.meeting_bills_routine
+        meeting_activity['bills_nonroutine'] = self.meeting_bills_nonroutine
+        
+
+        # populating recent activitiy (since last council meeting)
+        recent_activity = {}
+
+        recent_activity['new'] = self.new_bills
+        recent_activity['new_routine'] = self.new_routine
+        recent_activity['new_nonroutine'] = self.new_nonroutine
+        
+        recent_activity['updated_routine'] = self.updated_routine
+        recent_activity['updated_nonroutine'] = self.updated_nonroutine
+
+
         seo = {}
         seo.update(settings.SITE_META)
         seo['image'] = '/static/images/city_hall.jpg'
@@ -68,10 +103,10 @@ class ChicagoIndexView(IndexView):
         return {
             'meeting_activity': meeting_activity,
             'recent_activity': recent_activity,
-            'last_council_meeting': self.event_model.most_recent_past_city_council_meeting(),
-            'next_council_meeting': self.event_model.next_city_council_meeting(),
-            'upcoming_committee_meetings': upcoming_meetings,
-            'topic_hierarchy': topic_hierarchy,
+            'last_council_meeting': self.event_model.most_recent_past_city_council_meeting,
+            'next_council_meeting': self.event_model.next_city_council_meeting,
+            'upcoming_committee_meetings': self.event_model.upcoming_committee_meetings,
+            'topic_hierarchy': self.topic_hierarchy,
             'seo': seo,
         }
 
