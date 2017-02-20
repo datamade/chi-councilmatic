@@ -76,14 +76,14 @@ class ChicagoIndexView(IndexView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        
+
         # populating activity at last council meeting
         meeting_activity = {}
         meeting_activity['actions'] = self.actions
         meeting_activity['bills'] = self.meeting_bills
         meeting_activity['bills_routine'] = self.meeting_bills_routine
         meeting_activity['bills_nonroutine'] = self.meeting_bills_nonroutine
-        
+
 
         # populating recent activitiy (since last council meeting)
         recent_activity = {}
@@ -91,7 +91,7 @@ class ChicagoIndexView(IndexView):
         recent_activity['new'] = self.new_bills
         recent_activity['new_routine'] = self.new_routine
         recent_activity['new_nonroutine'] = self.new_nonroutine
-        
+
         recent_activity['updated_routine'] = self.updated_routine
         recent_activity['updated_nonroutine'] = self.updated_nonroutine
 
@@ -129,7 +129,7 @@ def substitute_ordinance_redirect(request, substitute_ordinance_slug):
 
 class ChicagoBillDetailView(BillDetailView):
     template_name = 'chicago/legislation.html'
-    
+
     model = ChicagoBill
 
     def get_object(self, queryset=None):

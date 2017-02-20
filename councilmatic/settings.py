@@ -41,8 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'haystack',
-    'councilmatic_core',
     'chicago',
+    'councilmatic_core',
     'notifications',
     'django_rq',
     'password_reset',
@@ -83,6 +83,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'councilmatic.wsgi.application'
 

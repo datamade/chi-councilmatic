@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.html import mark_safe
-from councilmatic_core.models import Bill, Event
+from councilmatic_core.models import Bill, Event, Organization
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
@@ -111,11 +111,11 @@ class ChicagoBill(Bill):
         """
         base_url = 'https://pic.datamade.us/chicago/document/'
         # base_url = 'http://127.0.0.1:5000/chicago/document/'
-        
+
         if self.documents.filter(document_type='V').all():
             legistar_doc_url = self.documents.filter(document_type='V').first().url
-            doc_url = '{0}?filename={2}&document_url={1}'.format(base_url, 
-                                                                 legistar_doc_url, 
+            doc_url = '{0}?filename={2}&document_url={1}'.format(base_url,
+                                                                 legistar_doc_url,
                                                                  self.identifier)
             return doc_url
         else:
@@ -168,3 +168,4 @@ class ChicagoEvent(Event):
                   .filter(start_time__lt=datetime.now()).filter(description='').order_by('-start_time').first()
         else:
             return None
+
