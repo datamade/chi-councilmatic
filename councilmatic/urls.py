@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search/rss/',
         ChicagoCouncilmaticFacetedSearchFeed(), name='councilmatic_search_feed'),
-    url(r'^search/', CouncilmaticFacetedSearchView(searchqueryset=sqs, 
+    url(r'^search/', CouncilmaticFacetedSearchView(searchqueryset=sqs,
                                        form_class=CouncilmaticSearchForm), name="councilmatic_search"),
     url(r'^$', ChicagoIndexView.as_view(), name='index'),
     url(r'^about/$', ChicagoAboutView.as_view(), name='about'),
