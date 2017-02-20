@@ -40,7 +40,7 @@ SITE_META = {
 LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
 
 
-# this is for the boundaries of municipal districts, to add 
+# this is for the boundaries of municipal districts, to add
 # shapes to posts & ultimately display a map with the council
 # member listing. the boundary set should be the relevant
 # slug from the ocd api's boundary service
@@ -95,7 +95,7 @@ CITY_COUNCIL_MEETING_NAME = 'City Council'
 # this is the name of the role of committee chairs, e.g. 'CHAIRPERSON' or 'Chair'
 # as stored in legistar
 # if this is set, committees will display chairs
-COMMITTEE_CHAIR_TITLE = 'Chairman'
+COMMITTEE_CHAIR_TITLE = 'Vice Chair'
 
 # this is the anme of the role of committee members,
 # as stored in legistar
@@ -202,8 +202,8 @@ ABOUT_BLURBS = {
                     <p>Most of the time, meaningful legislative debate happens in committee meetings, which occur several times a month.</p>\
                     <p>Meetings of the entire City Council generally occur once a month at City Hall.</p>\
                     <p>All City Council meetings are open to public participation.</p>",
-    "COUNCIL_MEMBERS": "" 
-    
+    "COUNCIL_MEMBERS": ""
+
 }
 
 MANUAL_HEADSHOTS = {
