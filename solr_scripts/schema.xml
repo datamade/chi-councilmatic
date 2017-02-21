@@ -201,6 +201,7 @@
 
     <field name="full_text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
+    <field name="sort_name" type="string" indexed="true" stored="true" multiValued="false" />
   </fields>
 
   <!-- field to use to determine and enforce document uniqueness. -->
