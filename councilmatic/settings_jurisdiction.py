@@ -269,8 +269,9 @@ MANUAL_HEADSHOTS = {
 # notable positions that aren't district representatives, e.g. mayor & city clerk
 # keys should match person slugs
 EXTRA_TITLES = {
-    'mendoza-susana-a': 'City Clerk',
-    'emanuel-rahm': 'Mayor',
+    'mendoza-susana-a-a465109bd96a': 'City Clerk',
+    'emanuel-rahm-3af71de0e6ca': 'Mayor',
+    'valencia-anna-m-ae119fe8c2e3': 'City Clerk',
 }
 
 
