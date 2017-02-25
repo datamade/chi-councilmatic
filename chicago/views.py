@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from django.conf import settings
+from django.http import Http404
+
 from datetime import date, timedelta, datetime
+
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.models import Action
 from councilmatic_core.views import *
-from django.conf import settings
-from django.http import Http404
+
+from haystack.query import SearchQuerySet
 
 class ChicagoIndexView(IndexView):
     template_name = 'chicago/index.html'
@@ -76,14 +80,14 @@ class ChicagoIndexView(IndexView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        
+
         # populating activity at last council meeting
         meeting_activity = {}
         meeting_activity['actions'] = self.actions
         meeting_activity['bills'] = self.meeting_bills
         meeting_activity['bills_routine'] = self.meeting_bills_routine
         meeting_activity['bills_nonroutine'] = self.meeting_bills_nonroutine
-        
+
 
         # populating recent activitiy (since last council meeting)
         recent_activity = {}
@@ -91,7 +95,7 @@ class ChicagoIndexView(IndexView):
         recent_activity['new'] = self.new_bills
         recent_activity['new_routine'] = self.new_routine
         recent_activity['new_nonroutine'] = self.new_nonroutine
-        
+
         recent_activity['updated_routine'] = self.updated_routine
         recent_activity['updated_nonroutine'] = self.updated_nonroutine
 
@@ -129,7 +133,7 @@ def substitute_ordinance_redirect(request, substitute_ordinance_slug):
 
 class ChicagoBillDetailView(BillDetailView):
     template_name = 'chicago/legislation.html'
-    
+
     model = ChicagoBill
 
     def get_object(self, queryset=None):
@@ -178,3 +182,61 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         seo['title'] = 'Wards & Aldermen - Chicago Councilmatic'
 
         return seo
+
+class ChicagoCouncilmaticFacetedSearchView(CouncilmaticFacetedSearchView):
+
+    def build_form(self, form_kwargs=None):
+        form = super(CouncilmaticFacetedSearchView, self).build_form(form_kwargs=form_kwargs)
+
+        # For faceted search functionality.
+        if form_kwargs is None:
+            form_kwargs = {}
+
+        form_kwargs['selected_facets'] = self.request.GET.getlist("selected_facets")
+
+        # For remaining search functionality.
+        data = None
+        kwargs = {
+            'load_all': self.load_all,
+        }
+
+        sqs = SearchQuerySet().facet('bill_type')\
+                      .facet('sponsorships', sort='index')\
+                      .facet('controlling_body')\
+                      .facet('inferred_status')\
+                      .facet('topics')\
+                      .facet('legislative_session')\
+                      .highlight()
+
+        if form_kwargs:
+            kwargs.update(form_kwargs)
+
+        if len(self.request.GET):
+            data = self.request.GET
+            dataDict = dict(data)
+
+        if self.searchqueryset is not None:
+            kwargs['searchqueryset'] = sqs
+
+            try:
+                for el in dataDict['sort_by']:
+                    # Do this, because sometimes the 'el' may include a '?' from the URL
+                    if 'date' in el:
+                        try:
+                            dataDict['ascending']
+                            kwargs['searchqueryset'] = sqs.order_by('last_action_date')
+                        except:
+                            kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
+                    if 'title' in el:
+                        try:
+                            dataDict['descending']
+                            kwargs['searchqueryset'] = sqs.order_by('-sort_name')
+                        except:
+                            kwargs['searchqueryset'] = sqs.order_by('sort_name')
+                    if 'relevance' in el:
+                        kwargs['searchqueryset'] = sqs
+
+            except:
+                kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
+
+        return self.form_class(data, **kwargs)

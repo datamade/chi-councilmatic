@@ -3,7 +3,6 @@
 {% load adv_cache %}
 {% block title %}Chicago City Council, demystified{% endblock %}
 
-
 {% block full_content %}
 {% cache 86400 index_wrapper 'index' %}
     <div class="container-fluid" id="section-photo">
@@ -29,7 +28,7 @@
                         </div>
                     </div>
                 </form>
-                
+
                 <div class="divider"></div>
             </div>
         </div>
@@ -44,7 +43,7 @@
                         <p>Chicago City Council consists of <a href='/council-members/' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/emanuel-rahm-3af71de0e6ca/'  target="_blank">Rahm Emanuel</a>, the Mayor, and <a href='/person/valencia-anna-m-ae119fe8c2e3/' target="_blank">Anna Valencia</a>, the City Clerk.</p>
 
                         <p>
-                            <strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council: 
+                            <strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council:
                             <ul>
                                 <li>
                                     the <a href='/search/' target="_blank">legislation</a> introduced and passed
@@ -69,12 +68,10 @@
                     </div>
 
                     <div class= 'col-sm-4 desktop-only'>
-
                         <p class='text-center'>
                             <a href='/council-members/' target="_blank"><img id="map-screenshot" src='/static/images/chicago_map.jpg' class='img-responsive img-rounded' title='City of Chicago Wards' alt="Chicago's 50 Wards" /></a>
                             <em>Chicago's 50 Wards</em>
                         </p>
-
                     </div>
                 </div>
 
@@ -122,12 +119,9 @@
                     </div>
                     <div class="divider"></div>
                 </div>
-
-
             </div>
         </div>
     </div>
-
 
     <div class="container-fluid" id="section-events">
         <div class="row-fluid">
@@ -141,7 +135,6 @@
                     </h2>
                     <br/>
 
-
                     {% if next_council_meeting %}
 
                     <h4><i class="fa fa-fw fa-institution"></i> Next City Council meeting</h4>
@@ -152,7 +145,7 @@
                         <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
                         <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
                     </p>
-                    <a class='btn btn-info btn-sm' href="{{next_council_meeting.event_page_url}}/">
+                    <a class='btn btn-info btn-sm' href="{{next_council_meeting.event_page_url}}">
                         Details
                         <i class="fa fa-fw fa-chevron-right"></i>
                     </a>
@@ -166,9 +159,9 @@
                         </h4>
                         {% for event in upcoming_committee_meetings %}
                             <p class="no-pad-bottom small">
-                                {{event.start_time | date:"D"}} 
-                                {{event.start_time | date:"m/d"}} - 
-                                
+                                {{event.start_time | date:"D"}}
+                                {{event.start_time | date:"m/d"}} -
+
                                 {{ event.link_html | safe }}
 
                             </p>
@@ -194,7 +187,7 @@
                 </h2>
 
                 <p class="big">
-                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{meeting_activity.bills | length}}</strong> pieces of legislation, including <strong>{{meeting_activity.bills_nonroutine | length}}</strong> that are 
+                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{meeting_activity.bills | length}}</strong> pieces of legislation, including <strong>{{meeting_activity.bills_nonroutine | length}}</strong> that are
                     <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
 
@@ -292,7 +285,7 @@
                 </h2>
                 <p>
                     After {{last_council_meeting.start_time | date:"M jS"}}, City Council introduced
-                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, including <strong>{{recent_activity.new_nonroutine | length}}</strong> that are 
+                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, including <strong>{{recent_activity.new_nonroutine | length}}</strong> that are
                     <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
             </div>
@@ -319,7 +312,7 @@
     </div>
     {% endif %}
 
-{% endcache %}    
+{% endcache %}
 {% endblock %}
 
 
