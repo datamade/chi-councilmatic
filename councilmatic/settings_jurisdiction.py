@@ -257,7 +257,7 @@ MANUAL_HEADSHOTS = {
     'scott-jr-michael-79cf7c8f712b':     {'source': 'citizensformichaelscottjr.com/', 'image': 'manual-headshots/scott-jr-michael.jpg' },
     'smith-michele-0a76886ddf03':        {'source': '@aldermansmith43, Twitter', 'image': 'manual-headshots/smith-michele.jpg' },
     'sposato-nicholas-bb126cbdec2a':     {'source': 'aldermansposato.com', 'image': 'manual-headshots/sposato-nicholas.png' },
-    'emanuel-rahm-fd7442c3945c':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
+    'emanuel-rahm-3af71de0e6ca':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
     'mendoza-susana-a-a465109bd96a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
     'king-sophia-c13e6a352d8b':          {'source': 'hpherald.com', 'image': 'manual-headshots/king-sophia.jpg' },
 }
