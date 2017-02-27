@@ -34,7 +34,7 @@ class ChicagoIndexView(IndexView):
         return (b for b in self.meeting_bills() if 'Routine' in b.topics)
 
     def meeting_bills_nonroutine(self):
-        return (b for b in self.meeting_bills() if 'Non-Routine' in b.topics)
+        return [b for b in self.meeting_bills() if 'Non-Routine' in b.topics]
 
 
     def new_bills(self):
