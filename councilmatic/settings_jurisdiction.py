@@ -245,6 +245,7 @@ MANUAL_HEADSHOTS = {
     'sposato-nicholas-7ac2aa1b1965':     {'source': 'aldermansposato.com', 'image': 'manual-headshots/sposato-nicholas.png' },
     'emanuel-rahm-3af71de0e6ca':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
     'mendoza-susana-a-a465109bd96a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
+    'valencia-anna-m-ae119fe8c2e3':      {'source': 'chicityclerk.com', 'image': 'manual-headshots/valencia-anna.jpg'},
 }
 
 
