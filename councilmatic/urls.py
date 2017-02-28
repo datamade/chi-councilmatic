@@ -7,13 +7,10 @@ from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedS
 from chicago.views import *
 from chicago.feeds import *
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+patterns = ([
     url(r'^search/rss/',
         ChicagoCouncilmaticFacetedSearchFeed(), name='councilmatic_search_feed'),
-    # url(r'^search/', CouncilmaticFacetedSearchView(searchqueryset=sqs,
-    #                                    form_class=CouncilmaticSearchForm), name="councilmatic_search"),
-url(r'^search/', ChicagoCouncilmaticFacetedSearchView(searchqueryset=EmptySearchQuerySet,
+    url(r'^search/', ChicagoCouncilmaticFacetedSearchView(searchqueryset=EmptySearchQuerySet,
                                        form_class=CouncilmaticSearchForm), name='search'),
     url(r'^$', ChicagoIndexView.as_view(), name='index'),
     url(r'^about/$', ChicagoAboutView.as_view(), name='about'),
@@ -22,6 +19,11 @@ url(r'^search/', ChicagoCouncilmaticFacetedSearchView(searchqueryset=EmptySearch
     url(r'^legislation/(?P<old_id>[0-9]+)/*$', bill_detail_redirect, name='bill_detail_redirect'),
     url(r'^legislation/(?P<slug>[^/]+)/rss/$', ChicagoBillDetailActionFeed(), name='bill_detail_action_feed'),
     url(r'^council-members/$', ChicagoCouncilMembersView.as_view(), name='council_members'),
-    url(r'', include('councilmatic_core.urls')),
     url(r'^members/$', RedirectView.as_view(url='/council-members/', permanent=True), name='council_members'),
+], 'chicago')
+
+urlpatterns = [
+    url(r'', include(patterns)),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('councilmatic_core.urls')),
 ]
