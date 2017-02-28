@@ -1,6 +1,5 @@
 branches:
   only:
-  - "/^v0.*$/"
   - master
 language: python
 python:
