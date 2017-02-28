@@ -18,7 +18,6 @@ deploy:
     application: chicago-councilmatic
     deployment_group: production
     on:
-      branch: master
       tags: true
   - provider: codedeploy
     access_key_id: AKIAJNYGDLOJKHOUWCAA
