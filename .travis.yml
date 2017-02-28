@@ -1,6 +1,3 @@
-branches:
-  only:
-  - master
 language: python
 python:
 - '3.5'
@@ -17,13 +14,12 @@ deploy:
   - provider: codedeploy
     access_key_id: AKIAJNYGDLOJKHOUWCAA
     secret_access_key:
-      secure: BKmaVichxMXxU4LS5NK38J0EoMVot0ofBCfThSPq573CWQ3Z30XLUnLcCHO5xdoxxE6GSRsGUOFclsBvF+cpxlo3ENTFUO2Tq4tMrjetETA1ToI2eajtl2Wcbo1GVuX7fM5dtr726XFsm3N0P3awI/of3NBeJS2rgTZu2682/hKLm/FzktUVuxu6lVD3zBtc4FaQ4OTbd7NfACgUyXOQEkvSaQGFQXN+9zfKkXohnYKrl5mbm/OrKF58ZymcC9EnTmUdnxhMySEGWxFw04OAqENFXAm94NUAK2GisY+pFK+NmJQaL9iP0+OOaI1ppy1/XDD8NOBLvP9n97oZ04AXuHbSOJBJzPZJCIKksmmOPxjQZ0m+KPPRhQiQkhoMRA3WWRR0c/J19b/VHtdNIq6YhnH5QM3hXX+xLUo6mDuUmgM+IVpmFyaDy17vuHoiblFP00fgFqMdNlMeB7VyDBevVSXYgndc2J7tV2l5dmJMj+N4qIkVstOqasLyAq7LsYFYz3Ordft4xJ+BwkDboF05FzKBSouXTBjq1Tp2k+v+NuPSWX1UBtUhp+k/IdUe3giWw7AJaj1uh8A5jgpno9UXG/BcGl3WaocDsJA5p9C89ggBUlzlkf9XLNx65OEEqwiV/97V9R3/Or7u7Q1M3/Ha2m3DEufeH4v/yjkHgbHRIrU=
+      secure: dwnxZ5wnsx7wRPxRI20sf5a2wVbc3xeIwzlj7rSis0MLK3smkkv29ecVVUx4/s1p2OVxTbdVpVi3oiq1FluZOVhhgdW0ZuTXL+AUupRNqqsPZaXnE7B7dwlShbwlQ8bhXriI+Jgax0YykqQncYjnzJhnqvkQRpxgfvQZv5d0yS3PppI7b9E4lj8EME87zXNHK7h1nZVEdxcTNzpexEWzvh1GwQeJSdLriZYmUONMCgncWCA9OtLd8dzfBwfKbz0/cgmm5RX8mDGe6dVxlMFU5FWmiGwtXjAaCMrC3ja4OGEv8+AboVoBNXJhLSaG5pQSCbQT6JEDup4AKiUNq2xVJfLsE/dXUKQgnF8IzvXMgOr7kCaq5EmXZbjKF1K3zbB4J+sgJqsIr2utUQVl9uQigV2bwIhd/2vnAfE+bm/MZfwbiQiY6JYxIUjVhZfmU65n8OnunqjG7ZQtmeK9+hrXzPYkA+x0rsSNv+FeILVy+r0fg0prtJ8Rh52rxQ25U5OMDnMcU6XWJNg/mFb3xTNFQOxTH69lPlRvuzCiSCAdGDZvickTW46NqFwQNcNguv5qVnf0nO592YU0unOct4TWjtxEJfTnpiguiZVQVC74pgn6JnmbKsXuZcTsNejwWRL/7xXIu9SoD5AuqRpyPg9I+iygpU7AxQRMoN+DqX8uJO0=
     application: chicago-councilmatic
     deployment_group: production
     on:
       branch: master
       tags: true
-      repo: datamade/chi-councilmatic
   - provider: codedeploy
     access_key_id: AKIAJNYGDLOJKHOUWCAA
     secret_access_key:
