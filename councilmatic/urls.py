@@ -20,6 +20,7 @@ patterns = ([
     url(r'^legislation/(?P<slug>[^/]+)/rss/$', ChicagoBillDetailActionFeed(), name='bill_detail_action_feed'),
     url(r'^council-members/$', ChicagoCouncilMembersView.as_view(), name='council_members'),
     url(r'^members/$', RedirectView.as_view(url='/council-members/', permanent=True), name='council_members'),
+    url(r'^person/(?P<slug>[^/]+)/$', ChicagoPersonDetailView.as_view(), name='person'),
 ], 'chicago')
 
 urlpatterns = [

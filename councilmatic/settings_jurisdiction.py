@@ -211,11 +211,11 @@ ABOUT_BLURBS = {
 
 MANUAL_HEADSHOTS = {
     'arena-john-d9a11334830d':           {'source': '45th Ward Office', 'image': 'manual-headshots/arena-john.jpg' },
-    'beale-anthony-d0af6d98e2c9':        {'source': '@Alderman_Beale, Twitter', 'image': 'manual-headshots/beale-anthony.jpg' },
+    'beale-anthony-d125d27369f3':        {'source': '@Alderman_Beale, Twitter', 'image': 'manual-headshots/beale-anthony.jpg' },
     'burns-william-d-74409520db8c':      {'source': 'Masp360', 'image': 'manual-headshots/burns-william-d.jpg' },
     'cappleman-james-7b6638b78d83':      {'source': 'james46.org', 'image': 'manual-headshots/cappleman-james.jpg' },
-    'cochran-willie-cd55189947e8':       {'source': 'williebcochran.com', 'image': 'manual-headshots/cochran-willie.jpg' },
-    'harris-michelle-a-8393ee91dad4':    {'source': 'www.aldermanmichelleharris.net', 'image': 'manual-headshots/harris-michelle-a.jpg' },
+    'cochran-willie-b6cc52d2933a':       {'source': 'williebcochran.com', 'image': 'manual-headshots/cochran-willie.jpg' },
+    'harris-michelle-a-c9d7f4375894':    {'source': 'www.aldermanmichelleharris.net', 'image': 'manual-headshots/harris-michelle-a.jpg' },
     'mell-deborah-5fa778d13b51':         {'source': 'www.33rdward.org', 'image': 'manual-headshots/mell-deborah.jpg' },
     'mitchell-gregory-i-1d481a8e2acd':   {'source': 'mitchellforalderman.com', 'image': 'manual-headshots/mitchell-gregory-i.jpg' },
     'moore-joseph-3c9ae7316619':         {'source': 'participatorybudgeting49.wordpress.com', 'image': 'manual-headshots/moore-joseph.jpg' },
@@ -246,6 +246,49 @@ MANUAL_HEADSHOTS = {
     'emanuel-rahm-3af71de0e6ca':         {'source': 'cityofchicago.org', 'image': 'manual-headshots/emanuel-rahm.jpg' },
     'mendoza-susana-a-a465109bd96a':     {'source': 'chicityclerk.com', 'image': 'manual-headshots/mendoza-susana-a.jpg' },
     'valencia-anna-m-ae119fe8c2e3':      {'source': 'chicityclerk.com', 'image': 'manual-headshots/valencia-anna.jpg'},
+}
+
+CONTACT_INFO = {
+    'arena-john-d9a11334830d': {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '(773) 286-4545', 'address': '4754 North Milwaukee Avenue', },
+
+    'beale-anthony-d125d27369f3': {'twitter': { 'handle': '@Alderman_Beale', 'url': 'https://twitter.com/alderman_beale?lang=en' }, 'phone': '(773) 785-1100', 'address': '34 East 112th Place', },
+
+    'cappleman-james-7b6638b78d83':      {'twitter': { 'handle': '@JamesCappleman', 'url': 'https://twitter.com/JamesCappleman' }, 'phone': '(773) 878-4646', 'address': '4544 North Broadway' },
+
+    'cochran-willie-b6cc52d2933a':       {'twitter': { 'handle': '@ALDERMANWBC', 'url': 'https://twitter.com/aldermanwbc' }, 'phone': '(773) 955-5610', 'address': '6357 South Cottage Grove Avenue' },
+
+    'harris-michelle-a-c9d7f4375894':    {'twitter': { 'handle': '@AldermanHarris', 'url': 'https://twitter.com/aldermanharris' }, 'phone': '(773) 874-3300', 'address': '8539 South Cottage Grove Avenue' },
+
+    # 'mell-deborah-5fa778d13b51':         {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/mell-deborah.jpg' },
+    # 'mitchell-gregory-i-1d481a8e2acd':   {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/mitchell-gregory-i.jpg' },
+    # 'moore-joseph-3c9ae7316619':         {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/moore-joseph.jpg' },
+    # 'munoz-ricardo-84abb73d8f0d':        {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/munoz-ricardo.jpg' },
+    # 'napolitano-anthony-v-7ab5df04527e': {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/napolitano-anthony-v.jpg' },
+    # 'oshea-matthew-j-5071e1c58184':      {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/oshea-matthew-j.jpg' },
+    # 'osterman-harry-550e6f30c87c':       {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/osterman-harry.jpg' },
+    # 'ramirez-rosa-carlos-b67e026bf1e5':  {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/ramirez-rosa-carlos.jpg' },
+    # 'reboyras-ariel-5af7f2500554':       {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/reboyras-ariel.jpg' },
+    # 'sadlowski-garza-susan-ef8b7a07f272':{'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/sadlowski-garza-susan.jpg' },
+    # 'sawyer-roderick-t-a6e5d5f2bba5':    {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/sawyer-roderick-t.jpg' },
+    # 'silverstein-debra-l-173bbaa057f6':  {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/silverstein-debra-l.jpg' },
+    # 'solis-daniel-715b0180ba21':         {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/solis-daniel.jpg' },
+    # 'taliaferro-chris-7646256e8079':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/taliaferro-chris.jpg' },
+    # 'villegas-gilbert-8c9f813ce0a9':     {'twitter': '@gilbert36ward', 'phone': '', 'address': 'manual-headshots/villegas-gilbert.jpg' },
+    # 'thompson-patrick-d-aabd3b898af9':   {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/thompson-patrick-d.jpg' },
+    # 'curtis-derrick-g-dc2702c16bce':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/curtis-derrick-g.jpg' },
+    # 'ervin-jason-c-a6bd57bb3afe':        {'twitter': '@aldermanervin', 'phone': '', 'address': 'manual-headshots/ervin-jason-c.jpg' },
+    # 'hopkins-brian-4b6246ecbbbe':        {'twitter': '@aldermanhopkins', 'phone': '', 'address': 'manual-headshots/hopkins-brian.jpg' },
+    # 'lopez-raymond-a-22593624a716':      {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/lopez-raymond-a.jpg' },
+    # 'moore-david-h-788e5a5727aa':        {'twitter': '@rlopez15thward', 'phone': '', 'address': 'manual-headshots/moore-david-h.jpg' },
+    # 'pawar-ameya-9488bd421a51':          {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/pawar-ameya.jpg' },
+    # 'quinn-marty-c8eb35e12e92':          {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/quinn-marty.jpg' },
+    # 'santiago-milagros-s-f4b095aa4479':  {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/santiago-milagros-s.jpg' },
+    # 'scott-jr-michael-7f664e1708fe':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/scott-jr-michael.jpg' },
+    # 'smith-michele-1994841ecda3':        {'twitter': '@aldermansmith43', 'phone': '', 'address': 'manual-headshots/smith-michele.jpg' },
+    # 'sposato-nicholas-7ac2aa1b1965':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/sposato-nicholas.png' },
+    # 'emanuel-rahm-3af71de0e6ca':         {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/emanuel-rahm.jpg' },
+    # 'mendoza-susana-a-a465109bd96a':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/mendoza-susana-a.jpg' },
+    # 'valencia-anna-m-ae119fe8c2e3':      {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/valencia-anna.jpg'},
 }
 
 
