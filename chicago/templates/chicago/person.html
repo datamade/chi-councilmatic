@@ -70,47 +70,61 @@
                 </p>
             {% endif %}
         </div>
-        <div class="col-sm-3 non-mobile-only">
+        <div class="col-sm-6 non-mobile-only">
             <h4>Contact info</h4>
-            <p >
+            <p>
                 {% if person.email %}
                     <i class='fa fa-fw fa-envelope-o'></i>
                     <a href="mailto:{{person.email}}">{{person.email | strip_mailto}}</a>
                 {% endif %}
             </p>
-            <p >
+            <p>
                 {% if person.website_url %}
                     <i class='fa fa-fw fa-user'></i>
                     <a href="{{person.website_url}}" target="_blank">Website</a>
                 {% endif %}
             </p>
-            <p >
+            <p>
                 {% if twitter_url %}
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                     <a href="{{twitter_url}}" target="_blank">{{ twitter_handle }}</a>
                 {% endif %}
             </p>
-            <p >
+            <p>
                 {% if phone %}
                     <i class="fa fa-phone" aria-hidden="true"></i>
                     {{ phone }}
                 {% endif %}
             </p>
-            <p >
+            <p>
                 {% if address %}
                    <i class="fa fa-map-marker" aria-hidden="true"></i>
                     {{ address }}
                 {% endif %}
             </p>
+
+            <br>
+
+            <p><i class="fa fa-calendar" aria-hidden="true"></i> In office since <strong>{{ tenure_start }}</strong></p>
+
+            <br>
+
+            {% if chair_positions %}
+                <p><i class="fa fa-user" aria-hidden="true"></i> Chairperson of:
+                    {% for committee in chair_positions %}
+                        <p><strong>{{ committee.organization }}</strong></p>
+                    {% endfor %}
+                </p>
+            {% endif %}
         </div>
         <div class="col-sm-3 non-mobile-only">
             {% if map_geojson %}
-                <h4>
+                <div id='map-detail' class='img-responsive img-thumbnail img-padded'></div>
+                <p class='small'>
                     {% if person.current_council_seat %}
-                        {{ person.current_council_seat }} map
+                        <i class="fa fa-map" aria-hidden="true"></i> {{ person.current_council_seat }} map
                     {% endif %}
-                </h4>
-                <div id='map-detail'></div>
+                </p>
             {% endif %}
         </div>
 
@@ -143,10 +157,14 @@
         </div>
     </div>
 
+    <div class="row-fluid">
+        <div class='col-sm-12 no-pad-mobile'>
+            <hr/>
+        </div>
+    </div>
 
     <div class="row-fluid">
         <div class='col-sm-10 no-pad-mobile'>
-            <hr/>
             <ul class="nav nav-pills">
                 <li role="presentation" {% if request.GET.view == 'bills' or request.GET.view == None %}class='active' {% endif %}>
                     <a href="/person/{{person.slug}}/?view=bills">

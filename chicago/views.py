@@ -249,6 +249,10 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         person = context['person']
 
+        context['tenure_start'] = person.latest_council_membership.start_date.strftime("%B %d, %Y")
+
+        context['chair_positions'] = person.chair_role_memberships
+
         if person.slug in settings.CONTACT_INFO:
             context['phone'] = settings.CONTACT_INFO[person.slug]['phone']
             context['address'] = settings.CONTACT_INFO[person.slug]['address']

@@ -289,21 +289,51 @@ CONTACT_INFO = {
 
     'villegas-gilbert-8c9f813ce0a9':     {'twitter': { 'handle': '@gilbert36ward', 'url': 'https://twitter.com/gilbert36ward'}, 'phone': '   (773) 745-4636', 'address': '6934 West Diversey Avenue' },
 
-    # 'thompson-patrick-d-aabd3b898af9':   {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/thompson-patrick-d.jpg' },
-    # 'curtis-derrick-g-dc2702c16bce':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/curtis-derrick-g.jpg' },
-    # 'ervin-jason-c-a6bd57bb3afe':        {'twitter': '@aldermanervin', 'phone': '', 'address': 'manual-headshots/ervin-jason-c.jpg' },
-    # 'hopkins-brian-4b6246ecbbbe':        {'twitter': '@aldermanhopkins', 'phone': '', 'address': 'manual-headshots/hopkins-brian.jpg' },
-    # 'lopez-raymond-a-22593624a716':      {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/lopez-raymond-a.jpg' },
-    # 'moore-david-h-788e5a5727aa':        {'twitter': '@rlopez15thward', 'phone': '', 'address': 'manual-headshots/moore-david-h.jpg' },
-    # 'pawar-ameya-9488bd421a51':          {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/pawar-ameya.jpg' },
-    # 'quinn-marty-c8eb35e12e92':          {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/quinn-marty.jpg' },
-    # 'santiago-milagros-s-f4b095aa4479':  {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/santiago-milagros-s.jpg' },
-    # 'scott-jr-michael-7f664e1708fe':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/scott-jr-michael.jpg' },
-    # 'smith-michele-1994841ecda3':        {'twitter': '@aldermansmith43', 'phone': '', 'address': 'manual-headshots/smith-michele.jpg' },
-    # 'sposato-nicholas-7ac2aa1b1965':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/sposato-nicholas.png' },
-    # 'emanuel-rahm-3af71de0e6ca':         {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/emanuel-rahm.jpg' },
-    # 'mendoza-susana-a-a465109bd96a':     {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/mendoza-susana-a.jpg' },
-    # 'valencia-anna-m-ae119fe8c2e3':      {'twitter': { 'handle': '@45thWardChicago', 'url': 'https://twitter.com/45thWardChicago?lang=en' }, 'phone': '', 'address': 'manual-headshots/valencia-anna.jpg'},
+    'thompson-patrick-d-aabd3b898af9':   {'twitter': { 'handle': '@AldPatDThompson', 'url': 'https://twitter.com/aldpatdthompson' }, 'phone': '(773) 254-6677', 'address': '3659 South Halsted Street' },
+
+    'curtis-derrick-g-dc2702c16bce':     {'twitter': { 'handle': '@aldcurtis18', 'url': 'https://twitter.com/aldcurtis18' }, 'phone': '(773) 284-5057', 'address': '8359 South Pulaski Road' },
+
+    'ervin-jason-c-a6bd57bb3afe':        {'twitter': { 'handle': '@AldermanErvin', 'url': 'https://twitter.com/aldermanervin' }, 'phone': '(773) 533-0900', 'address': '2602 West 16th Street' },
+
+    'hopkins-brian-4b6246ecbbbe':        {'twitter': { 'handle': '@AldermanHopkins', 'url': 'https://twitter.com/aldermanhopkins' }, 'phone': '(312) 643-2299', 'address': '    1400 North Ashland Avenue' },
+
+    'lopez-raymond-a-22593624a716':      {'twitter': { 'handle': '@RLopez15thWard', 'url': 'https://twitter.com/rlopez15thward' }, 'phone': '(773) 306-0837', 'address': '1650 West 63rd Street' },
+
+    'moore-david-h-788e5a5727aa':        {'twitter': { 'handle': '@17thWardChicago', 'url': 'https://twitter.com/17thwardchicago' }, 'phone': '(773) 783-3672', 'address': '1344 West 79th Street' },
+
+    'pawar-ameya-9488bd421a51':          {'twitter': { 'handle': '@Ameya_Pawar_IL', 'url': 'https://twitter.com/Ameya_Pawar_IL' }, 'phone': '(773) 868-4747', 'address': '4243 North Lincoln Avenue' },
+
+    'quinn-marty-c8eb35e12e92':          {'twitter': { 'handle': '', 'url': '' }, 'phone': '(773) 581-8000', 'address': '6500 South Pulaski Road' },
+
+    'santiago-milagros-s-f4b095aa4479':  {'twitter': { 'handle': '@Aldmilly31', 'url': 'https://twitter.com/aldmilly31' }, 'phone': '(773) 278-0031', 'address': '2521 North Pulaski Road' },
+
+    'scott-jr-michael-7f664e1708fe':     {'twitter': { 'handle': '@aldermanscott24', 'url': 'https://twitter.com/aldermanscott24' }, 'phone': '(773) 533-2400', 'address': '1158 South Keeler Street' },
+
+    'smith-michele-1994841ecda3':        {'twitter': { 'handle': '@AldermanSmith43', 'url': 'https://twitter.com/aldermansmith43' }, 'phone': '(773) 348-9500', 'address': '    2523 North Halsted Street' },
+
+    'sposato-nicholas-7ac2aa1b1965':     {'twitter': { 'handle': '', 'url': '' }, 'phone': '(773) 283-3838', 'address': '3821 North Harlem Avenue' },
+
+    'emanuel-rahm-3af71de0e6ca':         {'twitter': { 'handle': '@RahmEmanuel', 'url': 'https://twitter.com/rahmemanuel' }, 'phone': '(312) 744-3300', 'address': '121 N. LA SALLE STREET' },
+
+    'moreno-proco-joe-b1e0d8e0205d':     {'twitter': { 'handle': '@Alderman_Moreno', 'url': 'https://twitter.com/Alderman_Moreno' }, 'phone': '(773) 278-0101', 'address': '2740 West North Avenue' },
+
+    'dowell-pat-77f09c5b056c':         {'twitter': { 'handle': '@AldPatDowell3rd', 'url': 'https://twitter.com/AldPatDowell3rd' }, 'phone': '(773) 373-9273', 'address': '5046 South State Street' },
+
+    'hairston-leslie-a-fc1eb983a334':   {'twitter': { 'handle': '@5thWardChicago', 'url': 'https://twitter.com/5thwardchicago' }, 'phone': '(773) 324-5555', 'address': '2325 East 71st Street' },
+
+    'cardenas-george-a-e7f3145cb0bf': {'twitter': { 'handle': '@aldcardenas', 'url': 'https://twitter.com/aldcardenas' }, 'phone': '(773) 523-8250', 'address': '3476 South Archer Avenue' },
+
+    'burke-edward-m-10a51f9a148e': {'twitter': { 'handle': '', 'url': '' }, 'phone': '(773) 471-1414', 'address': '2650 West 51st Street' },
+
+    'foulkes-toni-85ebd7895373': {'twitter': { 'handle': '@ToniFoulkes', 'url': 'https://twitter.com/tonifoulkes' }, 'phone': '(773) 863-0220', 'address': '1504 West 63rd Street' },
+
+    'brookins-jr-howard-a2dedc827d3c': {'twitter': { 'handle': '', 'url': '' }, 'phone': '(773) 881-9300', 'address': '9011 South Ashland Avenue, Unit B' },
+
+    'zalewski-michael-r-a9877e230b7c': {'twitter': { 'handle': '@ward23chicago', 'url': 'https://twitter.com/ward23chicago' }, 'phone': '(773) 582-4444', 'address': '6247 South Archer Avenue' },
+
+    'maldonado-roberto-068e9f23cacf': {'twitter': { 'handle': '@MaldonadoR26', 'url': 'https://twitter.com/MaldonadoR26' }, 'phone': '(773) 395-0143', 'address': '2511 West Division Street' },
+
+    'burnett-jr-walter-7d4c78ba47aa': {'twitter': { 'handle': '@AldermanBurnett', 'url': 'https://twitter.com/aldermanburnett' }, 'phone': '(312) 432-1995', 'address': '4 North Western Avenue' },
 }
 
 
