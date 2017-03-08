@@ -249,9 +249,10 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         person = context['person']
 
-        context['phone'] = settings.CONTACT_INFO[person.slug]['phone']
-        context['address'] = settings.CONTACT_INFO[person.slug]['address']
-        context['twitter_handle'] = settings.CONTACT_INFO[person.slug]['twitter']['handle']
-        context['twitter_url'] = settings.CONTACT_INFO[person.slug]['twitter']['url']
+        if person.slug in settings.CONTACT_INFO:
+            context['phone'] = settings.CONTACT_INFO[person.slug]['phone']
+            context['address'] = settings.CONTACT_INFO[person.slug]['address']
+            context['twitter_handle'] = settings.CONTACT_INFO[person.slug]['twitter']['handle']
+            context['twitter_url'] = settings.CONTACT_INFO[person.slug]['twitter']['url']
 
         return context
