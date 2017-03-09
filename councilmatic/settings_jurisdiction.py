@@ -334,6 +334,18 @@ CONTACT_INFO = {
     'maldonado-roberto-068e9f23cacf': {'twitter': { 'handle': '@MaldonadoR26', 'url': 'https://twitter.com/MaldonadoR26' }, 'phone': '(773) 395-0143', 'address': '2511 West Division Street' },
 
     'burnett-jr-walter-7d4c78ba47aa': {'twitter': { 'handle': '@AldermanBurnett', 'url': 'https://twitter.com/aldermanburnett' }, 'phone': '(312) 432-1995', 'address': '4 North Western Avenue' },
+
+    'waguespack-scott-944c102c324e': {'twitter': { 'handle': '@ward32chicago', 'url': 'https://twitter.com/ward32chicago' }, 'phone': '(773) 248-1330', 'address': '2657 North Clybourn Avenue' },
+
+    'austin-carrie-m-d64a7bfe03dd': {'twitter': { 'handle': '@TweetinIn34', 'url': 'https://twitter.com/tweetinin34' }, 'phone': '(773) 928-6961', 'address': '507 West 111th Street' },
+
+    'tunney-thomas-93e563588d8a': {'twitter': { 'handle': '@AldTomTunney', 'url': 'https://twitter.com/aldtomtunney' }, 'phone': '(773) 525-6034', 'address': '3223 North Sheffield Avenue' },
+
+    'reilly-brendan-248a45aa2e32': {'twitter': { 'handle': '@AldReilly', 'url': 'https://twitter.com/AldReilly' }, 'phone': '(312) 642-4242', 'address': '325 West Huron Street, Suite 510' },
+
+    'mitts-emma-238d61a37942': {'twitter': { 'handle': '@bettyepearl3749', 'url': 'https://twitter.com/bettyepearl3749' }, 'phone': '(773) 379-0960', 'address': '4924 West Chicago Avenue' },
+
+    'laurino-margaret-b238c7d2f668': {'twitter': { 'handle': '@LaurinoWard39', 'url': 'https://twitter.com/laurinoward39' }, 'phone': '(773) 736-5594', 'address': '4404 West Lawrence Avenue' },
 }
 
 

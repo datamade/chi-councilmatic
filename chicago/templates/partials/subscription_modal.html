@@ -1,0 +1,36 @@
+<!-- To trigger modal -->
+<a class="getModal createSubscription" data-toggle="modal" data-target="#{{modal_id}}subscribeModal"><i class="fa fa-envelope" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Subscribe to {{ custom_text }}"></i> Subscribe to notifications</a>
+
+<!-- Show after subscription -->
+<a href="{{ href }}" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="Successful subscription! <br> Visit your accounts page to unsubscribe." style="display: none;"><i class="fa fa-envelope"></i> Subscribe</a>
+
+<!-- Modal -->
+<div class="modal fade" id="{{modal_id}}subscribeModal" tabindex="-1" role="dialog" aria-labelledby="widgetModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">
+          Subscribe to {{ custom_text }}
+        </h3>
+      </div>
+
+      <div class="modal-body">
+        <p>Stay up-to-date! Get notifications about things that matter. {{ SITE_META.site_name }} will send you a morning email on days when <strong>new information about {{ custom_text }}</strong> becomes available.</p>
+
+        <p>You can also subscribe to the RSS feed to get regular summaries of changing {{ SITE_META.site_name }} content.</p>
+
+        <p>Changed your mind? <a href="{% url 'subscriptions_manage' %}" target="_blank">View all subscriptions</a>, and manage your preferences at any time.</p>
+
+      </div>
+
+      <div class="modal-footer">
+        <a href="{{ RSS_href }}" title="{{ RSS_for }}" class="btn btn-info"><i class="fa fa-rss-square" aria-hidden="true"></i> Go to RSS</a>
+
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="{{ link_id }}"><i class="fa fa-envelope" aria-hidden="true"></i> Yes, sign me up for emails!</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> No, not today</button>
+      </div>
+
+    </div>
+  </div>
+</div>

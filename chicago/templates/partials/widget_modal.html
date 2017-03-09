@@ -1,0 +1,23 @@
+<!-- Trigger modal -->
+<a class="getModal" data-toggle="modal" data-target="#widgetModal"><i class="fa fa-file-code-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Embed this view"></i> Embed this view</a>
+<!-- Modal -->
+<div class="modal fade" id="widgetModal" tabindex="-1" role="dialog" aria-labelledby="widgetModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="widgetModalLabel">Embed this view</h3>
+      </div>
+      <div class="modal-body">
+        <p>Add this view to a webpage! Copy the code below.</p>
+        <textarea cols='60' rows='4'><iframe src='{{SITE_META.site_url}}{{SITE_URL}}{% url widget slug %}' height='{{frameheight}}' width='100%' scrolling='no' style='border: 1px solid #eee;'></iframe></textarea>
+        <div>
+            <h3>Preview</h3>
+            <iframe src="{{SITE_URL}}{% url widget slug %}" height='{{frameheight}}' width="100%" scrolling="no" style="border: 1px solid #eee;"></iframe>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
