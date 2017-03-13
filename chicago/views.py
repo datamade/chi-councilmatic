@@ -249,7 +249,8 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         person = context['person']
 
-        context['tenure_start'] = person.latest_council_membership.start_date.strftime("%B %d, %Y")
+        if person.latest_council_membership:
+            context['tenure_start'] = person.latest_council_membership.start_date.strftime("%B %d, %Y")
 
         context['chair_positions'] = person.chair_role_memberships
 

@@ -346,6 +346,8 @@ CONTACT_INFO = {
     'mitts-emma-238d61a37942': {'twitter': { 'handle': '@bettyepearl3749', 'url': 'https://twitter.com/bettyepearl3749' }, 'phone': '(773) 379-0960', 'address': '4924 West Chicago Avenue' },
 
     'laurino-margaret-b238c7d2f668': {'twitter': { 'handle': '@LaurinoWard39', 'url': 'https://twitter.com/laurinoward39' }, 'phone': '(773) 736-5594', 'address': '4404 West Lawrence Avenue' },
+
+    'valencia-anna-m-ae119fe8c2e3': {'twitter': { 'handle': '@AnnaValenciaIL', 'url': 'https://twitter.com/annavalenciail' }, 'phone': '(312) 742-5375', 'address': '121 North LaSalle St, Room 107' },
 }
 
 

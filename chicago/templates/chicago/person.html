@@ -105,9 +105,10 @@
                 {% endif %}
             </p>
 
-            <br>
-
-            <p><i class="fa fa-calendar" aria-hidden="true"></i> In office since <strong>{{ tenure_start }}</strong></p>
+            {% if tenure_start %}
+                <br>
+                <p><i class="fa fa-calendar" aria-hidden="true"></i> In office since <strong>{{ tenure_start }}</strong></p>
+            {% endif %}
 
             {% if chair_positions %}
                 <br>
