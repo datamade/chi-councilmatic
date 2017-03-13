@@ -12,8 +12,6 @@
 
 {% block content %}
 
-{% cache 600 person_wrapper person.ocd_id %}
-
     <div class="row-fluid">
         <div class="col-sm-10">
             <h1>
@@ -25,10 +23,6 @@
             </h1>
         </div>
     </div>
-
-<!--     <div class='row'>
-        <div class='col-sm-6' id='person_message'></div>
-    </div> -->
 
     <br>
 
@@ -249,7 +243,6 @@
         </div>
     </div>
 
-
     <script type="application/ld+json">
         {
           "@context": "http://schema.org",
@@ -267,8 +260,6 @@
           "url": "{{person.website_url}}"
         }
     </script>
-
-{% endcache %}
 
 {% endblock %}
 
