@@ -89,6 +89,8 @@
         </div>
     </nav>
 
+    {% endcache %}
+    
     {% if messages %}
         <div class="container">
             <div class="row">
@@ -102,8 +104,6 @@
             </div>
         </div>
     {% endif %}
-
-    {% endcache %}
 
     {% block full_content %}
     {% endblock %}
