@@ -24,6 +24,10 @@
         </div>
     </div>
 
+    <div class='row'>
+        <div class='col-sm-6' id='person_message'></div>
+    </div>
+
     <br>
 
     <div class="row-fluid">
@@ -36,8 +40,6 @@
             {% endif %}
 
             <div class="modal-links">
-                <!-- <hr/> -->
-
                 <p>
                 {% if USING_NOTIFICATIONS %}
 
@@ -64,7 +66,6 @@
                 </p>
 
             </div>
-
         </div>
         <div class="col-sm-4 non-mobile-only">
             <h4>Contact info</h4>
@@ -153,7 +154,6 @@
                     </p>
                 </div>
             </div>
-
             <hr/>
         </div>
     </div>
@@ -270,7 +270,6 @@
         $("#personSubscribe").click(function() {
             var bullHorn    = $(this).parents().find(".createSubscription");
             var bullHornNew = $(this).parents().find(".removeSubscription");
-            console.log('{{ request.user }}')
             if ('{{ request.user }}' != 'AnonymousUser') {
                 posturl = "/person/" + "{{person.slug}}" + "/subscribe/";
                 $.post(posturl, function(data) {
