@@ -168,7 +168,8 @@ class ChicagoBillDetailView(BillDetailView):
     def get_context_data(self, **kwargs):
         context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
         bill_classification = context['object'].classification
-        if bill_classification in {'claim'}:
+        bill_identifier = context['object'].identifier
+        if bill_classification in {'claim'} or bill_identifier=='Or 2013-382':
             context['seo']['nofollow'] = True
         return context
 
