@@ -1,0 +1,6 @@
+FROM chicouncilmatic_application:latest
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends cron
+ADD cron_tasks.sh /etc/cron.d/chicago-cron
+RUN chmod 0644 /etc/cron.d/chicago-cron
+RUN touch /var/log/cron.log
