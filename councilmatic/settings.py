@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.environ.get('APPLICATION_CONFIG'):
     filename = os.environ['APPLICATION_CONFIG']
 else:
-    filename = os.path.join(BASE_DIR, 'settings_deployment.py')
+    filename = os.path.join(BASE_DIR, 'councilmatic',  'settings_deployment.py')
 
 config = types.ModuleType('config')
 config.__file__  = filename
@@ -133,4 +133,4 @@ EMAIL_HOST_USER = getSettingValue('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=getSettingValue('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL=getSettingValue('DEFAULT_FROM_EMAIL')
 
-LOGGING=getSettingValue('LOGGING')
+LOGGING=getSettingValue('LOGGING', required=False)

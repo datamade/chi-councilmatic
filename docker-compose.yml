@@ -1,0 +1,97 @@
+version: '3.3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: chicouncilmatic_nginx
+    ports:
+      - "80:80"
+    links:
+      - application
+    volumes:
+      - ./configs/nginx.conf:/etc/nginx/conf.d/chicago.conf
+      - ./static:/static
+      - ./wait-for-it.sh:/wait-for-it.sh
+    depends_on:
+      - application
+    command: sh -c './wait-for-it.sh -t 60 application:5000 -- nginx -g "daemon off;"'
+  application:
+    image: chicouncilmatic_application
+    build:
+      context: .
+      dockerfile: docker/application-dockerfile
+    container_name: chicouncilmatic_application
+    command: sh -c './wait-for-it.sh -t 60 database:5432 -- python manage.py createcachetable councilmatic_cache && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn -b 0.0.0.0:5000 councilmatic.wsgi:application'
+    expose:
+      - "5000"
+    links:
+      - database
+    depends_on:
+      - database
+    secrets:
+      - settings_deployment
+    volumes:
+      - ./wait-for-it.sh:/code/wait-for-it.sh
+      - ./static:/code/static
+    environment:
+      APPLICATION_CONFIG: /run/secrets/settings_deployment
+  worker:
+    image: chicouncilmatic_application
+    depends_on:
+      - database
+      - redis
+    container_name: chicouncilmatic_worker
+    command: sh -c './wait-for-it.sh -t 60 redis:6379 -- python manage.py rqworker default'
+    links:
+      - database
+    secrets:
+      - settings_deployment
+    volumes:
+      - ./wait-for-it.sh:/code/wait-for-it.sh
+    environment:
+      APPLICATION_CONFIG: /run/secrets/settings_deployment
+  cron:
+    build:
+      context: .
+      dockerfile: docker/cron-dockerfile
+    container_name: chicouncilmatic_cron
+    command: sh -c 'cron && tail -f /var/log/cron.log'
+    links:
+      - database
+      - solr
+    depends_on:
+      - database
+      - solr
+    secrets:
+      - settings_deployment
+    environment:
+      APPLICATION_CONFIG: /run/secrets/settings_deployment
+  redis:
+    image: redis:latest
+    container_name: chicouncilmatic_redis
+    expose:
+      - "6379"
+  database:
+    build:
+      context: docker
+      dockerfile: database-dockerfile
+    container_name: chicouncilmatic_database
+    expose:
+      - "5432"
+    ports:
+      - "5433:5432"
+    volumes:
+      - /data/chicago:/var/lib/postgresql/data
+  solr:
+    image: solr:6.5
+    container_name: chicouncilmatic_solr
+    volumes:
+      - /data/chicago-solr:/opt/solr/server/solr/mycores:rw
+      - ./solr_configs:/chicago_configs
+    command: sh -c 'solr-precreate chicago /chicago_configs'
+    expose:
+      - "8983"
+    ports:
+      - "8983:8983"
+secrets:
+  settings_deployment:
+    file: configs/settings_deployment.py
