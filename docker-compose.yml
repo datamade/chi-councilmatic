@@ -82,7 +82,7 @@ services:
     volumes:
       - /data/chicago:/var/lib/postgresql/data
   solr:
-    image: solr:6.5
+    image: solr:7
     container_name: chicouncilmatic_solr
     volumes:
       - /data/chicago-solr:/opt/solr/server/solr/mycores:rw
@@ -90,8 +90,6 @@ services:
     command: sh -c 'solr-precreate chicago /chicago_configs'
     expose:
       - "8983"
-    ports:
-      - "8983:8983"
 secrets:
   settings_deployment:
     file: configs/settings_deployment.py
