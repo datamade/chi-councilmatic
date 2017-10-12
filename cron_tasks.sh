@@ -1,4 +1,2 @@
-#! /bin/bash
+10,25,33,40,55 * * * * datamade cd /code && python manage.py import_data
 
-cd /home/datamade/chicago
-/home/datamade/.virtualenvs/chi-councilmatic/bin/python manage.py import_data >> /tmp/chicago-loaddata.log 2>&1 

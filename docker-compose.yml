@@ -54,7 +54,7 @@ services:
       context: .
       dockerfile: docker/cron-dockerfile
     container_name: chicouncilmatic_cron
-    command: sh -c 'cron && tail -f /var/log/cron.log'
+    command: sh -c 'cron -f'
     links:
       - database
       - solr
