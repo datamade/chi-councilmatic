@@ -1,5 +1,6 @@
 version: '3.3'
 services:
+
   nginx:
     image: nginx:latest
     container_name: chicouncilmatic_nginx
@@ -14,6 +15,7 @@ services:
     depends_on:
       - application
     command: sh -c './wait-for-it.sh -t 60 application:5000 -- nginx -g "daemon off;"'
+
   application:
     image: chicouncilmatic_application
     build:
@@ -34,6 +36,7 @@ services:
       - ./static:/code/static
     environment:
       APPLICATION_CONFIG: /run/secrets/settings_deployment
+
   worker:
     image: chicouncilmatic_application
     depends_on:
@@ -49,12 +52,13 @@ services:
       - ./wait-for-it.sh:/code/wait-for-it.sh
     environment:
       APPLICATION_CONFIG: /run/secrets/settings_deployment
+
   cron:
     build:
       context: .
       dockerfile: docker/cron-dockerfile
     container_name: chicouncilmatic_cron
-    command: sh -c 'cron -f'
+    command: python cron.py
     links:
       - database
       - solr
@@ -65,11 +69,14 @@ services:
       - settings_deployment
     environment:
       APPLICATION_CONFIG: /run/secrets/settings_deployment
+      DJANGO_SETTINGS_MODULE: councilmatic.settings
+
   redis:
     image: redis:latest
     container_name: chicouncilmatic_redis
     expose:
       - "6379"
+
   database:
     build:
       context: docker
@@ -81,6 +88,7 @@ services:
       - "5433:5432"
     volumes:
       - /data/chicago:/var/lib/postgresql/data
+
   solr:
     image: solr:7
     container_name: chicouncilmatic_solr

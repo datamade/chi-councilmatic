@@ -1,6 +1,3 @@
 FROM chicouncilmatic_application:latest
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends cron
-ADD cron_tasks.sh /etc/cron.d/chicago-cron
-RUN chmod 0644 /etc/cron.d/chicago-cron
-RUN echo "Starting cron ..." > /code/chicago.log
+RUN pip install schedule
+ADD docker/cron.py /code/
