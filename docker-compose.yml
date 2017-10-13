@@ -98,6 +98,8 @@ services:
     command: sh -c 'solr-precreate chicago /chicago_configs'
     expose:
       - "8983"
+    environment:
+      SOLR_LOG_LEVEL: ERROR
 secrets:
   settings_deployment:
     file: configs/settings_deployment.py
