@@ -1,10 +1,10 @@
 version: '3.3'
 services:
 
-  nginx-proxy:
+  nginx:
     image: nginx:latest
     ports:
-      - "90:80"
+      - "4143:80"
     links:
       - application
     volumes:
