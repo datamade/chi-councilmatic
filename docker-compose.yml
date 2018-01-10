@@ -39,6 +39,9 @@ services:
 
   worker:
     image: chicouncilmatic_application
+    build:
+      context: .
+      dockerfile: docker/application-dockerfile
     depends_on:
       - database
       - redis

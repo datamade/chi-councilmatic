@@ -26,4 +26,4 @@ deploy:
     application: chicago-councilmatic
     deployment_group: staging
     on:
-      branch: master
+      branch: docker
