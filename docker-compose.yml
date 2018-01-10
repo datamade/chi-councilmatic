@@ -1,16 +1,15 @@
 version: '3.3'
 services:
 
-  nginx:
-    image: nginx:latest
-    container_name: chicouncilmatic_nginx
+  nginx-proxy:
+    image: nginx-proxy:latest
     ports:
-      - "80:80"
+      - "90:80"
     links:
       - application
     volumes:
       - ./configs/nginx.conf:/etc/nginx/conf.d/chicago.conf
-      - ./static:/static
+      - ./chicago/static:/static
       - ./wait-for-it.sh:/wait-for-it.sh
     depends_on:
       - application
@@ -30,12 +29,12 @@ services:
     depends_on:
       - database
     secrets:
-      - settings_deployment
+      - settings_deployment.py
     volumes:
       - ./wait-for-it.sh:/code/wait-for-it.sh
-      - ./static:/code/static
+      - ./chicago/static:/code/static
     environment:
-      APPLICATION_CONFIG: /run/secrets/settings_deployment
+      APPLICATION_CONFIG: /run/secrets/settings_deployment.py
 
   worker:
     image: chicouncilmatic_application
@@ -50,11 +49,11 @@ services:
     links:
       - database
     secrets:
-      - settings_deployment
+      - settings_deployment.py
     volumes:
       - ./wait-for-it.sh:/code/wait-for-it.sh
     environment:
-      APPLICATION_CONFIG: /run/secrets/settings_deployment
+      APPLICATION_CONFIG: /run/secrets/settings_deployment.py
 
   cron:
     build:
@@ -69,9 +68,9 @@ services:
       - database
       - solr
     secrets:
-      - settings_deployment
+      - settings_deployment.py
     environment:
-      APPLICATION_CONFIG: /run/secrets/settings_deployment
+      APPLICATION_CONFIG: /run/secrets/settings_deployment.py
       DJANGO_SETTINGS_MODULE: councilmatic.settings
 
   redis:
@@ -105,5 +104,5 @@ services:
       SOLR_LOG_LEVEL: ERROR
 
 secrets:
-  settings_deployment:
-    file: configs/settings_deployment.py
+  settings_deployment.py:
+    file: ./councilmatic/settings_deployment.py
