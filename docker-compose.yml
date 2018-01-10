@@ -2,7 +2,7 @@ version: '3.3'
 services:
 
   nginx-proxy:
-    image: nginx-proxy:latest
+    image: nginx:latest
     ports:
       - "90:80"
     links:
