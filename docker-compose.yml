@@ -96,7 +96,7 @@ services:
     volumes:
       - /data/chicago-solr:/opt/solr/server/solr/mycores:rw
       - ./solr_configs:/chicago_configs
-    command: sh -c 'solr-precreate chicago /chicago_configs'
+    command: sh -c 'solr-create -c chicago -d /chicago_configs'
     expose:
       - "8983"
     environment:
