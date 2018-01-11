@@ -13,7 +13,6 @@ services:
       - ./wait-for-it.sh:/wait-for-it.sh
     depends_on:
       - application
-    command: sh -c './wait-for-it.sh -t 60 application:5000 -- nginx -g "daemon off;"'
 
   application:
     image: chicouncilmatic_application
@@ -21,7 +20,7 @@ services:
       context: .
       dockerfile: docker/application-dockerfile
     container_name: chicouncilmatic_application
-    command: sh -c './wait-for-it.sh -t 60 database:5432 -- python manage.py createcachetable councilmatic_cache && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn -b 0.0.0.0:5000 councilmatic.wsgi:application'
+    command: sh -c 'gunicorn -b 0.0.0.0:5000 councilmatic.wsgi:application'
     expose:
       - "5000"
     links:
@@ -45,7 +44,7 @@ services:
       - database
       - redis
     container_name: chicouncilmatic_worker
-    command: sh -c './wait-for-it.sh -t 60 redis:6379 -- python manage.py migrate && python manage.py rqworker default'
+    command: sh -c 'python manage.py rqworker default'
     links:
       - database
     secrets:
@@ -60,7 +59,7 @@ services:
       context: .
       dockerfile: docker/cron-dockerfile
     container_name: chicouncilmatic_cron
-    command: sh -c 'python manage.py migrate && python cron.py'
+    command: sh -c 'python cron.py'
     links:
       - database
       - solr
