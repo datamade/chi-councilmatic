@@ -90,7 +90,6 @@ services:
     image: solr:7
     container_name: chicouncilmatic_solr
     volumes:
-      - /data/chicago-solr:/opt/solr/server/solr/mycores:rw
       - ./solr_configs:/chicago_configs
     command: sh -c 'solr-create -c chicago -d /chicago_configs'
     expose:
