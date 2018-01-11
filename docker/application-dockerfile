@@ -10,4 +10,3 @@ RUN pip install -r requirements.txt
 ADD chicago /code/chicago/
 ADD councilmatic /code/councilmatic/
 ADD manage.py /code/
-RUN python manage.py collectstatic --noinput 

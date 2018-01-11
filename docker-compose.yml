@@ -2,15 +2,16 @@ version: '3.3'
 services:
 
   nginx:
-    image: nginx:latest
+    image: councilmatic-nginx
+    build:
+      context: .
+      dockerfile: docker/nginx-dockerfile
     ports:
       - "4143:80"
     links:
       - application
     volumes:
       - ./configs/nginx.conf:/etc/nginx/conf.d/chicago.conf
-      - ./chicago/static:/static
-      - ./wait-for-it.sh:/wait-for-it.sh
     depends_on:
       - application
 
@@ -29,9 +30,6 @@ services:
       - database
     secrets:
       - settings_deployment.py
-    volumes:
-      - ./wait-for-it.sh:/code/wait-for-it.sh
-      - ./chicago/static:/code/static
     environment:
       APPLICATION_CONFIG: /run/secrets/settings_deployment.py
 
@@ -49,8 +47,6 @@ services:
       - database
     secrets:
       - settings_deployment.py
-    volumes:
-      - ./wait-for-it.sh:/code/wait-for-it.sh
     environment:
       APPLICATION_CONFIG: /run/secrets/settings_deployment.py
 

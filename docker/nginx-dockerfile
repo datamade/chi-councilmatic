@@ -1,0 +1,5 @@
+FROM chicouncilmatic_application:latest
+RUN python manage.py collectstatic --noinput 
+
+FROM nginx:latest
+COPY --from=0 /code/static /static
