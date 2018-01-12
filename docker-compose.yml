@@ -38,14 +38,12 @@ services:
     build:
       context: .
       dockerfile: docker/application-dockerfile
-    depends_on:
-      - database
-      - redis
-      - solr
     container_name: chicouncilmatic_worker
     command: sh -c 'python manage.py rqworker default'
     links:
       - database
+      - redis
+      - solr
     secrets:
       - settings_deployment.py
     environment:
@@ -58,9 +56,6 @@ services:
     container_name: chicouncilmatic_cron
     command: sh -c 'python cron.py'
     links:
-      - database
-      - solr
-    depends_on:
       - database
       - solr
     secrets:
