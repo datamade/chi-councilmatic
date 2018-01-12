@@ -35,12 +35,12 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
     def prepare_last_action_date(self, obj):
         app_timezone = pytz.timezone(settings.TIME_ZONE)
 
-        if not obj.last_action_date:
+        if not obj.last_action_date.date():
             index_actions = [a.date for a in obj.actions.all()]
 
             if index_actions:
-                index_actions = max(index_actions)
+                index_actions = max(index_actions).date()
 
             return index_actions
 
-        return obj.last_action_date
+        return obj.last_action_date.date()
