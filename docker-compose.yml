@@ -26,8 +26,7 @@ services:
       - "5000"
     links:
       - database
-    depends_on:
-      - database
+      - solr
     secrets:
       - settings_deployment.py
     environment:
@@ -43,7 +42,6 @@ services:
     links:
       - database
       - redis
-      - solr
     secrets:
       - settings_deployment.py
     environment:
@@ -83,7 +81,7 @@ services:
       - /data/chicago:/var/lib/postgresql/data
 
   solr:
-    image: solr:7
+    image: solr:7.1
     container_name: chicouncilmatic_solr
     volumes:
       - ./solr_configs:/chicago_configs
