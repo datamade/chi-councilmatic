@@ -41,6 +41,7 @@ services:
     depends_on:
       - database
       - redis
+      - solr
     container_name: chicouncilmatic_worker
     command: sh -c 'python manage.py rqworker default'
     links:
