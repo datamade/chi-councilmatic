@@ -22,7 +22,7 @@ class ChicagoIndexView(IndexView):
                            .latest('start_time')
 
     def date_cutoff(self):
-        return self.last_meeting().start_time.date()
+        return self.last_meeting().start_time
 
     def actions(self):
         return Action.actions_on_date(self.date_cutoff())
