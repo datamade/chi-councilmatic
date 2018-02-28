@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django_rq',
     'password_reset',
     'adv_cache_tag',
+    'debug_toolbar',
 )
 
 try:
@@ -63,6 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'councilmatic.urls'

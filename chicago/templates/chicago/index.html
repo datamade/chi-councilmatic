@@ -187,8 +187,7 @@
                 </h2>
 
                 <p class="big">
-                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{meeting_activity.bills | length}}</strong> pieces of legislation, including <strong>{{meeting_activity.bills_nonroutine | length}}</strong> that are
-                    <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
+                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{council_bills | length}}</strong> pieces of legislation, including <strong>{{nonroutine_council_bills | length}}</strong> that are <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
 
                 <p>
@@ -207,12 +206,12 @@
                 <h4>
                     Non-Routine Activity
                 </h4>
-                {% for legislation in meeting_activity.bills_nonroutine %}
+                {% for legislation in nonroutine_council_bills %}
                 <div class="bill-meeting">
                     {% include "partials/legislation_item.html" %}
                 </div>
                 {% endfor %}
-                {% if meeting_activity.bills_nonroutine|length > 4%}
+                {% if nonroutine_council_bills|length > 4%}
                     <a href="" id="more-bills-meeting" class="btn btn-info"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
                     <a href="" id="fewer-bills-meeting" class="btn btn-info"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
                 {% endif %}
@@ -275,7 +274,7 @@
     </div>
 
 
-    {% if recent_activity.new %}
+    {% if recent_bills %}
     <div class="container-fluid" id="section-recent-activity">
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
@@ -285,29 +284,32 @@
                 </h2>
                 <p>
                     After {{last_council_meeting.start_time | date:"M jS"}}, City Council introduced
-                    <strong>{{recent_activity.new | length}}</strong> new pieces of legislation, including <strong>{{recent_activity.new_nonroutine | length}}</strong> that are
+                    <strong>{{recent_bills | length}}</strong> new pieces of legislation, including <strong>{{nonroutine_recent_bills | length}}</strong> that are
                     <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
             </div>
         </div>
-        <div class="row-fluid">
-            <div class='col-sm-6 col-sm-offset-1'>
-                <h4>
-                    Non-routine legislation introduced
-                </h4>
-                {% for legislation in recent_activity.new_nonroutine %}
-                <div class="bill-recent">
-                    {% include "partials/legislation_item.html" %}
-                </div>
-                {% endfor %}
-                {% if recent_activity.new_nonroutine|length > 4%}
-                    <a href="" id="more-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
-                    <a href="" id="fewer-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
-                {% endif %}
-                <div class="divider"></div>
-            </div>
 
-        </div>
+        {% if nonroutine_recent_bills %}
+            <div class="row-fluid">
+                <div class='col-sm-6 col-sm-offset-1'>
+                    <h4>
+                        Non-routine legislation introduced
+                    </h4>
+                    {% for legislation in nonroutine_recent_bills %}
+                    <div class="bill-recent">
+                        {% include "partials/legislation_item.html" %}
+                    </div>
+                    {% endfor %}
+                    {% if nonroutine_recent_bills|length > 4%}
+                        <a href="" id="more-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                        <a href="" id="fewer-bills-recent" class="btn btn-info"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+                    {% endif %}
+                    <div class="divider"></div>
+                </div>
+
+            </div>
+        {% endif %}
         <div class="divider"></div>
     </div>
     {% endif %}
