@@ -16,50 +16,24 @@ class ChicagoIndexView(IndexView):
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.objects\
-                           .filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
+        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
                            .filter(start_time__lt=datetime.now())\
                            .latest('start_time')
 
     def date_cutoff(self):
         return self.last_meeting().start_time.date()
 
-    def actions(self):
-        return Action.actions_on_date(self.date_cutoff())
-
-    def meeting_bills(self):
-        return {a.bill for a in self.actions()}
-
-    def meeting_bills_routine(self):
-        return (b for b in self.meeting_bills() if 'Routine' in b.topics)
-
-    def meeting_bills_nonroutine(self):
-        return [b for b in self.meeting_bills() if 'Non-Routine' in b.topics]
-
-
-    def new_bills(self):
-        return ChicagoBill.new_bills_since(self.date_cutoff())
-
-    def new_routine(self):
-        return (b for b in self.new_bills() if 'Routine' in b.topics)
-
-    def new_nonroutine(self):
-        return (b for b in self.new_bills() if 'Non-Routine' in b.topics)
-
-    def updated_bills(self):
-        return ChicagoBill.updated_bills_since(self.date_cutoff())
-
-    def updated_routine(self):
-        return (b for b in self.updated_bills() if 'Routine' in b.topics)
-
-    def updated_nonroutine(self):
-        return (b for b in self.updated_bills() if 'Non-Routine' in b.topics)
+    def council_bills(self):
+        return ChicagoBill.objects\
+                          .filter(actions__date=self.date_cutoff(), _from_organization_id=settings.OCD_CITY_COUNCIL_ID)\
+                          .prefetch_related('actions')
 
     def topic_hierarchy(self):
         # getting topic counts for meeting bills
         topic_hierarchy = settings.TOPIC_HIERARCHY
         topic_tag_counts = {}
-        for b in self.meeting_bills():
+
+        for b in self.council_bills():
             for topic in b.topics:
                 try:
                     topic_tag_counts[topic] += 1
@@ -80,39 +54,27 @@ class ChicagoIndexView(IndexView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        # Find activity at last council meeting
+        council_bills = self.council_bills()
+        context['council_bills'] = council_bills
+        context['nonroutine_council_bills'] = [bill for bill in council_bills if 'Non-Routine' in bill.topics]
 
-        # populating activity at last council meeting
-        meeting_activity = {}
-        meeting_activity['actions'] = self.actions
-        meeting_activity['bills'] = self.meeting_bills
-        meeting_activity['bills_routine'] = self.meeting_bills_routine
-        meeting_activity['bills_nonroutine'] = self.meeting_bills_nonroutine
-
-
-        # populating recent activitiy (since last council meeting)
-        recent_activity = {}
-
-        recent_activity['new'] = self.new_bills
-        recent_activity['new_routine'] = self.new_routine
-        recent_activity['new_nonroutine'] = self.new_nonroutine
-
-        recent_activity['updated_routine'] = self.updated_routine
-        recent_activity['updated_nonroutine'] = self.updated_nonroutine
-
+        # Find recent activitiy (since last council meeting)
+        recent_bills = ChicagoBill.objects.filter(actions__date__gt=self.date_cutoff())
+        context['recent_bills'] = recent_bills
+        context['nonroutine_recent_bills'] = [bill for bill in recent_bills if 'Non-Routine' in bill.topics]
 
         seo = {}
         seo.update(settings.SITE_META)
         seo['image'] = '/static/images/city_hall.jpg'
+        context['seo'] = seo
 
-        return {
-            'meeting_activity': meeting_activity,
-            'recent_activity': recent_activity,
-            'last_council_meeting': self.event_model.most_recent_past_city_council_meeting,
-            'next_council_meeting': self.event_model.next_city_council_meeting,
-            'upcoming_committee_meetings': self.event_model.upcoming_committee_meetings,
-            'topic_hierarchy': self.topic_hierarchy,
-            'seo': seo,
-        }
+        context['last_council_meeting'] = self.event_model.most_recent_past_city_council_meeting
+        context['next_council_meeting'] = self.event_model.next_city_council_meeting
+        context['upcoming_committee_meetings'] = self.event_model.upcoming_committee_meetings
+        context['topic_hierarchy'] = self.topic_hierarchy
+        
+        return context
 
 class ChicagoAboutView(AboutView):
     template_name = 'chicago/about.html'

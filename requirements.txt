@@ -1,3 +1,4 @@
 django-councilmatic==0.8.11
 raven==5.30.0
 gunicorn==19.6.0
+django-debug-toolbar==1.9.1
