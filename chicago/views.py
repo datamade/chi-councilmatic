@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
 
 from datetime import date, timedelta, datetime
 
@@ -80,15 +81,15 @@ class ChicagoAboutView(AboutView):
     template_name = 'chicago/about.html'
 
 # this is for handling bill detail urls from the old chicago councilmatuc
-def bill_detail_redirect(request, old_id):
-    pattern = '?ID=%s&GUID' % old_id
+# def bill_detail_redirect(request, old_id):
+#     pattern = '?ID=%s&GUID' % old_id
 
-    try:
-        obj = ChicagoBill.objects.get(source_url__contains=pattern)
-    except:
-        raise Http404("No bill found matching the query")
+#     try:
+#         obj = ChicagoBill.objects.get(source_url__contains=pattern)
+#     except:
+#         raise Http404("No bill found matching the query")
 
-    return redirect('bill_detail', slug=obj.slug, permanent=True)
+#     return redirect('bill_detail', slug=obj.slug, permanent=True)
 
 def substitute_ordinance_redirect(request, substitute_ordinance_slug):
     return redirect('bill_detail', slug=substitute_ordinance_slug[1:], permanent=True)
@@ -97,6 +98,42 @@ class ChicagoBillDetailView(BillDetailView):
     template_name = 'chicago/legislation.html'
 
     model = ChicagoBill
+
+    def dispatch(self, request, *args, **kwargs):
+        slug = self.kwargs['slug']
+
+        try:
+            bill = self.model.objects.get(slug=slug)
+            response = super().dispatch(request, *args, **kwargs)
+        except ChicagoBill.DoesNotExist:
+            bill = None
+
+        if not bill: 
+            '''
+            Chicago Councilmatic requires redirects for several old bill slugs:
+            (1) original Councilmatic slug, which used the Legistar GUID
+            (2) a mangled form: an added space, e.g.,  o-2018-2302 (old slug) vs. o2018-2302
+            '''
+            try: 
+                pattern = '?ID=%s&GUID' % slug
+                bill = ChicagoBill.objects.get(source_url__contains=pattern)
+                response = HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
+            except ChicagoBill.DoesNotExist:
+                try: 
+                    added_space = r'^(t)-([\d]+)$'
+                    match_added_space = re.match(added_space, slug)
+                    if match_added_space:
+                        prefix = match_added_space.group(1)
+                        remainder = match_added_space.group(2)
+                        repaired_slug = '{prefix}{remainder}'.format(prefix=prefix, remainder=remainder)
+                        bill = self.model.objects.get(slug=repaired_slug)                        
+                        response = HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
+                except ChicagoBill.DoesNotExist:
+                    raise Http404
+
+                
+        return response
+
 
     def get_object(self, queryset=None):
         """
