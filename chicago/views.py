@@ -104,7 +104,7 @@ class ChicagoBillDetailView(BillDetailView):
 
         try:
             bill = self.model.objects.get(slug=slug)
-            response = super().dispatch(request, *args, **kwargs)
+            return super().dispatch(request, *args, **kwargs)
         except ChicagoBill.DoesNotExist:
             bill = None
 
@@ -117,22 +117,21 @@ class ChicagoBillDetailView(BillDetailView):
             try: 
                 pattern = '?ID=%s&GUID' % slug
                 bill = ChicagoBill.objects.get(source_url__contains=pattern)
-                response = HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
+                return HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
             except ChicagoBill.DoesNotExist:
                 try: 
-                    added_space = r'^(t)-([\d]+)$'
+                    added_space = r'^([A-Za-z]+)-([-\d]+)$'
                     match_added_space = re.match(added_space, slug)
                     if match_added_space:
                         prefix = match_added_space.group(1)
                         remainder = match_added_space.group(2)
                         repaired_slug = '{prefix}{remainder}'.format(prefix=prefix, remainder=remainder)
                         bill = self.model.objects.get(slug=repaired_slug)                        
-                        response = HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
+                        return HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
                 except ChicagoBill.DoesNotExist:
                     raise Http404
 
-                
-        return response
+        raise Http404
 
 
     def get_object(self, queryset=None):
