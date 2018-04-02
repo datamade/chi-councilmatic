@@ -1,4 +1,4 @@
 # /etc/cron.d/chicago-crontasks
 APPDIR=/home/datamade/chicago
 PYTHONDIR=/home/datamade/.virtualenvs/chicago/bin/python
-0,15,30,45 * * * * datamade /usr/bin/flock -n /tmp/chicago_dataload.lock -c 'cd $APPDIR && $PYTHONDIR manage.py import_data >> /var/log/councilmatic/chicago-importdata.log 2>&1 && $PYTHONDIR manage.py update_index --batch-size=50 --age=1 >> /var/log/councilmatic/chicago-updateindex.log 2>&1 && $PYTHONDIR manage.py send_notifications >> /var/log/councilmatic/chicago-sendnotifications.log 2>&1'
+# 0,15,30,45 * * * * datamade /usr/bin/flock -n /tmp/chicago_dataload.lock -c 'cd $APPDIR && $PYTHONDIR manage.py import_data >> /var/log/councilmatic/chicago-importdata.log 2>&1 && $PYTHONDIR manage.py update_index --batch-size=50 --age=1 >> /var/log/councilmatic/chicago-updateindex.log 2>&1 && $PYTHONDIR manage.py send_notifications >> /var/log/councilmatic/chicago-sendnotifications.log 2>&1'
