@@ -199,6 +199,7 @@ class ChicagoCouncilmaticFacetedSearchView(CouncilmaticFacetedSearchView):
         if form_kwargs:
             kwargs.update(form_kwargs)
 
+        dataDict = {}
         if len(self.request.GET):
             data = self.request.GET
             dataDict = dict(data)
@@ -206,25 +207,24 @@ class ChicagoCouncilmaticFacetedSearchView(CouncilmaticFacetedSearchView):
         if self.searchqueryset is not None:
             kwargs['searchqueryset'] = sqs
 
-            try:
+            if dataDict.get('sort_by'):
                 for el in dataDict['sort_by']:
-                    # Do this, because sometimes the 'el' may include a '?' from the URL
-                    if 'date' in el:
-                        try:
-                            dataDict['ascending']
+                    if el == 'date':
+                        if dataDict.get('order_by') == ['asc']:
                             kwargs['searchqueryset'] = sqs.order_by('last_action_date')
-                        except:
+                        else:
                             kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
-                    if 'title' in el:
-                        try:
-                            dataDict['descending']
+                    if el == 'title':
+                        if dataDict.get('order_by') == ['desc']:
                             kwargs['searchqueryset'] = sqs.order_by('-sort_name')
-                        except:
+                        else:
                             kwargs['searchqueryset'] = sqs.order_by('sort_name')
-                    if 'relevance' in el:
+                    if el == 'relevance':
                         kwargs['searchqueryset'] = sqs
 
-            except:
+            elif dataDict.get('q'):
+                kwargs['searchqueryset'] = sqs
+            else:
                 kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
 
         return self.form_class(data, **kwargs)
