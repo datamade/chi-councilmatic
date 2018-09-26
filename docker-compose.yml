@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  solr:
+    image: solr:7.1
+    container_name: chicouncilmatic_solr
+    volumes:
+      - ./solr_configs:/chicago_configs
+      - data:/opt/solr/server/solr/mycores
+    command: sh -c 'solr-create -c chicago -d /chicago_configs'
+    ports:
+      - '127.0.0.2:8983:8983'
+    environment:
+      SOLR_LOG_LEVEL: ERROR
+
+volumes:
+  data:
