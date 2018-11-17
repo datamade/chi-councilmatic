@@ -235,7 +235,7 @@
                             <div class="panel-body">
                                 {% for child in parent.children %}
                                     <p class="no-pad-bottom">
-                                        {% if child.count = 0 %}
+                                        {% if child.count == 0 %}
                                             <span class="badge badge-default-light">{{child.count}}</span>
                                         {% else %}
                                             <span class="badge badge-default">{{child.count}}</span>
@@ -247,7 +247,7 @@
                                     <ul>
                                     {% for grandchild in child.children %}
                                         <li class="small">
-                                            {% if grandchild.count = 0 %}
+                                            {% if grandchild.count == 0 %}
                                                 <span class="badge badge-default-light">{{grandchild.count}}</span>
                                             {% else %}
                                                 <span class="badge badge-default">{{grandchild.count}}</span>

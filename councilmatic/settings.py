@@ -40,14 +40,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'haystack',
     'chicago',
     'councilmatic_core',
-    'notifications',
+    'opencivicdata.core',
+    'opencivicdata.legislative',
+    #'notifications',
     'django_rq',
     'password_reset',
     'adv_cache_tag',
-    'debug_toolbar',
 )
 
 try:
@@ -55,12 +57,11 @@ try:
 except NameError:
     pass
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

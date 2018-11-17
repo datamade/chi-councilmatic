@@ -24,7 +24,7 @@ patterns = ([
 
 urlpatterns = [
     url(r'', include(patterns)),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'', include('councilmatic_core.urls')),
 ]
 

@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
-from councilmatic_core.models import Action
 from councilmatic_core.views import *
 
 from haystack.query import SearchQuerySet
+
+from django.db.models import DateTimeField
+from django.db.models.functions import Cast
 
 class ChicagoIndexView(IndexView):
     template_name = 'chicago/index.html'
@@ -17,16 +19,16 @@ class ChicagoIndexView(IndexView):
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
-                           .filter(start_time__lt=datetime.now())\
-                           .latest('start_time')
+        return ChicagoEvent.objects.annotate(start_date_dt=Cast('start_date', DateTimeField())).filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
+                           .filter(start_date__lt=datetime.now())\
+                           .latest('start_date_dt')
 
     def date_cutoff(self):
-        return self.last_meeting().start_time.date()
+        return self.last_meeting().start_date_dt.date()
 
     def council_bills(self):
         return ChicagoBill.objects\
-                          .filter(actions__date=self.date_cutoff(), _from_organization_id=settings.OCD_CITY_COUNCIL_ID)\
+                          .filter(actions__date=self.date_cutoff(), from_organization_id=settings.OCD_CITY_COUNCIL_ID)\
                           .prefetch_related('actions')
 
     def topic_hierarchy(self):

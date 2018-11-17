@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.html import mark_safe
 from councilmatic_core.models import Bill, Event, Organization
+from opencivicdata.core.models import Organization
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
