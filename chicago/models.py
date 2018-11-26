@@ -66,11 +66,11 @@ class ChicagoBill(Bill):
 
     @property
     def listing_description(self):
-        return self.description
+        return self.title
 
     @property
     def topics(self):
-        tags = topic_classifier(self.description)
+        tags = topic_classifier(self.title)
         if 'Routine' in tags:
             tags.remove('Routine')
             tags = ['Routine'] + tags
@@ -97,7 +97,7 @@ class ChicagoBill(Bill):
 
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
 
-            matches = re.findall(pattern, self.description, re.IGNORECASE)
+            matches = re.findall(pattern, self.title, re.IGNORECASE)
 
             addresses = [m[0] for m in matches]
             return addresses
@@ -127,7 +127,7 @@ class ChicagoBill(Bill):
         # Sections
         description = re.sub(r'((Section)*s* *(\d{1,2}-\d{1,3}-\d+)\S*)',
                              r"<a href='https://chicagocode.org/\3/'>\1</a>",
-                             self.description)
+                             self.title)
 
         # Chapters
         # 8 and 16-13
