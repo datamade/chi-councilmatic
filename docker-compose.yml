@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  solr:
+    image: solr:7.1
+    container_name: bga-payroll-solr
+    volumes:
+      - ./solr_configs:/bga-payroll_configs
+      - data:/opt/solr/server/solr/mycores
+    command: sh -c 'solr-create -c bga -d /bga-payroll_configs'
+    ports:
+      - '127.0.0.1:8986:8983'
+    environment:
+      SOLR_LOG_LEVEL: ERROR
+    restart: on-failure
+  redis:
+    image: redis
+    container_name: bga-payroll-redis
+    ports:
+      - '127.0.0.1:6380:6379'
+    restart: on-failure
+      
+volumes:
+  data:
