@@ -7,8 +7,12 @@ install:
 - pip install --upgrade -r requirements.txt
 addons:
   postgresql: '9.4'
+  apt:
+    packages:
+    - postgresql-9.4-postgis-2.1
 before_script:
-- mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
+  - psql -U postgres -c "create extension postgis"
+  - mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
 script: python manage.py migrate
 deploy:
   - provider: codedeploy
