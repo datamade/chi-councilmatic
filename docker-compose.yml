@@ -2,11 +2,11 @@ version: '3.3'
 services:
   solr:
     image: solr:7.1
-    container_name: bga-payroll-solr
+    container_name: chicago-solr
     volumes:
-      - ./solr_configs:/bga-payroll_configs
+      - ./solr_configs:/chicago_configs
       - data:/opt/solr/server/solr/mycores
-    command: sh -c 'solr-create -c bga -d /bga-payroll_configs'
+    command: sh -c 'solr-create -c chicago -d /chicago_configs'
     ports:
       - '127.0.0.1:8986:8983'
     environment:
@@ -14,7 +14,7 @@ services:
     restart: on-failure
   redis:
     image: redis
-    container_name: bga-payroll-redis
+    container_name: chicago-redis
     ports:
       - '127.0.0.1:6380:6379'
     restart: on-failure
