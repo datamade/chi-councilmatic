@@ -46,7 +46,6 @@ INSTALLED_APPS = (
     'councilmatic_core',
     'opencivicdata.core',
     'opencivicdata.legislative',
-    'password_reset',
     'adv_cache_tag',
 )
 
