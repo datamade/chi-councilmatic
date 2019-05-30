@@ -1,5 +1,6 @@
 {% extends "base_with_margins.html" %}
 {% load extras %}
+{% load static %}
 {% load staticfiles %}
 {% load adv_cache %}
 {% block title %}{{ person.name }}{% endblock %}
@@ -32,7 +33,7 @@
 
     <div class="row-fluid">
         <div class="col-sm-3 non-mobile-only">
-            <img src='{{person.headshot_url}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
+            <img src='{% static person.headshot.url %}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
             {% if person.headshot_source %}
                 <p class='small'>
                     <i class='fa fa-fw fa-camera'></i> Credit: {{person.headshot_source}}
@@ -133,7 +134,7 @@
         <div class="col-sm-4 mobile-only">
             <div class="row">
                 <div class="col-xs-4">
-                    <img src='{{person.headshot_url}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail' />
+                    <img src='{% static person.headshot.url %}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail' />
                 </div>
                 <div class="col-xs-8">
                     <p class="small">
@@ -248,7 +249,7 @@
           "@context": "http://schema.org",
           "@type": "Person",
           "email": "{{person.email}}",
-          "image": "{{person.headshot_url}}",
+          "image": "{% static person.headshot.url %}",
           {% if person.current_council_seat %}
           "jobTitle": "{{ person.current_council_seat }} Representative",
           {% endif %}
