@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.html import mark_safe
-from councilmatic_core.models import Bill, Event, Organization
-from opencivicdata.core.models import Organization
+from councilmatic_core.models import Bill, Event
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
@@ -23,7 +22,7 @@ class ChicagoBill(Bill):
 
     @property
     def date_passed(self):
-        return self.actions.filter(classification='passage').order_by('-order').first().date if self.actions.all() else None
+        return self.actions.filter(classification='passage').order_by('-order').first().date_dt if self.actions.all() else None
 
     def _terminal_status(self, history, bill_type):
         if history:
@@ -52,7 +51,7 @@ class ChicagoBill(Bill):
     def inferred_status(self):
         actions = self.actions.all().order_by('-order')
         classification_hist = [a.classification for a in actions]
-        last_action_date = actions[0].date if actions else None
+        last_action_date = actions[0].date_dt if actions else None
         bill_type = self.bill_type
 
         if bill_type.lower() in ['communication', 'oath of office']:
@@ -169,4 +168,3 @@ class ChicagoEvent(Event):
                   .filter(start_time__lt=datetime.now()).filter(description='').order_by('-start_time').first()
         else:
             return None
-
