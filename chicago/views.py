@@ -105,9 +105,9 @@ class ChicagoBillDetailView(BillDetailView):
             (1) original Councilmatic slug, which used the Legistar GUID
             (2) a mangled form: an added space, e.g.,  o-2018-2302 (old slug) vs. o2018-2302
             '''
-            try: 
+            try:
                 pattern = '?ID=%s&GUID' % slug
-                bill = ChicagoBill.objects.get(source_url__contains=pattern)
+                bill = ChicagoBill.objects.get(sources__url__contains=pattern)
                 return HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
             except ChicagoBill.DoesNotExist:
                 try: 
@@ -156,7 +156,7 @@ class ChicagoBillDetailView(BillDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
-        bill_classification = context['object'].classification
+        bill_classification, = context['object'].classification
         bill_identifier = context['object'].identifier
         if bill_classification in {'claim'} or bill_identifier=='Or 2013-382':
             context['seo']['nofollow'] = True

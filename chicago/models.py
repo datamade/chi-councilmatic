@@ -112,8 +112,8 @@ class ChicagoBill(Bill):
         base_url = 'https://pic.datamade.us/chicago/document/'
         # base_url = 'http://127.0.0.1:5000/chicago/document/'
 
-        if self.documents.filter(document_type='V').all():
-            legistar_doc_url = self.documents.filter(document_type='V').first().url
+        if self.documents.filter(note='V').all():
+            legistar_doc_url = self.documents.filter(note='V').first().url
             doc_url = '{0}?filename={2}&document_url={1}'.format(base_url,
                                                                  legistar_doc_url,
                                                                  self.identifier)
