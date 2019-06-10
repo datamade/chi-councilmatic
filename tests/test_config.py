@@ -1,5 +1,7 @@
 import os
 
+from .test_config_jurisdiction import *
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -66,4 +68,9 @@ TEMPLATES = [
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+HAYSTACK_CONNECTIONS = {
+    'default': {},
+}
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+USING_NOTIFICATIONS = False
