@@ -251,3 +251,6 @@ class ChicagoPersonDetailView(PersonDetailView):
             context['twitter_url'] = settings.CONTACT_INFO[person.slug]['twitter']['url']
 
         return context
+
+class EventDetailView(DetailView):
+    model = ChicagoEvent

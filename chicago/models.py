@@ -14,6 +14,7 @@ class ChicagoBill(Bill):
 
     class Meta:
         proxy = True
+        app_label = 'chicago'
 
     @property
     def friendly_name(self):
@@ -86,13 +87,13 @@ class ChicagoBill(Bill):
         override this in custom subclass
         """
         if 'Ward Matters' in self.topics or 'City Matters' in self.topics:
-            stname_pattern = "(\S*[a-z]\S*\s){1,4}?"
-            sttype_pattern = "(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
+            stname_pattern = r"(\S*[a-z]\S*\s){1,4}?"
+            sttype_pattern = r"(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
             st_pattern = stname_pattern + sttype_pattern
 
             # match 123 and 123-125, but not 123-125-127
             addr_pattern = r"((?<!-)\b\d{1,5}(-\d{1,5})?\s%s)" %st_pattern
-            intersec_pattern = exp = "((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
+            intersec_pattern = exp = r"((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
 
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
 
@@ -160,6 +161,7 @@ class ChicagoEvent(Event):
 
     class Meta:
         proxy = True
+        app_label = 'chicago'
 
     @classmethod
     def most_recent_past_city_council_meeting(cls):
