@@ -50,8 +50,7 @@ DISQUS_SHORTNAME = None
 # analytics tracking code
 ANALYTICS_TRACKING_CODE = ''
 
-HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
-                             '/chicago/static/images/')
+STATIC_PATH = os.path.join(os.path.dirname(__file__), '..', 'chicago', 'static')
 
 EXTRA_APPS = ('raven.contrib.django.raven_compat',)
 

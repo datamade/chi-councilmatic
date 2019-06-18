@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'opencivicdata.core',
     'opencivicdata.legislative',
     'adv_cache_tag',
+    'fixture_magic',
 )
 
 try:
@@ -113,3 +114,35 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+LOGGING = {
+    'version': 1,
+    # Turn off loggers of dependencies. Loggers we want to retain are named
+    # in the loggers block. See:
+    # https://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
+    'disable_existing_loggers': True,
+
+    'formatters': {
+        'console': {
+            'format': '[%(asctime)s][%(levelname)s] %(name)s '
+                      '%(filename)s:%(funcName)s:%(lineno)d | %(message)s',
+            'datefmt': '%H:%M:%S',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+    },
+
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
