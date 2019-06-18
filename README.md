@@ -4,7 +4,7 @@ Keep track of what Chicago City Council is doing.
 
 ## Setup
 
-**Install OS level dependencies:** 
+**Install OS level dependencies:**
 
 * Python 3.4
 * PostgreSQL 9.4 +
@@ -24,14 +24,15 @@ pip install -r requirements.txt
 
 Afterwards, whenever you want to use this virtual environment to work on chi-councilmatic, run `workon chi-councilmatic`
 
-**OPTIONAL: install django-councilmatic locally**  
+**OPTIONAL: install django-councilmatic locally**
 If you plan on making changes to core councilmatic features (as opposed to Chicago-specific stuff), you'll want to install django-councilmatic locally instead of installing from pypi.
 
 ```bash
 cd ..
 git clone https://github.com/datamade/django-councilmatic.git
 cd django-councilmatic
-python setup.py develop
+pip install -e .
+pip install -r tests/requirements.txt
 cd ../chi-councilmatic
 ```
 
@@ -51,6 +52,7 @@ Before we can run the website, we need to create a database.
 
 ```bash
 createdb chi_councilmatic
+psql -d chi_councilmatic -c "create extension postgis"
 ```
 
 Then, run migrations
@@ -65,17 +67,54 @@ Create an admin user - set a username & password when prompted
 python manage.py createsuperuser
 ```
 
-## Importing data from the open civic data api
+## Importing data
 
-Run the loaddata management command. This will take a while, depending on volume (Chicago has ~70k bills, & it takes ~1 hour to load the data).
+Chicago Councilmatic runs off a database populated by lightly extended [Open Civic Data models](https://github.com/opencivicdata/python-opencivicdata/). DataMade maintains a scraper to fill this database with information from Legistar. To reproduce it locally, first clone the scraper repo and install the requirements:
 
 ```bash
-python manage.py import_data
+cd ..
+git clone https://github.com/opencivicdata/scrapers-us-municipal.git
+cd scrapers-us-municipal
+pip install -r requirements.txt
 ```
 
-By default, the import_data command is smart about what it looks at on the OCD API. If you already have bills loaded, it won't look at everything on the API - it'll look at the most recently updated bill in your database, see when that bill was last updated on the OCD API, & then look through everything on the API that was updated after that point. If you'd like to load things that are older than what you currently have loaded, you can run the import_data management command with a `--delete` option, which removes everything from your database before loading.
+Next, create a settings file for `pupa` –
 
-The import_data command has some more nuance than the description above, for the different types of data it loads. If you have any questions, open up an issue and pester us to write better documentation.
+```bash
+touch pupa_settings.py
+```
+
+– and add the following settings:
+
+```python
+OCD_CITY_COUNCIL_ID = ''
+OCD_CITY_COUNCIL_NAME = ''
+CITY_COUNCIL_NAME = ''
+STATIC_PATH = ''
+
+INSTALLED_APPS = (
+    'django.contrib.contenttypes',
+    'opencivicdata.core.apps.BaseConfig',
+    'opencivicdata.legislative.apps.BaseConfig',
+    'pupa',
+    'councilmatic_core'
+)
+
+# Change this if you called your database something different
+DATABASE_URL = 'postgres:///chi_councilmatic'
+```
+
+Initialize the database, then import the most recent data from Chicago (where most recent == from the last three days).
+
+```bash
+pupa dbinit us && pupa update chicago
+```
+
+There are tens of thousands of bills and hundreds of events in Chicago legislative history. If you'd like import everything, set aside about an hour, then run:
+
+```bash
+pupa update chicago bills window=0 && pupa update chicago events window=0
+```
 
 ## Setup CSS, Images, and other static resources
 ```bash
@@ -107,7 +146,7 @@ On OS X:
 [http://java.com/en/download/mac_download.jsp?locale=en](http://java.com/en/download/mac_download.jsp?locale=en)
 2. Follow normal install procedure
 3. Change system Java to use the version you just installed:
-    
+
     ``` bash
     sudo mv /usr/bin/java /usr/bin/java16
     sudo ln -s /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java /usr/bin/java
@@ -115,7 +154,7 @@ On OS X:
 
 **Download & setup Solr**
 
-``` bash 
+``` bash
 wget http://mirror.sdunix.com/apache/lucene/solr/4.10.4/solr-4.10.4.tgz
 tar -xvf solr-4.10.4.tgz
 sudo cp -R solr-4.10.4/example /opt/solr
@@ -145,7 +184,7 @@ Just running Solr as described above is probably OK in a development setting.
 To deploy Solr in production, you'll want to use something like Jetty. Here's
 how you'd do that on Ubuntu:
 
-``` bash 
+``` bash
 sudo apt-get install jetty
 
 # Backup stock init.d script
@@ -189,7 +228,7 @@ configuring things properly.
 
 ## Team
 
-* David Moore - project manager 
+* David Moore - project manager
 * Forest Gregg - Open Civic Data (OCD) and Legistar scraping
 * Cathy Deng - data models and loading
 * Derek Eder - front end
