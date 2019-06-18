@@ -111,10 +111,9 @@ class ChicagoBill(Bill):
         full_text, it is a PDF document that you can embed on the page
         """
         base_url = 'https://pic.datamade.us/chicago/document/'
-        # base_url = 'http://127.0.0.1:5000/chicago/document/'
 
-        if self.documents.filter(note='V').all():
-            legistar_doc_url = self.documents.filter(note='V').first().url
+        if self.versions.all():
+            legistar_doc_url = self.versions.first().links.first().url
             doc_url = '{0}?filename={2}&document_url={1}'.format(base_url,
                                                                  legistar_doc_url,
                                                                  self.identifier)
