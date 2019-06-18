@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'opencivicdata.core',
     'opencivicdata.legislative',
     'adv_cache_tag',
-    'fixture_magic',
 )
 
 try:
