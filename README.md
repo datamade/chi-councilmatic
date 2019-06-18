@@ -87,7 +87,6 @@ touch pupa_settings.py
 – and add the following settings:
 
 ```python
-OCD_CITY_COUNCIL_ID = ''
 OCD_CITY_COUNCIL_NAME = ''
 CITY_COUNCIL_NAME = ''
 STATIC_PATH = ''

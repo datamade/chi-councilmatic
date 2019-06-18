@@ -6,7 +6,7 @@ from .test_config_jurisdiction import *
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'super secret key'
-OCD_CITY_COUNCIL_ID = 'ocd-organization/3266e69a-85ed-4c76-a98f-5652081ab5d1'
+OCD_CITY_COUNCIL_NAME = 'Chicago City Council'
 
 INSTALLED_APPS = (
     'chicago',

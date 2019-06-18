@@ -28,7 +28,7 @@ class ChicagoIndexView(IndexView):
 
     def council_bills(self):
         return ChicagoBill.objects\
-                          .filter(actions__date=self.date_cutoff(), from_organization_id=settings.OCD_CITY_COUNCIL_ID)\
+                          .filter(actions__date=self.date_cutoff(), from_organization__name=settings.OCD_CITY_COUNCIL_NAME)\
                           .prefetch_related('actions')
 
     def topic_hierarchy(self):
