@@ -226,6 +226,14 @@ If you intend to run more than one instance of Councilmatic on the same server,
 you'll need to take a look at [this README](solr_scripts/README.md) to make sure you're
 configuring things properly.
 
+## Testing
+
+This app provides a basic set of tests that hit all endpoints for the bills, people, events, and organizations in your local database and ensure that nothing breaks. To run them, add some data to your database, as described in [Importing data](#importing-data), then run `pytest`.
+
+```bash
+pytest -sv
+```
+
 ## Team
 
 * David Moore - project manager
