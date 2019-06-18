@@ -20,7 +20,7 @@ class ChicagoIndexView(IndexView):
 
     def last_meeting(self):
         return ChicagoEvent.objects.annotate(start_date_dt=Cast('start_date', DateTimeField())).filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
-                           .filter(start_date__lt=datetime.now())\
+                           .filter(start_date_dt__lt=datetime.now())\
                            .latest('start_date_dt')
 
     def date_cutoff(self):
