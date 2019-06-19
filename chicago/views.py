@@ -19,12 +19,12 @@ class ChicagoIndexView(IndexView):
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.objects.annotate(start_date_dt=Cast('start_date', DateTimeField())).filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
-                           .filter(start_date_dt__lt=datetime.now())\
-                           .latest('start_date_dt')
+        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME,
+                                           start_time__lt=datetime.now())\
+                                   .latest('start_time')
 
     def date_cutoff(self):
-        return self.last_meeting().start_date_dt.date()
+        return self.last_meeting().start_time.date()
 
     def council_bills(self):
         return ChicagoBill.objects\
