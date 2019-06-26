@@ -30,7 +30,10 @@ if __name__ == '__main__':
     """
     Extract shapes for each OCD Division entity from the OCD API.
     """
-    shapes = {}
+    shapes = {
+        'type': 'FeatureCollection',
+        'features': [],
+    }
     for boundary in BOUNDARY_SET:
         bndry_set_url = BASE_URL + '/boundaries/' + boundary
 
@@ -40,6 +43,12 @@ if __name__ == '__main__':
         for bndry_json in page_json['objects']:
             shape_url = BASE_URL + bndry_json['url'] + 'shape'
             shape_res = get_response(shape_url)
-            shapes[bndry_json['external_id']] = json.loads(shape_res.text)
+            shapes['features'].append({
+                'type': 'Feature',
+                'geometry': json.loads(shape_res.text),
+                'properties': {
+                    'division_id': bndry_json['external_id'],
+                },
+            })
 
     json.dump(shapes, sys.stdout)
