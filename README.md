@@ -115,6 +115,12 @@ There are tens of thousands of bills and hundreds of events in Chicago legislati
 pupa update chicago bills window=0 && pupa update chicago events window=0
 ```
 
+Finally, make sure to load shapes into the database so that Posts can be associated with their corresponding boundaries:
+
+```bash
+python manage.py import_shapes data/final/shapes/chicago_shapes.json
+```
+
 ## Setup CSS, Images, and other static resources
 ```bash
 python manage.py collectstatic
