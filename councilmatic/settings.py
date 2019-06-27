@@ -42,11 +42,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'haystack',
-    'chicago',
     'councilmatic_core',
     'opencivicdata.core',
     'opencivicdata.legislative',
+    'notifications',
     'adv_cache_tag',
+    'password_reset'
 )
 
 try:
