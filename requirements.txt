@@ -1,4 +1,4 @@
-django-councilmatic==2.5.2
+https://github.com/datamade/django-councilmatic/archive/2.5.tar.gz
 django-councilmatic-notifications==2.5
 raven==5.30.0
 gunicorn==19.6.0
