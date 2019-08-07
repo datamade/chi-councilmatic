@@ -46,6 +46,9 @@ INSTALLED_APPS = (
     'councilmatic_core',
     'opencivicdata.core',
     'opencivicdata.legislative',
+    'notifications',
+    'django_rq',
+    'password_reset',
     'adv_cache_tag',
 )
 
