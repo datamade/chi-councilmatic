@@ -1,5 +1,5 @@
 https://github.com/datamade/django-councilmatic/archive/2.5.tar.gz
-https://github.com/datamade/django-councilmatic-notifications/2.5.tar.gz
+https://github.com/datamade/django-councilmatic-notifications/archive/2.5.tar.gz
 raven==6.10.0
 gunicorn==19.6.0
 django-debug-toolbar==1.9.1
