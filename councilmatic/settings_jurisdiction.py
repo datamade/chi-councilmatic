@@ -4,10 +4,10 @@
 # These settings are required #
 ###############################
 
-OCD_CITY_COUNCIL_ID = 'ocd-organization/ef168607-9135-4177-ad8e-c1f7a4806c3a'
+OCD_CITY_COUNCIL_NAME = 'Chicago City Council'
 CITY_COUNCIL_NAME = 'Chicago City Council'
 OCD_JURISDICTION_IDS = ['ocd-jurisdiction/country:us/state:il/place:chicago/government']
-LEGISLATIVE_SESSIONS = ['2007', '2011', '2015'] # the last one in this list should be the current legislative session
+LEGISLATIVE_SESSIONS = ['2007', '2011', '2015', '2019'] # the last one in this list should be the current legislative session
 CITY_NAME = 'Chicago'
 CITY_NAME_SHORT = 'Chicago'
 
@@ -25,6 +25,7 @@ APP_NAME = 'chicago'
 
 #########################
 # The rest are optional #
+
 #########################
 
 # this is for populating meta tags
@@ -39,13 +40,6 @@ SITE_META = {
 
 LEGISTAR_URL = 'https://chicago.legistar.com/Legislation.aspx'
 
-
-# this is for the boundaries of municipal districts, to add
-# shapes to posts & ultimately display a map with the council
-# member listing. the boundary set should be the relevant
-# slug from the ocd api's boundary service
-# available boundary sets here: http://ocd.datamade.us/boundary-sets/
-BOUNDARY_SET = ['chicago-wards-2015']
 
 # this is for configuring a map of council districts using data from the posts
 # set MAP_CONFIG = None to hide map

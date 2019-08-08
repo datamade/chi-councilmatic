@@ -1,4 +1,8 @@
-django-councilmatic==0.10.6
-raven==5.30.0
+django-councilmatic==2.5.4
+django-councilmatic-notifications==2.5.1
+raven==6.10.0
 gunicorn==19.6.0
 django-debug-toolbar==1.9.1
+pytest==4.6.2
+pytest-django==3.5.0
+setuptools

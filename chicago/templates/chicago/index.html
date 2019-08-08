@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% load adv_cache %}
 {% block title %}Chicago City Council, demystified{% endblock %}
 
@@ -40,7 +40,7 @@
 
                 <div class='row'>
                     <div class='col-sm-8'>
-                        <p>Chicago City Council consists of <a href='/council-members/' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/emanuel-rahm-3af71de0e6ca/'  target="_blank">Rahm Emanuel</a>, the Mayor, and <a href='/person/valencia-anna-m-ae119fe8c2e3/' target="_blank">Anna Valencia</a>, the City Clerk.</p>
+                        <p>Chicago City Council consists of <a href='/council-members/' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/lightfoot-lori-e-f6faf37c9643/'  target="_blank">Lori Lightfoot</a>, the Mayor, and <a href='/person/valencia-anna-m-ae119fe8c2e3/' target="_blank">Anna Valencia</a>, the City Clerk.</p>
 
                         <p>
                             <strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council:
@@ -187,7 +187,7 @@
                 </h2>
 
                 <p class="big">
-                    At the <a href="{{last_council_meeting.event_page_url}}/" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{council_bills | length}}</strong> pieces of legislation, including <strong>{{nonroutine_council_bills | length}}</strong> that are <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
+                    At the <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{council_bills | length}}</strong> pieces of legislation, including <strong>{{nonroutine_council_bills | length}}</strong> that are <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
                 </p>
 
                 <p>
@@ -235,7 +235,7 @@
                             <div class="panel-body">
                                 {% for child in parent.children %}
                                     <p class="no-pad-bottom">
-                                        {% if child.count = 0 %}
+                                        {% if child.count == 0 %}
                                             <span class="badge badge-default-light">{{child.count}}</span>
                                         {% else %}
                                             <span class="badge badge-default">{{child.count}}</span>
@@ -247,7 +247,7 @@
                                     <ul>
                                     {% for grandchild in child.children %}
                                         <li class="small">
-                                            {% if grandchild.count = 0 %}
+                                            {% if grandchild.count == 0 %}
                                                 <span class="badge badge-default-light">{{grandchild.count}}</span>
                                             {% else %}
                                                 <span class="badge badge-default">{{grandchild.count}}</span>

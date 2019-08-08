@@ -1,3 +1,5 @@
+{% load static %}
+
 <table class='table' id='council-members'>
     <thead>
         <tr>
@@ -14,7 +16,7 @@
             <tr>
                 <td>
                     <div class="thumbnail-square">
-                        <img src='{{membership.person.headshot_url}}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{% static membership.person.headshot.url %}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
                     </div>
                 </td>
                 <td>
@@ -32,7 +34,7 @@
             <tr>
                 <td>
                     <div class="thumbnail-square">
-                        <img src='{{membership.person.headshot_url}}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{% static membership.person.headshot.url %}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
                     </div>
                 </td>
                 <td>
@@ -50,7 +52,7 @@
             <tr>
                 <td>
                     <div class="thumbnail-square">
-                        <img src='{{membership.person.headshot_url}}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{% static membership.person.headshot.url %}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
                     </div>
                 </td>
                 <td>

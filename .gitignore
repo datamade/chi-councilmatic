@@ -8,7 +8,7 @@ settings_deployment.py
 
 # Collected Static Files
 static/**
-**/static/images/ocd-person/*.jpg
+**/static/images/headshots/
 
 solr-4.10.4/**
 

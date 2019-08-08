@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
-from councilmatic_core.models import Action
 from councilmatic_core.views import *
 
 from haystack.query import SearchQuerySet
+
+from django.db.models import DateTimeField
+from django.db.models.functions import Cast
 
 class ChicagoIndexView(IndexView):
     template_name = 'chicago/index.html'
@@ -17,16 +19,16 @@ class ChicagoIndexView(IndexView):
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME)\
-                           .filter(start_time__lt=datetime.now())\
-                           .latest('start_time')
+        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME,
+                                           start_time__lt=datetime.now())\
+                                   .latest('start_time')
 
     def date_cutoff(self):
         return self.last_meeting().start_time.date()
 
     def council_bills(self):
         return ChicagoBill.objects\
-                          .filter(actions__date=self.date_cutoff(), _from_organization_id=settings.OCD_CITY_COUNCIL_ID)\
+                          .filter(actions__date=self.date_cutoff(), from_organization__name=settings.OCD_CITY_COUNCIL_NAME)\
                           .prefetch_related('actions')
 
     def topic_hierarchy(self):
@@ -103,9 +105,9 @@ class ChicagoBillDetailView(BillDetailView):
             (1) original Councilmatic slug, which used the Legistar GUID
             (2) a mangled form: an added space, e.g.,  o-2018-2302 (old slug) vs. o2018-2302
             '''
-            try: 
+            try:
                 pattern = '?ID=%s&GUID' % slug
-                bill = ChicagoBill.objects.get(source_url__contains=pattern)
+                bill = ChicagoBill.objects.get(sources__url__contains=pattern)
                 return HttpResponsePermanentRedirect(reverse('bill_detail', args=[bill.slug]))
             except ChicagoBill.DoesNotExist:
                 try: 
@@ -154,7 +156,7 @@ class ChicagoBillDetailView(BillDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
-        bill_classification = context['object'].classification
+        bill_classification, = context['object'].classification
         bill_identifier = context['object'].identifier
         if bill_classification in {'claim'} or bill_identifier=='Or 2013-382':
             context['seo']['nofollow'] = True
@@ -238,7 +240,7 @@ class ChicagoPersonDetailView(PersonDetailView):
         person = context['person']
 
         if person.latest_council_membership:
-            context['tenure_start'] = person.latest_council_membership.start_date.strftime("%B %d, %Y")
+            context['tenure_start'] = person.latest_council_membership.start_date_dt.strftime("%B %d, %Y")
 
         context['chair_positions'] = person.chair_role_memberships
 
@@ -249,3 +251,6 @@ class ChicagoPersonDetailView(PersonDetailView):
             context['twitter_url'] = settings.CONTACT_INFO[person.slug]['twitter']['url']
 
         return context
+
+class EventDetailView(DetailView):
+    model = ChicagoEvent

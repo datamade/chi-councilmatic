@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.html import mark_safe
-from councilmatic_core.models import Bill, Event, Organization
+from councilmatic_core.models import Bill, Event
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
@@ -14,6 +14,7 @@ class ChicagoBill(Bill):
 
     class Meta:
         proxy = True
+        app_label = 'chicago'
 
     @property
     def friendly_name(self):
@@ -22,7 +23,7 @@ class ChicagoBill(Bill):
 
     @property
     def date_passed(self):
-        return self.actions.filter(classification='passage').order_by('-order').first().date if self.actions.all() else None
+        return self.actions.filter(classification='passage').order_by('-order').first().date_dt if self.actions.all() else None
 
     def _terminal_status(self, history, bill_type):
         if history:
@@ -42,7 +43,7 @@ class ChicagoBill(Bill):
     def _is_stale(self, last_action_date):
     # stale = no action for 5 months
         if last_action_date:
-            timediff = datetime.now().replace(tzinfo=app_timezone) - last_action_date
+            timediff = datetime.now().replace(tzinfo=app_timezone) - last_action_date.replace(tzinfo=app_timezone)
             return (timediff.days > 180)
         else:
             return True
@@ -51,7 +52,7 @@ class ChicagoBill(Bill):
     def inferred_status(self):
         actions = self.actions.all().order_by('-order')
         classification_hist = [a.classification for a in actions]
-        last_action_date = actions[0].date if actions else None
+        last_action_date = actions[0].date_dt if actions else None
         bill_type = self.bill_type
 
         if bill_type.lower() in ['communication', 'oath of office']:
@@ -65,11 +66,11 @@ class ChicagoBill(Bill):
 
     @property
     def listing_description(self):
-        return self.description
+        return self.title
 
     @property
     def topics(self):
-        tags = topic_classifier(self.description)
+        tags = topic_classifier(self.title)
         if 'Routine' in tags:
             tags.remove('Routine')
             tags = ['Routine'] + tags
@@ -86,17 +87,17 @@ class ChicagoBill(Bill):
         override this in custom subclass
         """
         if 'Ward Matters' in self.topics or 'City Matters' in self.topics:
-            stname_pattern = "(\S*[a-z]\S*\s){1,4}?"
-            sttype_pattern = "(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
+            stname_pattern = r"(\S*[a-z]\S*\s){1,4}?"
+            sttype_pattern = r"(ave|blvd|cres|ct|dr|hwy|ln|pkwy|pl|plz|rd|row|sq|st|ter|way)"
             st_pattern = stname_pattern + sttype_pattern
 
             # match 123 and 123-125, but not 123-125-127
             addr_pattern = r"((?<!-)\b\d{1,5}(-\d{1,5})?\s%s)" %st_pattern
-            intersec_pattern = exp = "((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
+            intersec_pattern = exp = r"((?<=\sat\s)%s\s?and\s?%s)" %(st_pattern, st_pattern)
 
             pattern = "(%s|%s)" %(addr_pattern, intersec_pattern)
 
-            matches = re.findall(pattern, self.description, re.IGNORECASE)
+            matches = re.findall(pattern, self.title, re.IGNORECASE)
 
             addresses = [m[0] for m in matches]
             return addresses
@@ -110,10 +111,9 @@ class ChicagoBill(Bill):
         full_text, it is a PDF document that you can embed on the page
         """
         base_url = 'https://pic.datamade.us/chicago/document/'
-        # base_url = 'http://127.0.0.1:5000/chicago/document/'
 
-        if self.documents.filter(document_type='V').all():
-            legistar_doc_url = self.documents.filter(document_type='V').first().url
+        if self.versions.all():
+            legistar_doc_url = self.versions.first().links.first().url
             doc_url = '{0}?filename={2}&document_url={1}'.format(base_url,
                                                                  legistar_doc_url,
                                                                  self.identifier)
@@ -126,7 +126,7 @@ class ChicagoBill(Bill):
         # Sections
         description = re.sub(r'((Section)*s* *(\d{1,2}-\d{1,3}-\d+)\S*)',
                              r"<a href='https://chicagocode.org/\3/'>\1</a>",
-                             self.description)
+                             self.title)
 
         # Chapters
         # 8 and 16-13
@@ -160,6 +160,7 @@ class ChicagoEvent(Event):
 
     class Meta:
         proxy = True
+        app_label = 'chicago'
 
     @classmethod
     def most_recent_past_city_council_meeting(cls):
@@ -168,4 +169,3 @@ class ChicagoEvent(Event):
                   .filter(start_time__lt=datetime.now()).filter(description='').order_by('-start_time').first()
         else:
             return None
-

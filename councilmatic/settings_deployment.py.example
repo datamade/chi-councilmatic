@@ -14,7 +14,7 @@ DEBUG = False
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'chi_councilmatic',
         'USER': '',
         'PASSWORD': '',
@@ -48,8 +48,7 @@ DISQUS_SHORTNAME = None
 # analytics tracking code
 ANALYTICS_TRACKING_CODE = ''
 
-HEADSHOT_PATH = os.path.join(os.path.dirname(__file__), '..'
-                             '/chicago/static/images/')
+STATIC_PATH = os.path.join(os.path.dirname(__file__), '..', 'chicago', 'static')
 
 EXTRA_APPS = ()
 

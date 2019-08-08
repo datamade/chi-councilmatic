@@ -1,15 +1,26 @@
 language: python
+
 python:
 - '3.5'
+
 cache: pip
+
+addons:
+  postgresql: '9.4'
+  apt:
+    packages:
+    - postgresql-9.4-postgis-2.4
+
+before_script:
+  - psql -U postgres -c "create extension postgis"
+  - mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
+
 install:
 - pip install --upgrade pip
 - pip install --upgrade -r requirements.txt
-addons:
-  postgresql: '9.4'
-before_script:
-- mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
+
 script: python manage.py migrate
+
 deploy:
   - provider: codedeploy
     access_key_id: AKIAJNYGDLOJKHOUWCAA
@@ -26,4 +37,6 @@ deploy:
     application: chicago-councilmatic
     deployment_group: staging
     on:
-      branch: master
+      branch:
+        - master
+        - ocd
