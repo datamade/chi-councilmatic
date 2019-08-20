@@ -30,6 +30,8 @@ ALLOWED_HOSTS = [
     '.councilmatic.org'
 ]
 
+INTERNAL_IPS = ['127.0.0.1']
+
 
 # Application definition
 
@@ -40,7 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     'haystack',
     'chicago',
     'councilmatic_core',
@@ -49,7 +50,9 @@ INSTALLED_APPS = (
     'notifications',
     'django_rq',
     'password_reset',
+    'debug_toolbar',
     'adv_cache_tag',
+    
 )
 
 try:
