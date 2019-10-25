@@ -19,9 +19,7 @@ class ChicagoIndexView(IndexView):
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.objects.filter(name__exact=settings.CITY_COUNCIL_MEETING_NAME,
-                                           start_time__lt=datetime.now())\
-                                   .latest('start_time')
+        return ChicagoEvent.most_recent_past_city_council_meeting()
 
     def date_cutoff(self):
         return self.last_meeting().start_time.date()
