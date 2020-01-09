@@ -1,4 +1,4 @@
-https://github.com/opencivicdata/python-opencivicdata/archive/010cd72bdd806e76f342195a1f1e20acbed5a431.zip
+https://github.com/opencivicdata/python-opencivicdata/archive/2.5.0.zip
 django-councilmatic==2.5.4
 django-councilmatic-notifications==2.5.1
 raven==6.10.0
