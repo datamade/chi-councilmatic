@@ -1,5 +1,6 @@
-https://github.com/opencivicdata/python-opencivicdata/archive/2.5.0.zip
-django-councilmatic==2.5.4
+
+
+django-councilmatic==2.5.5
 django-councilmatic-notifications==2.5.1
 raven==6.10.0
 gunicorn==19.6.0
