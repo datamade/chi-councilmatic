@@ -168,7 +168,6 @@ class ChicagoEvent(Event):
             return cls.objects\
                 .filter(name__icontains=settings.CITY_COUNCIL_MEETING_NAME)\
                 .filter(start_time__lt=datetime.now())\
-                .filter(description='')\
                 .latest('start_time')
         else:
             return None
