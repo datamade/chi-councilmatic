@@ -26,7 +26,7 @@ DATABASES = {
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://solr:8983/solr/chi_councilmatic',
+        'URL': 'http://solr:8983/solr/chicago',
     },
 }
 
