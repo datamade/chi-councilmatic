@@ -67,11 +67,17 @@ docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 
 ## Team
 
+### Original project team
+
 * David Moore - project manager
 * Forest Gregg - Open Civic Data (OCD) and Legistar scraping
 * Cathy Deng - data models and loading
 * Derek Eder - front end
 * Eric van Zanten - search and dev ops
+
+### Maintenance
+
+Chicago Councilmatic is maintained by [the DataMade team](https://datamade.us/team/).
 
 ## Errors / Bugs
 
