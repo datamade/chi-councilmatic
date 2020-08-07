@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
+
 from .settings_deployment import *
 from .settings_jurisdiction import *
 
@@ -22,16 +24,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-
-
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1',
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
     '.datamade.us',
-    '.councilmatic.org'
+    '.councilmatic.org',
 ]
 
-INTERNAL_IPS = ['127.0.0.1']
-
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 # Application definition
 

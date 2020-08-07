@@ -7,7 +7,7 @@ SECRET_KEY = 'replacethiswithsomethingsecret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set this to True while you are developing
-DEBUG = False
+DEBUG = True
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -16,25 +16,25 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'chi_councilmatic',
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'postgres',
+        'HOST': 'postgres',
+        'PASSWORD': 'postgres',
+        'PORT': 5432,
     }
 }
 
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        #'URL': 'http://127.0.0.1:8983/solr'
-        # ...or for multicore...
-        'URL': 'http://127.0.0.1:8983/solr/chicago',
+        'URL': 'http://solr:8983/solr/chi_councilmatic',
     },
 }
 
-# Remember to run python manage.py createcachetable so this will work! 
+# Remember to run python manage.py createcachetable so this will work!
 # developers, set your BACKEND to 'django.core.cache.backends.dummy.DummyCache'
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         'LOCATION': 'councilmatic_cache',
     }
 }
