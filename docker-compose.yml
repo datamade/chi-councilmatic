@@ -1,23 +1,79 @@
-version: '3.3'
+version: '2.4'
+
 services:
+  app:
+    image: chi-councilmatic
+    container_name: chi-councilmatic
+    build: .
+    stdin_open: true
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      solr:
+        condition: service_started
+      redis:
+        condition: service_started
+    volumes:
+      - .:/app
+      - ${PWD}/councilmatic/settings_deployment.py.example:/app/councilmatic/settings_deployment.py
+    environment:
+      DJANGO_MANAGEPY_MIGRATE: "True"
+    command: python manage.py runserver 0.0.0.0:8000
+
+  postgres:
+    container_name: chi-councilmatic-postgres
+    image: mdillon/postgis:11
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_DB=chi_councilmatic
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - chi-councilmatic-db-data:/var/lib/postgresql/data
+    ports:
+      - 32001:5432
+
   solr:
     image: solr:7.1
-    container_name: chicago-solr
+    container_name: chi-councilmatic-solr
     volumes:
       - ./solr_configs:/chicago_configs
-      - data:/opt/solr/server/solr/mycores
+      - chi-councilmatic-solr-data:/opt/solr/server/solr/mycores
     command: sh -c 'solr-create -c chicago -d /chicago_configs'
     ports:
       - '127.0.0.1:8986:8983'
     environment:
       SOLR_LOG_LEVEL: ERROR
     restart: on-failure
+
   redis:
     image: redis
-    container_name: chicago-redis
+    container_name: chi-councilmatic-redis
     ports:
       - '127.0.0.1:6380:6379'
     restart: on-failure
-      
+
+  scrapers:
+    build: https://github.com/datamade/scrapers-us-municipal.git
+    stdin_open: true
+    tty: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
+      SHARED_DB: "True"
+    command: sh -c "
+        pupa update --rpm=0 chicago people &&
+        pupa update --rpm=0 chicago bills window=30 &&
+        pupa update --rpm=0 lametro events window=30"
+
 volumes:
-  data:
+  chi-councilmatic-db-data:
+  chi-councilmatic-solr-data:
