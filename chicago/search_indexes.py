@@ -1,11 +1,15 @@
-from councilmatic_core.haystack_indexes import BillIndex
-from haystack import indexes
-from chicago.models import ChicagoBill
 from datetime import datetime
+
+from councilmatic_core.haystack_indexes import BillIndex
 from django.conf import settings
+from haystack import indexes
 import pytz
 
+from chicago.models import ChicagoBill
+
+
 app_timezone = pytz.timezone(settings.TIME_ZONE)
+
 
 class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
@@ -33,14 +37,11 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
         return obj.topics
 
     def prepare_last_action_date(self, obj):
-        app_timezone = pytz.timezone(settings.TIME_ZONE)
-
         if not obj.last_action_date:
-            index_actions = [a.date for a in obj.actions.all()]
+            action_dates = [a.date for a in obj.actions.all()]
 
-            if index_actions:
-                index_actions = max(index_actions)
+            if action_dates:
+                last_action_date = max(action_dates)
+                return datetime.strptime(last_action_date, '%Y-%m-%d').date()
 
-            return index_actions
-
-        return obj.last_action_date
+        return obj.last_action_date.date()
