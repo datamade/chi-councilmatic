@@ -1,0 +1,9 @@
+[program:{{ app_name }}-{{ deployment_id }}]
+user=datamade
+process_name={{ app_name }}
+stdout_logfile=/var/log/{{ app_name }}-{{ deployment_id }}-out.log
+stdout_logfile_maxbytes=10MB
+stderr_logfile=/var/log/{{ app_name }}-{{ deployment_id }}-err.log
+stderr_logfile_maxbytes=10MB
+directory=/home/datamade/{{ app_name }}-{{ deployment_id }}
+command=/home/datamade/.virtualenvs/{{ app_name }}-{{ deployment_id }}/bin/gunicorn -t 180 --log-level debug -b unix:/tmp/{{ app_name }}-{{ deployment_id }}.sock {{cookiecutter.django_project_dir}}.wsgi:application
