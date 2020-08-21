@@ -19,7 +19,7 @@ services:
     volumes:
       - ./solr_configs:/chicago-councilmatic_configs
       - data:/opt/solr/server/solr/mycores
-    command: sh -c 'solr-create -c chicago-staging -d /chicago-councilmatic_configs'
+    command: sh -c 'solr-create -c chicago_staging -d /chicago-councilmatic_configs'
     ports:
       - '127.0.0.1:8986:8983'
     environment:
