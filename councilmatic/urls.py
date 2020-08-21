@@ -28,6 +28,10 @@ urlpatterns = [
     url(r'', include('councilmatic_core.urls')),
 ]
 
+urlpatterns += [
+    url(r'^pong/$', pong),
+]
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
