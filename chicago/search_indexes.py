@@ -22,11 +22,13 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
         data = super(ChicagoBillIndex, self).prepare(obj)
 
         boost = 0
-        if obj.last_action_date:
-            now = app_timezone.localize(datetime.now())
 
-            # obj.last_action_date can be in the future
-            weeks_passed = (now - obj.last_action_date).days / 7 + 1
+        if data['last_action_date']:
+            today = app_timezone.localize(datetime.now()).date()
+
+            # data['last_action_date'] can be in the future
+            weeks_passed = (today - data['last_action_date']).days / 7 + 1
+
             boost = 1 + 1.0 / max(weeks_passed, 1)
 
         data['boost'] = boost
