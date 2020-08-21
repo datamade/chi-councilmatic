@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   solr-production:
-    image: solr:7.5
+    image: solr:7.1
     container_name: chicago-production-solr
     volumes:
       - ./solr_configs:/chicago-councilmatic_configs
@@ -14,7 +14,7 @@ services:
       - SOLR_HEAP=1g
     restart: on-failure
   solr-staging:
-    image: solr:7.5
+    image: solr:7.1
     container_name: chicago-staging-solr
     volumes:
       - ./solr_configs:/chicago-councilmatic_configs
