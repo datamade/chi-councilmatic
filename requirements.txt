@@ -1,6 +1,4 @@
-
-
-django-councilmatic==2.5.5
+django-councilmatic==2.5.9
 django-councilmatic-notifications==2.5.1
 raven==6.10.0
 gunicorn==19.6.0
