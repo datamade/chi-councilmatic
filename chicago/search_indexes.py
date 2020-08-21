@@ -46,4 +46,5 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
                 last_action_date = max(action_dates)
                 return datetime.strptime(last_action_date, '%Y-%m-%d').date()
 
-        return obj.last_action_date.date()
+        else:
+            return obj.last_action_date.date()
