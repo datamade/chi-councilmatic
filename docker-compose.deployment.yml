@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  solr-production:
+    image: solr:7.5
+    container_name: chicago-production-solr
+    volumes:
+      - ./solr_configs:/chicago-councilmatic_configs
+      - data:/opt/solr/server/solr/mycores
+    command: sh -c 'solr-create -c chicago -d /chicago-councilmatic_configs'
+    ports:
+      - '127.0.0.1:8985:8983'
+    environment:
+      - SOLR_LOG_LEVEL=ERROR
+      - SOLR_HEAP=1g
+    restart: on-failure
+  solr-staging:
+    image: solr:7.5
+    container_name: chicago-staging-solr
+    volumes:
+      - ./solr_configs:/chicago-councilmatic_configs
+      - data:/opt/solr/server/solr/mycores
+    command: sh -c 'solr-create -c chicago-staging -d /chicago-councilmatic_configs'
+    ports:
+      - '0.0.0.0:8986:8983'
+    environment:
+      SOLR_LOG_LEVEL: ERROR
+    restart: on-failure
+volumes:
+  data:
