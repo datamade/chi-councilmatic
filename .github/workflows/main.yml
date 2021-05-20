@@ -41,6 +41,7 @@ jobs:
     - name: Test with pytest
       run: |
         mv configs/test_settings_deployment.py councilmatic/settings_deployment.py
+        python manage.py migrate
         pytest -sv
   deploy:
     needs: test
