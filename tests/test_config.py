@@ -41,7 +41,7 @@ ROOT_URLCONF = 'councilmatic.urls'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'chicago_councilmatic',
+        'NAME': 'chicago',
         'USER': '',
         'PASSWORD': '',
         'PORT': 5432,
