@@ -15,9 +15,9 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'travis',
-        'USER': 'travis',
-        'PASSWORD': '',
+        'NAME': 'chicago',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -26,8 +26,6 @@ DATABASES = {
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        #'URL': 'http://127.0.0.1:8983/solr'
-        # ...or for multicore...
         'URL': 'http://127.0.0.1:8983/solr/chicago',
     },
 }

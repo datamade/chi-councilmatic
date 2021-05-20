@@ -24,3 +24,11 @@ hooks:
     - location: scripts/validate_service.sh
       timeout: 1000
       runas: root
+
+branch_config:
+  hcg/patch-xss:
+    deploymentGroupName: staging
+  master:
+    deploymentGroupName: staging
+  deploy:
+    deploymentGroupName: production
