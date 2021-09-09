@@ -12,8 +12,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      solr:
-        condition: service_started
       redis:
         condition: service_started
     volumes:
@@ -39,19 +37,6 @@ services:
     ports:
       - 32001:5432
 
-  solr:
-    image: solr:7.1
-    container_name: chi-councilmatic-solr
-    volumes:
-      - ./solr_configs:/chicago_configs
-      - chi-councilmatic-solr-data:/opt/solr/server/solr/mycores
-    command: sh -c 'solr-create -c chicago -d /chicago_configs'
-    ports:
-      - '127.0.0.1:8986:8983'
-    environment:
-      SOLR_LOG_LEVEL: ERROR
-    restart: on-failure
-
   redis:
     image: redis
     container_name: chi-councilmatic-redis
@@ -76,4 +61,3 @@ services:
 
 volumes:
   chi-councilmatic-db-data:
-  chi-councilmatic-solr-data:
