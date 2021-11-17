@@ -25,8 +25,11 @@ DATABASES = {
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://solr:8983/solr/chicago',
+        'ENGINE': 'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
+        'URL': 'http://elasticsearch:9200',
+        'INDEX_NAME': 'chicago',
+        'SILENTLY_FAIL': False,
+        'BATCH_SIZE': 10,
     },
 }
 

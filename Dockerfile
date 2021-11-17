@@ -12,7 +12,7 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --use-feature=fast-deps --use-deprecated=legacy-resolver -r requirements.txt
 
 # Copy the contents of the current host directory (i.e., our app code) into
 # the container.

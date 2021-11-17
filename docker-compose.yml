@@ -12,6 +12,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      elasticsearch:
+        condition: service_started
       redis:
         condition: service_started
     volumes:
@@ -41,8 +43,17 @@ services:
     image: redis
     container_name: chi-councilmatic-redis
     ports:
-      - '127.0.0.1:6380:6379'
+      - 6380:6379
     restart: on-failure
+
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    container_name: chi-councilmatic-elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
 
   scrapers:
     build: https://github.com/datamade/scrapers-us-municipal.git
@@ -55,9 +66,8 @@ services:
       DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
       SHARED_DB: "True"
     command: sh -c "
-        pupa update --rpm=0 chicago people &&
-        pupa update --rpm=0 chicago bills window=30 &&
-        pupa update --rpm=0 lametro events window=30"
+        pupa update --rpm=0 chicago bills window=0.001 &&
+        pupa update --rpm=0 lametro events window=7"
 
 volumes:
   chi-councilmatic-db-data:

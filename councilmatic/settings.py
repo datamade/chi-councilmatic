@@ -54,7 +54,6 @@ INSTALLED_APPS = (
     'password_reset',
     'debug_toolbar',
     'adv_cache_tag',
-    
 )
 
 try:
