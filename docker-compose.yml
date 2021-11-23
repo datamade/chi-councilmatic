@@ -51,9 +51,12 @@ services:
     container_name: chi-councilmatic-elasticsearch
     ports:
       - 9200:9200
-      - 9300:9300
     environment:
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    mem_limit: 1g
+    volumes:
+      - chi-councilmatic-es-data:/usr/share/elasticsearch/data
 
   scrapers:
     build: https://github.com/datamade/scrapers-us-municipal.git
@@ -71,3 +74,4 @@ services:
 
 volumes:
   chi-councilmatic-db-data:
+  chi-councilmatic-es-data:

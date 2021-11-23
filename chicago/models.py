@@ -43,7 +43,7 @@ class ChicagoBill(Bill):
     def _is_stale(self, last_action_date):
     # stale = no action for 5 months
         if last_action_date:
-            timediff = datetime.now().replace(tzinfo=app_timezone) - last_action_date.replace(tzinfo=app_timezone)
+            timediff = datetime.now().date() - last_action_date
             return (timediff.days > 180)
         else:
             return True

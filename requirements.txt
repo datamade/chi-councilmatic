@@ -1,10 +1,11 @@
-django-councilmatic==2.5.5
+django-councilmatic==2.6.1
 django-councilmatic-notifications==2.5.1
 django-haystack[elasticsearch]
-elasticsearch>=7.0.0,<8.0.0
+elasticsearch>=7.0.0,<7.14.0
 raven==6.10.0
 gunicorn==19.6.0
 django-debug-toolbar==1.9.1
 pytest==4.6.2
 pytest-django==3.5.0
 setuptools
+psycopg2>=2.8,<2.9
