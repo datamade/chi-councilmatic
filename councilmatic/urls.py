@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 # from haystack.query import SearchQuerySet
+from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet, EmptySearchQuerySet
 from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedSearchView
 from chicago.views import *
@@ -10,8 +11,7 @@ from chicago.feeds import *
 patterns = ([
     url(r'^search/rss/',
         ChicagoCouncilmaticFacetedSearchFeed(), name='councilmatic_search_feed'),
-    url(r'^search/', ChicagoCouncilmaticFacetedSearchView(searchqueryset=EmptySearchQuerySet,
-                                       form_class=CouncilmaticSearchForm), name='search'),
+    url(r'^search/', ChicagoCouncilmaticFacetedSearchView.as_view(form_class=FacetedSearchForm, facet_fields=['bill_type']), name='search'),
     url(r'^$', ChicagoIndexView.as_view(), name='index'),
     url(r'^about/$', ChicagoAboutView.as_view(), name='about'),
     url(r'^legislation/(?P<substitute_ordinance_slug>s[^/]+)/*$', substitute_ordinance_redirect, name='substitute_ordinance_redirect'),
