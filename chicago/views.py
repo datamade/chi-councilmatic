@@ -176,22 +176,23 @@ class ChicagoCouncilMembersView(CouncilMembersView):
 class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
 
     form_class = CouncilmaticSearchForm
-    facet_fields = (
+    facet_fields = [
+        'bill_type',
         'sponsorships',
         'controlling_body',
         'inferred_status',
         'topics',
         'legislative_session',
-    )
+    ]
 
     def dispatch(self, *args, **kwargs):
-        # Raise an error if Councilmatic cannot connect to Solr.
-        # Most likely, Solr is down and needs restarting.
         try:
-            solr_url = settings.HAYSTACK_CONNECTIONS['default']['URL']
-            requests.get(solr_url)
+            elasticsearch_url = settings.HAYSTACK_CONNECTIONS['default']['URL']
+            requests.get(elasticsearch_url)
         except requests.ConnectionError:
-            raise Exception("ConnectionError: Unable to connect to Solr at {}. Is Solr running?".format(solr_url))
+            raise Exception(
+                'ConnectionError: Unable to connect to Elasticsearch at {}.'.format(elasticsearch_url)
+            )
 
         return super().dispatch(*args, **kwargs)
 

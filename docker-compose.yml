@@ -53,6 +53,7 @@ services:
       - 9200:9200
     environment:
       - discovery.type=single-node
+      - logger.org.elasticsearch.discovery=DEBUG
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     mem_limit: 1g
     volumes:
