@@ -172,64 +172,101 @@ class ChicagoCouncilMembersView(CouncilMembersView):
 
         return seo
 
-class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
-    pass
 
-#    def build_form(self, form_kwargs=None):
-#        form = super().build_form(form_kwargs=form_kwargs)
-#
-#        # For faceted search functionality.
-#        if form_kwargs is None:
-#            form_kwargs = {}
-#
-#        form_kwargs['selected_facets'] = self.request.GET.getlist("selected_facets")
-#
-#        # For remaining search functionality.
-#        data = None
-#        kwargs = {
-#            'load_all': self.load_all,
-#        }
-#
-#        sqs = SearchQuerySet().facet('bill_type')\
-#                      .facet('sponsorships', sort='index')\
-#                      .facet('controlling_body')\
-#                      .facet('inferred_status')\
-#                      .facet('topics')\
-#                      .facet('legislative_session')\
-#                      .highlight()
-#
-#        if form_kwargs:
-#            kwargs.update(form_kwargs)
-#
-#        dataDict = {}
-#        if len(self.request.GET):
-#            data = self.request.GET
-#            dataDict = dict(data)
-#
-#        if self.searchqueryset is not None:
-#            kwargs['searchqueryset'] = sqs
-#
-#            if dataDict.get('sort_by'):
-#                for el in dataDict['sort_by']:
-#                    if el == 'date':
-#                        if dataDict.get('order_by') == ['asc']:
-#                            kwargs['searchqueryset'] = sqs.order_by('last_action_date')
-#                        else:
-#                            kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
-#                    if el == 'title':
-#                        if dataDict.get('order_by') == ['desc']:
-#                            kwargs['searchqueryset'] = sqs.order_by('-sort_name')
-#                        else:
-#                            kwargs['searchqueryset'] = sqs.order_by('sort_name')
-#                    if el == 'relevance':
-#                        kwargs['searchqueryset'] = sqs
-#
-#            elif dataDict.get('q'):
-#                kwargs['searchqueryset'] = sqs
-#            else:
-#                kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
-#
-#        return self.form_class(data, **kwargs)
+class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
+
+    form_class = CouncilmaticSearchForm
+    facet_fields = (
+        'sponsorships',
+        'controlling_body',
+        'inferred_status',
+        'topics',
+        'legislative_session',
+    )
+
+    def dispatch(self, *args, **kwargs):
+        # Raise an error if Councilmatic cannot connect to Solr.
+        # Most likely, Solr is down and needs restarting.
+        try:
+            solr_url = settings.HAYSTACK_CONNECTIONS['default']['URL']
+            requests.get(solr_url)
+        except requests.ConnectionError:
+            raise Exception("ConnectionError: Unable to connect to Solr at {}. Is Solr running?".format(solr_url))
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context['q_filters'] = self._get_query_parameters()
+        context['selected_facets'] = self._get_selected_facets()
+
+        context['user_subscribed'] = False
+
+        if settings.USING_NOTIFICATIONS:
+            if self.request.user.is_authenticated:
+                user = self.request.user
+
+                search_params = {
+                    'term': self.request.GET.get('q'),
+                    'facets': selected_facets
+                }
+
+                try:
+                    user.billsearchsubscriptions.get(user=user,
+                                                     search_params__exact=search_params)
+                    context['user_subscribed'] = True
+                except BillSearchSubscription.DoesNotExist:
+                    context['user_subscribed'] = False
+
+        return context
+
+    def get_queryset(self):
+        sqs = super().get_queryset()
+
+        sort_field = self.request.GET.get('sort_by', None)
+
+        if sort_field in ('date', 'title'):  # relevance is default
+            sort_order = self.request.GET.get('order_by', 'asc')
+            sqs_field = {'date': 'last_action_date', 'title': 'sort_name_exact'}[sort_field]
+
+            sqs = sqs.order_by('{0}{1}'.format('' if sort_order == 'asc' else '-', sqs_field))
+
+        return sqs
+
+    def _get_selected_facets(self):
+        selected_facets = {}
+
+        for val in self.request.GET.getlist("selected_facets"):
+            if val:
+                # e.g., bill_type_exact:ordinance -> bill_type, ordinance
+                k, v = val.split('_exact:', 1)
+                try:
+                    selected_facets[k].append(v)
+                except KeyError:
+                    selected_facets[k] = [v]
+
+        return selected_facets
+
+    def _get_query_parameters(self):
+        excluded_parameters = (
+            'page',
+            'selected_facets',
+            'amp',
+            '_',
+        )
+        query_parameters = [
+            (param, val) for (param, val) in self.request.GET.items()
+            if param not in excluded_parameters
+        ]
+        query_parameters += [
+            ('selected_facets', param) for param in self.request.GET.getlist('selected_facets')
+        ]
+
+        if query_parameters:
+            return urllib.parse.urlencode(query_parameters)
+
+        return ''
 
 class ChicagoPersonDetailView(PersonDetailView):
     template_name = 'chicago/person.html'

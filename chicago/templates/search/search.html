@@ -222,12 +222,7 @@
             </div>
             {% endif %}
 
-
-        CUSTOM JUNK
-        {{ object_list }}
-
-
-        {% for result in page.object_list %}
+        {% for result in object_list %}
 
             <!-- Legislation result -->
 
@@ -245,14 +240,14 @@
         </div>
     </div>
 
-    {% if page.has_previous or page.has_next %}
+    {% if page_obj.has_previous or page_obj.has_next %}
         <div class="row">
             <div class="col-md-8 col-md-offset-4">
                 <nav>
                     <ul class="pagination">
-                        {% if page.has_previous %}
+                        {% if page_obj.has_previous %}
                             <li>
-                                <a href="?{{ q_filters }}&amp;page={{ page.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
+                                <a href="?{{ q_filters }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
                             </li>
                         {% else %}
                             <li class="disabled">
@@ -260,9 +255,9 @@
                             </li>
                         {% endif %}
 
-                        {% if page.has_next %}
+                        {% if page_obj.has_next %}
                             <li>
-                                <a href="?{{ q_filters }}&amp;page={{ page.next_page_number }}" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
+                                <a href="?{{ q_filters }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
                             </li>
                         {% else %}
                             <li class="disabled">
