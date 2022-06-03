@@ -14,9 +14,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import socket
 
-from .settings_deployment import *
-from .settings_jurisdiction import *
+import dj_database_url
 
+from .settings_jurisdiction import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,7 +28,7 @@ ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
 DATABASES = {}
 
 DATABASES['default'] = dj_database_url.parse(
-    os.getenv('DATABASE_URL', 'postgis://postgres:postgres@postgres:5432/edi'),
+    os.getenv('DATABASE_URL', 'postgis://postgres:postgres@postgres:5432/chi_councilmatic'),
     conn_max_age=600,
     engine='django.contrib.gis.db.backends.postgis',
     ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False
@@ -151,4 +151,15 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
+}
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 1,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+    }
 }

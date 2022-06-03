@@ -2,6 +2,8 @@ version: '2.4'
 
 services:
   app:
+    env_file:
+      - .env.example
     image: chi-councilmatic
     container_name: chi-councilmatic
     build: .
@@ -18,7 +20,6 @@ services:
         condition: service_started
     volumes:
       - .:/app
-      - ${PWD}/councilmatic/settings_deployment.py.example:/app/councilmatic/settings_deployment.py
     environment:
       DJANGO_MANAGEPY_MIGRATE: "True"
     command: python manage.py runserver 0.0.0.0:8000
