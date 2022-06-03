@@ -1,3 +1,5 @@
+dj-database-url
+whitenoise
 django-councilmatic==2.6.1
 django-councilmatic-notifications==2.5.1
 django-haystack[elasticsearch]
