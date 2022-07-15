@@ -7,6 +7,7 @@ from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import *
+from councilmatic_core.models import Post
 
 from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
@@ -203,6 +204,10 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         context['selected_facets'] = self._get_selected_facets()
 
         context['user_subscribed'] = False
+
+        context['current_council_members'] = {
+            p.current_member.person.name: p.label for p in Post.objects.all() if p.current_member
+        }
 
         if settings.USING_NOTIFICATIONS:
             if self.request.user.is_authenticated:

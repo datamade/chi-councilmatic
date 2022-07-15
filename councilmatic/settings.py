@@ -25,6 +25,12 @@ DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
 allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
 ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
 
+if DEBUG:
+    # Add dynamically generated Docker IP
+    # Don't do this in production!
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1']
+
 DATABASES = {}
 
 DATABASES['default'] = dj_database_url.parse(
