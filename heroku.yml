@@ -13,4 +13,4 @@ release:
   image: web
 # The command that runs your application. Replace 'app' with the name of your app.
 run:
-  web: gunicorn -t 180 --log-level debug chicago.wsgi:application
+  web: gunicorn -t 180 --log-level debug councilmatic.wsgi:application
