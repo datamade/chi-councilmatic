@@ -169,7 +169,9 @@
             {% if query or selected_facets %}
             <h3 class="modal-links">
 
-                {% include 'partials/search_results_header.html' %}
+                <!-- with elasticsearch, only showing the top 10,000 results -->
+                {{ paginator.count }} legislation result{{ paginator.count|pluralize }} 
+                {% if query %}for '{{ request.GET.q }}'{% endif %}
 
                 <small>
                 {% if USING_NOTIFICATIONS %}

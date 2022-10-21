@@ -187,14 +187,6 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
     ]
 
     def dispatch(self, *args, **kwargs):
-        try:
-            elasticsearch_url = settings.HAYSTACK_CONNECTIONS['default']['URL']
-            requests.get(elasticsearch_url)
-        except requests.ConnectionError:
-            raise Exception(
-                'ConnectionError: Unable to connect to Elasticsearch at {}.'.format(elasticsearch_url)
-            )
-
         return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
@@ -209,28 +201,18 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
             p.current_member.person.name: p.label for p in Post.objects.all() if p.current_member
         }
 
-        if settings.USING_NOTIFICATIONS:
-            if self.request.user.is_authenticated:
-                user = self.request.user
-
-                search_params = {
-                    'term': self.request.GET.get('q'),
-                    'facets': selected_facets
-                }
-
-                try:
-                    user.billsearchsubscriptions.get(user=user,
-                                                     search_params__exact=search_params)
-                    context['user_subscribed'] = True
-                except BillSearchSubscription.DoesNotExist:
-                    context['user_subscribed'] = False
-
         return context
 
     def get_queryset(self):
         sqs = super().get_queryset()
-
         sort_field = self.request.GET.get('sort_by', None)
+
+        # default facet list size is 10, but we want to show all
+        options = {
+            "size": 250
+        }
+        for field in self.facet_fields:
+            sqs = sqs.facet(field, **options)
 
         if sort_field in ('date', 'title'):  # relevance is default
             sort_order = self.request.GET.get('order_by', 'asc')

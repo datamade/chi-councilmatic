@@ -1,0 +1,123 @@
+{% load extras %}
+
+<div class="panel panel-default panel-filter">
+    <div class="panel-heading" data-toggle="collapse" data-target="#filter-{{facet_name}}">
+        <h3 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Filter by {{facet_label}}
+                <i class="fa fa-fw {% if facet_name in selected_facets %}fa-minus {% else %} fa-plus {% endif %} pull-right"></i>
+            </a>
+        </h3>
+    </div>
+    <div class="panel-body {% if facet_name in selected_facets %}panel-show{% endif %} collapse" id="filter-{{facet_name}}">
+        <ul class="search-facet-list">
+
+
+        {% if facet_name == 'topics' %}
+            <!-- for topics, show routine & nonroutine first -->
+            {% for name, count in facets.fields.topics %}
+                {% if count and name == 'Routine' or name == 'Non-Routine'%}
+
+                    {% include 'partials/search_filter_item.html' %}
+
+                {% endif %}
+            {% endfor %}
+            <hr/>
+            {% for name, count in facets.fields.topics %}
+                {% if count and name != 'Routine' and name != 'Non-Routine'%}
+
+                    {% include 'partials/search_filter_item.html' %}
+
+                {% endif %}
+            {% endfor %}
+
+        {% elif facet_name == 'sponsorships' %}
+
+            <!-- for sponsorships, show current vs old reps separately if there are multiple leg sessions. also, don't show counts & instead show title -->
+            {% if facets.fields.legislative_session|length > 1 %}
+                {% for name, count in facets.fields.sponsorships %}
+                    {% if count and name in current_council_members %}
+                        <li class="small">
+                            <a href="#" class="filter-value" data="sponsorships_exact:{{name}}" title="{{ name|title }}">
+                                {% if name in selected_facets.sponsorships %}
+                                    <strong>{{ name | title | short_title }}</strong>
+                                    <a href ="#" class="remove-filter-value" data="{{facet_name}}_exact:{{name}}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% else %}
+                                    {{ name | title | short_title }}
+                                {% endif %}
+                            </a>
+                            <span class="text-muted pull-right">{{ current_council_members|get_item:name }}</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <hr/>
+                {% for name, count in facets.fields.sponsorships %}
+                    {% if count and name not in current_council_members %}
+                        <li class="small">
+                            <a href="#" class="filter-value" data="sponsorships_exact:{{name}}" title="{{ name|title }}">
+                                {% if name in selected_facets.sponsorships %}
+                                    <strong>{{ name | title | short_title }}</strong>
+                                    <a href ="#" class="remove-filter-value" data="{{facet_name}}_exact:{{name}}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% else %}
+                                    {{ name | title | short_title }}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+
+            {% else %}
+                {% for name, count in facets.fields.sponsorships %}
+                    {% if count %}
+                        <li class="small">
+                            <a href="#" class="filter-value" data="sponsorships_exact:{{name}}" title="{{ name|title }}">
+                                {% if name in selected_facets.sponsorships %}
+                                    <strong>{{ name | title | short_title }}</strong>
+                                    <a href ="#" class="remove-filter-value" data="{{facet_name}}_exact:{{name}}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% else %}
+                                    {{ name | title | short_title }}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+
+        {% elif facet_name == 'controlling_body' %}
+
+            {% for full_name, count in item_list %}
+                {% if count %}
+                    {% with name=full_name %}
+
+                        {% include 'partials/search_filter_item.html' %}
+
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+
+        {% else %}
+
+            {% for name, count in item_list %}
+                {% if count %}
+
+                    {% include 'partials/search_filter_item.html' %}
+
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+        </ul>
+
+    </div>
+</div>
