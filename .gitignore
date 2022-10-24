@@ -10,7 +10,7 @@ settings_deployment.py
 static/**
 **/static/images/headshots/
 
-solr-4.10.4/**
+.env
 
 **/__pycache__
 *.pyc
