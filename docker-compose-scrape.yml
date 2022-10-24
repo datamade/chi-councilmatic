@@ -1,0 +1,35 @@
+version: '2.4'
+
+services:
+  postgres:
+    container_name: chi-councilmatic-postgres
+    image: mdillon/postgis:11
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_DB=chi_councilmatic
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - chi-councilmatic-db-data:/var/lib/postgresql/data
+    ports:
+      - 32001:5432
+
+  scrapers:
+    build: https://github.com/datamade/scrapers-us-municipal.git
+    stdin_open: true
+    tty: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
+      SHARED_DB: "True"
+    command: sh -c "
+        pupa update --rpm=0 chicago bills window=0.001 &&
+        pupa update --rpm=0 lametro events window=7"
+
+volumes:
+  chi-councilmatic-db-data:

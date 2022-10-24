@@ -14,6 +14,10 @@ app_timezone = pytz.timezone(settings.TIME_ZONE)
 class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
     topics = indexes.MultiValueField(faceted=True)
+    # faceted = True creates a keyword field instead of a text field for full
+    # text searches. By default, text fields cannot be used for faceting or
+    # sorting in ElasticSearch.
+    sort_name = indexes.CharField(faceted=True)
 
     def get_model(self):
         return ChicagoBill
@@ -47,4 +51,11 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
                 return datetime.strptime(last_action_date, '%Y-%m-%d').date()
 
         else:
-            return obj.last_action_date.date()
+            return obj.last_action_date
+
+    def prepare_sponsorships(self, obj):
+        return [str(sponsorship.person) for sponsorship in obj.sponsorships.all()]
+
+    def prepare_actions(self, obj):
+        return [str(action) for action in obj.actions.all()]
+

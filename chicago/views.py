@@ -7,7 +7,9 @@ from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import *
+from councilmatic_core.models import Post
 
+from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
 from django.db.models import DateTimeField
@@ -171,63 +173,85 @@ class ChicagoCouncilMembersView(CouncilMembersView):
 
         return seo
 
-class ChicagoCouncilmaticFacetedSearchView(CouncilmaticFacetedSearchView):
 
-    def build_form(self, form_kwargs=None):
-        form = super(CouncilmaticFacetedSearchView, self).build_form(form_kwargs=form_kwargs)
+class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
 
-        # For faceted search functionality.
-        if form_kwargs is None:
-            form_kwargs = {}
+    form_class = CouncilmaticSearchForm
+    facet_fields = [
+        'bill_type',
+        'sponsorships',
+        'controlling_body',
+        'inferred_status',
+        'topics',
+        'legislative_session',
+    ]
 
-        form_kwargs['selected_facets'] = self.request.GET.getlist("selected_facets")
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-        # For remaining search functionality.
-        data = None
-        kwargs = {
-            'load_all': self.load_all,
+        context['q_filters'] = self._get_query_parameters()
+        context['selected_facets'] = self._get_selected_facets()
+
+        context['user_subscribed'] = False
+
+        context['current_council_members'] = {
+            p.current_member.person.name: p.label for p in Post.objects.all() if p.current_member
         }
 
-        sqs = SearchQuerySet().facet('bill_type')\
-                      .facet('sponsorships', sort='index')\
-                      .facet('controlling_body')\
-                      .facet('inferred_status')\
-                      .facet('topics')\
-                      .facet('legislative_session')\
-                      .highlight()
+        return context
 
-        if form_kwargs:
-            kwargs.update(form_kwargs)
+    def get_queryset(self):
+        sqs = super().get_queryset()
+        sort_field = self.request.GET.get('sort_by', None)
 
-        dataDict = {}
-        if len(self.request.GET):
-            data = self.request.GET
-            dataDict = dict(data)
+        # default facet list size is 10, but we want to show all
+        options = {
+            "size": 250
+        }
+        for field in self.facet_fields:
+            sqs = sqs.facet(field, **options)
 
-        if self.searchqueryset is not None:
-            kwargs['searchqueryset'] = sqs
+        if sort_field in ('date', 'title'):  # relevance is default
+            sort_order = self.request.GET.get('order_by', 'asc')
+            sqs_field = {'date': 'last_action_date', 'title': 'sort_name_exact'}[sort_field]
 
-            if dataDict.get('sort_by'):
-                for el in dataDict['sort_by']:
-                    if el == 'date':
-                        if dataDict.get('order_by') == ['asc']:
-                            kwargs['searchqueryset'] = sqs.order_by('last_action_date')
-                        else:
-                            kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
-                    if el == 'title':
-                        if dataDict.get('order_by') == ['desc']:
-                            kwargs['searchqueryset'] = sqs.order_by('-sort_name')
-                        else:
-                            kwargs['searchqueryset'] = sqs.order_by('sort_name')
-                    if el == 'relevance':
-                        kwargs['searchqueryset'] = sqs
+            sqs = sqs.order_by('{0}{1}'.format('' if sort_order == 'asc' else '-', sqs_field))
 
-            elif dataDict.get('q'):
-                kwargs['searchqueryset'] = sqs
-            else:
-                kwargs['searchqueryset'] = sqs.order_by('-last_action_date')
+        return sqs
 
-        return self.form_class(data, **kwargs)
+    def _get_selected_facets(self):
+        selected_facets = {}
+
+        for val in self.request.GET.getlist("selected_facets"):
+            if val:
+                # e.g., bill_type_exact:ordinance -> bill_type, ordinance
+                k, v = val.split('_exact:', 1)
+                try:
+                    selected_facets[k].append(v)
+                except KeyError:
+                    selected_facets[k] = [v]
+
+        return selected_facets
+
+    def _get_query_parameters(self):
+        excluded_parameters = (
+            'page',
+            'selected_facets',
+            'amp',
+            '_',
+        )
+        query_parameters = [
+            (param, val) for (param, val) in self.request.GET.items()
+            if param not in excluded_parameters
+        ]
+        query_parameters += [
+            ('selected_facets', param) for param in self.request.GET.getlist('selected_facets')
+        ]
+
+        if query_parameters:
+            return urllib.parse.urlencode(query_parameters)
+
+        return ''
 
 class ChicagoPersonDetailView(PersonDetailView):
     template_name = 'chicago/person.html'

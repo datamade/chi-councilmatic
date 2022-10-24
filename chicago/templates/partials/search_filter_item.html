@@ -1,0 +1,18 @@
+{% load extras %}
+
+<li class="small">
+  	{% if name in selected_list %}
+  		  <a href="#" class="filter-value" data="{{facet_name}}_exact:{{name}}" title="{{ name|title }}">
+            <strong>{{ name | committee_topic_only | title | short_title }}</strong>
+      	</a>
+      	<a href ="#" class="remove-filter-value" data="{{facet_name}}_exact:{{name}}">
+      	   <i class="fa fa-times"></i>
+      	</a>
+  	{% else %}
+  		  <a href="#" class="filter-value" data="{{facet_name}}_exact:{{name}}" title="{{ name|title }}">
+  			   {{ name | committee_topic_only | title | short_title }}
+  	    </a>
+  	{% endif %}
+
+    <span class="badge badge-facet pull-right">{{ count }}</span>
+</li>

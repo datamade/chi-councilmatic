@@ -14,28 +14,49 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import socket
 
-from .settings_deployment import *
-from .settings_jurisdiction import *
+import dj_database_url
 
+from .settings_jurisdiction import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
+allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
+ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+if DEBUG:
+    # Add dynamically generated Docker IP
+    # Don't do this in production!
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1']
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '0.0.0.0',
-    '.datamade.us',
-    '.councilmatic.org',
-]
+DATABASES = {}
 
-hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
+DATABASES['default'] = dj_database_url.parse(
+    os.getenv('DATABASE_URL', 'postgis://postgres:postgres@postgres:5432/chi_councilmatic'),
+    conn_max_age=600,
+    engine='django.contrib.gis.db.backends.postgis',
+    ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False
+)
 
-# Application definition
+HAYSTACK_CONNECTIONS = {}
+HAYSTACK_CONNECTIONS['default'] = {
+        'ENGINE': 'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
+        'URL': os.getenv('HAYSTACK_URL', 'http://elasticsearch:9200'),
+        'INDEX_NAME': 'chicago',
+        'SILENTLY_FAIL': False,
+        'BATCH_SIZE': 10,
+    }
+
+cache_backend = 'dummy.DummyCache' if DEBUG is True else 'db.DatabaseCache'
+CACHES = {
+    'default': {
+        'BACKEND': f'django.core.cache.backends.{cache_backend}',
+        'LOCATION': 'site_cache',
+    }
+}
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -52,9 +73,7 @@ INSTALLED_APPS = (
     'notifications',
     'django_rq',
     'password_reset',
-    'debug_toolbar',
     'adv_cache_tag',
-    
 )
 
 try:
@@ -63,14 +82,14 @@ except NameError:
     pass
 
 MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'councilmatic.urls'
@@ -124,32 +143,27 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 LOGGING = {
     'version': 1,
-    # Turn off loggers of dependencies. Loggers we want to retain are named
-    # in the loggers block. See:
-    # https://docs.python.org/3/library/logging.config.html#logging.config.fileConfig
-    'disable_existing_loggers': True,
-
-    'formatters': {
-        'console': {
-            'format': '[%(asctime)s][%(levelname)s] %(name)s '
-                      '%(filename)s:%(funcName)s:%(lineno)d | %(message)s',
-            'datefmt': '%H:%M:%S',
-        },
-    },
-
+    'disable_existing_loggers': False,  # Preserve default loggers
     'handlers': {
         'console': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'console'
         },
     },
-
     'loggers': {
-        '': {
+        'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
+}
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 1,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+    }
 }

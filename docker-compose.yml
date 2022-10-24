@@ -2,6 +2,8 @@ version: '2.4'
 
 services:
   app:
+    env_file:
+      - .env.example
     image: chi-councilmatic
     container_name: chi-councilmatic
     build: .
@@ -12,13 +14,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      solr:
+      elasticsearch:
         condition: service_started
       redis:
         condition: service_started
     volumes:
       - .:/app
-      - ${PWD}/councilmatic/settings_deployment.py.example:/app/councilmatic/settings_deployment.py
     environment:
       DJANGO_MANAGEPY_MIGRATE: "True"
     command: python manage.py runserver 0.0.0.0:8000
@@ -39,41 +40,26 @@ services:
     ports:
       - 32001:5432
 
-  solr:
-    image: solr:7.1
-    container_name: chi-councilmatic-solr
-    volumes:
-      - ./solr_configs:/chicago_configs
-      - chi-councilmatic-solr-data:/opt/solr/server/solr/mycores
-    command: sh -c 'solr-create -c chicago -d /chicago_configs'
-    ports:
-      - '127.0.0.1:8986:8983'
-    environment:
-      SOLR_LOG_LEVEL: ERROR
-    restart: on-failure
-
   redis:
     image: redis
     container_name: chi-councilmatic-redis
     ports:
-      - '127.0.0.1:6380:6379'
+      - 6380:6379
     restart: on-failure
 
-  scrapers:
-    build: https://github.com/datamade/scrapers-us-municipal.git
-    stdin_open: true
-    tty: true
-    depends_on:
-      postgres:
-        condition: service_healthy
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    container_name: chi-councilmatic-elasticsearch
+    ports:
+      - 9200:9200
     environment:
-      DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
-      SHARED_DB: "True"
-    command: sh -c "
-        pupa update --rpm=0 chicago people &&
-        pupa update --rpm=0 chicago bills window=30 &&
-        pupa update --rpm=0 lametro events window=30"
+      - discovery.type=single-node
+      - logger.org.elasticsearch.discovery=DEBUG
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    mem_limit: 1g
+    volumes:
+      - chi-councilmatic-es-data:/usr/share/elasticsearch/data
 
 volumes:
   chi-councilmatic-db-data:
-  chi-councilmatic-solr-data:
+  chi-councilmatic-es-data:
