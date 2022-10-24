@@ -14,31 +14,23 @@ app locally? See the [legacy setup instructions](https://github.com/datamade/chi
 ### Run the application
 
 ```bash
-docker-compose up -d app
+docker-compose up
 ```
-
-Note that you can omit the `-d` flag to follow the application and service logs.
-If you prefer a quieter environment, you can view one log stream at a time with
-`docker-compose logs -f SERVICE_NAME`, where `SERVICE_NAME` is the name of one
-of the services defined in `docker-compose.yml`, e.g., `app`, `postgres`, etc.
-
-When the command exits (`-d`) or your logs indicate that your app is up and
-running, move on to the next step.
 
 ### Load in the data
 
 Chicago Councilmatic needs to data work properly.
 
-The `docker-compose.yml` file contains a service to scrape Legistar web API and
+The `docker-compose-scrape.yml` file contains a service to scrape Legistar web API and
 populate your database with standardized data on the council and its members,
 legislation, and events. The default command scrapes all committees and people,
 and any events and legislation updated in the last 30 days or scheduled for a
 future date.
 
-To import data, simply run:
+To import data:
 
 ```bash
-docker-compose run --rm scrapers
+docker-compose -f docker-compose-scrape.yml up
 ```
 
 This may take a few minutes to an hour, depending on the volume of recent

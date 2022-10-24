@@ -60,20 +60,6 @@ services:
     volumes:
       - chi-councilmatic-es-data:/usr/share/elasticsearch/data
 
-  scrapers:
-    build: https://github.com/datamade/scrapers-us-municipal.git
-    stdin_open: true
-    tty: true
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
-      SHARED_DB: "True"
-    command: sh -c "
-        pupa update --rpm=0 chicago bills window=0.001 &&
-        pupa update --rpm=0 lametro events window=7"
-
 volumes:
   chi-councilmatic-db-data:
   chi-councilmatic-es-data:
