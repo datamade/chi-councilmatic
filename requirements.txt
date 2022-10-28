@@ -10,3 +10,4 @@ pytest==4.6.2
 pytest-django==3.5.0
 setuptools
 psycopg2>=2.8,<2.9
+https://github.com/opencivicdata/python-opencivicdata/archive/refs/heads/3.2-model-permissions.zip
