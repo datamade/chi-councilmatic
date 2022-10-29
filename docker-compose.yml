@@ -22,6 +22,7 @@ services:
       - .:/app
     environment:
       DJANGO_MANAGEPY_MIGRATE: "True"
+    entrypoint: /app/scripts/docker-entrypoint.sh
     command: python manage.py runserver 0.0.0.0:8000
 
   postgres:
