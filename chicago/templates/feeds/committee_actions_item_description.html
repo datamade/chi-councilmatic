@@ -1,0 +1,44 @@
+{% load extras %}
+
+<!-- Minimal styling for RSS item description -->
+<style>
+        body, table, select, input {
+	font-size: 12px;
+	font-family: arial, tahoma, sans-serif;
+	}
+        table {
+		/*border-collapse: collapse;*/
+		/*border-bottom: 1px solid #ddd;*/
+		/*border-top: 1px solid #ddd;*/
+		/*border: 1px solid black;*/
+	}
+</style>
+
+<body>
+<p>
+
+	<table>
+		<tr>
+			<td>
+                                <p class="text-muted small no-pad-bottom">
+                                        {{obj.date|date:'n/d/Y'}}
+                                </p>
+				<p class="small no-pad-bottom">
+                                        <span class='text-{{obj.label}}'>{{obj.description | remove_action_subj}}</span>
+                                </p>	
+
+			</td>
+                        <td>
+                                <p class="small no-pad-bottom">
+                                        <a href="/legislation/{{obj.bill.slug}}/">{{obj.bill.friendly_name}}</a>
+                                </p>
+                                <p class="small no-pad-bottom">
+                                        {{obj.bill.description | short_blurb}}
+                                </p>
+                        </td>
+		</tr>
+	</table>
+
+	
+
+</p></body>

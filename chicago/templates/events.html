@@ -1,0 +1,155 @@
+{% extends "base_with_margins.html" %}
+{% load static %}
+{% block title %}Events{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker3.css' %}" />
+{% endblock %}
+{% block content %}
+
+    <div class="row-fluid">
+        <div class="col-sm-8 no-pad-mobile">
+            <br/><br class="non-mobile-only"/>
+            <div id="events-form" class="row">
+                <div class="col-xs-10">
+                    <form action='/events' method='GET'>
+                      <div class="input-group" id='date-search'>
+                            <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control date-filter" placeholder="Select a month and year..." value="{{ date }}" readonly id="form_datetime" name="form_datetime">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default btn-date" id="btn-search" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <span class='hidden-sm hidden-xs'>Search</span></button>
+                            </span>
+                      </div>
+                    </form>
+                </div>
+                <div class="col-xs-2">
+                    <a href="{% url 'events' %}" class="btn btn-primary d-inline-block"><i class="fa fa-repeat" aria-hidden="true"></i><span class="hidden-xs"> Reset</span></a>
+                </div>
+            </div>
+
+            {% if select_events %}
+                <h2><span>{{ CITY_VOCAB.EVENTS }} in {{select_date}}</span>
+                <br class="non-desktop-only"/>
+                <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i></a></small>
+                </h2>
+
+                <div class='row'>
+                    <div class='col-sm-8' id='events_message'></div>
+                </div>
+                <hr/>
+
+                {% for date, event_list in select_events %}
+                    {% include "partials/event_day.html" %}
+                {% endfor %}
+
+            {% elif upcoming_events %}
+                <h2><span>Upcoming {{ CITY_VOCAB.EVENTS }}</span>
+    			    <br class="non-desktop-only"/>
+                </h2>
+
+                <div class="modal-links">
+                    {% if USING_NOTIFICATIONS %}
+                        {% if user_subscribed %}
+                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
+                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
+                        </a>
+                        {% else %}
+                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
+                                {% include 'partials/subscription_modal.html' %}
+                            {% endwith %}
+                        {% endif %}
+                    {% else %}
+                        <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+                    {% endif %}
+                </div>
+
+                <div class='row'>
+                    <div class='col-sm-8' id='events_message'></div>
+                </div>
+                <hr/>
+                {% for date, event_list in upcoming_events %}
+                    {% include "partials/event_day.html" %}
+                {% endfor %}
+            {% else %}
+                <h2>
+                    No {{ CITY_VOCAB.EVENTS }}
+                </h2>
+
+                <p>Search for a month and year{% if USING_NOTIFICATIONS %}, or subscribe and receive alerts about upcoming {{ CITY_VOCAB.EVENTS }}{% endif %}.</p>
+                <div class="modal-links">
+                    {% if USING_NOTIFICATIONS %}
+                        {% if user_subscribed %}
+                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
+                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
+                        </a>
+                        {% else %}
+
+                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
+                                {% include 'partials/subscription_modal.html' %}
+                            {% endwith %}
+
+                        {% endif %}
+                    {% else %}
+                       <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+                    {% endif %}
+                </div>
+
+                <div class='row'>
+                    <div class='col-sm-8' id='events_message'></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-4 no-pad-mobile">
+            <br/><br class="non-mobile-only"/>
+            {% include 'partials/events_info_blurb.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script type="{% static 'js/moment.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+        var customStartDate = '01/01/' + '{{ year_range_min }}'
+        var customEndDate = '12/31/' + '{{ year_range_max }}'
+        console.log(customStartDate)
+        $("#form_datetime").datepicker({
+            autoclose: true,
+            viewMode: "months",
+            minViewMode: "months",
+            startDate: customStartDate,
+            endDate: customEndDate,
+        });
+    });
+    </script>
+
+    {% if USING_NOTIFICATIONS %}
+    <script>
+    $(document).ready(function() {
+	    $("#eventsSubscribe").click(function() {
+            var bullHorn    = $(this).parents().find(".createSubscription");
+            var bullHornNew = $(this).parents().find(".removeSubscription");
+
+            if ('{{ request.user }}' != 'AnonymousUser') {
+			    posturl = "/events/subscribe/";
+			    $.post(posturl, function(data) {
+			    }).then( function() {
+                    $(bullHorn).hide();
+                    $(bullHornNew).show();
+                }, function (error) {
+                    console.error("Error subscribing to all events");
+                });
+            }
+            else {
+                $('#events_message').html(alertMsg);
+            }
+
+	   });
+	});
+    </script>
+    {% endif %}
+
+{% endblock %}

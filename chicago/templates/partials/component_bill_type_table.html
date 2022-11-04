@@ -1,0 +1,36 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th class="desktop-only">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for leg_type in LEGISLATION_TYPE_DESCRIPTIONS %}
+        <tr>
+            <td>
+                <p class='nowrap'>
+                    <i class="fa fa-fw fa-{{leg_type.fa_icon}}"></i>
+                    <a href="/search/?selected_facets=bill_type_exact%3A{{leg_type.search_term}}">{{leg_type.name}}</a>
+                </p>
+
+                <div class="non-desktop-only">
+                    {% if leg_type.html_desc %}
+                        <p>{{leg_type.desc|safe}}</p>
+                    {% else %}
+                        <p>{{leg_type.desc}}</p>
+                    {% endif %}
+                </div>
+            </td>
+            <td class="desktop-only">
+                {% if leg_type.html_desc %}
+                    <p>{{leg_type.desc|safe}}</p>
+                {% else %}
+                    <p>{{leg_type.desc}}</p>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

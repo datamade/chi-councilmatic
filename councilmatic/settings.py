@@ -24,7 +24,6 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
 allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
 ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
 
 if DEBUG:
     # Add dynamically generated Docker IP

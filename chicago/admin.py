@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from .models import ChicagoBill
+from councilmatic_core.models import Person as CouncilmaticPerson
 class CustomUserAdmin(admin.ModelAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -11,6 +12,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(ChicagoBill)
+admin.site.register(CouncilmaticPerson)
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

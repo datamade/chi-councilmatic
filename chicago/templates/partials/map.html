@@ -1,0 +1,242 @@
+{% load static %}
+
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&libraries=places&v=3.17&key={{GOOGLE_API_KEY}}"></script>
+<script src="{% static 'js/leaflet.js' %}" /></script>
+<script type="text/javascript" src="{% static 'js/leaflet-google.js' %}" ></script>
+<script type="text/javascript" src="{% static 'js/jquery.address.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/leaflet-pip.min.js' %}"></script>
+
+<script>
+
+    var locationScope = '{{CITY_NAME}}'.toLowerCase();
+    var currentPinpoint = null;
+    var centerMark = null;
+    var districts = null;
+    var search_result = null;
+    var geocoder = new google.maps.Geocoder();
+
+    var map = L.map('map', {
+        scrollWheelZoom: false,
+        center: {{MAP_CONFIG.center}},
+        zoom: {{MAP_CONFIG.zoom}}
+    });
+
+    var google_map_styles = [
+        {
+            stylers: [
+                { saturation: -100 },
+                { lightness: 40 }
+            ]
+        }
+    ];
+
+    var layer = new L.Google('ROADMAP', {mapOptions: {styles: google_map_styles}});
+    map.addLayer(layer);
+
+    var infoBox = L.control({'position': 'topright'});
+
+    infoBox.onAdd = function() {
+        this._div = L.DomUtil.create('div', 'infobox');
+        this.update();
+        return this._div;
+    }
+
+    infoBox.update = function(properties){
+        if(properties){
+            var info = '<h4>' + properties.district + '</h4>';
+            info += '<p>' + properties.council_member + '</p>';
+            this._div.innerHTML = info;
+        }
+    }
+
+    infoBox.clear = function(){
+      this._div.innerHTML = '<h4>{{CITY_NAME_SHORT}} Council {{CITY_VOCAB.MUNICIPAL_DISTRICT}}s</h4><p><i class="fa fa-hand-pointer-o fa-fw"></i><span class="non-mobile-only">Hover</span><span class="mobile-only">Tap a ward</span> for details</p>';
+    }
+
+    infoBox.addTo(map);
+    infoBox.clear();
+
+    var customOptions =
+        {
+        'className' : 'custom'
+        }
+    function onEachFeature(feature, layer) {
+        if (feature.properties) {
+
+            var center = layer.getBounds().getCenter();
+
+            if (map){
+                layer.layerPopup = L.popup(customOptions, layer)
+                                    .setLatLng(center)
+                                    .setContent(feature.properties.popupContent);
+
+                layer.on('click', function(e){
+                    window.location = feature.properties.detail_link
+                });
+
+                layer.on('mouseover', function(e){
+                    console.log(e.target.feature.properties)
+                    infoBox.update(e.target.feature.properties);
+                    e.target.setStyle({'fillOpacity': 0.6, 'color': "{{MAP_CONFIG.highlight_color}}"});
+                });
+
+                layer.on('mouseout', function(e){
+                    infoBox.clear();
+                    e.target.setStyle({'fillOpacity': 0.2, 'color': "{{MAP_CONFIG.color}}"});
+                })
+
+                layer.on('tableover', function(e){
+                    infoBox.update(e.target.feature.properties);
+                    e.target.setStyle({'fillOpacity': 0.6, 'color': "{{MAP_CONFIG.highlight_color}}"})
+                });
+
+                layer.on('tableout', function(e){
+                    infoBox.clear();
+                    map.closePopup(e.target.layerPopup);
+                    e.target.setStyle({'fillOpacity': 0.2, 'color': "{{MAP_CONFIG.color}}"});
+                });
+            }
+        }
+    }
+
+    districts = L.geoJson({{ map_geojson|safe }}, {
+        style: {
+                "color": "{{MAP_CONFIG.color}}",
+                "weight": 1,
+                "opacity": 1,
+                "fillOpacity": .2
+            },
+        onEachFeature: onEachFeature
+    });
+
+    function doSearch() {
+        clearSearch();
+        var address = $("#search_address").val();
+
+        if (address != "") {
+          $("#reset").show()
+          if (address.toLowerCase().indexOf(locationScope) == -1)
+            address = address + " " + locationScope;
+
+          geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              currentPinpoint = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+              $.address.parameter('address', encodeURIComponent(address));
+              centerMark = new L.Marker(currentPinpoint, { icon: (new L.Icon({
+                iconUrl: "{% static 'images/blue-pushpin.png' %}",
+                iconSize: [32, 32],
+                iconAnchor: [10, 32]
+              }))}).addTo(map);
+
+              // find the district here
+              search_result = leafletPip.pointInLayer([currentPinpoint[1], currentPinpoint[0]], districts);
+
+              if (search_result.length > 0) {
+                search_result = search_result[0]
+                map.removeLayer(districts);
+                search_result.addTo(map);
+                map.fitBounds(search_result.getBounds(), {padding: [50,50]});
+
+                if (council_member_table) {
+                    council_member_table.search("\\b" + search_result.feature.properties.district + "\\b", true, false).draw();
+                }
+              }
+              else {
+                alert("'" + address + "' is not within {{CITY_NAME}}");
+              }
+
+
+            }
+            else {
+              alert("We could not find your address: " + status);
+            }
+          });
+        }
+        else { //search without geocoding callback
+          map.fitBounds(districts.getBounds());
+        }
+    }
+
+    function clearSearch(){
+        if (search_result)
+          map.removeLayer(search_result);
+        if (centerMark)
+          map.removeLayer(centerMark);
+
+        council_member_table.search('').draw();
+    }
+
+    function findMe() {
+        // Try W3C Geolocation (Preferred)
+        var foundLocation;
+
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            foundLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+            addrFromLatLng(foundLocation);
+            }, null);
+        }
+        else {
+            alert("Sorry, we could not find your location.");
+        }
+    }
+
+    function addrFromLatLng(latLngPoint) {
+        geocoder.geocode({'latLng': latLngPoint}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              $('#search_address').val(results[1].formatted_address);
+              $('.hint').focus();
+              doSearch();
+            }
+          } else {
+            alert("Geocoder failed due to: " + status);
+          }
+        });
+    }
+
+    //converts a slug or query string in to readable text
+    function convertToPlainString(text) {
+        if (text == undefined) return '';
+        return decodeURIComponent(text);
+    }
+
+    function initialize(){
+        $("#search_address").val(convertToPlainString($.address.parameter('address')));
+
+        if ($("#search_address").val() != "") {
+            doSearch();
+        }
+        else {
+            districts.addTo(map);
+            map.fitBounds(districts.getBounds());
+            $("#reset").hide()
+        }
+    }
+
+    $(function() {
+        initialize();
+
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('search_address'));
+
+        $('#btn_search').click(function(){
+            doSearch();
+        });
+
+        $('#reset').click(function(){
+            $.address.parameter('address','');
+            clearSearch();
+            initialize();
+            return false;
+        });
+
+        $("#search_address").keydown(function(e){
+          var key =  e.keyCode ? e.keyCode : e.which;
+          if(key == 13) {
+              $('#btn_search').click();
+              return false;
+          }
+        });
+    });
+
+</script>

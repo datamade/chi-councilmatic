@@ -1,0 +1,68 @@
+{% load static %}
+{% load extras %}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% if seo %}
+    <meta name="description" content="{{seo.site_desc}}">
+    <meta name="author" content="{{seo.site_author}}">
+
+    {% if seo.nofollow %}
+        <meta name="robots" content="noindex">
+    {% endif %}
+
+    <!-- Facebook -->
+    <meta property="og:site_name" content="{{seo.site_name}}">
+    {% if seo.title %}
+        <meta property="og:title" content="{{seo.title}}">
+    {% else %}
+        <meta property="og:title" content="{{seo.site_name}}">
+    {% endif %}
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{{seo.site_desc}}">
+    <meta property="og:url" content="{{seo.site_url}}">
+    {% if seo.image %}
+        <meta property="og:image" content="{{seo.site_url}}{{seo.image}}">
+    {% else %}
+        <meta property="og:image" content="{{seo.site_url}}{% static 'images/logo-lg.png' %}">
+    {% endif %}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{seo.twitter_site}}">
+    <meta name="twitter:creator" content="{{seo.twitter_creator}}">
+    <meta name="twitter:description" content="{{seo.site_desc | short_blurb}}">
+    {% if seo.title %}
+        <meta name="twitter:title" content="{{seo.title}}">
+    {% else %}
+        <meta name="twitter:title" content="{{seo.site_name}}">
+    {% endif %}
+    <meta name="twitter:url" content="{{seo.site_url}}">
+    {% if seo.image %}
+        <meta name="twitter:image:src" content="{{seo.site_url}}{{seo.image}}">
+    {% else %}
+        <meta name="twitter:image:src" content="{{seo.site_url}}{% static 'images/logo-lg.png' %}">
+    {% endif %}
+{% else %}
+    <meta name="description" content="{{SITE_META.site_desc}}">
+    <meta name="author" content="{{SITE_META.site_author}}">
+
+
+    <!-- Facebook -->
+    <meta property="og:site_name" content="{{SITE_META.site_name}}">
+    <meta property="og:title" content="{{SITE_META.site_name}}">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{{SITE_META.site_desc}}">
+    <meta property="og:url" content="{{SITE_META.site_url}}">
+    <meta property="og:image" content="{{SITE_META.site_url}}{% static 'images/logo-lg.png' %}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{SITE_META.twitter_site}}">
+    <meta name="twitter:creator" content="{{SITE_META.twitter_creator}}">
+    <meta name="twitter:description" content="{{SITE_META.site_desc}}">
+    <meta name="twitter:title" content="{{SITE_META.site_name}}">
+    <meta name="twitter:url" content="{{SITE_META.site_url}}">
+    <meta name="twitter:image:src" content="{{SITE_META.site_url}}{% static 'images/logo-lg.png' %}">
+{% endif %}

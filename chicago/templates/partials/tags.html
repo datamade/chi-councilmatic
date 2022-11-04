@@ -1,0 +1,41 @@
+{% load extras %}
+
+{% if result.last_action_date %}
+    <p class="small text-muted condensed">
+        <i class="fa fa-fw fa-calendar-o"></i> {{result.last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
+    </p>
+{% elif result.object.get_last_action_date %}
+     <p class="small text-muted condensed">
+        <i class="fa fa-fw fa-calendar-o"></i> {{result.object.get_last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
+    </p>
+{% endif %}
+
+{% if result.object.primary_sponsor %}
+    <p class="small text-muted condensed">
+        <i class="fa fa-fw fa-user"></i>
+        {{result.object.primary_sponsor.person.name}}
+    </p>
+{% endif %}
+
+<div class="row">
+    <div class="col-xs-11">
+    {% if result.object.topics %}
+        <i class="fa fa-fw fa-tag"></i>
+        {% for tag in result.object.topics %}
+            <span class="badge badge-muted pseudo-topic-tag">
+                <a href='/search/?q={{request.GET.q}}&selected_facets=topics_exact%3A{{ tag }}'>{{tag}}</a>
+            </span>&nbsp;
+        {% endfor %}
+        <br/>
+    {% elif result.object.pseudo_topics %}
+        <i class="fa fa-fw fa-tag"></i>
+        {% for tag in result.object.pseudo_topics %}
+            <span class="badge badge-muted pseudo-topic-tag">
+                <a href='/search/?q={{request.GET.q}}&selected_facets=controlling_body_exact%3A{{ tag }}'>{{ tag | committee_topic_only }}</a>
+            </span>&nbsp;
+        {% endfor %}
+        <br/>
+    {% endif %}
+    <br/>
+    </div>
+</div>

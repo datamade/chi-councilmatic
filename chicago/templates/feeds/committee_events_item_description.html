@@ -1,0 +1,24 @@
+{% load extras %}
+
+<!-- Minimal styling for RSS item description -->
+<style>
+        body, table, select, input {
+	font-size: 12px;
+	font-family: arial, tahoma, sans-serif;
+	}
+        table {
+		border-collapse: collapse;
+		border-bottom: 1px solid #ddd;
+		border-top: 1px solid #ddd;
+	}
+</style>
+
+<body>
+	<ul>
+		<li>{{obj.start_time | date:"D n/d/Y"}}: {{obj.start_time | date:"g:i a e"}}</li>
+		<li>{{obj.location_name}}</li>
+	</ul>
+<p>
+
+
+</p></body>
