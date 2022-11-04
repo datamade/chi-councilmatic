@@ -16,7 +16,7 @@ from django.db.models import DateTimeField
 from django.db.models.functions import Cast
 
 class ChicagoIndexView(IndexView):
-    template_name = 'chicago/index.html'
+    template_name = 'index.html'
     bill_model = ChicagoBill
     event_model = ChicagoEvent
 
@@ -80,13 +80,13 @@ class ChicagoIndexView(IndexView):
         return context
 
 class ChicagoAboutView(AboutView):
-    template_name = 'chicago/about.html'
+    template_name = 'about.html'
 
 def substitute_ordinance_redirect(request, substitute_ordinance_slug):
     return redirect('bill_detail', slug=substitute_ordinance_slug[1:], permanent=True)
 
 class ChicagoBillDetailView(BillDetailView):
-    template_name = 'chicago/legislation.html'
+    template_name = 'legislation.html'
 
     model = ChicagoBill
 
@@ -163,6 +163,7 @@ class ChicagoBillDetailView(BillDetailView):
         return context
 
 class ChicagoCouncilMembersView(CouncilMembersView):
+    template_name = 'council_members.html'
 
     def get_seo_blob(self):
         seo = {}
@@ -254,7 +255,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         return ''
 
 class ChicagoPersonDetailView(PersonDetailView):
-    template_name = 'chicago/person.html'
+    template_name = 'person.html'
 
     def get_context_data(self, **kwargs):
         context = super(ChicagoPersonDetailView, self).get_context_data(**kwargs)

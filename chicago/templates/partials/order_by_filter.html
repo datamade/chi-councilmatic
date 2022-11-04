@@ -1,0 +1,14 @@
+{% load extras %}
+
+{% if 'sort_by='|add:sort_name in request.get_full_path %}
+    {% sort_direction request as dir %}
+    <strong><a class="nav-link assort" href="{% search_with_querystring request sort_by=sort_name order_by=dir|reverse_sort %}" data='sort_by={{sort_name}}'>
+        {{sort_name|title}}
+        <!-- Put current direction in URL -->
+        <i class="fa fa-sort-amount-{{ dir }}" aria-hidden="true"></i>
+    </a></strong>
+{% else %}
+    <a class="sort-by nav-link" href="{% search_with_querystring request sort_by=sort_name order_by=order_name %}" data='sort_by={{sort_name}}'>
+        {{sort_name|title}}
+    </a>
+{% endif %}

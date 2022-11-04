@@ -1,0 +1,34 @@
+{% load extras %}
+
+{% if legislation.full_text_doc_url %}
+    <h3>
+        <i class='fa fa-fw fa-file-text-o'></i>
+        Legislation text
+    </h3>
+    <p>
+        <a id="pdf-download-link" target='_blank' href='{{legislation.full_text_doc_url}}'><i class='fa fa-fw fa-download'></i> Download PDF</a>
+    </p>
+    <iframe
+        id="pdf-embed"
+        class="pdf-viewer"
+        frameborder="0"
+        seamless="true"
+        width="100%"
+        height="600px">
+    </iframe>
+
+    <div class="divider"></div>
+{% elif legislation.ocr_full_text %}
+    {% if legislation.ocr_full_text|clean_html|length > 65 %}
+    <h3>
+        <i class='fa fa-fw fa-file-text-o'></i>
+        Legislation text
+    </h3>
+    <div class='panel panel-default'>
+        <div class='panel-body'>
+            {{ legislation.ocr_full_text|safe }}
+        </div>
+    </div>
+    <div class="divider"></div>
+    {% endif %}
+{% endif %}

@@ -1,0 +1,17 @@
+{% load extras %}
+{{ object.identifier | alternative_identifiers }}
+{{ object.friendly_name }}
+{{ object.classification }}
+{{ object.description }}
+{{ object.abstract }}
+{% for s in object.sponsorships.all %}
+    {{ s.person.name }}
+{% endfor %}
+{% for a in object.actions.all %}
+    {{ a.organization.name }}
+    {{ a.description }}
+{% endfor %}
+{% for t in object.topics %}
+	{{t}}
+{% endfor %}
+{{ object.ocr_full_text|clean_html }}

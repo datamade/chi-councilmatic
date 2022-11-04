@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} - {{SITE_META.site_name}}</title>
+
+    <base target="_blank">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    {% include 'partials/icons.html' %}
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.journal.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/city_custom.css' %}" />
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+<body class="no-pad-top">
+
+    <nav class="navbar navbar-default navbar-fixed-top" id="widget-nav">
+        <div class="container-fluid container-fluid-nav">
+            <div id="nav-title">
+                <a class="navbar-brand" href="/">
+                    <img id="logo" src="{% static IMAGES.logo %}"></img>
+                    <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <br/>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="{% static 'js/jquery-1.10.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

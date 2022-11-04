@@ -1,0 +1,258 @@
+{% extends "base_with_margins.html" %}
+{% load extras %}
+{% load static %}
+{% load adv_cache %}
+{% block title %}{{committee.name}}{% endblock %}
+{% block content %}
+
+{% cache 600 committee_wrapper committee.ocd_id %}
+
+    <div class="row-fluid">
+        <div class="col-sm-8">
+            <br/>
+            <h1>
+                {{committee.name}}
+            </h1>
+            {% if committee_description %}
+                <p>{{committee_description}}</p>
+            {% endif %}
+
+            <div class="modal-links">
+                {% with slug=committee.slug widget='committee_widget' frameheight='180px' %}
+                    {% include 'partials/widget_modal.html' %}
+                {% endwith %}
+
+                {% if committee.source_url %}
+                        <a href='{{committee.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
+                            <i class='fa fa-fw fa-external-link'></i>
+                            View on the {{CITY_VOCAB.SOURCE}} website
+                        </a>
+                {% endif %}
+            </div>
+
+            <hr />
+
+            <h4 class="modal-links"><i class='fa fa-fw fa-list-ul'></i> Recent Legislative Activity&nbsp;
+
+            {% if USING_NOTIFICATIONS %}
+                {% if user_subscribed_actions %}
+                    <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to Recent Legislative Activity!<br> Visit your accounts page to unsubscribe.">
+                        <i class="fa fa-envelope"></i> Subscribe
+                    </a>
+                {% else %}
+                    {% with link_id='committee_actions_Subscribe' modal_id='Activity' custom_text='recent activities from the '|add:committee.name href='#' RSS_href='actions/rss/' RSS_for='RSS feed for Recent Legislative Activity by '|add:committee.name %}
+                        {% include 'partials/subscription_modal.html' %}
+                    {% endwith %}
+                {% endif %}
+            {% else %}
+
+                <a href="actions/rss/" title="RSS feed for Recent Legislative Activity by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+
+            {% endif %}
+
+            </h4>
+
+
+            <div class='row'>
+                <div class='col-sm-8' id='actions_message'></div>
+            </div>
+
+            {% if committee.recent_activity %}
+            <div class="table-responsive">
+                <table class='table' id='committee-actions'>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Legislation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for action in committee.recent_activity %}
+                            <tr class="activity-row">
+                                <td class='nowrap'>
+                                    <p class="text-muted small no-pad-bottom">
+                                        {{action.date|date:'n/d/Y'}}
+                                    </p>
+                                    <p class="small no-pad-bottom">
+                                        <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="small no-pad-bottom">
+                                        <a href="/legislation/{{action.bill.slug}}/">{{action.bill.friendly_name}}</a>
+                                    </p>
+                                    <p class="small no-pad-bottom">
+                                        {{action.bill.description | short_blurb}}
+                                    </p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3" align="center">
+                                <a href="" id="more-actions"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                                <a href="" id="fewer-actions"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p>No recent legislative activity</p>
+            {% endif %}
+
+            {% if committee.recent_events %}
+                <hr />
+
+                <h4 class="modal-links">
+                    <i class='fa fa-fw fa-calendar-o'></i> Committee {{ CITY_VOCAB.EVENTS }}&nbsp;
+
+                    {% if USING_NOTIFICATIONS %}
+                        {% if user_subscribed_events %}
+                            <a href="#committeeEvents" id="committee_events_Subscribe" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to Committee Meetings!<br> Visit your accounts page to unsubscribe.">
+                                <i class="fa fa-envelope"></i> Subscriptions
+                            </a>
+                        {% else %}
+                            {% with link_id='committee_events_Subscribe' modal_id='Meetings' custom_text='meetings from the '|add:committee.name href='#committeeEvents' RSS_href='events/rss/' RSS_for='RSS feed for Events by '|add:committee.name %}
+                                {% include 'partials/subscription_modal.html' %}
+                            {% endwith %}
+                        {% endif %}
+                    {% else %}
+                        <a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
+                    {% endif %}
+
+                </h4>
+
+                <div class='row'>
+                    <div class='col-sm-8' id='events_message'></div>
+                </div>
+
+                {% for event in committee.recent_events %}
+                    <p class='event-listing'>
+                        {{event.start_time | date:'n/d/Y' }} - {{event.link_html | safe}}
+                    </p>
+                {% endfor %}
+                <a href="" id="more-events"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                <a href="" id="fewer-events"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+            {% endif %}
+
+            <hr />
+            <h4><i class='fa fa-fw fa-group'></i> Committee Members ({{ committee.all_members|length }})</h4>
+
+            {% include 'partials/committee_person_table.html' %}
+
+        </div>
+    </div>
+
+{% endcache %}
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+
+    {% if USING_NOTIFICATIONS %}
+    <script>
+    // events_or_actions can be 'events' or 'actions'
+    function committeeCallback(events_or_actions) {
+        if (events_or_actions != 'events' && events_or_actions != 'actions') {
+            alert("committee.html: committeeCallback called with incorrect value");
+        }
+
+        $("#committee_" + events_or_actions + "_Subscribe").click(function() {
+            var bullHorn    = $(this).parent().parent().parent().parent().parent().find(".createSubscription");
+            var bullHornNew = $(this).parent().parent().parent().parent().parent().find(".removeSubscription");
+
+            if ('{{ request.user }}' != 'AnonymousUser') {
+                posturl = "/committee/" + "{{committee.slug}}" + "/" + events_or_actions  + "/subscribe/";
+                $.post(posturl, function(data) {
+                }).then(function() {
+                    $(bullHorn).hide();
+                    $(bullHornNew).show();
+                }, function (error) {
+                    console.error("Error subscribing to  interest {{committee.slug}}");
+                });
+            }
+            else {
+                (events_or_actions == 'actions') ? $('#actions_message').html(alertMsg) : $('#events_message').html(alertMsg);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        committeeCallback('events');
+        committeeCallback('actions');
+    });
+    </script>
+
+    {% endif %}
+
+    <script>
+        $("#council-members").DataTable({
+            "info": false,
+            "searching": false,
+            "bLengthChange": false,
+            "paging": false,
+            "aaSorting": [ [3,'asc'] ],
+            "aoColumns": [
+                { "bSortable": false },
+                null,
+                { "sType": "num-html" },
+                null
+            ]
+        });
+
+        $('.thumbnail-square img').each(function() {
+            if ($(this).width() > $(this).height()) {
+                $(this).addClass('landscape');
+            }
+        });
+
+
+        function collapseActivity(){
+            $(".activity-row:gt(4)").hide();
+            $("#more-actions").show();
+            $("#fewer-actions").hide();
+        }
+        function expandActivity(){
+            $(".activity-row:gt(4)").show();
+            $("#more-actions").hide();
+            $("#fewer-actions").show();
+        }
+        function collapseEvents(){
+            $(".event-listing:gt(4)").hide();
+            $("#more-events").show();
+            $("#fewer-events").hide();
+        }
+        function expandEvents(){
+            $(".event-listing:gt(4)").show();
+            $("#more-events").hide();
+            $("#fewer-events").show();
+        }
+
+        collapseActivity();
+        collapseEvents();
+
+        $("#more-actions").click(function() {
+            expandActivity();
+            return false;
+        });
+        $("#fewer-actions").click(function() {
+            collapseActivity();
+            return false;
+        });
+        $("#more-events").click(function() {
+            expandEvents();
+            return false;
+        });
+        $("#fewer-events").click(function() {
+            collapseEvents();
+            return false;
+        });
+
+        // for reference purposes
+        console.log( "OCD ID: {{committee.ocd_id}}" )
+
+    </script>
+{% endblock %}

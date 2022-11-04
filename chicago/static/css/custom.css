@@ -1,0 +1,747 @@
+body {
+	padding-top: 60px;
+    font-family: "Open Sans", sans-serif;
+}
+
+table, p, body {
+    font-size: 16px;
+}
+
+h1, h2, h3, h4 {
+	font-weight: 900;
+}
+
+
+/* navbar */
+#logo{
+    height: 45px;
+    float: left;
+    position: relative;
+    top: -14px;
+}
+
+.navbar-brand {
+	font-weight: 900;
+    min-width: 280px;
+}
+
+.navbar {
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+#nav-items {
+    float: right;
+    list-style: outside none none;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+#nav-items > li {
+    position: relative;
+    display: block;
+    float: left;
+}
+#nav-items > li > a, #nav-items > li > .dropdown > a {
+    color: #000;
+    position: relative;
+    display: block;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 19.5px;
+    padding-bottom: 19.5px;
+    line-height: 21px;
+}
+#nav-items > li > i {
+    font-size: .8em;
+    color: #78777d;
+    position: relative;
+    display: block;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 19.5px;
+    padding-bottom: 19.5px;
+    line-height: 21px;
+}
+#nav-items > li > a:hover,
+#nav-items > li > a:focus,
+#nav-items > li a.dropdown-toggle:hover,
+#nav-items > li a.dropdown-toggle:focus {
+    color: #000;
+    background-color: #EEE;
+    text-decoration: none;
+}
+.dropdown-menu > li.non-link {
+    padding: 3px 20px;
+}
+.nav-pills > li > a{
+    border-radius: 0px;
+    padding: 12px 10px 12px 10px;
+    color: #3D8A8E;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li > a:hover {
+    background: none;
+    color: #3D8A8E;
+    border-bottom: 8px solid #3D8A8E;
+}
+
+#widget-nav {
+    height: 36px;
+    min-height: 36px;
+    background-color: #F7F7F7;
+}
+#widget-nav .navbar-brand {
+    height: 36px;
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+#widget-nav #logo {
+    height: 30px;
+    top: -6px;
+}
+
+/* footer */
+.footer {
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+.footer img {
+    margin-right: 25px;
+    margin-left: 25px;
+    max-height: 60px;
+    max-width: 120px;
+}
+
+/* council members listings */
+.img-padded{
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+#sponsors img {
+    width: 50px;
+}
+
+#council-members td {
+    vertical-align: middle;
+}
+.table-responsive{
+    border: none;
+}
+.thumbnail-square{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+}
+.thumbnail-square img{
+    border-radius: 0px;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+.thumbnail-square img.landscape {
+  max-width: none;
+  max-height: 100%;
+}
+
+#council-members_filter {
+    display: none;
+}
+
+/* legislation detail page */
+#committee-actions td {
+    vertical-align: top;
+}
+
+.text-muted {
+    color: #858585;
+}
+
+/* map */
+#map {
+    height: 500px;
+}
+
+#map-detail {
+    height: 250px;
+    width: 250px;
+}
+
+.leaflet-google-layer{
+    z-index: 0 !important;
+}
+.leaflet-map-pane{
+    z-index: 100;
+}
+
+.custom .leaflet-popup-tip,
+.custom .leaflet-popup-content-wrapper {
+    background: rgba(255, 255, 255, .8);
+    color: #000;
+}
+.custom .leaflet-popup-content{
+    margin: 3px 18px 3px 6px;
+}
+
+#council-member-scroll-area{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.infobox {
+    padding: 6px 8px;
+    min-width: 210px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.infobox h4, .infobox p {
+    margin: 0 0 5px;
+    color: #000;
+}
+
+/* homepage stuff */
+
+.jumbotron {
+    background-color: rgba(238, 238, 238, .9);
+    padding: 30px;
+}
+.jumbotron > h3 {
+    margin-top: 0;
+}
+#section-photo{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #333;
+    height: 300px;
+}
+
+#section-photo h1 {
+    color: #fff;
+}
+
+
+
+/* search bar */
+.site-intro-search > input{
+    color: #333;
+    box-shadow: none;
+}
+.site-intro-search, .site-intro-search > input, .site-intro-search > .input-group-btn > .btn{
+    border-radius: 0;
+}
+.site-intro-search > input {
+    background-color: rgba(255,255,255,.85);
+    border: 0;
+}
+.site-intro-search > .input-group-btn > .btn-success{
+    border-top: 1px solid #3D8A8E;
+    border-bottom: 1px solid #3D8A8E;
+    border-right: 0;
+    border-left: 0;
+}
+.btn-success{
+    background-color: #3D8A8E;
+    color: #333;
+}
+.btn-success:hover, .btn-success:active{
+    background-color: #9CE06B;
+    border: 1px solid #9CE06B;
+    color: #333;
+}
+
+
+.address-search > input {
+    border: 0px;
+    background-color: #eee;
+    box-shadow: none;
+}
+.address-search, .address-search > input, .address-search > .input-group-btn > .btn{
+    border-radius: 0;
+}
+
+.order-nav a.nav-link {
+    margin-left: 1.8em;
+}
+
+
+/* bill detail listing */
+.btn-bill-detail{
+    background-color: #eee;
+    padding: 24px 0px;
+    top: 26px;
+    color: #777;
+    position: relative;
+}
+.btn-bill-detail:hover, btn-bill-detail:active{
+    background-color: #EB6864;
+    color: #fff;
+}
+.badge-muted{
+    background-color: #eee;
+    font-weight: normal;
+}
+.pseudo-topic-tag{
+    font-size: 12px;
+    margin-right: 3px;
+}
+
+
+
+
+/* bill status labels */
+.label-large{
+    font-size: 1.6em;
+    font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+    display: inline-block;
+    margin-top: 16px;
+}
+.bill-page-title .label {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.label-stale{
+    background-color: #777;
+}
+.label-passed{
+    background-color: #22B24C;
+}
+.label-approved{
+    background-color: #22B24C;
+}
+.label-active{
+    background-color: #3D8A8E;
+}
+.label-failed{
+    background-color: #D91E18;
+}
+
+
+
+/* event page */
+select {
+    margin-left: 0;
+    margin-right: 10px;
+    padding: 3px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+}
+#month-dropdown{
+    width: 100px;
+}
+#year-dropdown{
+    width: 60px;
+}
+#event-menu{
+    display: inline-block;
+}
+
+/* search filters */
+.panel-filter{
+    margin-bottom: 4px;
+    border-radius: 0px;
+    border-color: #eee;
+    box-shadow: none;
+}
+.panel-filter > .panel-heading{
+    padding: 4px 8px;
+    background-color: #eee;
+    border-bottom: none;
+}
+.panel-filter > .panel-body{
+    padding: 8px 8px 0px 8px;
+}
+.search-facet-list > hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.search-facet-list{
+    padding-left: 0;
+    list-style-type: none;
+}
+.badge-facet{
+    background-color: #D9D9D9;
+    font-weight: normal;
+    font-size: 65%;
+}
+.remove-filter-value{
+    background-color: #eee;
+    border-radius: 10px;
+    font-size: .8em;
+    padding: 0px 4px 1px 4px;
+}
+.remove-filter-value:hover{
+    cursor: pointer;
+}
+
+.nav a.sort-by, .nav a.btn {
+    margin-left: 1.8em;
+}
+
+div.order-nav { margin-top: 21px; }
+
+.fa-sort-amount-asc, .fa-sort-amount-desc {
+    margin-left: 8px;
+}
+
+/* subscription stuff */
+.modal-body {
+ padding: 12px;
+}
+
+.modal-body > p {
+    color: #999999;
+    font-weight: 200;
+}
+
+.removeSubscription, a.removeSubscription:hover, a.removeSubscription:focus {
+    color: #3D8A8E;
+    text-decoration: none;
+}
+
+.tooltip-inner {
+    background-color: #ddd;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+}
+
+.tooltip.in {
+  opacity: 0.98;
+  filter: alpha(opacity=100);
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: #ddd;
+}
+
+.modal-links > a {
+    padding-right: 12px;
+    display: inline;
+}
+
+.getModal:hover {
+    cursor: pointer;
+}
+
+a.dropdown-toggle[title='Account'] {
+    cursor: pointer;
+}
+
+/* pdf */
+.pdf-viewer{
+    max-width: 700px;
+}
+
+
+.mobile-only {
+    display: none;
+}
+.non-desktop-only{
+    display: none;
+}
+
+.hidden{
+    display: none;
+}
+
+
+
+/* Custom style for alert box */
+.alert-info {
+    background-color: #E5F4F5;
+    color: #3D8A8E;
+    border-color: #C7E8EA;
+}
+
+/* Custom style for modal instrucitons on widget */
+textarea {
+    font-size: 16px;
+    width:100%;
+}
+
+.fa-share { color: #ddd; }
+
+/* misc */
+.pad { height: 80px; }
+
+.no-pad-bottom  {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.no-pad-top {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.no-pad-right {
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.less-pad-list { padding-left: 12px; }
+.condensed { margin-bottom: 0; }
+.nowrap { white-space:nowrap; }
+.text-bg { color: #fff; }
+.big { font-size: 1.4em; }
+.x-small { font-size: .75em; }
+
+.img-thumbnail {
+    padding: 0px;
+    border: none;
+}
+
+.info-blurb p { font-size: .85em; }
+
+p.search-result em, .highlighted {
+    background-color: #D9EDF7;
+    font-style: normal;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #fff;
+}
+
+/* medium screens */
+@media only screen and (max-width : 767px) {
+
+    .navbar-brand {
+        width: 100%;
+        padding-top: 8px;
+        padding-bottom: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+        height: 35px;
+    }
+
+    #nav-items {
+        float: left;
+        min-width: 425;
+    }
+
+    #nav-items > li > a {
+        font-size: 16px;
+        padding-top: 4px;
+        padding-bottom: 8px;
+        line-height: 21px;
+        padding-left: 6px;
+        padding-right: 0px;
+    }
+
+    .nav-pills > li > a{
+        padding: 0 8px;
+        font-size: 20px;
+    }
+    .small-pill{
+        font-size: 14px;
+    }
+
+    #widget-nav .container-fluid-nav {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+
+    .bill-page-title{
+        font-size: 26px;
+    }
+    h4, .h4 {
+        font-size: 18px;
+    }
+    p, ul>li, td, th {
+        font-size: 14px;
+    }
+    td.small, th.small{
+        font-size: 12px;
+    }
+
+    #person-detail-headshot{
+        max-height: 160px;
+    }
+
+    #map{
+        height: 260px;
+    }
+
+    #council-member-scroll-area{
+        height: 100%;
+        overflow-y: none;
+    }
+
+    .desktop-only{
+        display: none;
+    }
+    .non-desktop-only{
+        display: inline;
+    }
+
+    .nav a.sort-by, .nav a.btn {
+        margin-left: 0.6em;
+    }
+
+    .visible-xs {
+        display: inline-block !important;
+    }
+
+}
+
+
+
+/* lil screens */
+@media only screen and (max-width : 360px) {
+
+    body {
+        padding-top: 50px;
+    }
+    .navbar-default{
+        min-height: 50px;
+    }
+
+    .container-fluid-nav{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .navbar-brand {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 0px;
+        padding-top: 3px;
+        height: 28px;
+    }
+    #logo {
+        height: 35px;
+        top: -8px;
+    }
+
+    #nav-items > li > a {
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 0px;
+        padding-bottom: 1px;
+    }
+
+    .col-sm-12, .table-col, .no-pad-mobile {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .jumbotron {
+        padding: 20px;
+    }
+
+    #search-jumbotron {
+        background-color: inherit;
+        padding: 0px;
+    }
+    #search-jumbotron input{
+        background-color: #eee;
+    }
+    #search-jumbotron .h4{
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    h1, .h1 {
+        font-size: 28px;
+    }
+    .bill-page-title{
+        font-size: 22px;
+    }
+    h2, .h2 {
+        font-size: 28px;
+    }
+    h2 > .small {
+        font-size: 14px;
+    }
+    h3, .h3 {
+        font-size: 20px;
+    }
+    h4, .h4 {
+        font-size: 18px;
+    }
+
+    p, ul>li {
+        font-size: 14px;
+    }
+
+    p.small, p > .small, th, td {
+        font-size: 12px;
+    }
+    th.small, td.small{
+        font-size: 11px;
+    }
+
+    .pseudo-topic-tag{
+        font-size: 10px;
+        padding: 3px 5px;
+        margin-right: 0px;
+    }
+
+    .site-intro-search > input, .address-search > input {
+        height: 30px;
+        padding: 2px 2px 2px 8px;
+        font-size: 14px;
+    }
+    .site-intro-search > .input-group-btn > button, .address-search > .input-group-btn > button{
+        height: 30px;
+        width: 30px;
+        font-size: 14px;
+        padding: 0;
+    }
+
+
+    .nav-pills > li > a{
+        padding: 0 10px;
+        font-size: 20px;
+    }
+    .small-pill{
+        font-size: 14px;
+    }
+
+    .btn-bill-detail{
+        padding: 36px 0px;
+        top: 38px;
+    }
+
+    .footer p{
+        font-size: .7em;
+        margin-bottom: 6px;
+    }
+    .footer img {
+        max-height: 45px;
+        max-width: 90px;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+
+    .mobile-only{
+        display: inline;
+    }
+    .non-mobile-only{
+        display: none;
+    }
+    .desktop-only{
+        display: none;
+    }
+    .non-desktop-only{
+        display: inline;
+    }
+
+    .nav a.sort-by, .nav a.btn {
+        margin-left: 0.4em;
+    }
+
+    .visible-xs {
+        display: inline-block !important;
+    }
+}
+

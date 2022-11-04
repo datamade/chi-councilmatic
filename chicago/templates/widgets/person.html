@@ -1,0 +1,52 @@
+{% extends "base_widget.html" %}
+{% load extras %}
+{% load static %}
+{% block title %}{{ person.name }}{% endblock %}
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <h1>
+                <a href="/person/{{person.slug}}/" target="_blank" title="View on {{ CITY_NAME_SHORT }} Councilmatic">{{person.name}}</a>
+                <br/>
+                <small>
+                    {{ title }}
+                </small>
+            </h1>
+            <div class="col-xs-4">
+                <img src='{{person.headshot_url}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail' />
+            </div>
+        </div>
+    </div>
+
+    {% if person.chair_role_memberships or person.member_role_memberships %}
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <br/>
+            
+            <p>
+                <strong>
+                    <i class='fa fa-fw fa-users'></i>
+                    Committees
+                </strong>
+            </p>
+            {% for membership in person.chair_role_memberships %}
+                <p>
+                    Chairperson of {{membership.organization.link_html|safe}}
+                </p>
+            {% endfor %}
+            {% with person.member_role_memberships.length as l %}
+                {% if l > 1 %}
+                    <p>
+                        Member of {{ l }} other committees
+                    </p>
+                {% else %}
+                    <p>
+                        Member of 1 other committee
+                    </p>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

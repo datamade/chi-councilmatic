@@ -1,0 +1,54 @@
+{% load extras %}
+
+<!-- Minimal styling for RSS item description -->
+<style>
+        body, table, select, input {
+	font-size: 12px;
+	font-family: arial, tahoma, sans-serif;
+	}
+        table {
+		border-collapse: collapse;
+		border-bottom: 1px solid #ddd;
+		border-top: 1px solid #ddd;
+	}
+</style>
+
+<body>
+{{ obj.description }}
+<p>
+
+	Sponsors:
+<ul>
+	{% for s in obj.sponsorships.all %}
+	{% if s.is_primary %}
+	<li>{{s.person.name}}
+                [Primary Sponsor] {% if s.person.current_council_seat %} ({{s.person.current_council_seat}}) {% endif %}
+	{% endif %}
+	{% endfor %}
+			
+	{% for s in obj.sponsorships.all %}
+	{% if not s.is_primary %}
+	<li>{{s.person.name}} {% if s.person.current_council_seat %} ({{s.person.current_council_seat}}) {% endif %}
+	{% endif %}
+	{% endfor %}
+</ul>
+<p>
+	{% if obj.actions %}
+	History:
+	
+	<table>
+	{% for action in obj.ordered_actions %}
+		<tr>
+			<td>{{action.date|date:'n/d/y'}}</td>
+			<td>{{action.description | remove_action_subj}}
+				{% if action.related_organization %}
+                                to
+                                {{action.related_organization.link_html|safe}}
+                                {% endif %}
+			</td>
+			<td>{{action.organization.link_html|safe}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</body>

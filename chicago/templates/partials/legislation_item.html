@@ -1,0 +1,47 @@
+{% load extras %}
+
+<p>
+    <a class="small" href="/legislation/{{ legislation.slug }}/">{{ legislation.friendly_name }}</a>
+    {{ legislation.inferred_status | inferred_status_label | safe }}
+</p>
+
+<div class="row">
+    <div class="col-xs-11">
+
+        <p>
+            {{ legislation.listing_description | short_blurb }}
+        </p>
+
+    </div>
+    <div class='col-xs-1 no-pad-mobile'>
+        <div>
+            <a class='btn-bill-detail' href='/legislation/{{ legislation.slug }}/'>
+                <i class="fa fa-fw fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<p>
+    <span class="small text-muted"><i class="fa fa-fw fa-calendar-o"></i> {% firstof legislation.last_action_date|date:'n/d/Y' legislation.get_last_action_date|date:'n/d/Y' %} - {{legislation.current_action.description | remove_action_subj }}</span><br/>
+
+    {% if legislation.topics %}
+        <i class="fa fa-fw fa-tag"></i>
+        {% for tag in legislation.topics %}
+            <span class="badge badge-muted pseudo-topic-tag">
+                <a href='/search/?q=&selected_facets=topics_exact:{{ tag }}'>{{ tag }}</a>
+            </span>
+        {% endfor %}
+        <br/>
+    {% else %}
+        <i class="fa fa-fw fa-tag"></i>
+        {% for tag in legislation.pseudo_topics %}
+            <span class="badge badge-muted pseudo-topic-tag">
+                <a href='/search/?q=&selected_facets=topics_exact:{{ tag | committee_topic_only}}'>{{ tag | committee_topic_only }}</a>
+            </span>
+        {% endfor %}
+        <br/>
+    {% endif %}
+    <br/>
+</p>
