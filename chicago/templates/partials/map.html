@@ -75,7 +75,6 @@
                 });
 
                 layer.on('mouseover', function(e){
-                    console.log(e.target.feature.properties)
                     infoBox.update(e.target.feature.properties);
                     e.target.setStyle({'fillOpacity': 0.6, 'color': "{{MAP_CONFIG.highlight_color}}"});
                 });
