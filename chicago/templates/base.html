@@ -115,17 +115,7 @@
         <div class='col-sm-12'>
             <div class='clearfix'></div>
 
-            {% if FOOTER_CREDITS %}
-                <p>Part of the <a href='https://www.councilmatic.org' target="_blank">Councilmatic family</a>. Proudly brought to you by</p>
-
-                {% for credit in FOOTER_CREDITS %}
-
-                    <a href='{{credit.url}}' title='{{credit.name}}' target="_blank"><img src='/static/images/{{credit.image}}' /></a>
-
-                {% endfor %}
-            {% else %}
-                <p>Part of the <a href='https://www.councilmatic.org' target="_blank">Councilmatic family</a>.</p>
-            {% endif %}
+            <p>Part of the <a href='https://www.councilmatic.org' target="_blank">Councilmatic family</a>. Proudly brought to you by <a href="https://datamade.us">DataMade</a>. &copy; 2022</p>
 
         </div>
     </div>
