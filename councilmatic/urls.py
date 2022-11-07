@@ -2,9 +2,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 # from haystack.query import SearchQuerySet
-from haystack.forms import FacetedSearchForm
-from haystack.query import SearchQuerySet, EmptySearchQuerySet
-from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedSearchView
 from chicago.views import *
 from chicago.feeds import *
 

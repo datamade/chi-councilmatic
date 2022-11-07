@@ -1,19 +1,12 @@
-from django.shortcuts import render
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
-
-from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import *
 from councilmatic_core.models import Post
 
 from haystack.generic_views import FacetedSearchView
-from haystack.query import SearchQuerySet
-
-from django.db.models import DateTimeField
-from django.db.models.functions import Cast
 
 class ChicagoIndexView(IndexView):
     template_name = 'index.html'
@@ -275,7 +268,7 @@ class ChicagoPersonDetailView(PersonDetailView):
         return context
 
 class ChicagoEventsView(EventsView):
-    template = "events.html"
+    template_name = "events.html"
 
 class EventDetailView(DetailView):
     model = ChicagoEvent
