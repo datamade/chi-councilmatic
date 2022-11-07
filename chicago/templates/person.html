@@ -22,7 +22,7 @@
         <div class="col-sm-3">
             <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
 
-            <h4>{{ title }}</h4>
+            <h4>{{ person.latest_council_membership.post }}</h4>
 
             {% if tenure_start %}
                 <br>
