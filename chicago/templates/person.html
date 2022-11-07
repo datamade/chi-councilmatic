@@ -14,158 +14,76 @@
 
     <div class="row-fluid">
         <div class="col-sm-10">
-            <h1>
-                <span>{{person.name}}</span>
-
-                <br class="non-desktop-only"/>
-
-                <small>{{ title }}</small>
-            </h1>
+            <h1>{{person.name}}</h1>
         </div>
     </div>
-
-    <div class='row'>
-        <div class='col-sm-6' id='person_message'></div>
-    </div>
-
-    <br>
 
     <div class="row-fluid">
-        <div class="col-sm-3 non-mobile-only">
+        <div class="col-sm-3">
             <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
-            {% if person.headshot_source %}
-                <p class='small'>
-                    <i class='fa fa-fw fa-camera'></i> Credit: {{person.headshot_source}}
-                </p>
-            {% endif %}
 
-            <div class="modal-links">
-                <p>
-                {% if USING_NOTIFICATIONS %}
-
-                    {% if user_subscribed %}
-                    <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to {{person.name}}!<br> Visit your accounts page to unsubscribe.">
-                        <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Already subscribed
-                    </a>
-                    {% else %}
-                        {% with link_id='personSubscribe' modal_id='Person' custom_text=person.name href='#' RSS_href='rss/' RSS_for='RSS feed for Sponsored Legislation by '|add:person.name %}
-                            {% include 'partials/subscription_modal.html' %}
-                        {% endwith %}
-                    {% endif %}
-
-                {% else %}
-                    <a href="rss/" title="RSS feed for Sponsored Legislation by {{person.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                {% endif %}
-                </p>
-
-                <!-- Embed -->
-                <p>
-                {% with slug=person.slug widget='person_widget' frameheight='460px' %}
-                    {% include 'partials/widget_modal.html' %}
-                {% endwith %}
-                </p>
-
-            </div>
-        </div>
-        <div class="col-sm-4 non-mobile-only">
-            <h4>Contact info</h4>
-            <p>
-                {% if person.email %}
-                    <i class='fa fa-fw fa-envelope-o'></i>
-                    <a href="mailto:{{person.email}}">{{person.email | strip_mailto}}</a>
-                {% endif %}
-            </p>
-            <p>
-                {% if person.website_url %}
-                    <i class='fa fa-fw fa-user'></i>
-                    <a href="{{person.website_url}}" target="_blank">Website</a>
-                {% endif %}
-            </p>
-            <p>
-                {% if twitter_url %}
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                    <a href="{{twitter_url}}" target="_blank">{{ twitter_handle }}</a>
-                {% endif %}
-            </p>
-            <p>
-                {% if phone %}
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                    {{ phone }}
-                {% endif %}
-            </p>
-            <p>
-                {% if address %}
-                   <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    {{ address }}
-                {% endif %}
-            </p>
+            <h4>{{ title }}</h4>
 
             {% if tenure_start %}
                 <br>
-                <p><i class="fa fa-calendar" aria-hidden="true"></i> In office since <strong>{{ tenure_start }}</strong></p>
+                <p>In office since <strong>{{ tenure_start }}</strong></p>
             {% endif %}
 
             {% if chair_positions %}
                 <br>
-                <p><i class="fa fa-user" aria-hidden="true"></i> Chairperson of:
+                <p><strong>Chairperson of</strong><br />
                     {% for committee in chair_positions %}
-                        <p><strong>{{ committee.organization }}</strong></p>
+                      {{ committee.organization }}<br />
                     {% endfor %}
                 </p>
             {% endif %}
 
             <!-- View on legistar -->
-            <!-- <br>
-            <a href='{{person.source_url}}' target="_blank"><i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website</a> -->
+            <!-- {% for source in person.person.sources.all %}
+                {% if source.note == 'web' %}
+                  <br>
+                  <a href='{{source.url}}' target="_blank"><i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website</a>
+                {% endif %}
+            {% endfor %} -->
+            
 
         </div>
-        <div class="col-sm-3 non-mobile-only">
+        <div class="col-sm-4">
+            <h4>Contact info</h4>
+
+            {% for contact in person.person.contact_details.all %}
+              <p>
+                <strong>{{ contact.note}}</strong><br />
+                {% if '@' in contact.value %}
+                  <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
+                {% else %}
+                  {{ contact.value }}
+                {% endif %}
+              </p>
+            {% endfor %}
+
+            {% if person.person.links %}
+              <strong>Website</strong><br />
+              {% for link in person.person.links.all %}
+                <a href="{{ link.url }}">{{ link.url }}</a><br />
+              {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-sm-4">
             {% if map_geojson %}
                 <div id='map-detail' class='img-responsive img-thumbnail img-padded'></div>
                 <p class='small'>
                     {% if person.current_council_seat %}
-                        <i class="fa fa-map" aria-hidden="true"></i> {{ person.current_council_seat }} map
+                        <i class="fa fa-map" aria-hidden="true"></i> {{ title }} map
                     {% endif %}
                 </p>
             {% endif %}
         </div>
-
-        <div class="col-sm-4 mobile-only">
-            <div class="row">
-                <div class="col-xs-4">
-                    <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail' />
-                </div>
-                <div class="col-xs-8">
-                    <p class="small">
-                        {% if person.email %}
-                            <i class='fa fa-fw fa-envelope-o'></i>
-                            <a href="mailto:{{person.email}}">{{person.email | strip_mailto}}</a>
-                        {% endif %}
-                    </p>
-                    <p class="small">
-                        {% if person.website_url %}
-                            <i class='fa fa-fw fa-user'></i>
-                            <a href="{{person.website_url}}">Website</a>
-                        {% endif %}
-                    </p>
-
-                    <p class='small'>
-                        <a href='{{person.source_url}}' target="_blank"><i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website</a>
-                    </p>
-                </div>
-            </div>
-            <hr/>
-        </div>
     </div>
 
     <div class="row-fluid">
-        <div class='col-sm-10 no-pad-mobile'>
+        <div class='col-sm-10'>
             <hr/>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class='col-sm-10 no-pad-mobile'>
             <ul class="nav nav-pills">
                 <li role="presentation" {% if request.GET.view == 'bills' or request.GET.view == None %}class='active' {% endif %}>
                     <a href="/person/{{person.slug}}/?view=bills">
@@ -190,7 +108,7 @@
                     Sponsored legislation
                     <small><a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>View all <i class='fa fa-fw fa-chevron-right'></i></a></small>
                 </h3>
-                <p>Legislation that {{person.name}} is the primary sponsor of.</p><br/>
+                <p>Legislation that {{person.name}} is the primary sponsor of. <a href="rss/" title="RSS feed for Sponsored Legislation by {{person.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed</a></p><br/>
 
                 {% for legislation in sponsored_legislation %}
 
@@ -199,11 +117,8 @@
                 {% endfor %}
 
                 <hr />
-                <p class="non-mobile-only">
+                <p>
                     <a class='btn btn-primary' href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>View all legislation sponsored by {{person.name}}<i class='fa fa-fw fa-chevron-right'></i></a>
-                </p>
-                <p class="mobile-only">
-                    <a class='btn btn-primary' href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>All sponsored legislation<i class='fa fa-fw fa-chevron-right'></i></a>
                 </p>
             {% endif %}
 
@@ -264,33 +179,7 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% if USING_NOTIFICATIONS %}
-    <script>
-    $(document).ready(function() {
-        $("#personSubscribe").click(function() {
-            var bullHorn    = $(this).parents().find(".createSubscription");
-            var bullHornNew = $(this).parents().find(".removeSubscription");
-            if ('{{ request.user }}' != 'AnonymousUser') {
-                posturl = "/person/" + "{{person.slug}}" + "/subscribe/";
-                $.post(posturl, function(data) {
-                }).then(function() {
-                    $(bullHorn).hide();
-                    $(bullHornNew).show();
-                }, function (error) {
-                    console.error("Error subscribing to  interest {{person.slug}}");
-                });
-            }
-            else {
-                $('#person_message').html(alertMsg);
-            }
-
-        });
-
-    });
-
-    </script>
-    {% endif %}
-
+    
     {% if map_geojson %}
 
         <script src="{% static 'js/leaflet.js' %}" /></script>
