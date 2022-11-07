@@ -267,6 +267,11 @@ class ChicagoPersonDetailView(PersonDetailView):
             
         context['chair_positions'] = person.chair_role_memberships
 
+        context['sponsored_legislation'] = ChicagoBill.objects.filter(sponsorships__person=person,
+                                                        sponsorships__primary=True)\
+                                                       .annotate(last_action=Max('actions__date'))\
+                                                       .order_by('-last_action')[:10]
+
         return context
 
 class ChicagoEventsView(EventsView):
