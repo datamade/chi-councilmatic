@@ -47,19 +47,7 @@
                 </h2>
 
                 <div class="modal-links">
-                    {% if USING_NOTIFICATIONS %}
-                        {% if user_subscribed %}
-                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
-                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
-                        </a>
-                        {% else %}
-                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-                        {% endif %}
-                    {% else %}
-                        <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                    {% endif %}
+                  <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
                 </div>
 
                 <div class='row'>
@@ -74,23 +62,9 @@
                     No {{ CITY_VOCAB.EVENTS }}
                 </h2>
 
-                <p>Search for a month and year{% if USING_NOTIFICATIONS %}, or subscribe and receive alerts about upcoming {{ CITY_VOCAB.EVENTS }}{% endif %}.</p>
+                <p>Search for a month and year.</p>
                 <div class="modal-links">
-                    {% if USING_NOTIFICATIONS %}
-                        {% if user_subscribed %}
-                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
-                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
-                        </a>
-                        {% else %}
-
-                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-
-                        {% endif %}
-                    {% else %}
-                       <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                    {% endif %}
+                  <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
                 </div>
 
                 <div class='row'>
@@ -125,31 +99,5 @@
         });
     });
     </script>
-
-    {% if USING_NOTIFICATIONS %}
-    <script>
-    $(document).ready(function() {
-	    $("#eventsSubscribe").click(function() {
-            var bullHorn    = $(this).parents().find(".createSubscription");
-            var bullHornNew = $(this).parents().find(".removeSubscription");
-
-            if ('{{ request.user }}' != 'AnonymousUser') {
-			    posturl = "/events/subscribe/";
-			    $.post(posturl, function(data) {
-			    }).then( function() {
-                    $(bullHorn).hide();
-                    $(bullHornNew).show();
-                }, function (error) {
-                    console.error("Error subscribing to all events");
-                });
-            }
-            else {
-                $('#events_message').html(alertMsg);
-            }
-
-	   });
-	});
-    </script>
-    {% endif %}
 
 {% endblock %}

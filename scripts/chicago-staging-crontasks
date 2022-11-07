@@ -1,4 +1,0 @@
-# /etc/cron.d/chicago-staging-crontasks
-APPDIR=/home/datamade/chicago-staging
-PYTHONDIR=/home/datamade/.virtualenvs/chicago-staging/bin/python
-0 5 * * * datamade cd $APPDIR && $PYTHONDIR manage.py update_index --batch-size=100 --age=24 >> /var/log/councilmatic/chicago-staging-updateindex.log

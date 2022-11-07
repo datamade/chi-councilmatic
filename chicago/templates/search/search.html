@@ -174,49 +174,16 @@
                 {% if query %}for '{{ request.GET.q }}'{% endif %}
 
                 <small>
-                {% if USING_NOTIFICATIONS %}
-                    {% if user_subscribed %}
-                    <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to searches for {{request.GET.q}}!<br> Visit your accounts page to unsubscribe.">
-                        <i class="fa fa-envelope fa-fw" aria-hidden="true"></i>
-                    </a>
-                    {% else %}
-
-                        <!-- Monstrous code for using modal partials with three different RSS links -->
-                        {% if query and selected_facets %}
-
-                            {% with link_id='searchSubscribe' modal_id='Search' custom_text='searches for '|add:request.GET.q href='#' RSS_href=selected_facets.items|create_facet_string:request.GET.q RSS_for='RSS feed' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-
-                        {% elif selected_facets %}
-
-                            {% with link_id='searchSubscribe' modal_id='Search' custom_text='filters for '|add:'your filtered search' href='#' RSS_href=selected_facets.items|create_facet_string RSS_for='RSS feed' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-
-                        {% else %}
-
-                            {% with link_id='searchSubscribe' modal_id='Search' custom_text='searches for '|add:request.GET.q href='#' RSS_href='/search/rss/?q='|add:request.GET.q RSS_for='RSS feed' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-
-                        {% endif %}
-
-
-                    {% endif %}
+                {% if query and selected_facets %}
+                    <a href="/search/rss/?q={{request.GET.q}}{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
+                {% elif selected_facets %}
+                    <a href="/search/rss/?{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
                 {% else %}
-
-                    {% if query and selected_facets %}
-                        <a href="/search/rss/?q={{request.GET.q}}{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
-                    {% elif selected_facets %}
-                        <a href="/search/rss/?{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
-                    {% else %}
-                        <a href="/search/rss/?q={{request.GET.q}}" title="RSS feed">
-                    {% endif %}
-
-                    <i class="fa fa-rss-square" aria-hidden="true"></i></a>
-
+                    <a href="/search/rss/?q={{request.GET.q}}" title="RSS feed">
                 {% endif %}
+
+                <i class="fa fa-rss-square" aria-hidden="true"></i></a>
+
                 </small>
             </h3>
             <div class='row'>

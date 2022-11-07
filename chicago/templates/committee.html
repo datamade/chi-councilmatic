@@ -34,21 +34,7 @@
 
             <h4 class="modal-links"><i class='fa fa-fw fa-list-ul'></i> Recent Legislative Activity&nbsp;
 
-            {% if USING_NOTIFICATIONS %}
-                {% if user_subscribed_actions %}
-                    <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to Recent Legislative Activity!<br> Visit your accounts page to unsubscribe.">
-                        <i class="fa fa-envelope"></i> Subscribe
-                    </a>
-                {% else %}
-                    {% with link_id='committee_actions_Subscribe' modal_id='Activity' custom_text='recent activities from the '|add:committee.name href='#' RSS_href='actions/rss/' RSS_for='RSS feed for Recent Legislative Activity by '|add:committee.name %}
-                        {% include 'partials/subscription_modal.html' %}
-                    {% endwith %}
-                {% endif %}
-            {% else %}
-
-                <a href="actions/rss/" title="RSS feed for Recent Legislative Activity by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-
-            {% endif %}
+            <a href="actions/rss/" title="RSS feed for Recent Legislative Activity by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS updates for this committee</a>
 
             </h4>
 
@@ -106,19 +92,7 @@
                 <h4 class="modal-links">
                     <i class='fa fa-fw fa-calendar-o'></i> Committee {{ CITY_VOCAB.EVENTS }}&nbsp;
 
-                    {% if USING_NOTIFICATIONS %}
-                        {% if user_subscribed_events %}
-                            <a href="#committeeEvents" id="committee_events_Subscribe" class="removeSubscription" data-toggle="tooltip" data-placement="top" data-html="true" title="You are subscribed to Committee Meetings!<br> Visit your accounts page to unsubscribe.">
-                                <i class="fa fa-envelope"></i> Subscriptions
-                            </a>
-                        {% else %}
-                            {% with link_id='committee_events_Subscribe' modal_id='Meetings' custom_text='meetings from the '|add:committee.name href='#committeeEvents' RSS_href='events/rss/' RSS_for='RSS feed for Events by '|add:committee.name %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-                        {% endif %}
-                    {% else %}
-                        <a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                    {% endif %}
+                    <a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS updates on committee meetings</a>
 
                 </h4>
 
@@ -151,42 +125,6 @@
     <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
     <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
-
-    {% if USING_NOTIFICATIONS %}
-    <script>
-    // events_or_actions can be 'events' or 'actions'
-    function committeeCallback(events_or_actions) {
-        if (events_or_actions != 'events' && events_or_actions != 'actions') {
-            alert("committee.html: committeeCallback called with incorrect value");
-        }
-
-        $("#committee_" + events_or_actions + "_Subscribe").click(function() {
-            var bullHorn    = $(this).parent().parent().parent().parent().parent().find(".createSubscription");
-            var bullHornNew = $(this).parent().parent().parent().parent().parent().find(".removeSubscription");
-
-            if ('{{ request.user }}' != 'AnonymousUser') {
-                posturl = "/committee/" + "{{committee.slug}}" + "/" + events_or_actions  + "/subscribe/";
-                $.post(posturl, function(data) {
-                }).then(function() {
-                    $(bullHorn).hide();
-                    $(bullHornNew).show();
-                }, function (error) {
-                    console.error("Error subscribing to  interest {{committee.slug}}");
-                });
-            }
-            else {
-                (events_or_actions == 'actions') ? $('#actions_message').html(alertMsg) : $('#events_message').html(alertMsg);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        committeeCallback('events');
-        committeeCallback('actions');
-    });
-    </script>
-
-    {% endif %}
 
     <script>
         $("#council-members").DataTable({
