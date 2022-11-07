@@ -29,12 +29,8 @@
             {% if select_events %}
                 <h2><span>{{ CITY_VOCAB.EVENTS }} in {{select_date}}</span>
                 <br class="non-desktop-only"/>
-                <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i></a></small>
+                <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></small>
                 </h2>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
                 <hr/>
 
                 {% for date, event_list in select_events %}
@@ -42,17 +38,8 @@
                 {% endfor %}
 
             {% elif upcoming_events %}
-                <h2><span>Upcoming {{ CITY_VOCAB.EVENTS }}</span>
-    			    <br class="non-desktop-only"/>
-                </h2>
-
-                <div class="modal-links">
-                  <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                </div>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
+                <h2>Upcoming {{ CITY_VOCAB.EVENTS }}</h2>
+                <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
                 <hr/>
                 {% for date, event_list in upcoming_events %}
                     {% include "partials/event_day.html" %}
@@ -62,19 +49,12 @@
                     No {{ CITY_VOCAB.EVENTS }}
                 </h2>
 
-                <p>Search for a month and year.</p>
-                <div class="modal-links">
-                  <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                </div>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
+                <p>Search for a month and year. <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></p>
             {% endif %}
         </div>
 
-        <div class="col-sm-4 no-pad-mobile">
-            <br/><br class="non-mobile-only"/>
+        <div class="col-sm-4">
+            <br/>
             {% include 'partials/events_info_blurb.html' %}
         </div>
     </div>

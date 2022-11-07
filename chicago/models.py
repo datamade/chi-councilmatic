@@ -26,14 +26,16 @@ class ChicagoBill(Bill):
         return self.actions.filter(classification='passage').order_by('-order').first().date_dt if self.actions.all() else None
 
     def _terminal_status(self, history, bill_type):
+        
+        # history is a list of actions, where each action a list of one
         if history:
             if bill_type.lower() == 'ordinance':
-                if 'passage' in history:
+                if ['passage'] in history:
                     return 'Passed'
-                elif 'failure' in history or 'committe-failure' in history:
+                elif ['failure'] in history or ['committe-failure'] in history:
                     return 'Failed'
             if bill_type.lower() in ['order', 'appointment','resolution']:
-                if 'passage' in history:
+                if ['passage'] in history:
                     return 'Approved'
                 else:
                     return False

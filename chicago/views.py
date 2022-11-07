@@ -269,5 +269,8 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         return context
 
+class ChicagoEventsView(EventsView):
+    template = "events.html"
+
 class EventDetailView(DetailView):
     model = ChicagoEvent
