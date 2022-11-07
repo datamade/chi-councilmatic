@@ -173,16 +173,14 @@
                 {{ paginator.count }} legislation result{{ paginator.count|pluralize }} 
                 {% if query %}for '{{ request.GET.q }}'{% endif %}
 
-                <small>
+                <small class="pull-right">
                 {% if query and selected_facets %}
-                    <a href="/search/rss/?q={{request.GET.q}}{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
+                    <a href="/search/rss/?q={{request.GET.q}}{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for this search</a>
                 {% elif selected_facets %}
-                    <a href="/search/rss/?{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed">
+                    <a href="/search/rss/?{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for this search</a>
                 {% else %}
-                    <a href="/search/rss/?q={{request.GET.q}}" title="RSS feed">
+                    <a href="/search/rss/?q={{request.GET.q}}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed of all Chicago legislation</a>
                 {% endif %}
-
-                <i class="fa fa-rss-square" aria-hidden="true"></i></a>
 
                 </small>
             </h3>
