@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>{% block title %}{% endblock %} - {{SITE_META.site_name}}</title>
 
     <base target="_blank">
@@ -21,18 +21,18 @@
 
     {% block extra_css %}{% endblock %}
 
-</head>
-<body class="no-pad-top">
+  </head>
+  <body class="no-pad-top">
 
     <nav class="navbar navbar-default navbar-fixed-top" id="widget-nav">
-        <div class="container-fluid container-fluid-nav">
-            <div id="nav-title">
-                <a class="navbar-brand" href="/">
-                    <img id="logo" src="{% static IMAGES.logo %}"></img>
-                    <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
-                </a>
-            </div>
+      <div class="container-fluid container-fluid-nav">
+        <div id="nav-title">
+          <a class="navbar-brand" href="/">
+            <img id="logo" src="{% static IMAGES.logo %}"></img>
+            <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
+          </a>
         </div>
+      </div>
     </nav>
 
     <br/>
@@ -45,5 +45,5 @@
 
     {% block extra_js %}{% endblock %}
 
-</body>
+  </body>
 </html>
