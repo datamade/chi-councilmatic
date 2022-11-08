@@ -49,16 +49,16 @@
 
     <div class="row-fluid">
         {% if map_geojson %}
-            <div class='col-sm-6 no-pad-mobile'>
+            <div class='col-sm-6'>
                 <div id="map"></div>
             </div>
-            <div class="col-sm-6 no-pad-mobile">
+            <div class="col-sm-6">
                 <div id="council-member-scroll-area">
                     {% include 'partials/council_member_table.html' %}
                 </div>
             </div>
         {% else %}
-            <div class="col-sm-8 no-pad-mobile">
+            <div class="col-sm-8">
                 {% include 'partials/council_member_table.html' %}
             </div>
             <div class='col-sm-4'>

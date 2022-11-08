@@ -4,16 +4,11 @@
 	<div class="col-xs-4">
 		<small>
 			<i class="fa fa-fw fa-calendar-o"></i>
-			<span class="non-mobile-only"> 
-				{{event.start_time | date:"D"}} 
-			</span>
-			{{event.start_time | date:"m/d"}}
+			{{event.start_time | date:"D"}} 
 			
-			<span class="non-mobile-only">
-				<i class="fa fa-fw fa-clock-o"></i> 
-			</span>
+			<i class="fa fa-fw fa-clock-o"></i> 
 			{{event.start_time| date:"g:ia"}}<br/>
-			<span class="desktop-only text-muted">
+			<span class="text-muted">
 				{{event.location_name}}<br />
 			</span>
 		</small>

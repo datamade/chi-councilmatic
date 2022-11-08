@@ -9,7 +9,7 @@
 
     <div class="row-fluid">
         <div class="col-sm-12">
-            <br class="non-mobile-only"/>
+            <br />
             <h1>City Council Committees</h1>
             <hr />
         </div>
@@ -35,7 +35,7 @@
                                 </td>
                                 <td align="left">
                                     {% for chair in committee.chairs.all %}
-                                        {{ chair.person.link_html | safe }}<br />
+                                      {{chair.person}}<br />
                                     {% endfor %}
                                 </td>
                                 <td>{{ committee.all_members | length }}</td>
@@ -60,12 +60,12 @@
                         {% for committee in subcommittees %}
                             {% if committee.memberships.all|length > 0 %}
                             <tr>
-                                <td align="left">
+                                <td>
                                     <a href="/committee/{{committee.slug}}/">{{ committee.name | committee_topic_only}}</a>
                                 </td>
-                                <td align="left">
+                                <td>
                                     {% for chair in committee.chairs.all %}
-                                        {{ chair.person.link_html | safe }}<br />
+                                        {{ chair.person | safe }}<br />
                                     {% endfor %}
                                 </td>
                                 <td>{{ committee.memberships.all | length }}</td>

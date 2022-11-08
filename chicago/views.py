@@ -267,6 +267,9 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         return context
 
+class ChicagoCommitteesView(CommitteesView):
+    template_name = "committees.html"
+
 class ChicagoEventsView(EventsView):
     template_name = "events.html"
 

@@ -18,6 +18,7 @@ patterns = ([
     url(r'^members/$', RedirectView.as_view(url='/council-members/', permanent=True), name='council_members'),
     url(r'^person/(?P<slug>[^/]+)/$', ChicagoPersonDetailView.as_view(), name='person'),
     url(r'^events/$', ChicagoEventsView.as_view(), name='events'),
+    url(r'^committees/$', ChicagoCommitteesView.as_view(), name='committees'),
 ], 'chicago')
 
 urlpatterns = [

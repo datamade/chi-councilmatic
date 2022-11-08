@@ -8,7 +8,7 @@
         <div class="row-fluid">
             <div class="col-sm-12">
                 <h1 class="bill-page-title">
-                    <br class="non-mobile-only" />
+                    <br />
                     {{ legislation.friendly_name }}
                     <small>{{ legislation.inferred_status | inferred_status_label | safe }}</small>
                 </h1>
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="col-sm-8 no-pad-mobile">
+        <div class="col-sm-8">
             <br/>
 
         {% block description %}

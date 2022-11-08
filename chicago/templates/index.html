@@ -57,20 +57,19 @@
                             </ul>
                         </p>
                         <p>
-                            <span class="non-mobile-only">
-                                Read more about how <a href='/about#about-city-council'  target="_blank">City Council works &raquo;</a>
-                            </span>
-                            <span class="mobile-only">
+                            <span>
                                 <a href='/about#about-city-council' target="_blank">More on how City Council works &raquo;</a>
                             </span>
 
                         </p>
                     </div>
 
-                    <div class= 'col-sm-4 desktop-only'>
-                        <p class='text-center'>
-                            <a href='/council-members/' target="_blank"><img id="map-screenshot" src='/static/images/chicago_map.jpg' class='img-responsive img-rounded' title='City of Chicago Wards' alt="Chicago's 50 Wards" /></a>
-                            <em>Chicago's 50 Wards</em>
+                    <div class= 'col-sm-4'>
+                        <p>
+                            <a href='/council-members/' target="_blank"><img id="map-screenshot" src='/static/images/chicago_map.jpg' class='img-responsive img-rounded' alt="Find your Alderman" /></a>
+                          </p>
+                          <p>
+                            <a class="btn btn-primary" href="{% url 'council_members' %}">Find your Alderman <i class="fa fa-fw fa-chevron-right"></i></a>
                         </p>
                     </div>
                 </div>
@@ -85,10 +84,7 @@
         <div class="row-fluid">
             <div class='col-sm-10 col-sm-offset-1'>
                 <h2>
-                    <span class="non-mobile-only">
-                        <i class="fa fa-fw fa-institution"></i>Engage Chicago City Council
-                    </span>
-                    <span class="mobile-only">
+                    <span>
                         <i class="fa fa-institution"></i>
                         Engage City Council
                     </span>
@@ -129,8 +125,7 @@
 
                 {% if next_council_meeting or upcoming_committee_meetings %}
                     <h2>
-                        <i class="fa fa-fw fa-calendar-o non-mobile-only"></i>
-                        <i class="fa fa-calendar-o mobile-only"></i>
+                        <i class="fa fa-fw fa-calendar-o"></i>
                         Upcoming Meetings
                     </h2>
                     <br/>
@@ -203,9 +198,9 @@
         </div>
         <div class="row-fluid">
             <div class='col-sm-6 col-sm-offset-1'>
-                <h4>
+                <h3>
                     Non-Routine Activity
-                </h4>
+                </h3>
                 {% for legislation in nonroutine_council_bills %}
                 <div class="bill-meeting">
                     {% include "partials/legislation_item.html" %}
@@ -219,9 +214,9 @@
             </div>
 
             <div class='col-sm-4'>
-                <h4>
+                <h3>
                     Legislative topics
-                </h4>
+                </h3>
 
                 {% for parent in topic_hierarchy %}
 
@@ -293,9 +288,9 @@
         {% if nonroutine_recent_bills %}
             <div class="row-fluid">
                 <div class='col-sm-6 col-sm-offset-1'>
-                    <h4>
+                    <h3>
                         Non-routine legislation introduced
-                    </h4>
+                    </h3>
                     {% for legislation in nonroutine_recent_bills %}
                     <div class="bill-recent">
                         {% include "partials/legislation_item.html" %}

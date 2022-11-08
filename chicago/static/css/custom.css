@@ -1,6 +1,6 @@
 body {
 	padding-top: 60px;
-    font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 table, p, body {
@@ -496,8 +496,6 @@ textarea {
     padding: 0px;
     border: none;
 }
-
-.info-blurb p { font-size: .85em; }
 
 p.search-result em, .highlighted {
     background-color: #D9EDF7;
