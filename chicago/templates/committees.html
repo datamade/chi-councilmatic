@@ -5,177 +5,177 @@
 {% block title %}{{CITY_COUNCIL_NAME}} Committees{% endblock %}
 {% block content %}
 
-{% cache 600 committees_wrapper 'committees' %}
+  {% cache 600 committees_wrapper 'committees' %}
 
     <div class="row-fluid">
-        <div class="col-sm-12">
-            <br class="non-mobile-only"/>
-            <h1>City Council Committees</h1>
-            <hr />
-        </div>
+      <div class="col-sm-12">
+        <br />
+        <h1>City Council Committees</h1>
+        <hr />
+      </div>
     </div>
 
     <div class="row-fluid">
-        <div class="col-sm-8 table-col">
+      <div class="col-sm-8 table-col">
 
-            <div class="table-responsive">
-                <table class='table' id='committees'>
-                    <thead>
-                        <tr>
-                            <th>Committee</th>
-                            <th>Chairperson(s)</th>
-                            <th>Members</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for committee in committees %}
-                            <tr>
-                                <td align="left">
-                                    <a href="/committee/{{committee.slug}}/">{{ committee.name | committee_topic_only }}</a>
-                                </td>
-                                <td align="left">
-                                    {% for chair in committee.chairs.all %}
-                                        {{ chair.person.link_html | safe }}<br />
-                                    {% endfor %}
-                                </td>
-                                <td>{{ committee.all_members | length }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            {% if subcommittees %}
-            <h2>Subcommittees</h2>
-            <div class="table-responsive">
-                <table class='table' id='subcommittees'>
-                    <thead>
-                        <tr>
-                            <th>Subcommittee</th>
-                            <th>Chairperson(s)</th>
-                            <th>Members</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for committee in subcommittees %}
-                            {% if committee.memberships.all|length > 0 %}
-                            <tr>
-                                <td align="left">
-                                    <a href="/committee/{{committee.slug}}/">{{ committee.name | committee_topic_only}}</a>
-                                </td>
-                                <td align="left">
-                                    {% for chair in committee.chairs.all %}
-                                        {{ chair.person.link_html | safe }}<br />
-                                    {% endfor %}
-                                </td>
-                                <td>{{ committee.memberships.all | length }}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% endif %}
-
-
-            {% if taskforces %}
-            <h2>Task Forces</h2>
-            <div class="table-responsive">
-                <table class='table' id='taskforces'>
-                    <thead>
-                        <tr>
-                            <th>Task Force</th>
-                            <th>Chairperson(s)</th>
-                            <th>Members</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for committee in taskforces %}
-                            {% if committee.memberships.all|length > 0 %}
-                            <tr>
-                                <td>
-                                    <a href="/committee/{{committee.slug}}/">{{ committee.name }}</a>
-                                </td>
-                                <td>
-                                    {% for chair in committee.chairs.all %}
-                                        {{ chair.person.link_html | safe }}<br />
-                                    {% endfor %}
-                                </td>
-                                <td>{{ committee.memberships.all | length }}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% endif %}
-
+        <div class="table-responsive">
+          <table class='table' id='committees'>
+            <thead>
+              <tr>
+                <th>Committee</th>
+                <th>Chairperson(s)</th>
+                <th>Members</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for committee in committees %}
+                <tr>
+                  <td align="left">
+                    <a href="/committee/{{committee.slug}}/">{{ committee.name | committee_topic_only }}</a>
+                  </td>
+                  <td align="left">
+                    {% for chair in committee.chairs.all %}
+                      {{chair.person}}<br />
+                    {% endfor %}
+                  </td>
+                  <td>{{ committee.all_members | length }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
 
+        {% if subcommittees %}
+          <h2>Subcommittees</h2>
+          <div class="table-responsive">
+            <table class='table' id='subcommittees'>
+              <thead>
+                <tr>
+                  <th>Subcommittee</th>
+                  <th>Chairperson(s)</th>
+                  <th>Members</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for committee in subcommittees %}
+                  {% if committee.memberships.all|length > 0 %}
+                    <tr>
+                      <td>
+                        <a href="/committee/{{committee.slug}}/">{{ committee.name | committee_topic_only}}</a>
+                      </td>
+                      <td>
+                        {% for chair in committee.chairs.all %}
+                          {{ chair.person | safe }}<br />
+                        {% endfor %}
+                      </td>
+                      <td>{{ committee.memberships.all | length }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
 
-        <div class="col-sm-4">
-            <div class='well info-blurb'>
-                <h4><i class='fa fa-fw fa-info-circle'></i> What do committees do?</h4>
 
-                {{ ABOUT_BLURBS.COMMITTEES | safe }}
+        {% if taskforces %}
+          <h2>Task Forces</h2>
+          <div class="table-responsive">
+            <table class='table' id='taskforces'>
+              <thead>
+                <tr>
+                  <th>Task Force</th>
+                  <th>Chairperson(s)</th>
+                  <th>Members</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for committee in taskforces %}
+                  {% if committee.memberships.all|length > 0 %}
+                    <tr>
+                      <td>
+                        <a href="/committee/{{committee.slug}}/">{{ committee.name }}</a>
+                      </td>
+                      <td>
+                        {% for chair in committee.chairs.all %}
+                          {{ chair.person.link_html | safe }}<br />
+                        {% endfor %}
+                      </td>
+                      <td>{{ committee.memberships.all | length }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
 
-                {% if taskforces %}
-                <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees, {{subcommittees | length }} Subcommittees and {{taskforces | length }} Task Forces.</p>
-                {% else %}
-                <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees{% if subcommittees %} and {{subcommittees | length }} Subcommittees{% endif %}.</p>
-                {% endif %}
+      </div>
 
-                <p><a href='/about/#about-city-council'>More on how City Council works &raquo;</a></p>
-            </div>
+
+      <div class="col-sm-4">
+        <div class='well info-blurb'>
+          <h4><i class='fa fa-fw fa-info-circle'></i> What do committees do?</h4>
+
+          {{ ABOUT_BLURBS.COMMITTEES | safe }}
+
+          {% if taskforces %}
+            <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees, {{subcommittees | length }} Subcommittees and {{taskforces | length }} Task Forces.</p>
+          {% else %}
+            <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees{% if subcommittees %} and {{subcommittees | length }} Subcommittees{% endif %}.</p>
+          {% endif %}
+
+          <p><a href='/about/#about-city-council'>More on how City Council works &raquo;</a></p>
         </div>
+      </div>
     </div>
 
-{% endcache %}
+  {% endcache %}
 
 {% endblock %}
 {% block extra_js %}
-    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
-    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+  <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 
-    <script>
-        $("#committees").DataTable({
-            "info": false,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": false,
-            "aaSorting": [ [0,'asc'] ],
-            "aoColumns": [
-                null,
-                null,
-                null
-            ]
-        });
+  <script>
+    $("#committees").DataTable({
+      "info": false,
+      "searching": false,
+      "bLengthChange": false,
+      "paging": false,
+      "aaSorting": [ [0,'asc'] ],
+      "aoColumns": [
+        null,
+        null,
+        null
+      ]
+    });
 
-        $("#subcommittees").DataTable({
-            "info": false,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": false,
-            "aaSorting": [ [0,'asc'] ],
-            "aoColumns": [
-                null,
-                null,
-                null
-            ]
-        });
+    $("#subcommittees").DataTable({
+      "info": false,
+      "searching": false,
+      "bLengthChange": false,
+      "paging": false,
+      "aaSorting": [ [0,'asc'] ],
+      "aoColumns": [
+        null,
+        null,
+        null
+      ]
+    });
 
-        $("#taskforces").DataTable({
-            "info": false,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": false,
-            "aaSorting": [ [0,'asc'] ],
-            "aoColumns": [
-                null,
-                null,
-                null
-            ]
-        });
-    </script>
+    $("#taskforces").DataTable({
+      "info": false,
+      "searching": false,
+      "bLengthChange": false,
+      "paging": false,
+      "aaSorting": [ [0,'asc'] ],
+      "aoColumns": [
+        null,
+        null,
+        null
+      ]
+    });
+  </script>
 {% endblock %}

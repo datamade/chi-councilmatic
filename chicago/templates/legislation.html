@@ -4,256 +4,256 @@
 {% block title %}{{ legislation.friendly_name }}{% endblock %}
 {% block content %}
 
-    {% if legislation %}
-        <div class="row-fluid">
-            <div class="col-sm-12">
-                <h1 class="bill-page-title">
-                    <br class="non-mobile-only" />
-                    {{ legislation.friendly_name }}
-                    <small>{{ legislation.inferred_status | inferred_status_label | safe }}</small>
-                </h1>
+  {% if legislation %}
+    <div class="row-fluid">
+      <div class="col-sm-12">
+        <h1 class="bill-page-title">
+          <br />
+          {{ legislation.friendly_name }}
+          <small>{{ legislation.inferred_status | inferred_status_label | safe }}</small>
+        </h1>
 
-                {% if legislation.topics %}
-                    <p>
-                        <i class="fa fa-tag"></i>
-                        {% for tag in legislation.topics %}
-                            <span class="badge badge-muted badge-big pseudo-topic-tag">
-                                <a href='/search/?q=&selected_facets=topics_exact:{{ tag }}'>{{ tag }}</a>
-                            </span>
-                        {% endfor %}
-                        <br/>
-                    </p>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="col-sm-8 no-pad-mobile">
-            <br/>
-
-        {% block description %}
+        {% if legislation.topics %}
           <p>
-            {{ legislation.linked_description }}
-          </p>  
-        {% endblock %}
+            <i class="fa fa-tag"></i>
+            {% for tag in legislation.topics %}
+              <span class="badge badge-muted badge-big pseudo-topic-tag">
+                <a href='/search/?q=&selected_facets=topics_exact:{{ tag }}'>{{ tag }}</a>
+              </span>
+            {% endfor %}
+            <br/>
+          </p>
+        {% endif %}
+      </div>
+    </div>
 
-            <div class="divider"></div>
+    <div class="col-sm-8">
+      <br/>
 
-            {% if legislation.sponsorships.all %}
-                <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
+      {% block description %}
+        <p>
+          {{ legislation.linked_description }}
+        </p>
+      {% endblock %}
 
-                <div class="table-responsive">
-                    <table class='table table-responsive' id='council-members'>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>
-                                    {% if legislation.sponsorships.all|length > 1 %}
-                                    Sponsors ({{legislation.sponsorships.all|length}})
-                                    {% else %}
-                                    Sponsor
-                                    {% endif %}
-                                </th>
-                                <th>
-                                    {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for s in legislation.sponsorships.all %}
-                                {% if s.is_primary %}
-                                <tr>
-                                    <td>
-                                        <div class="thumbnail-square">
-                                            <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ s.person.link_html | safe }} <span class="badge badge-default">Primary Sponsor</span>
-                                    </td>
-                                    <td>
-                                        {{s.person.latest_council_membership.post.label}}
-                                    </td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                            {% for s in legislation.sponsorships.all %}
-                                {% if not s.is_primary %}
-                                <tr>
-                                    <td>
-                                        <div class="thumbnail-square">
-                                            <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ s.person.link_html | safe }}
-                                    </td>
-                                    <td>
-                                        {{s.person.latest_council_membership.post.label}}
-                                    </td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="divider"></div>
-            {% endif %}
+      <div class="divider"></div>
 
-            {% if actions %}
-                <h3 class="no-pad-bottom"><i class='fa fa-fw fa-list-ul'></i> History</h3>
-                <div class="table-responsive">
-                    <table class='table table-responsive' id='committee-actions'>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Action</th>
-                                <th>Legislative body</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for action in actions %}
-                                <tr>
-                                    <td class='nowrap text-muted small'>
-                                        <span datetime='{{action.date }}'>{{action.date}}</span>
-                                    </td>
-                                    <td class="small">
-                                        <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
-                                        {% if action.related_organization %}
-                                            to
-                                            {{action.related_organization.link_html|safe}}
-                                        {% endif %}
-                                    </td>
-                                    <td class="small">
-                                        {{action.organization.link_html|safe}}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="divider"></div>
-            {% endif %}
+      {% if legislation.sponsorships.all %}
+        <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
 
-            {% if legislation.unique_related_upcoming_events %}
-                <h3><i class='fa fa-fw fa-calendar-o'></i> Upcoming {{ CITY_VOCAB.EVENTS }}</h3>
-
-                {% for event in legislation.unique_related_upcoming_events %}
-                    <p>
-                        {{event.start_time | date:'M d, Y' }} - {{event.link_html | safe}}
-                    </p>
-                {% endfor %}
-
-                <div class="divider"></div>
-            {% endif %}
-
-            {% if legislation.addresses %}
-                <h3>
-                    <i class='fa fa-map-marker'></i> Locations mentioned
-                </h3>
-                <ul class="list-unstyled">
-                  {% for address in legislation.addresses %}
-                    <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+{{ CITY_NAME }}">
-                      {{ address }} {{ CITY_NAME }}</a></li>
-                  {% endfor %}
-                </ul>
-                <img class='img-thumbnail img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
-                <div class="divider"></div>
-            {% endif %}
-
-            {% if legislation.attachments %}
-                <h3>
-                    <i class='fa fa-fw fa-paperclip'></i>
-                    Attachments ({{ legislation.attachments | length }})
-                </h3>
-                <ul>
-                    {% for doc in legislation.attachments %}
-                        <li>
-                            <a href="{{doc.url}}" target="blank">{{ doc.note }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <div class="divider"></div>
-            {% endif %}
-
-            {% include 'partials/legislation_text.html' %}
-
-            <h3>Tools</h3>
-            <div class="modal-links">
-              <a href="rss/" title="RSS feed for Legislation {{legislation.friendly_name}}"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> RSS updates for this legislation</a><br />
-
-              <!-- Embed -->
-              {% with slug=legislation.slug widget='bill_widget' frameheight='260px' %}
-                  {% include 'partials/widget_modal.html' %}
-              {% endwith %}
-              <br />
-              <!-- Link to legistar -->
-              <a href='{{legislation.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
-                  <i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website
-              </a>
-          </div>
+        <div class="table-responsive">
+          <table class='table table-responsive' id='council-members'>
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  {% if legislation.sponsorships.all|length > 1 %}
+                    Sponsors ({{legislation.sponsorships.all|length}})
+                  {% else %}
+                    Sponsor
+                  {% endif %}
+                </th>
+                <th>
+                  {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for s in legislation.sponsorships.all %}
+                {% if s.is_primary %}
+                  <tr>
+                    <td>
+                      <div class="thumbnail-square">
+                        <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                      </div>
+                    </td>
+                    <td>
+                      {{ s.person.link_html | safe }} <span class="badge badge-default">Primary Sponsor</span>
+                    </td>
+                    <td>
+                      {{s.person.latest_council_membership.post.label}}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+              {% for s in legislation.sponsorships.all %}
+                {% if not s.is_primary %}
+                  <tr>
+                    <td>
+                      <div class="thumbnail-square">
+                        <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                      </div>
+                    </td>
+                    <td>
+                      {{ s.person.link_html | safe }}
+                    </td>
+                    <td>
+                      {{s.person.latest_council_membership.post.label}}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
+        <div class="divider"></div>
+      {% endif %}
 
-    {% else %}
-        <h3>Legislation not found</h3>
-    {% endif %}
+      {% if actions %}
+        <h3 class="no-pad-bottom"><i class='fa fa-fw fa-list-ul'></i> History</h3>
+        <div class="table-responsive">
+          <table class='table table-responsive' id='committee-actions'>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Legislative body</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for action in actions %}
+                <tr>
+                  <td class='nowrap text-muted small'>
+                    <span datetime='{{action.date }}'>{{action.date}}</span>
+                  </td>
+                  <td class="small">
+                    <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
+                    {% if action.related_organization %}
+                      to
+                      {{action.related_organization.link_html|safe}}
+                    {% endif %}
+                  </td>
+                  <td class="small">
+                    {{action.organization.link_html|safe}}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="divider"></div>
+      {% endif %}
 
-    <script type="application/ld+json">
+      {% if legislation.unique_related_upcoming_events %}
+        <h3><i class='fa fa-fw fa-calendar-o'></i> Upcoming {{ CITY_VOCAB.EVENTS }}</h3>
+
+        {% for event in legislation.unique_related_upcoming_events %}
+          <p>
+            {{event.start_time | date:'M d, Y' }} - {{event.link_html | safe}}
+          </p>
+        {% endfor %}
+
+        <div class="divider"></div>
+      {% endif %}
+
+      {% if legislation.addresses %}
+        <h3>
+          <i class='fa fa-map-marker'></i> Locations mentioned
+        </h3>
+        <ul class="list-unstyled">
+          {% for address in legislation.addresses %}
+            <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+{{ CITY_NAME }}">
+              {{ address }} {{ CITY_NAME }}</a></li>
+          {% endfor %}
+        </ul>
+        <img class='img-thumbnail img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
+        <div class="divider"></div>
+      {% endif %}
+
+      {% if legislation.attachments %}
+        <h3>
+          <i class='fa fa-fw fa-paperclip'></i>
+          Attachments ({{ legislation.attachments | length }})
+        </h3>
+        <ul>
+          {% for doc in legislation.attachments %}
+            <li>
+              <a href="{{doc.url}}" target="blank">{{ doc.note }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="divider"></div>
+      {% endif %}
+
+      {% include 'partials/legislation_text.html' %}
+
+      <h3>Tools</h3>
+      <div class="modal-links">
+        <a href="rss/" title="RSS feed for Legislation {{legislation.friendly_name}}"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> RSS updates for this legislation</a><br />
+
+        <!-- Embed -->
+        {% with slug=legislation.slug widget='bill_widget' frameheight='260px' %}
+          {% include 'partials/widget_modal.html' %}
+        {% endwith %}
+        <br />
+        <!-- Link to legistar -->
+        <a href='{{legislation.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
+          <i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website
+        </a>
+      </div>
+    </div>
+
+  {% else %}
+    <h3>Legislation not found</h3>
+  {% endif %}
+
+  <script type="application/ld+json">
     {
-    "@context": "http://schema.org",
-    "@type": "CreativeWork",
-    "sourceOrganization": "{{ CITY_COUNCIL_NAME }}",
-    "name": "{{ legislation.friendly_name }}",
-    "alternateName": ["{{ legislation.identifier }}", "{{ legislation.identifier.split|join:'' }}"],
-    {% if actions %}"datePublished": "{{actions.0.date|date:'Y-m-d'}}", {% endif %}
-    "description": "{{ legislation.description }}",
-    "text": "{% firstof legislation.full_text legislation.ocr_full_text %}"
+      "@context": "http://schema.org",
+      "@type": "CreativeWork",
+      "sourceOrganization": "{{ CITY_COUNCIL_NAME }}",
+      "name": "{{ legislation.friendly_name }}",
+      "alternateName": ["{{ legislation.identifier }}", "{{ legislation.identifier.split|join:'' }}"],
+      {% if actions %}"datePublished": "{{actions.0.date|date:'Y-m-d'}}", {% endif %}
+      "description": "{{ legislation.description }}",
+      "text": "{% firstof legislation.full_text legislation.ocr_full_text %}"
     }
-    </script>
+  </script>
 
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
-    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
-    <script>
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+  <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+  <script>
 
-        $("#committee-actions").DataTable({
-            "info": false,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": false,
-            "bSort" : false
-        });
+    $("#committee-actions").DataTable({
+      "info": false,
+      "searching": false,
+      "bLengthChange": false,
+      "paging": false,
+      "bSort" : false
+    });
 
-        $("#council-members").DataTable({
-            "info": false,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": false,
-            "aoColumns": [
-                { "bSortable": false },
-                null,
-                { "sType": "num-html" },
-            ]
-        });
+    $("#council-members").DataTable({
+      "info": false,
+      "searching": false,
+      "bLengthChange": false,
+      "paging": false,
+      "aoColumns": [
+        { "bSortable": false },
+        null,
+        { "sType": "num-html" },
+      ]
+    });
 
-        $('.thumbnail-square img').each(function() {
-            if ($(this).width() > $(this).height()) {
-                $(this).addClass('landscape');
-            }
-        });
+    $('.thumbnail-square img').each(function() {
+      if ($(this).width() > $(this).height()) {
+        $(this).addClass('landscape');
+      }
+    });
 
-        if (window.screen.width > 768){
-            $("#pdf-embed").attr("src", "/pdfviewer/?file={{legislation.full_text_doc_url|urlencode}}");
-        }
-        else{
-            $('#pdf-embed').hide()
-            $('#pdf-download-link').html("<i class='fa fa-fw fa-external-link'></i> View PDF")
-        }
+    if (window.screen.width > 768){
+      $("#pdf-embed").attr("src", "/pdfviewer/?file={{legislation.full_text_doc_url|urlencode}}");
+    }
+    else{
+      $('#pdf-embed').hide()
+      $('#pdf-download-link').html("<i class='fa fa-fw fa-external-link'></i> View PDF")
+    }
 
-        // for reference purposes
-        console.log( "OCD ID: {{legislation.ocd_id}}" )
+    // for reference purposes
+    console.log( "OCD ID: {{legislation.ocd_id}}" )
 
-    </script>
+  </script>
 {% endblock %}

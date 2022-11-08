@@ -1,70 +1,70 @@
 {% load static %}
 
 <table class='table' id='council-members'>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Committee Member</th>
-            <th>
-                {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
-            </th>
-            <th>Role</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for membership in committee.chairs %}
-            <tr>
-                <td>
-                    <div class="thumbnail-square">
-                        <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
-                    </div>
-                </td>
-                <td>
-                    {{ membership.person.link_html | safe }}
-                </td>
-                <td>
-                    {{membership.person.latest_council_seat}}
-                </td>
-                <td data-order='1'>
-                    Chairperson
-                </td>
-            </tr>
-        {% endfor %}
-        {% for membership in committee.vice_chairs %}
-            <tr>
-                <td>
-                    <div class="thumbnail-square">
-                        <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
-                    </div>
-                </td>
-                <td>
-                    {{ membership.person.link_html | safe }}
-                </td>
-                <td>
-                    {{membership.person.latest_council_seat}}
-                </td>
-                <td data-order='2'>
-                    Vice Chair
-                </td>
-            </tr>
-        {% endfor %}
-        {% for membership in committee.non_chair_members %}
-            <tr>
-                <td>
-                    <div class="thumbnail-square">
-                        <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
-                    </div>
-                </td>
-                <td>
-                    {{ membership.person.link_html | safe }}
-                </td>
-                <td>
-                    {{membership.person.latest_council_seat}}
-                </td>
-                <td data-order='3'>
-                    Member
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Committee Member</th>
+      <th>
+        {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
+      </th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for membership in committee.chairs %}
+      <tr>
+        <td>
+          <div class="thumbnail-square">
+            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+          </div>
+        </td>
+        <td>
+          {{ membership.person.link_html | safe }}
+        </td>
+        <td>
+          {{membership.person.latest_council_seat}}
+        </td>
+        <td data-order='1'>
+          Chairperson
+        </td>
+      </tr>
+    {% endfor %}
+    {% for membership in committee.vice_chairs %}
+      <tr>
+        <td>
+          <div class="thumbnail-square">
+            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+          </div>
+        </td>
+        <td>
+          {{ membership.person.link_html | safe }}
+        </td>
+        <td>
+          {{membership.person.latest_council_seat}}
+        </td>
+        <td data-order='2'>
+          Vice Chair
+        </td>
+      </tr>
+    {% endfor %}
+    {% for membership in committee.non_chair_members %}
+      <tr>
+        <td>
+          <div class="thumbnail-square">
+            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+          </div>
+        </td>
+        <td>
+          {{ membership.person.link_html | safe }}
+        </td>
+        <td>
+          {{membership.person.latest_council_seat}}
+        </td>
+        <td data-order='3'>
+          Member
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>

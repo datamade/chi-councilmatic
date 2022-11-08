@@ -27,15 +27,15 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
         boost = 0
 
-        if data['last_action_date']:
+        if data["last_action_date"]:
             today = app_timezone.localize(datetime.now()).date()
 
             # data['last_action_date'] can be in the future
-            weeks_passed = (today - data['last_action_date']).days / 7 + 1
+            weeks_passed = (today - data["last_action_date"]).days / 7 + 1
 
             boost = 1 + 1.0 / max(weeks_passed, 1)
 
-        data['boost'] = boost
+        data["boost"] = boost
 
         return data
 
@@ -48,7 +48,7 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
             if action_dates:
                 last_action_date = max(action_dates)
-                return datetime.strptime(last_action_date, '%Y-%m-%d').date()
+                return datetime.strptime(last_action_date, "%Y-%m-%d").date()
 
         else:
             return obj.last_action_date
@@ -58,4 +58,3 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
     def prepare_actions(self, obj):
         return [str(action) for action in obj.actions.all()]
-
