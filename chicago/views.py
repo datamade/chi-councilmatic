@@ -16,6 +16,7 @@ from councilmatic_core.views import (
     PersonDetailView,
     EventsView,
     CommitteesView,
+    CommitteeDetailView,
     CouncilmaticSearchForm,
 )
 from councilmatic_core.models import Post
@@ -328,6 +329,10 @@ class ChicagoPersonDetailView(PersonDetailView):
 
 class ChicagoCommitteesView(CommitteesView):
     template_name = "committees.html"
+
+
+class ChicagoCommitteeDetailView(CommitteeDetailView):
+    template_name = "committee.html"
 
 
 class ChicagoEventsView(EventsView):
