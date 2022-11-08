@@ -196,7 +196,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
 
     def get_queryset(self):
         sqs = super().get_queryset()
-        sort_field = self.request.GET.get('sort_by', None)
+        sort_field = self.request.GET.get('sort_by', 'date')
 
         # default facet list size is 10, but we want to show all
         options = {
@@ -206,7 +206,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
             sqs = sqs.facet(field, **options)
 
         if sort_field in ('date', 'title'):  # relevance is default
-            sort_order = self.request.GET.get('order_by', 'asc')
+            sort_order = self.request.GET.get('order_by', 'desc')
             sqs_field = {'date': 'last_action_date', 'title': 'sort_name_exact'}[sort_field]
 
             sqs = sqs.order_by('{0}{1}'.format('' if sort_order == 'asc' else '-', sqs_field))
