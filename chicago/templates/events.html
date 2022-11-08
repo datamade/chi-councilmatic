@@ -29,12 +29,8 @@
             {% if select_events %}
                 <h2><span>{{ CITY_VOCAB.EVENTS }} in {{select_date}}</span>
                 <br class="non-desktop-only"/>
-                <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i></a></small>
+                <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></small>
                 </h2>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
                 <hr/>
 
                 {% for date, event_list in select_events %}
@@ -42,29 +38,8 @@
                 {% endfor %}
 
             {% elif upcoming_events %}
-                <h2><span>Upcoming {{ CITY_VOCAB.EVENTS }}</span>
-    			    <br class="non-desktop-only"/>
-                </h2>
-
-                <div class="modal-links">
-                    {% if USING_NOTIFICATIONS %}
-                        {% if user_subscribed %}
-                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
-                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
-                        </a>
-                        {% else %}
-                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-                        {% endif %}
-                    {% else %}
-                        <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                    {% endif %}
-                </div>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
+                <h2>Upcoming {{ CITY_VOCAB.EVENTS }}</h2>
+                <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
                 <hr/>
                 {% for date, event_list in upcoming_events %}
                     {% include "partials/event_day.html" %}
@@ -74,33 +49,12 @@
                     No {{ CITY_VOCAB.EVENTS }}
                 </h2>
 
-                <p>Search for a month and year{% if USING_NOTIFICATIONS %}, or subscribe and receive alerts about upcoming {{ CITY_VOCAB.EVENTS }}{% endif %}.</p>
-                <div class="modal-links">
-                    {% if USING_NOTIFICATIONS %}
-                        {% if user_subscribed %}
-                        <a href="#" class="removeSubscription" data-toggle="tooltip" data-placement="top" title="Unsubscribe from events">
-                            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Subscribe
-                        </a>
-                        {% else %}
-
-                            {% with link_id='eventsSubscribe' modal_id='meetings' custom_text='meetings' href='#' RSS_href='rss/' RSS_for='RSS feed for Upcoming and Recent Events' %}
-                                {% include 'partials/subscription_modal.html' %}
-                            {% endwith %}
-
-                        {% endif %}
-                    {% else %}
-                       <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
-                    {% endif %}
-                </div>
-
-                <div class='row'>
-                    <div class='col-sm-8' id='events_message'></div>
-                </div>
+                <p>Search for a month and year. <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></p>
             {% endif %}
         </div>
 
-        <div class="col-sm-4 no-pad-mobile">
-            <br/><br class="non-mobile-only"/>
+        <div class="col-sm-4">
+          <br/>
             {% include 'partials/events_info_blurb.html' %}
         </div>
     </div>
@@ -125,31 +79,5 @@
         });
     });
     </script>
-
-    {% if USING_NOTIFICATIONS %}
-    <script>
-    $(document).ready(function() {
-	    $("#eventsSubscribe").click(function() {
-            var bullHorn    = $(this).parents().find(".createSubscription");
-            var bullHornNew = $(this).parents().find(".removeSubscription");
-
-            if ('{{ request.user }}' != 'AnonymousUser') {
-			    posturl = "/events/subscribe/";
-			    $.post(posturl, function(data) {
-			    }).then( function() {
-                    $(bullHorn).hide();
-                    $(bullHornNew).show();
-                }, function (error) {
-                    console.error("Error subscribing to all events");
-                });
-            }
-            else {
-                $('#events_message').html(alertMsg);
-            }
-
-	   });
-	});
-    </script>
-    {% endif %}
 
 {% endblock %}

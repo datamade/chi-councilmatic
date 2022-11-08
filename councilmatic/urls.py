@@ -2,9 +2,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 # from haystack.query import SearchQuerySet
-from haystack.forms import FacetedSearchForm
-from haystack.query import SearchQuerySet, EmptySearchQuerySet
-from councilmatic_core.views import CouncilmaticSearchForm, CouncilmaticFacetedSearchView
 from chicago.views import *
 from chicago.feeds import *
 
@@ -20,6 +17,7 @@ patterns = ([
     url(r'^council-members/$', ChicagoCouncilMembersView.as_view(), name='council_members'),
     url(r'^members/$', RedirectView.as_view(url='/council-members/', permanent=True), name='council_members'),
     url(r'^person/(?P<slug>[^/]+)/$', ChicagoPersonDetailView.as_view(), name='person'),
+    url(r'^events/$', ChicagoEventsView.as_view(), name='events'),
 ], 'chicago')
 
 urlpatterns = [

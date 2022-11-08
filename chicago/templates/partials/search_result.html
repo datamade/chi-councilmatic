@@ -1,7 +1,7 @@
 {% load highlight extras %}
 
-<p>
-    <a class="small" href="{% url 'bill_detail' r.object.slug %}">{{ r.object.friendly_name }}</a>
+<p class="h4">
+    <a href="{% url 'bill_detail' r.object.slug %}">{{ r.object.friendly_name }}</a>
     {{ r.object.inferred_status | inferred_status_label | safe }}
 </p>
 

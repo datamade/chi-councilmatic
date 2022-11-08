@@ -1,19 +1,12 @@
-from django.shortcuts import render
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
-
-from datetime import date, timedelta, datetime
 
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import *
 from councilmatic_core.models import Post
 
 from haystack.generic_views import FacetedSearchView
-from haystack.query import SearchQuerySet
-
-from django.db.models import DateTimeField
-from django.db.models.functions import Cast
 
 class ChicagoIndexView(IndexView):
     template_name = 'index.html'
@@ -203,7 +196,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
 
     def get_queryset(self):
         sqs = super().get_queryset()
-        sort_field = self.request.GET.get('sort_by', None)
+        sort_field = self.request.GET.get('sort_by', 'date')
 
         # default facet list size is 10, but we want to show all
         options = {
@@ -213,7 +206,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
             sqs = sqs.facet(field, **options)
 
         if sort_field in ('date', 'title'):  # relevance is default
-            sort_order = self.request.GET.get('order_by', 'asc')
+            sort_order = self.request.GET.get('order_by', 'desc')
             sqs_field = {'date': 'last_action_date', 'title': 'sort_name_exact'}[sort_field]
 
             sqs = sqs.order_by('{0}{1}'.format('' if sort_order == 'asc' else '-', sqs_field))
@@ -264,16 +257,18 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         if person.latest_council_membership:
             context['tenure_start'] = person.latest_council_membership.start_date_dt.strftime("%B %d, %Y")
-
+            
         context['chair_positions'] = person.chair_role_memberships
 
-        if person.slug in settings.CONTACT_INFO:
-            context['phone'] = settings.CONTACT_INFO[person.slug]['phone']
-            context['address'] = settings.CONTACT_INFO[person.slug]['address']
-            context['twitter_handle'] = settings.CONTACT_INFO[person.slug]['twitter']['handle']
-            context['twitter_url'] = settings.CONTACT_INFO[person.slug]['twitter']['url']
+        context['sponsored_legislation'] = ChicagoBill.objects.filter(sponsorships__person=person,
+                                                        sponsorships__primary=True)\
+                                                       .annotate(last_action=Max('actions__date'))\
+                                                       .order_by('-last_action')[:10]
 
         return context
+
+class ChicagoEventsView(EventsView):
+    template_name = "events.html"
 
 class EventDetailView(DetailView):
     model = ChicagoEvent

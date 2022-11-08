@@ -1,17 +1,15 @@
 {% load extras %}
 
-<p>
-    <a class="small" href="/legislation/{{ legislation.slug }}/">{{ legislation.friendly_name }}</a>
+<p class="h4">
+    <a href="/legislation/{{ legislation.slug }}/">{{ legislation.friendly_name }}</a>
     {{ legislation.inferred_status | inferred_status_label | safe }}
 </p>
 
 <div class="row">
     <div class="col-xs-11">
-
-        <p>
-            {{ legislation.listing_description | short_blurb }}
-        </p>
-
+      <p>
+          {{ legislation.listing_description | short_blurb }}
+      </p>
     </div>
     <div class='col-xs-1 no-pad-mobile'>
         <div>
