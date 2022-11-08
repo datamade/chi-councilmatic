@@ -2,9 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-# from haystack.query import SearchQuerySet
 from chicago.views import (
-    ChicagoCouncilmaticFacetedSearchFeed,
     ChicagoCouncilmaticFacetedSearchView,
     ChicagoIndexView,
     ChicagoAboutView,
@@ -13,10 +11,13 @@ from chicago.views import (
     ChicagoPersonDetailView,
     ChicagoEventsView,
     ChicagoCouncilMembersView,
-    CommitteeDetailView,
+    ChicagoCommitteeDetailView,
     ChicagoCommitteesView,
 )
-from chicago.feeds import ChicagoBillDetailActionFeed
+from chicago.feeds import (
+    ChicagoBillDetailActionFeed,
+    ChicagoCouncilmaticFacetedSearchFeed,
+)
 
 patterns = (
     [
@@ -61,7 +62,7 @@ patterns = (
         url(r"^events/$", ChicagoEventsView.as_view(), name="events"),
         url(
             r"^committee/(?P<slug>[^/]+)/$",
-            CommitteeDetailView.as_view(),
+            ChicagoCommitteeDetailView.as_view(),
             name="committee_detail",
         ),
         url(r"^committees/$", ChicagoCommitteesView.as_view(), name="committees"),
