@@ -1,22 +1,22 @@
 
 <div class="row">
-	<br/>
-	<div class="col-xs-4">
-		<small>
-			<i class="fa fa-fw fa-calendar-o"></i>
-			{{event.start_time | date:"D"}} 
-			
-			<i class="fa fa-fw fa-clock-o"></i> 
-			{{event.start_time| date:"g:ia"}}<br/>
-			<span class="text-muted">
-				{{event.location_name}}<br />
-			</span>
-		</small>
-	</div>
-	<div class="col-xs-8">
-		<p>
-			{{ event.link_html | safe }}<br/>
-			<span class="small text-muted">{{event.description}}</span>
-		</p>
-	</div>
+  <br/>
+  <div class="col-xs-4">
+    <small>
+      <i class="fa fa-fw fa-calendar-o"></i>
+      {{event.start_time | date:"D"}}
+
+      <i class="fa fa-fw fa-clock-o"></i>
+      {{event.start_time| date:"g:ia"}}<br/>
+      <span class="text-muted">
+        {{event.location_name}}<br />
+      </span>
+    </small>
+  </div>
+  <div class="col-xs-8">
+    <p>
+      {{ event.link_html | safe }}<br/>
+      <span class="small text-muted">{{event.description}}</span>
+    </p>
+  </div>
 </div>
