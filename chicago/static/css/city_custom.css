@@ -1,212 +1,193 @@
 /* Chicago specific CSS */
 
 a {
-	color: #C00000;
+  color: #c00000;
 }
 
 .btn-primary {
-	background-color: #C00000;
-	border-color: #C00000;
+  background-color: #c00000;
+  border-color: #c00000;
 }
 .btn-info {
-	background-color: #DBEEFA;
-	border-color: #DBEEFA;
-	color: #333;
+  background-color: #dbeefa;
+  border-color: #dbeefa;
+  color: #333;
 }
-.btn-info:hover, .btn-info:active {
-    background-color: #DBEEFA;
-    border-color: #DBEEFA;
-	color: #1c87ca;
+.btn-info:hover,
+.btn-info:active {
+  background-color: #dbeefa;
+  border-color: #dbeefa;
+  color: #1c87ca;
 }
-.btn-bill-detail{
-    padding: 16px 0px;
-    top: 12px;
+.btn-bill-detail {
+  padding: 16px 0px;
+  top: 12px;
 }
-.btn-bill-detail:hover, .btn-bill-detail:active{
-	background-color: #54afe8; /* medium blue */
-	color: #fff;
+.btn-bill-detail:hover,
+.btn-bill-detail:active {
+  background-color: #54afe8; /* medium blue */
+  color: #fff;
 }
-
-
-
 
 .nav-pills > li > a {
-	color: #1c87ca; /* dark blue */
+  color: #1c87ca; /* dark blue */
 }
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li > a:hover {
-    background: none;
-    color: #1c87ca; /* dark blue */
-    border-bottom: 8px solid #1c87ca; /* dark blue */
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li > a:hover {
+  background: none;
+  color: #1c87ca; /* dark blue */
+  border-bottom: 8px solid #1c87ca; /* dark blue */
 }
-
-
-
 
 .badge-default {
-    background-color: #DBEEFA;
-    color: #333;
+  background-color: #dbeefa;
+  color: #333;
 }
 .badge-default-light {
-    background-color: #DBEEFA;
-    font-weight: normal;
-    color: #777;
+  background-color: #dbeefa;
+  font-weight: normal;
+  color: #777;
 }
 .badge-muted {
-	background-color: #DBEEFA;
-	color: #333;
+  background-color: #dbeefa;
+  color: #333;
 }
 
 .well {
-	border: none;
-	border-radius: 0px;
-	box-shadow: none;
+  border: none;
+  border-radius: 0px;
+  box-shadow: none;
 }
 
-.bg-info{
-	background-color: #DBEEFA;
+.bg-info {
+  background-color: #dbeefa;
 }
-.padded-bg{
-	padding-top: 8px;
-	padding-bottom: 8px;
+.padded-bg {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .divider {
-	height: 30px;
+  height: 30px;
 }
-
 
 /* topic hierarchy */
-.panel-heading{
-    border-radius: 0px;
+.panel-heading {
+  border-radius: 0px;
 }
-.topic-hierarchy .plusminus{
-    margin-top: 4px;
+.topic-hierarchy .plusminus {
+  margin-top: 4px;
 }
-.topic-hierarchy ul{
-    list-style: none;
+.topic-hierarchy ul {
+  list-style: none;
 }
 
 .panel-heading {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 /* bill status labels */
-.label-stale{
-    background-color: #999; /* dark grey */
+.label-stale {
+  background-color: #999; /* dark grey */
 }
-.label-passed{
-    background-color: #009a00; /* green */
+.label-passed {
+  background-color: #009a00; /* green */
 }
-.label-approved{
-    background-color: #009a00; /* green */
+.label-approved {
+  background-color: #009a00; /* green */
 }
-.label-active{
-    background-color: #54afe8; /* medium blue */
+.label-active {
+  background-color: #54afe8; /* medium blue */
 }
-.label-failed{
-    background-color: #720000; /* dark red */
+.label-failed {
+  background-color: #720000; /* dark red */
 }
 
 #logo {
-    top: -12px;
+  top: -12px;
 }
 
-#person-detail-headshot{
-    max-height: 250px;
+#person-detail-headshot {
+  max-height: 250px;
 }
 
 /* homepage */
-#section-photo{
-    background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.3)
-        ),
-        url('../images/city_hall.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 300px;
+#section-photo {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../images/city_hall.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 300px;
 }
-#section-photo .h3, #section-photo h1{
-	color: #fff;
+#section-photo .h3,
+#section-photo h1 {
+  color: #fff;
 }
 
-#section-intro, #section-engage{
-    line-height: 1.6em;
+#section-intro,
+#section-engage {
+  line-height: 1.6em;
 }
-#map-screenshot{
-    max-height: 220px;
-}
-
-#section-engage{
-    background-color: #DBEEFA;
-}
-#section-events{
-    background-image:
-        linear-gradient(
-            rgba(80, 0, 0, 0.4),
-            rgba(80, 0, 0, 0.4)
-        ),
-        url('../images/council_meeting.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-
-}
-#section-events h2{
-    color: #fff;
-}
-#section-events h4, #section-events h3, #section-events p{
-    color: #ddd;
-}
-#section-events p>a{
-    color: #DBEEFA;
+#map-screenshot {
+  max-height: 220px;
 }
 
-#next-council-meeting-well{
-    background-image:
-        linear-gradient(
-          rgba(192, 0, 0, 0.25),
-          rgba(192, 0, 0, 0.25)
-        ),
-        url('../images/council_chambers.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    max-width: 500px;
+#section-engage {
+  background-color: #dbeefa;
+}
+#section-events {
+  background-image: linear-gradient(rgba(80, 0, 0, 0.4), rgba(80, 0, 0, 0.4)),
+    url("../images/council_meeting.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#section-events h2 {
+  color: #fff;
+}
+#section-events h4,
+#section-events h3,
+#section-events p {
+  color: #ddd;
+}
+#section-events p > a {
+  color: #dbeefa;
+}
+
+#next-council-meeting-well {
+  background-image: linear-gradient(
+      rgba(192, 0, 0, 0.25),
+      rgba(192, 0, 0, 0.25)
+    ),
+    url("../images/council_chambers.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  max-width: 500px;
 }
 #next-council-meeting-well > .h4 {
-	color: #DBEEFA;
+  color: #dbeefa;
 }
 #next-council-meeting-well > .h3 {
-	color: #fff;
+  color: #fff;
 }
-
-
-
 
 /* about page */
-ul.plain-list{
-    list-style: none;
-    padding-left: 0px;
+ul.plain-list {
+  list-style: none;
+  padding-left: 0px;
 }
 
-
-
-
-
 /* lil screens */
-@media only screen and (max-width : 360px) {
-    #logo {
-        top: -6px;
-    }
+@media only screen and (max-width: 360px) {
+  #logo {
+    top: -6px;
+  }
 
-    .btn-bill-detail{
-        padding: 20px 0px;
-        top: 20px;
-    }
-
-    
+  .btn-bill-detail {
+    padding: 20px 0px;
+    top: 20px;
+  }
 }

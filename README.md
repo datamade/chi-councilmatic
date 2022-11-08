@@ -9,7 +9,7 @@ app locally? See the [legacy setup instructions](https://github.com/datamade/chi
 
 ### Install OS level dependencies:
 
-* [Docker](https://www.docker.com/get-started)
+- [Docker](https://www.docker.com/get-started)
 
 ### Run the application
 
@@ -46,6 +46,30 @@ search index with the `rebuild_index` command from Haystack.
 docker-compose run --rm app python manage.py update_index --batch-size=100
 ```
 
+### Set-up pre-commit
+
+Pre-commit hooks are scripts that run on your local machine before every commit.
+
+We use the [pre-commit](https://pre-commit.com/) framework to run code linters and formatters that keep our codebase clean.
+
+To set up Pre-Commit, install the Python package on your local machine using
+
+```bash
+python -m pip install pre-commit
+```
+
+If you'd rather not install pre-commit globally, create and activate a [virtual environment](https://docs.python.org/3/library/venv.html) in this repo before running the above command.
+
+Then, run
+
+```bash
+pre-commit install
+```
+
+to set up the git hooks.
+
+Since hooks are run locally, you can modify which scripts are run before each commit by modifying `.pre-commit-config.yaml`.
+
 ## Testing
 
 This app provides a basic set of tests that hit all endpoints for the bills,
@@ -61,11 +85,11 @@ docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 
 ### Original project team
 
-* David Moore - project manager
-* Forest Gregg - Open Civic Data (OCD) and Legistar scraping
-* Cathy Deng - data models and loading
-* Derek Eder - front end
-* Eric van Zanten - search and dev ops
+- David Moore - project manager
+- Forest Gregg - Open Civic Data (OCD) and Legistar scraping
+- Cathy Deng - data models and loading
+- Derek Eder - front end
+- Eric van Zanten - search and dev ops
 
 ### Maintenance
 
