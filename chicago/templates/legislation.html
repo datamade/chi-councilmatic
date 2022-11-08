@@ -156,7 +156,7 @@
                       {{ address }} {{ CITY_NAME }}</a></li>
                   {% endfor %}
                 </ul>
-                <img class='img-thumbnail img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=14&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}">
+                <img class='img-thumbnail img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
                 <div class="divider"></div>
             {% endif %}
 
