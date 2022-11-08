@@ -71,7 +71,7 @@
                                         {{ s.person.link_html | safe }} <span class="badge badge-default">Primary Sponsor</span>
                                     </td>
                                     <td>
-                                        {{s.person.latest_council_membership.post}}
+                                        {{s.person.latest_council_membership.post.label}}
                                     </td>
                                 </tr>
                                 {% endif %}
@@ -88,7 +88,7 @@
                                         {{ s.person.link_html | safe }}
                                     </td>
                                     <td>
-                                        {{s.person.latest_council_membership.post}}
+                                        {{s.person.latest_council_membership.post.label}}
                                     </td>
                                 </tr>
                                 {% endif %}

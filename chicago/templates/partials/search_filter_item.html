@@ -1,4 +1,5 @@
 {% load extras %}
+{% load humanize %}
 
 <li class="small">
   	{% if name in selected_list %}
@@ -14,5 +15,5 @@
   	    </a>
   	{% endif %}
 
-    <span class="badge badge-facet pull-right">{{ count }}</span>
+    <span class="badge badge-facet pull-right">{{ count|intcomma }}</span>
 </li>

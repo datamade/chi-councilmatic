@@ -368,7 +368,8 @@ select {
 .badge-facet{
     background-color: #D9D9D9;
     font-weight: normal;
-    font-size: 65%;
+    font-size: 12px;
+    color: #000000;
 }
 .remove-filter-value{
     background-color: #eee;

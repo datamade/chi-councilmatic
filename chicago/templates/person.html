@@ -14,15 +14,16 @@
 
     <div class="row-fluid">
         <div class="col-sm-10">
-            <h1>{{person.name}}</h1>
+            <h1>
+              {{person.name}}
+              <small>{{ person.latest_council_membership.post.label }}</small>
+            </h1>
         </div>
     </div>
 
     <div class="row-fluid">
         <div class="col-sm-3">
             <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
-
-            <h4>{{ person.latest_council_membership.post }}</h4>
 
             {% if tenure_start %}
                 <br>
@@ -74,7 +75,7 @@
                 <div id='map-detail' class='img-responsive img-thumbnail img-padded'></div>
                 <p class='small'>
                     {% if person.current_council_seat %}
-                        <i class="fa fa-map" aria-hidden="true"></i> {{ title }} map
+                        <i class="fa fa-map" aria-hidden="true"></i> {{ person.latest_council_membership.post.label }} map
                     {% endif %}
                 </p>
             {% endif %}
