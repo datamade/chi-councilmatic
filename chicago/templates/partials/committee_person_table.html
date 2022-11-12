@@ -1,4 +1,5 @@
 {% load static %}
+{% load extras %}
 
 <table class='table' id='council-members'>
   <thead>
@@ -16,7 +17,7 @@
       <tr>
         <td>
           <div class="thumbnail-square">
-            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+            <img src='{{ membership.person|get_person_headshot }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
           </div>
         </td>
         <td>
@@ -34,7 +35,7 @@
       <tr>
         <td>
           <div class="thumbnail-square">
-            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+            <img src='{{ membership.person|get_person_headshot }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
           </div>
         </td>
         <td>
@@ -52,7 +53,7 @@
       <tr>
         <td>
           <div class="thumbnail-square">
-            <img src='{{ membership.person.image }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
+            <img src='{{ membership.person|get_person_headshot }}' alt='{{membership.person.name}}' title='{{membership.person.name}}' class='img-responsive img-thumbnail' />
           </div>
         </td>
         <td>

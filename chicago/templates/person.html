@@ -1,6 +1,6 @@
 {% extends "base_with_margins.html" %}
-{% load extras %}
 {% load static %}
+{% load chicago_extras %}
 {% load adv_cache %}
 {% block title %}{{ person.name }}{% endblock %}
 
@@ -23,7 +23,7 @@
 
   <div class="row-fluid">
     <div class="col-sm-3">
-      <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
+      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
 
       {% if tenure_start %}
         <br>
