@@ -350,150 +350,62 @@ EXTRA_TITLES = {
 }
 
 MANUAL_HEADSHOTS = {
-    "arena-john": {
-        "source": "45th Ward Office",
-        "image": "manual-headshots/arena-john.jpg",
-    },
-    "beale-anthony": {
-        "source": "@Alderman_Beale, Twitter",
-        "image": "manual-headshots/beale-anthony.jpg",
-    },
-    "burns-william-d": {
-        "source": "Masp360",
-        "image": "manual-headshots/burns-william-d.jpg",
-    },
-    "cappleman-james": {
-        "source": "james46.org",
-        "image": "manual-headshots/cappleman-james.jpg",
-    },
-    "cochran-willie": {
-        "source": "williebcochran.com",
-        "image": "manual-headshots/cochran-willie.jpg",
-    },
-    "harris-michelle-a": {
-        "source": "www.aldermanmichelleharris.net",
-        "image": "manual-headshots/harris-michelle-a.jpg",
-    },
-    "mell-deborah": {
-        "source": "www.33rdward.org",
-        "image": "manual-headshots/mell-deborah.jpg",
-    },
-    "mitchell-gregory-i": {
-        "source": "mitchellforalderman.com",
-        "image": "manual-headshots/mitchell-gregory-i.jpg",
-    },
-    "moore-joseph": {
-        "source": "participatorybudgeting49.wordpress.com",
-        "image": "manual-headshots/moore-joseph.jpg",
-    },
-    "munoz-ricardo": {
-        "source": "www.munoz22.com",
-        "image": "manual-headshots/munoz-ricardo.jpg",
-    },
-    "napolitano-anthony-v": {
-        "source": "www.norwoodpark.org",
-        "image": "manual-headshots/napolitano-anthony-v.jpg",
-    },
-    "oshea-matthew-j": {
-        "source": "takebackchicago.org",
-        "image": "manual-headshots/oshea-matthew-j.jpg",
-    },
-    "osterman-harry": {
-        "source": "48thward.org",
-        "image": "manual-headshots/osterman-harry.jpg",
-    },
-    "ramirez-rosa-carlos": {
-        "source": "www.aldermancarlosrosa.org",
-        "image": "manual-headshots/ramirez-rosa-carlos.jpg",
-    },
-    "reboyras-ariel": {
-        "source": "www.reboyras.com",
-        "image": "manual-headshots/reboyras-ariel.jpg",
-    },
-    "sadlowski-garza-susan": {
-        "source": "calumetareaindustrial.com",
-        "image": "manual-headshots/sadlowski-garza-susan.jpg",
-    },
-    "sawyer-roderick-t": {
-        "source": "@rodericktsawyer, Twitter",
-        "image": "manual-headshots/sawyer-roderick-t.jpg",
-    },
-    "silverstein-debra-l": {
-        "source": "ppiachicago.org",
-        "image": "manual-headshots/silverstein-debra-l.jpg",
-    },
-    "solis-daniel": {
-        "source": "ward25.com",
-        "image": "manual-headshots/solis-daniel.jpg",
-    },
-    "taliaferro-chris": {
-        "source": "Facebook",
-        "image": "manual-headshots/taliaferro-chris.jpg",
-    },
-    "villegas-gilbert": {
-        "source": "@gilbert36ward, Twitter",
-        "image": "manual-headshots/villegas-gilbert.jpg",
-    },
-    "thompson-patrick-d": {
-        "source": "www.ward11.org",
-        "image": "manual-headshots/thompson-patrick-d.jpg",
-    },
-    "curtis-derrick-g": {
-        "source": "Chicago City Clerk",
-        "image": "manual-headshots/curtis-derrick-g.jpg",
-    },
-    "ervin-jason-c": {
-        "source": "@aldermanervin, Twitter",
-        "image": "manual-headshots/ervin-jason-c.jpg",
-    },
-    "hopkins-brian": {
-        "source": "@aldermanhopkins, Twitter",
-        "image": "manual-headshots/hopkins-brian.jpg",
-    },
-    "lopez-raymond-a": {
-        "source": "@rlopez15thward, Twitter",
-        "image": "manual-headshots/lopez-raymond-a.jpg",
-    },
-    "moore-david-h": {
-        "source": "Chicago City Clerk",
-        "image": "manual-headshots/moore-david-h.jpg",
-    },
-    "pawar-ameya": {
-        "source": "chicago47.org",
-        "image": "manual-headshots/pawar-ameya.jpg",
-    },
-    "quinn-marty": {
-        "source": "Chicago City Clerk",
-        "image": "manual-headshots/quinn-marty.jpg",
-    },
-    "santiago-milagros-s": {
-        "source": "Chicago City Clerk",
-        "image": "manual-headshots/santiago-milagros-s.jpg",
-    },
-    "scott-jr-michael": {
-        "source": "citizensformichaelscottjr.com/",
-        "image": "manual-headshots/scott-jr-michael.jpg",
-    },
-    "smith-michele": {
-        "source": "@aldermansmith43, Twitter",
-        "image": "manual-headshots/smith-michele.jpg",
-    },
-    "sposato-nicholas": {
-        "source": "aldermansposato.com",
-        "image": "manual-headshots/sposato-nicholas.png",
-    },
-    "emanuel-rahm": {
-        "source": "cityofchicago.org",
-        "image": "manual-headshots/emanuel-rahm.jpg",
-    },
-    "mendoza-susana-a": {
-        "source": "chicityclerk.com",
-        "image": "manual-headshots/mendoza-susana-a.jpg",
-    },
-    "valencia-anna-m": {
-        "source": "chicityclerk.com",
-        "image": "manual-headshots/valencia-anna.jpg",
-    },
+    "arena-john": {"image": "arena-john.jpg"},
+    "austin-carrie-m": {"image": "austin-carrie-m.jpg"},
+    "beale-anthony": {"image": "beale-anthony.jpg"},
+    "brookins-jr-howard": {"image": "brookins-jr-howard.jpg"},
+    "burke-edward-m": {"image": "burke-edward-m.jpg"},
+    "burnett-jr-walter": {"image": "burnett-jr-walter.jpg"},
+    "burns-william-d": {"image": "burns-william-d.jpg"},
+    "cappleman-james": {"image": "cappleman-james.jpg"},
+    "cardenas-george-a": {"image": "cardenas-george-a.jpg"},
+    "cochran-willie": {"image": "cochran-willie.jpg"},
+    "curtis-derrick-g": {"image": "curtis-derrick-g.jpg"},
+    "dowell-pat": {"image": "dowell-pat.jpg"},
+    "emanuel-rahm": {"image": "emanuel-rahm.jpg"},
+    "ervin-jason-c": {"image": "ervin-jason-c.jpg"},
+    "foulkes-toni": {"image": "foulkes-toni.jpg"},
+    "hairston-leslie-a": {"image": "hairston-leslie-a.jpg"},
+    "harris-michelle-a": {"image": "harris-michelle-a.jpg"},
+    "hopkins-brian": {"image": "hopkins-brian.jpg"},
+    "king-sophia": {"image": "king-sophia.jpg"},
+    "knudsen-timothy-r": {"image": "knudsen-timothy-r.jpg"},
+    "laurino-margaret": {"image": "laurino-margaret.jpg"},
+    "lopez-raymond-a": {"image": "lopez-raymond-a.jpg"},
+    "maldonado-roberto": {"image": "maldonado-roberto.jpg"},
+    "mell-deborah": {"image": "mell-deborah.jpg"},
+    "mendoza-susana-a": {"image": "mendoza-susana-a.jpg"},
+    "mitchell-gregory-i": {"image": "mitchell-gregory-i.jpg"},
+    "mitts-emma": {"image": "mitts-emma.jpg"},
+    "moore-david-h": {"image": "moore-david-h.jpg"},
+    "moore-joseph": {"image": "moore-joseph.jpg"},
+    "moreno-proco-joe": {"image": "moreno-proco-joe.jpg"},
+    "munoz-ricardo": {"image": "munoz-ricardo.jpg"},
+    "napolitano-anthony-v": {"image": "napolitano-anthony-v.jpg"},
+    "oconnor-patrick": {"image": "oconnor-patrick.jpg"},
+    "oshea-matthew-j": {"image": "oshea-matthew-j.jpg"},
+    "osterman-harry": {"image": "osterman-harry.jpg"},
+    "pawar-ameya": {"image": "pawar-ameya.jpg"},
+    "quinn-marty": {"image": "quinn-marty.jpg"},
+    "ramirez-rosa-carlos": {"image": "ramirez-rosa-carlos.jpg"},
+    "reboyras-ariel": {"image": "reboyras-ariel.jpg"},
+    "reilly-brendan": {"image": "reilly-brendan.jpg"},
+    "sadlowski-garza-susan": {"image": "sadlowski-garza-susan.jpg"},
+    "santiago-milagros-s": {"image": "santiago-milagros-s.jpg"},
+    "sawyer-roderick-t": {"image": "sawyer-roderick-t.jpg"},
+    "scott-jr-michael": {"image": "scott-jr-michael.jpg"},
+    "silverstein-debra-l": {"image": "silverstein-debra-l.jpg"},
+    "smith-michele": {"image": "smith-michele.jpg"},
+    "solis-daniel": {"image": "solis-daniel.jpg"},
+    "sposato-nicholas": {"image": "sposato-nicholas.png"},
+    "tabares-silvana": {"image": "tabares-silvana.jpg"},
+    "taliaferro-chris": {"image": "taliaferro-chris.jpg"},
+    "thompson-patrick-d": {"image": "thompson-patrick-d.jpg"},
+    "tunney-thomas": {"image": "tunney-thomas.jpg"},
+    "valencia-anna": {"image": "valencia-anna.jpg"},
+    "villegas-gilbert": {"image": "villegas-gilbert.jpg"},
+    "waguespack-scott": {"image": "waguespack-scott.jpg"},
+    "zalewski-michael-r": {"image": "zalewski-michael-r.jpg"},
 }
 
 TOPIC_HIERARCHY = [

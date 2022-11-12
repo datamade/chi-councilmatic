@@ -8,6 +8,6 @@ register = template.Library()
 def get_person_headshot(person):
     for p in MANUAL_HEADSHOTS:
         if person.slug.startswith(p):
-            return f"/static/images/{MANUAL_HEADSHOTS[p]['image']}"
+            return f"/static/images/manual-headshots/{MANUAL_HEADSHOTS[p]['image']}"
 
     return "/static/images/headshot_placeholder.png"
