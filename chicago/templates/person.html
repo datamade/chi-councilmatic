@@ -1,6 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load extras %}
-{% load static %}
+{% load static chicago_extras %}
 {% load adv_cache %}
 {% block title %}{{ person.name }}{% endblock %}
 
@@ -16,14 +15,14 @@
     <div class="col-sm-10">
       <h1>
         {{person.name}}
-        <small>{{ person.latest_council_membership.post.label }}</small>
+        <small>{{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
       </h1>
     </div>
   </div>
 
   <div class="row-fluid">
     <div class="col-sm-3">
-      <img src='{{ person.image }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
+      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
 
       {% if tenure_start %}
         <br>
@@ -39,31 +38,24 @@
         </p>
       {% endif %}
 
-      <!-- View on legistar -->
-      <!-- {% for source in person.person.sources.all %}
-                {% if source.note == 'web' %}
-                  <br>
-                  <a href='{{source.url}}' target="_blank"><i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website</a>
-                {% endif %}
-            {% endfor %} -->
-
-
     </div>
     <div class="col-sm-4">
-      <h4>Contact info</h4>
+      {% if person.person.contact_details.all %}
+        <h4>Contact info</h4>
 
-      {% for contact in person.person.contact_details.all %}
-        <p>
-          <strong>{{ contact.note}}</strong><br />
-          {% if '@' in contact.value %}
-            <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
-          {% else %}
-            {{ contact.value }}
-          {% endif %}
-        </p>
-      {% endfor %}
+        {% for contact in person.person.contact_details.all %}
+          <p>
+            <strong>{{ contact.note}}</strong><br />
+            {% if '@' in contact.value %}
+              <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
+            {% else %}
+              {{ contact.value }}
+            {% endif %}
+          </p>
+        {% endfor %}
+      {% endif %}
 
-      {% if person.person.links %}
+      {% if person.person.links.all %}
         <strong>Website</strong><br />
         {% for link in person.person.links.all %}
           <a href="{{ link.url }}">{{ link.url }}</a><br />
@@ -156,15 +148,26 @@
           </div>
         {% endif %}
       {% endif %}
+
+      <br />
+      <h3>Tools</h3>
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ person|get_legistar_link|safe }}
+      </div>
     </div>
+
   </div>
+  </div>
+
+
 
   <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Person",
       "email": "{{person.email}}",
-      "image": "{{ person.image }}",
+      "image": "{{ person|get_person_headshot }}",
       {% if person.current_council_seat %}
         "jobTitle": "{{ person.current_council_seat }} Representative",
       {% endif %}

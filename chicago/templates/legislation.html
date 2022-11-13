@@ -1,6 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static %}
-{% load extras %}
+{% load static extras chicago_extras %}
 {% block title %}{{ legislation.friendly_name }}{% endblock %}
 {% block content %}
 
@@ -59,7 +58,7 @@
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
                       </div>
                     </td>
                     <td>
@@ -76,7 +75,7 @@
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person.image}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
                       </div>
                     </td>
                     <td>
@@ -182,9 +181,7 @@
         {% endwith %}
         <br />
         <!-- Link to legistar -->
-        <a href='{{legislation.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
-          <i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website
-        </a>
+        {{ legislation|get_legistar_link|safe }}
       </div>
     </div>
 
