@@ -214,6 +214,14 @@
   }
 
   $(function() {
+    $(window).resize(function () {
+      var h = $(window).height(),
+      offsetTop = 140; // Calculate the top offset
+
+      $('#map').css('height', (h - offsetTop));
+      $('#council-member-scroll-area').css('height', (h - offsetTop - 150));
+    }).resize();
+
     initialize();
 
     var autocomplete = new google.maps.places.Autocomplete(document.getElementById('search_address'));

@@ -398,6 +398,7 @@ MANUAL_HEADSHOTS = {
     "santiago-milagros-s": {"image": "santiago-milagros-s.jpg"},
     "sawyer-roderick-t": {"image": "sawyer-roderick-t.jpg"},
     "scott-jr-michael": {"image": "scott-jr-michael.jpg"},
+    "scott-monique-l": {"image": "scott-monique-l.jpg"},
     "sigcho-lopez-byron": {"image": "sigcho-lopez-byron.jpg"},
     "silverstein-debra-l": {"image": "silverstein-debra-l.jpg"},
     "smith-michele": {"image": "smith-michele.jpg"},
