@@ -225,14 +225,6 @@ MAP_CONFIG = {
 SEARCH_PLACEHOLDER_TEXT = "police, zoning, O2015-7825, etc."
 
 
-# these should live in APP_NAME/static/
-IMAGES = {
-    "logo": "images/logo.png",
-}
-# you can generate icons from the logo at http://www.favicomatic.com/
-# & put them in APP_NAME/static/images/icons/
-
-
 # THE FOLLOWING ARE VOCAB SETTINGS RELEVANT TO DATA MODELS, LOGIC
 # (this is diff from VOCAB above, which is all for the front end)
 
