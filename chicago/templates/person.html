@@ -1,6 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static %}
-{% load chicago_extras %}
+{% load static chicago_extras %}
 {% load adv_cache %}
 {% block title %}{{ person.name }}{% endblock %}
 
@@ -16,7 +15,7 @@
     <div class="col-sm-10">
       <h1>
         {{person.name}}
-        <small>{{ person.latest_council_membership.post.label }}</small>
+        <small>{{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
       </h1>
     </div>
   </div>
@@ -50,20 +49,22 @@
 
     </div>
     <div class="col-sm-4">
-      <h4>Contact info</h4>
+      {% if person.person.contact_details.all %}
+        <h4>Contact info</h4>
 
-      {% for contact in person.person.contact_details.all %}
-        <p>
-          <strong>{{ contact.note}}</strong><br />
-          {% if '@' in contact.value %}
-            <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
-          {% else %}
-            {{ contact.value }}
-          {% endif %}
-        </p>
-      {% endfor %}
+        {% for contact in person.person.contact_details.all %}
+          <p>
+            <strong>{{ contact.note}}</strong><br />
+            {% if '@' in contact.value %}
+              <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
+            {% else %}
+              {{ contact.value }}
+            {% endif %}
+          </p>
+        {% endfor %}
+      {% endif %}
 
-      {% if person.person.links %}
+      {% if person.person.links.all %}
         <strong>Website</strong><br />
         {% for link in person.person.links.all %}
           <a href="{{ link.url }}">{{ link.url }}</a><br />
@@ -164,7 +165,7 @@
       "@context": "http://schema.org",
       "@type": "Person",
       "email": "{{person.email}}",
-      "image": "{{ person.image }}",
+      "image": "{{ person|get_person_headshot }}",
       {% if person.current_council_seat %}
         "jobTitle": "{{ person.current_council_seat }} Representative",
       {% endif %}

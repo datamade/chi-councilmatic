@@ -346,7 +346,8 @@ ABOUT_BLURBS = {
 EXTRA_TITLES = {
     "mendoza-susana-a-a465109bd96a": "City Clerk",
     "emanuel-rahm-3af71de0e6ca": "Mayor",
-    "valencia-anna-m-ae119fe8c2e3": "City Clerk",
+    "lightfoot-lori-e-f6faf37c9643": "Mayor",
+    "valencia-anna-m-257a68ccbc17": "City Clerk",
 }
 
 MANUAL_HEADSHOTS = {
@@ -378,6 +379,7 @@ MANUAL_HEADSHOTS = {
     "laurino-margaret": {"image": "laurino-margaret.jpg"},
     "lee-nicole-t": {"image": "lee-nicole-t.jpg"},
     "lopez-raymond-a": {"image": "lopez-raymond-a.jpg"},
+    "lightfoot-lori-e": {"image": "lightfoot-lori-e.jpg"},
     "maldonado-roberto": {"image": "maldonado-roberto.jpg"},
     "martin-matthew-j": {"image": "martin-matthew-j.jpg"},
     "mell-deborah": {"image": "mell-deborah.jpg"},
@@ -414,7 +416,7 @@ MANUAL_HEADSHOTS = {
     "taylor-jeanette-b": {"image": "taylor-jeanette-b.jpg"},
     "thompson-patrick-d": {"image": "thompson-patrick-d.jpg"},
     "tunney-thomas": {"image": "tunney-thomas.jpg"},
-    "valencia-anna": {"image": "valencia-anna.jpg"},
+    "valencia-anna-m": {"image": "valencia-anna-m.jpg"},
     "vasquez-jr-andre": {"image": "vasquez-jr-andre.jpg"},
     "villegas-gilbert": {"image": "villegas-gilbert.jpg"},
     "waguespack-scott": {"image": "waguespack-scott.jpg"},
