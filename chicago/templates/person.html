@@ -99,7 +99,7 @@
       {% if request.GET.view == 'bills' or request.GET.view == None %}
         <h3>
           Sponsored legislation
-          <small><a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>View all <i class='fa fa-fw fa-chevron-right'></i></a></small>
+          <small><a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>All <i class='fa fa-fw fa-chevron-right'></i></a></small>
         </h3>
         <p>Legislation that {{person.name}} is the primary sponsor of. <a href="rss/" title="RSS feed for Sponsored Legislation by {{person.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed</a></p><br/>
 
@@ -111,7 +111,7 @@
 
         <hr />
         <p>
-          <a class='btn btn-primary' href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>View all legislation sponsored by {{person.name}}<i class='fa fa-fw fa-chevron-right'></i></a>
+          <a class='btn btn-primary' href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}'>All legislation sponsored by {{person.name}}<i class='fa fa-fw fa-chevron-right'></i></a>
         </p>
       {% endif %}
 
