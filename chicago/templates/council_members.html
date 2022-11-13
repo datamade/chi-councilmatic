@@ -16,55 +16,28 @@
   {% cache 86400 members_wrapper 'members' %}
 
     <div class="container-fluid">
-      {% if map_geojson %}
-        <div class="row">
-          <div class="col-sm-6">
-            <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
-          </div>
-          <div class="col-sm-6">
-            <h4>Look up your council member</h4>
-            <div class="input-group address-search">
-              <input name="search_address" id='search_address' type="text" class="form-control" placeholder="Enter your address">
-              <div class='input-group-btn'>
-                <button id='btn_search' class="btn btn-primary" title='Search'>
-                  <i class='fa fa-fw fa-search'></i><span class="non-mobile-only"> Search</span>
-                </button>
-                <a class='btn btn-default' id='reset' title='Reset the map' href='#'>
-                  <i class='glyphicon glyphicon-repeat'></i> Reset
-                </a>
-              </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+          <h4>Look up your council member</h4>
+          <div class="input-group address-search">
+            <input name="search_address" id='search_address' type="text" class="form-control" placeholder="Enter your address">
+            <div class='input-group-btn'>
+              <button id='btn_search' class="btn btn-primary" title='Search'>
+                <i class='fa fa-fw fa-search'></i><span class="non-mobile-only"> Search</span>
+              </button>
+              <a class='btn btn-default' id='reset' title='Reset the map' href='#'>
+                <i class='glyphicon glyphicon-repeat'></i> Reset
+              </a>
             </div>
           </div>
-        </div>
-        <br/>
-      {% else %}
-        <div class="row">
-          <div class="col-sm-12">
-            <br/>
-            <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
-            <hr />
-          </div>
-        </div>
-      {% endif %}
-
-      <div class="row-fluid">
-        {% if map_geojson %}
-          <div class='col-sm-6'>
-            <div id="map"></div>
-          </div>
-          <div class="col-sm-6">
-            <div id="council-member-scroll-area">
-              {% include 'partials/council_member_table.html' %}
-            </div>
-          </div>
-        {% else %}
-          <div class="col-sm-8">
+          <div id="council-member-scroll-area">
             {% include 'partials/council_member_table.html' %}
           </div>
-          <div class='col-sm-4'>
-            {% include 'partials/council_info_blurb.html' %}
-          </div>
-        {% endif %}
+        </div>
+        <div class='col-sm-6 hidden-xs'>
+          <div id="map"></div>
+        </div>
       </div>
     </div>
 

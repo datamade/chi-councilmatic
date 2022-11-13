@@ -168,7 +168,7 @@ h4 {
 
 /* map */
 #map {
-  height: 500px;
+  height: 800px;
 }
 
 #map-detail {
@@ -193,7 +193,7 @@ h4 {
 }
 
 #council-member-scroll-area {
-  height: 500px;
+  height: 600px;
   overflow-y: scroll;
 }
 
@@ -475,11 +475,6 @@ textarea {
 
 .fa-share {
   color: #ddd;
-}
-
-/* misc */
-.pad {
-  height: 80px;
 }
 
 .no-pad-bottom {
