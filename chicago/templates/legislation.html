@@ -181,9 +181,7 @@
         {% endwith %}
         <br />
         <!-- Link to legistar -->
-        <a href='{{legislation.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
-          <i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website
-        </a>
+        {{ legislation|get_legistar_link|safe }}
       </div>
     </div>
 

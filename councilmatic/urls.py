@@ -9,6 +9,7 @@ from chicago.views import (
     substitute_ordinance_redirect,
     ChicagoBillDetailView,
     ChicagoPersonDetailView,
+    ChicagoEventDetailView,
     ChicagoEventsView,
     ChicagoCouncilMembersView,
     ChicagoCommitteeDetailView,
@@ -58,6 +59,11 @@ patterns = (
             r"^person/(?P<slug>[^/]+)/$",
             ChicagoPersonDetailView.as_view(),
             name="person",
+        ),
+        url(
+            r"^event/(?P<slug>[^/]+)/$",
+            ChicagoEventDetailView.as_view(),
+            name="event_detail",
         ),
         url(r"^events/$", ChicagoEventsView.as_view(), name="events"),
         url(

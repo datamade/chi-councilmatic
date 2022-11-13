@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
-from django.views.generic.detail import DetailView
 from django.db.models import Max
 
 from chicago.models import ChicagoBill, ChicagoEvent
@@ -15,6 +14,7 @@ from councilmatic_core.views import (
     CouncilMembersView,
     PersonDetailView,
     EventsView,
+    EventDetailView,
     CommitteesView,
     CommitteeDetailView,
     CouncilmaticSearchForm,
@@ -339,5 +339,6 @@ class ChicagoEventsView(EventsView):
     template_name = "events.html"
 
 
-class EventDetailView(DetailView):
+class ChicagoEventDetailView(EventDetailView):
     model = ChicagoEvent
+    template_name = "event.html"

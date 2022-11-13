@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load extras %}
+{% load extras chicago_extras %}
 {% load static %}
 {% load adv_cache %}
 {% block title %}{{committee.name}}{% endblock %}
@@ -14,16 +14,6 @@
       {% if committee_description %}
         <p>{{committee_description}}</p>
       {% endif %}
-
-      <div class="modal-links">
-
-        {% if committee.source_url %}
-          <a href='{{committee.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
-            <i class='fa fa-fw fa-external-link'></i>
-            View on the {{CITY_VOCAB.SOURCE}} website
-          </a>
-        {% endif %}
-      </div>
 
       <hr />
 
@@ -98,6 +88,12 @@
 
       {% include 'partials/committee_person_table.html' %}
 
+      <br />
+      <h3>Tools</h3>
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ committee|get_legistar_link|safe }}
+      </div>
     </div>
   </div>
 

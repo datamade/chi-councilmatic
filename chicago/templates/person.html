@@ -38,15 +38,6 @@
         </p>
       {% endif %}
 
-      <!-- View on legistar -->
-      <!-- {% for source in person.person.sources.all %}
-                {% if source.note == 'web' %}
-                  <br>
-                  <a href='{{source.url}}' target="_blank"><i class='fa fa-fw fa-external-link'></i> View on the {{CITY_VOCAB.SOURCE}} website</a>
-                {% endif %}
-            {% endfor %} -->
-
-
     </div>
     <div class="col-sm-4">
       {% if person.person.contact_details.all %}
@@ -157,8 +148,19 @@
           </div>
         {% endif %}
       {% endif %}
+
+      <br />
+      <h3>Tools</h3>
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ person|get_legistar_link|safe }}
+      </div>
     </div>
+
   </div>
+  </div>
+
+
 
   <script type="application/ld+json">
     {

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from .models import ChicagoBill
+from .models import ChicagoBill, ChicagoEvent
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -14,6 +14,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(ChicagoBill)
+admin.site.register(ChicagoEvent)
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

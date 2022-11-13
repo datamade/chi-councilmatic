@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load extras %}
+{% load extras chicago_extras %}
 {% load static %}
 {% block title %}{{event.name}}{% endblock %}
 {% block content %}
@@ -11,17 +11,10 @@
       <h1>{{event.name}}</h1>
       <p>{{event.description}}</p>
 
-      <p class="small text-muted">
+      <p class="text-muted">
         <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
         <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
-        <i class="fa fa-fw fa-map-marker"></i> {{event.location_name}}
-      </p>
-
-      <p class="small">
-        <a href='{{event.source_url}}' title='View on the {{CITY_VOCAB.SOURCE}} website' target="_blank" rel="nofollow">
-          <i class='fa fa-fw fa-external-link'></i>
-          View on the {{CITY_VOCAB.SOURCE}} website
-        </a>
+        <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
       </p>
 
       <hr />
