@@ -4,30 +4,20 @@
 {% block title %}{{event.name}}{% endblock %}
 {% block content %}
 
+  <br/>
+  <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
+  <h1>{{event.name}}</h1>
+  <p>{{event.description}}</p>
+
+  <p>
+    <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
+    <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
+    <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
+  </p>
+
+  <hr />
   <div class="row-fluid">
-    <div class="col-sm-8">
-      <br/>
-      <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
-      <h1>{{event.name}}</h1>
-      <p>{{event.description}}</p>
-
-      <p class="text-muted">
-        <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
-        <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
-        <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
-      </p>
-
-      <hr />
-
-      {% if participants %}
-        <h4>Participants</h4>
-        <p>
-          {% for participant in participants %}
-            <i class="fa fa-fw fa-users"></i> {{participant.link_html | safe}}<br />
-          {% endfor %}
-        </p>
-      {% endif %}
-
+    <div class="col-sm-5">
       {% if event.clean_agenda_items %}
         <h4>Agenda</h4>
         <p>
@@ -58,6 +48,25 @@
         </p>
       {% endif %}
 
+    </div>
+    <div class="col-sm-5">
+      {% if attendance %}
+        <h4>Attendance</h4>
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Present</th>
+            <th>Absent</th>
+          </tr>
+          {% for p in attendance %}
+            <tr>
+              <td><a href="{% url 'person' p.person.councilmatic_person.slug %}">{{p.person.name}}</a></td>
+              <td>{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+              <td>{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% endif %}
     </div>
   </div>
 

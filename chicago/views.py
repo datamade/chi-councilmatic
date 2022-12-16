@@ -342,3 +342,39 @@ class ChicagoEventsView(EventsView):
 class ChicagoEventDetailView(EventDetailView):
     model = ChicagoEvent
     template_name = "event.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        event = context["event"]
+
+        # getting expected attendees and actual attendees
+        expected_attendees = set()
+        event_orgs = event.participants.filter(entity_type="organization")
+        for event_org in event_orgs:
+            org_members = event_org.organization.memberships.filter(
+                start_date__lte=event.start_time, end_date__gte=event.start_time
+            )
+            expected_attendees.update([m.person for m in org_members])
+
+        attendees = set()
+        for event_person in event.participants.filter(entity_type="person"):
+            attendees.add(event_person.person.id)
+
+        attendance = []
+        for expected_attendee in sorted(expected_attendees, key=lambda x: x.name):
+            attended = expected_attendee.id in attendees
+            attendance.append({"person": expected_attendee, "attended": attended})
+
+        context["attendance"] = attendance
+
+        seo = {}
+        seo.update(settings.SITE_META)
+        seo["site_desc"] = "Public city council event on %s/%s/%s" % (
+            event.start_time.month,
+            event.start_time.day,
+            event.start_time.year,
+        )
+        seo["title"] = "%s Event - %s" % (event.name, settings.SITE_META["site_name"])
+        context["seo"] = seo
+
+        return context
