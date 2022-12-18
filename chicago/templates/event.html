@@ -52,7 +52,28 @@
     <div class="col-sm-5">
       {% if attendance %}
         <h4>Attendance</h4>
-        <table class="table">
+        <div class="row">
+
+        </div>
+
+        {% for p in attendance %}
+          <div class="col-sm-4">
+            <p class="h4">
+              <a href="{% url 'person' p.person.councilmatic_person.slug %}">
+                <span class="label label-{% if p.attended %}active{% else %}failed{% endif %}">
+                  {{p.person.name}}
+                  {% if p.attended %}
+                    <i class="fa fa-fw fa-check"></i>
+                  {% else %}
+                    <i class="fa fa-fw fa-times"></i>
+                  {% endif %}
+                </span>
+              </a>
+            </p>
+          </div>
+        {% endfor %}
+
+        <!-- <table class="table">
           <tr>
             <th>Name</th>
             <th>Present</th>
@@ -65,7 +86,7 @@
               <td>{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
             </tr>
           {% endfor %}
-        </table>
+        </table> -->
       {% endif %}
     </div>
   </div>
