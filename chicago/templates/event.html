@@ -4,30 +4,20 @@
 {% block title %}{{event.name}}{% endblock %}
 {% block content %}
 
+  <br/>
+  <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
+  <h1>{{event.name}}</h1>
+  <p>{{event.description}}</p>
+
+  <p>
+    <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
+    <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
+    <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
+  </p>
+
+  <hr />
   <div class="row-fluid">
-    <div class="col-sm-8">
-      <br/>
-      <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
-      <h1>{{event.name}}</h1>
-      <p>{{event.description}}</p>
-
-      <p class="text-muted">
-        <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
-        <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
-        <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
-      </p>
-
-      <hr />
-
-      {% if participants %}
-        <h4>Participants</h4>
-        <p>
-          {% for participant in participants %}
-            <i class="fa fa-fw fa-users"></i> {{participant.link_html | safe}}<br />
-          {% endfor %}
-        </p>
-      {% endif %}
-
+    <div class="col-sm-6">
       {% if event.clean_agenda_items %}
         <h4>Agenda</h4>
         <p>
@@ -58,6 +48,35 @@
         </p>
       {% endif %}
 
+    </div>
+    <div class="col-sm-6">
+      <h4>Attendance</h4>
+      {% if attendance_taken %}
+        <table class="table">
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Ward</th>
+            <th class="text-center">Present</th>
+            <th class="text-center">Absent</th>
+          </tr>
+          {% for p in attendance %}
+            <tr>
+              <td>
+                <div class="thumbnail-square">
+                  <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive img-thumbnail' />
+                </div>
+              </td>
+              <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>
+              <td>{{ p.attendee.latest_council_seat }}</td>
+              <td class="text-center {% if p.attended %}info{% endif %}">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+              <td class="text-center {% if not p.attended %}danger{% endif %}">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>Attendance was not taken for this event.</p>
+      {% endif %}
     </div>
   </div>
 
