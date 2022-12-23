@@ -363,8 +363,14 @@ class ChicagoEventDetailView(EventDetailView):
         attendance = []
         for expected_attendee in sorted(expected_attendees, key=lambda x: x.name):
             attended = expected_attendee.id in attendees
-            attendance.append({"person": expected_attendee, "attended": attended})
+            attendance.append(
+                {
+                    "attendee": expected_attendee.councilmatic_person,
+                    "attended": attended,
+                }
+            )
 
+        context["attendance_taken"] = len(attendees) > 0
         context["attendance"] = attendance
 
         seo = {}

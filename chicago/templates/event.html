@@ -17,7 +17,7 @@
 
   <hr />
   <div class="row-fluid">
-    <div class="col-sm-5">
+    <div class="col-sm-6">
       {% if event.clean_agenda_items %}
         <h4>Agenda</h4>
         <p>
@@ -49,44 +49,33 @@
       {% endif %}
 
     </div>
-    <div class="col-sm-5">
-      {% if attendance %}
-        <h4>Attendance</h4>
-        <div class="row">
-
-        </div>
-
-        {% for p in attendance %}
-          <div class="col-sm-4">
-            <p class="h4">
-              <a href="{% url 'person' p.person.councilmatic_person.slug %}">
-                <span class="label label-{% if p.attended %}active{% else %}failed{% endif %}">
-                  {{p.person.name}}
-                  {% if p.attended %}
-                    <i class="fa fa-fw fa-check"></i>
-                  {% else %}
-                    <i class="fa fa-fw fa-times"></i>
-                  {% endif %}
-                </span>
-              </a>
-            </p>
-          </div>
-        {% endfor %}
-
-        <!-- <table class="table">
+    <div class="col-sm-6">
+      <h4>Attendance</h4>
+      {% if attendance_taken %}
+        <table class="table">
           <tr>
+            <th></th>
             <th>Name</th>
-            <th>Present</th>
-            <th>Absent</th>
+            <th>Ward</th>
+            <th class="text-center">Present</th>
+            <th class="text-center">Absent</th>
           </tr>
           {% for p in attendance %}
             <tr>
-              <td><a href="{% url 'person' p.person.councilmatic_person.slug %}">{{p.person.name}}</a></td>
-              <td>{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
-              <td>{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+              <td>
+                <div class="thumbnail-square">
+                  <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive img-thumbnail' />
+                </div>
+              </td>
+              <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>
+              <td>{{ p.attendee.latest_council_seat }}</td>
+              <td class="text-center {% if p.attended %}info{% endif %}">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+              <td class="text-center {% if not p.attended %}danger{% endif %}">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
             </tr>
           {% endfor %}
-        </table> -->
+        </table>
+      {% else %}
+        <p>Attendance was not taken for this event.</p>
       {% endif %}
     </div>
   </div>
