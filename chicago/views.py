@@ -358,7 +358,7 @@ class ChicagoEventDetailView(EventDetailView):
 
         attendees = set()
         for event_person in event.participants.filter(entity_type="person"):
-            attendees.add(event_person.person.id)
+            attendees.add(event_person.person_id)
 
         attendance = []
         for expected_attendee in sorted(expected_attendees, key=lambda x: x.name):
