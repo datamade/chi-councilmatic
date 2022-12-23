@@ -372,6 +372,10 @@ class ChicagoEventDetailView(EventDetailView):
 
         context["attendance_taken"] = len(attendees) > 0
         context["attendance"] = attendance
+        context["attendance_present"] = len([a for a in attendance if a["attended"]])
+        context["attendance_absent"] = len(
+            [a for a in attendance if a["attended"] is False]
+        )
 
         seo = {}
         seo.update(settings.SITE_META)

@@ -50,8 +50,8 @@
 
     </div>
     <div class="col-sm-6">
-      <h4>Attendance</h4>
       {% if attendance_taken %}
+        <h4>Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
         <table class="table">
           <tr>
             <th></th>
@@ -61,7 +61,7 @@
             <th class="text-center">Absent</th>
           </tr>
           {% for p in attendance %}
-            <tr>
+            <tr class="{% if not p.attended %}danger{% endif %}">
               <td>
                 <div class="thumbnail-square">
                   <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive img-thumbnail' />
@@ -69,13 +69,14 @@
               </td>
               <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>
               <td>{{ p.attendee.latest_council_seat }}</td>
-              <td class="text-center {% if p.attended %}info{% endif %}">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
-              <td class="text-center {% if not p.attended %}danger{% endif %}">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+              <td class="text-center">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+              <td class="text-center">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
             </tr>
           {% endfor %}
         </table>
       {% else %}
-        <p>Attendance was not taken for this event.</p>
+        <h4>Attendance</h4>
+        <p>Attendance was not taken for this meeting</p>
       {% endif %}
     </div>
   </div>
