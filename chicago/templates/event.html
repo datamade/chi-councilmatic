@@ -43,11 +43,14 @@
         <h4>Attachments</h4>
         <p>
           {% for document in event.documents.all %}
-            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.url}}">{{document.note}}</a><br />
+            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.links.first.url}}">{{document.note}}</a><br />
           {% endfor %}
         </p>
       {% endif %}
-
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ event|get_legistar_link|safe }}
+      </div>
     </div>
     <div class="col-sm-6">
       {% now "Y-m-d" as todays_date %}
