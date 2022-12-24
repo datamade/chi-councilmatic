@@ -1,10 +1,17 @@
 import re
+
+import itertools
+from operator import attrgetter
+from django.db.models import Min
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
 from django.shortcuts import redirect
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.db.models import Max
+from django.utils import timezone
 
 from chicago.models import ChicagoBill, ChicagoEvent
 from councilmatic_core.views import (
@@ -337,6 +344,81 @@ class ChicagoCommitteeDetailView(CommitteeDetailView):
 
 class ChicagoEventsView(EventsView):
     template_name = "events.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EventsView, self).get_context_data(**kwargs)
+
+        # Get year range for datepicker.
+        aggregates = ChicagoEvent.objects.aggregate(
+            Min("start_time"), Max("start_time")
+        )
+
+        context["year_range_min"] = aggregates["start_time__min"].year
+        context["year_range_max"] = aggregates["start_time__max"].year
+
+        # Did the user set date boundaries?
+        date_str = self.request.GET.get("form_datetime")
+        day_grouper = lambda x: x.local_start_time.date  # noqa E731
+        context["select_date"] = ""
+
+        date_time = timezone.now()
+        # If yes, then filter for dates.
+        if date_str:
+            context["date"] = date_str
+            date_time = parser.parse(date_str)
+
+            select_events = (
+                ChicagoEvent.objects.filter(start_time__gt=date_time)
+                .filter(start_time__lt=(date_time + relativedelta(months=1)))
+                .order_by("start_time")
+            )
+
+            org_select_events = []
+
+            for event_date, events in itertools.groupby(select_events, key=day_grouper):
+                events = sorted(events, key=attrgetter("start_time"))
+                org_select_events.append([event_date, events])
+
+            context["select_events"] = org_select_events
+            context["select_date"] = (
+                date_time.strftime("%B") + " " + date_time.strftime("%Y")
+            )
+
+        # If no, then return upcoming events.
+        else:
+            # Upcoming events for the current month.
+            upcoming_events = (
+                ChicagoEvent.objects.filter(start_time__gt=timezone.now())
+                .filter(start_time__lt=(timezone.now() + relativedelta(months=1)))
+                .order_by("start_time")
+            )
+
+            if len(upcoming_events) < 3:
+                # Upcoming events for the next month, plus two from previous months
+                upcoming_events = (
+                    ChicagoEvent.objects.filter(start_time__gt=timezone.now())
+                    .filter(start_time__lt=(timezone.now() + relativedelta(months=2)))
+                    .order_by("start_time")
+                )
+
+            org_upcoming_events = []
+
+            for event_date, events in itertools.groupby(
+                upcoming_events, key=day_grouper
+            ):
+                events = sorted(events, key=attrgetter("start_time"))
+                org_upcoming_events.append([event_date, events])
+
+            context["upcoming_events"] = org_upcoming_events
+
+        context["prev_month"] = (
+            date_time.replace(day=1) - relativedelta(months=1)
+        ).strftime("%m-%d-%Y")
+        context["next_month"] = (
+            date_time.replace(day=1) + relativedelta(months=1)
+        ).strftime("%m-%d-%Y")
+
+        return context
 
 
 class ChicagoEventDetailView(EventDetailView):
