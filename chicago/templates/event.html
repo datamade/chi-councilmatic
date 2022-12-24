@@ -1,12 +1,12 @@
 {% extends "base_with_margins.html" %}
 {% load extras chicago_extras %}
 {% load static %}
-{% block title %}{{event.name}}{% endblock %}
+{% block title %}{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}{% endblock %}
 {% block content %}
 
   <br/>
   <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
-  <h1>{{event.name}}</h1>
+  <h1>{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}</h1>
   <p>{{event.description}}</p>
 
   <p>
@@ -53,8 +53,8 @@
       </div>
     </div>
     <div class="col-sm-6">
-      {% now "Y-m-d" as todays_date %}
-      {% if todays_date > event.start_time|date:"Y-m-d" %}
+      <!-- only show attendance for past events that weren't cancelled -->
+      {% if event.status == 'passed' %}
         {% if attendance_taken %}
           <h4>Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
           <table class="table">
