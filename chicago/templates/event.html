@@ -1,12 +1,12 @@
 {% extends "base_with_margins.html" %}
 {% load extras chicago_extras %}
 {% load static %}
-{% block title %}{{event.name}}{% endblock %}
+{% block title %}{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}{% endblock %}
 {% block content %}
 
   <br/>
   <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
-  <h1>{{event.name}}</h1>
+  <h1>{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}</h1>
   <p>{{event.description}}</p>
 
   <p>
@@ -43,41 +43,46 @@
         <h4>Attachments</h4>
         <p>
           {% for document in event.documents.all %}
-            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.url}}">{{document.note}}</a><br />
+            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.links.first.url}}">{{document.note}}</a><br />
           {% endfor %}
         </p>
       {% endif %}
-
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ event|get_legistar_link|safe }}
+      </div>
     </div>
     <div class="col-sm-6">
-      {% now "Y-m-d" as todays_date %}
-      {% if attendance_taken and todays_date > event.start_time|date:"Y-m-d" %}
-        <h4>Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
-        <table class="table">
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Ward</th>
-            <th class="text-center">Present</th>
-            <th class="text-center">Absent</th>
-          </tr>
-          {% for p in attendance %}
-            <tr class="{% if not p.attended %}danger{% endif %}">
-              <td>
-                <div class="thumbnail-square">
-                  <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive img-thumbnail' />
-                </div>
-              </td>
-              <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>
-              <td>{{ p.attendee.latest_council_seat }}</td>
-              <td class="text-center">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
-              <td class="text-center">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+      <!-- only show attendance for past events that weren't cancelled -->
+      {% if event.status == 'passed' %}
+        {% if attendance_taken %}
+          <h4>Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
+          <table class="table">
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Ward</th>
+              <th class="text-center">Present</th>
+              <th class="text-center">Absent</th>
             </tr>
-          {% endfor %}
-        </table>
-      {% else %}
-        <h4>Attendance</h4>
-        <p>Attendance was not taken for this meeting</p>
+            {% for p in attendance %}
+              <tr class="{% if not p.attended %}danger{% endif %}">
+                <td>
+                  <div class="thumbnail-square">
+                    <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive img-thumbnail' />
+                  </div>
+                </td>
+                <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>
+                <td>{{ p.attendee.latest_council_seat }}</td>
+                <td class="text-center">{% if p.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+                <td class="text-center">{% if not p.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <h4>Attendance</h4>
+          <p>Attendance was not taken for this meeting or has not been posted by the Clerk's office</p>
+        {% endif %}
       {% endif %}
     </div>
   </div>

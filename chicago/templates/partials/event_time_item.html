@@ -6,8 +6,12 @@
   </div>
   <div class="col-xs-9">
     <p>
-      <a href="{{event.event_page_url}}">{{event.name}}</a><br/>
-      <span class="small text-muted">{{event.description}}</span>
+      {% if event.status == 'cancelled' %}
+        <a href="{{event.event_page_url}}" class="text-muted">CANCELLED: {{event.name}}</a>
+      {% else %}
+        <a href="{{event.event_page_url}}">{{event.name}}</a>
+      {% endif %}
+      <br/><span class="small text-muted">{{event.description}}</span>
     </p>
   </div>
 </div>
