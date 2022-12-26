@@ -1,5 +1,5 @@
 from django.conf import settings
-from councilmatic_core.models import Bill, Event
+from councilmatic_core.models import Bill, Event, Organization
 from datetime import datetime
 import pytz
 from .helpers import topic_classifier
@@ -133,10 +133,33 @@ class ChicagoBill(Bill):
             return None
 
 
+class ChicagoOrganization(Organization):
+    class Meta:
+        proxy = True
+        app_label = "chicago"
+
+    @property
+    def recent_events(self):
+        # need to look up event participants by name
+        events = ChicagoEvent.objects.filter(
+            participants__entity_type="organization", participants__name=self.name
+        )
+        events = events.order_by("-start_date").all()
+        return events
+
+
 class ChicagoEvent(Event):
     class Meta:
         proxy = True
         app_label = "chicago"
+
+    @property
+    def attendance(self):
+        attendees = set()
+        for event_person in self.participants.filter(entity_type="person"):
+            attendees.add(event_person.person_id)
+
+        return attendees
 
     @classmethod
     def most_recent_past_city_council_meeting(cls):
