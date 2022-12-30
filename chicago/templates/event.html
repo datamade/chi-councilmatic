@@ -10,6 +10,14 @@
   <p>{{event.description}}</p>
 
   <p>
+    {% for o in event_orgs %}
+      {% if 'chicago-city-council' in o.organization.councilmatic_organization.slug %}
+        <!-- don't link to city council detail -->
+        <i class="fa fa-fw fa-group"></i> {{o.name}}<br/>
+      {% else %}
+        <i class="fa fa-fw fa-group"></i> <a href="{% url 'committee_detail' o.organization.councilmatic_organization.slug %}">{{o.name}}</a><br/>
+      {% endif %}
+    {% endfor %}
     <i class="fa fa-fw fa-calendar-o"></i> {{event.start_time | date:"D n/d/Y"}}<br/>
     <i class="fa fa-fw fa-clock-o"></i> {{event.start_time | date:"g:i a"}}<br/>
     <i class="fa fa-fw fa-map-marker"></i> {{event.location}}

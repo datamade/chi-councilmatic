@@ -155,11 +155,7 @@ class ChicagoEvent(Event):
 
     @property
     def attendance(self):
-        attendees = set()
-        for event_person in self.participants.filter(entity_type="person"):
-            attendees.add(event_person.person_id)
-
-        return attendees
+        return self.participants.filter(entity_type="person")
 
     @classmethod
     def most_recent_past_city_council_meeting(cls):

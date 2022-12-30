@@ -38,20 +38,26 @@
               {% for event in committee.recent_events %}
                 <tr class="event-listing">
                   <td class='nowrap'>
-                    <p class="text-muted small no-pad-bottom">
+                    <p class="text-muted no-pad-bottom">
                       {{event.start_time | date:'Y-m-d' }}
                     </p>
                   </td>
                   <td class='nowrap'>
-                    <p class="small no-pad-bottom">
-                      {{event.link_html | safe}}
+                    <p class="no-pad-bottom">
+                      {%if event.status == 'cancelled'%}
+                        <a href="{{event.event_page_url}}" class="text-muted">CANCELLED: {{event.name}}</a>
+                      {% else %}
+                        <a href="{{event.event_page_url}}">{{event.name}}</a>
+                      {% endif %}
                     </p>
                   </td>
                   <td>
-                    {% if event.attendance %}
-                      {{event.attendance|length}} members attended
-                    {% else %}
-                      No attendance taken
+                    {% if event.status == 'passed' %}
+                      {% if event.attendance %}
+                        {{event.attendance|length}} members attended
+                      {% else %}
+                        No attendance taken
+                      {% endif %}
                     {% endif %}
                   </td>
                 </tr>
@@ -85,17 +91,17 @@
               {% for action in committee.recent_activity %}
                 <tr class="activity-row">
                   <td class='nowrap'>
-                    <p class="text-muted small no-pad-bottom">
+                    <p class="text-muted no-pad-bottom">
                       {{action.date}}
                     </p>
                   </td>
                   <td class='nowrap'>
-                    <p class="small no-pad-bottom">
+                    <p class="no-pad-bottom">
                       <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
                     </p>
                   </td>
                   <td>
-                    <p class="small no-pad-bottom">
+                    <p class="no-pad-bottom">
                       <a href="/legislation/{{action.bill.slug}}/">{{action.bill.friendly_name}}</a>
                     </p>
                     <p class="small no-pad-bottom">
