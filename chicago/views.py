@@ -4,6 +4,7 @@ import itertools
 from operator import attrgetter
 from django.db.models import Min
 from dateutil import parser
+import pytz
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
 from django.shortcuts import redirect
@@ -13,7 +14,7 @@ from django.urls import reverse
 from django.db.models import Max
 from django.utils import timezone
 
-from chicago.models import ChicagoBill, ChicagoEvent
+from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization
 from councilmatic_core.views import (
     IndexView,
     AboutView,
@@ -340,6 +341,39 @@ class ChicagoCommitteesView(CommitteesView):
 
 class ChicagoCommitteeDetailView(CommitteeDetailView):
     template_name = "committee.html"
+    context_object_name = "committee"
+    model = ChicagoOrganization
+
+    def get_context_data(self, **kwargs):
+        context = super(CommitteeDetailView, self).get_context_data(**kwargs)
+
+        committee = context["committee"]
+        context["memberships"] = committee.memberships.all()
+
+        description = None
+
+        if getattr(settings, "COMMITTEE_DESCRIPTIONS", None):
+            for k in settings.COMMITTEE_DESCRIPTIONS:
+                if committee.slug.startswith(k):
+                    context["committee_description"] = settings.COMMITTEE_DESCRIPTIONS[
+                        k
+                    ]
+
+        seo = {}
+        seo.update(settings.SITE_META)
+
+        if description:
+            seo["site_desc"] = description
+        else:
+            seo["site_desc"] = "See what %s's %s has been up to!" % (
+                settings.CITY_COUNCIL_NAME,
+                committee.name,
+            )
+
+        seo["title"] = "%s - %s" % (committee.name, settings.SITE_META["site_name"])
+        context["seo"] = seo
+
+        return context
 
 
 class ChicagoEventsView(EventsView):
@@ -365,7 +399,7 @@ class ChicagoEventsView(EventsView):
         # If yes, then filter for dates.
         if date_str:
             context["date"] = date_str
-            date_time = parser.parse(date_str)
+            date_time = parser.parse(date_str).astimezone(pytz.timezone("US/Central"))
 
             select_events = (
                 ChicagoEvent.objects.filter(start_time__gt=date_time)
@@ -432,6 +466,7 @@ class ChicagoEventDetailView(EventDetailView):
         # getting expected attendees and actual attendees
         expected_attendees = set()
         event_orgs = event.participants.filter(entity_type="organization")
+        context["event_orgs"] = event_orgs
         for event_org in event_orgs:
             org_members = event_org.organization.memberships.filter(
                 start_date__lte=event.start_time, end_date__gte=event.start_time
@@ -439,7 +474,7 @@ class ChicagoEventDetailView(EventDetailView):
             expected_attendees.update([m.person for m in org_members])
 
         attendees = set()
-        for event_person in event.participants.filter(entity_type="person"):
+        for event_person in event.attendance:
             attendees.add(event_person.person_id)
 
         attendance = []

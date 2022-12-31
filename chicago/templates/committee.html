@@ -17,15 +17,72 @@
 
       <hr />
 
+      {% if committee.recent_events %}
+        <h4 class="modal-links">
+          <i class='fa fa-fw fa-calendar-o'></i> Committee {{ CITY_VOCAB.EVENTS }}&nbsp;
+
+          <small class="pull-right"><a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for committee events</a></small>
+
+        </h4>
+
+        <div class="table-responsive">
+          <table class='table' id='committee-actions'>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Meeting</th>
+                <th>Attendance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for event in committee.recent_events %}
+                <tr class="event-listing">
+                  <td class='nowrap'>
+                    <p class="text-muted no-pad-bottom">
+                      {{event.start_time | date:'Y-m-d' }}
+                    </p>
+                  </td>
+                  <td class='nowrap'>
+                    <p class="no-pad-bottom">
+                      {%if event.status == 'cancelled'%}
+                        <a href="{{event.event_page_url}}" class="text-muted">CANCELLED: {{event.name}}</a>
+                      {% else %}
+                        <a href="{{event.event_page_url}}">{{event.name}}</a>
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td>
+                    {% if event.status == 'passed' %}
+                      {% if event.attendance %}
+                        {{event.attendance|length}} members attended
+                      {% else %}
+                        No attendance taken
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <td colspan="3" align="center">
+                  <a href="" id="more-events"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
+                  <a href="" id="fewer-events"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr />
+      {% endif %}
+
       <h4 class="modal-links"><i class='fa fa-fw fa-list-ul'></i> Recent Legislative Activity&nbsp;
         <small class="pull-right"><a href="actions/rss/" title="RSS feed for Recent Legislative Activity by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for recent legislative activity</a></small>
       </h4>
-
       {% if committee.recent_activity %}
         <div class="table-responsive">
           <table class='table' id='committee-actions'>
             <thead>
               <tr>
+                <th>Date</th>
                 <th>Action</th>
                 <th>Legislation</th>
               </tr>
@@ -34,19 +91,21 @@
               {% for action in committee.recent_activity %}
                 <tr class="activity-row">
                   <td class='nowrap'>
-                    <p class="text-muted small no-pad-bottom">
-                      {{action.date|date:'n/d/Y'}}
+                    <p class="text-muted no-pad-bottom">
+                      {{action.date}}
                     </p>
-                    <p class="small no-pad-bottom">
+                  </td>
+                  <td class='nowrap'>
+                    <p class="no-pad-bottom">
                       <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
                     </p>
                   </td>
                   <td>
-                    <p class="small no-pad-bottom">
+                    <p class="no-pad-bottom">
                       <a href="/legislation/{{action.bill.slug}}/">{{action.bill.friendly_name}}</a>
                     </p>
                     <p class="small no-pad-bottom">
-                      {{action.bill.description | short_blurb}}
+                      {{action.bill.title | short_blurb}}
                     </p>
                   </td>
                 </tr>
@@ -62,25 +121,6 @@
         </div>
       {% else %}
         <p>No recent legislative activity</p>
-      {% endif %}
-
-      {% if committee.recent_events %}
-        <hr />
-
-        <h4 class="modal-links">
-          <i class='fa fa-fw fa-calendar-o'></i> Committee {{ CITY_VOCAB.EVENTS }}&nbsp;
-
-          <small class="pull-right"><a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for committee events</a></small>
-
-        </h4>
-
-        {% for event in committee.recent_events %}
-          <p class='event-listing'>
-            {{event.start_time | date:'n/d/Y' }} - {{event.link_html | safe}}
-          </p>
-        {% endfor %}
-        <a href="" id="more-events"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
-        <a href="" id="fewer-events"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
       {% endif %}
 
       <hr />
@@ -127,22 +167,22 @@
 
 
     function collapseActivity(){
-      $(".activity-row:gt(4)").hide();
+      $(".activity-row:gt(9)").hide();
       $("#more-actions").show();
       $("#fewer-actions").hide();
     }
     function expandActivity(){
-      $(".activity-row:gt(4)").show();
+      $(".activity-row:gt(9)").show();
       $("#more-actions").hide();
       $("#fewer-actions").show();
     }
     function collapseEvents(){
-      $(".event-listing:gt(4)").hide();
+      $(".event-listing:gt(9)").hide();
       $("#more-events").show();
       $("#fewer-events").hide();
     }
     function expandEvents(){
-      $(".event-listing:gt(4)").show();
+      $(".event-listing:gt(9)").show();
       $("#more-events").hide();
       $("#fewer-events").show();
     }
