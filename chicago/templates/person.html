@@ -94,6 +94,13 @@
           </span>
         </a>
         </li>
+        <li role="presentation" {% if request.GET.view == 'attendance' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=attendance">
+          <span class="small-pill">
+            <i class='fa fa-fw fa-calendar-o'></i>
+            Attendance
+          </span>
+        </a>
+        </li>
       </ul>
 
       {% if request.GET.view == 'bills' or request.GET.view == None %}
@@ -147,6 +154,35 @@
             </table>
           </div>
         {% endif %}
+      {% endif %}
+
+      {% if request.GET.view == 'attendance' %}
+        <h2>{{person.name}} has {{ attendance_percent }} attendance</h2>
+        <p>Attended {{attendance_present}} events and absent from {{attendance_absent}} events </p>
+
+        <div class="table-responsive">
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Meeting</th>
+                <th class="text-center">Present</th>
+                <th class="text-center">Absent</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a in attendance %}
+                <tr  class="{% if not a.attended %}danger{% endif %}">
+                  <td>{{a.event.start_time | date:'Y-m-d' }}</td>
+                  <td><a href="{{a.event.event_page_url}}">{{a.event.name}}</a></td>
+                  <td class="text-center">{% if a.attended %}<i class="fa fa-fw fa-check"></i>{%endif%}</td>
+                  <td class="text-center">{% if not a.attended %}<i class="fa fa-fw fa-times"></i>{%endif%}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
       {% endif %}
 
       <br />

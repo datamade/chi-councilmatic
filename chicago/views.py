@@ -118,8 +118,90 @@ class ChicagoAboutView(AboutView):
     template_name = "about.html"
 
 
-def substitute_ordinance_redirect(request, substitute_ordinance_slug):
-    return redirect("bill_detail", slug=substitute_ordinance_slug[1:], permanent=True)
+class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
+
+    form_class = CouncilmaticSearchForm
+    facet_fields = [
+        "bill_type",
+        "sponsorships",
+        "controlling_body",
+        "inferred_status",
+        "topics",
+        "legislative_session",
+    ]
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context["q_filters"] = self._get_query_parameters()
+        context["selected_facets"] = self._get_selected_facets()
+
+        context["user_subscribed"] = False
+
+        context["current_council_members"] = {
+            p.current_member.person.name: p.label
+            for p in Post.objects.all()
+            if p.current_member
+        }
+
+        return context
+
+    def get_queryset(self):
+        sqs = super().get_queryset()
+        sort_field = self.request.GET.get("sort_by", "date")
+
+        # default facet list size is 10, but we want to show all
+        options = {"size": 250}
+        for field in self.facet_fields:
+            sqs = sqs.facet(field, **options)
+
+        if sort_field in ("date", "title"):  # relevance is default
+            sort_order = self.request.GET.get("order_by", "desc")
+            sqs_field = {"date": "last_action_date", "title": "sort_name_exact"}[
+                sort_field
+            ]
+
+            sqs = sqs.order_by(
+                "{0}{1}".format("" if sort_order == "asc" else "-", sqs_field)
+            )
+
+        return sqs
+
+    def _get_selected_facets(self):
+        selected_facets = {}
+
+        for val in self.request.GET.getlist("selected_facets"):
+            if val:
+                # e.g., bill_type_exact:ordinance -> bill_type, ordinance
+                k, v = val.split("_exact:", 1)
+                try:
+                    selected_facets[k].append(v)
+                except KeyError:
+                    selected_facets[k] = [v]
+
+        return selected_facets
+
+    def _get_query_parameters(self):
+        excluded_parameters = (
+            "page",
+            "selected_facets",
+            "amp",
+            "_",
+        )
+        query_parameters = [
+            (param, val)
+            for (param, val) in self.request.GET.items()
+            if param not in excluded_parameters
+        ]
+        query_parameters += [
+            ("selected_facets", param)
+            for param in self.request.GET.getlist("selected_facets")
+        ]
+
+        if query_parameters:
+            return urlencode(query_parameters)
+
+        return ""
 
 
 class ChicagoBillDetailView(BillDetailView):
@@ -207,6 +289,10 @@ class ChicagoBillDetailView(BillDetailView):
         return context
 
 
+def substitute_ordinance_redirect(request, substitute_ordinance_slug):
+    return redirect("bill_detail", slug=substitute_ordinance_slug[1:], permanent=True)
+
+
 class ChicagoCouncilMembersView(CouncilMembersView):
     template_name = "council_members.html"
 
@@ -221,92 +307,6 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         seo["title"] = "Wards & Aldermen - Chicago Councilmatic"
 
         return seo
-
-
-class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
-
-    form_class = CouncilmaticSearchForm
-    facet_fields = [
-        "bill_type",
-        "sponsorships",
-        "controlling_body",
-        "inferred_status",
-        "topics",
-        "legislative_session",
-    ]
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-
-        context["q_filters"] = self._get_query_parameters()
-        context["selected_facets"] = self._get_selected_facets()
-
-        context["user_subscribed"] = False
-
-        context["current_council_members"] = {
-            p.current_member.person.name: p.label
-            for p in Post.objects.all()
-            if p.current_member
-        }
-
-        return context
-
-    def get_queryset(self):
-        sqs = super().get_queryset()
-        sort_field = self.request.GET.get("sort_by", "date")
-
-        # default facet list size is 10, but we want to show all
-        options = {"size": 250}
-        for field in self.facet_fields:
-            sqs = sqs.facet(field, **options)
-
-        if sort_field in ("date", "title"):  # relevance is default
-            sort_order = self.request.GET.get("order_by", "desc")
-            sqs_field = {"date": "last_action_date", "title": "sort_name_exact"}[
-                sort_field
-            ]
-
-            sqs = sqs.order_by(
-                "{0}{1}".format("" if sort_order == "asc" else "-", sqs_field)
-            )
-
-        return sqs
-
-    def _get_selected_facets(self):
-        selected_facets = {}
-
-        for val in self.request.GET.getlist("selected_facets"):
-            if val:
-                # e.g., bill_type_exact:ordinance -> bill_type, ordinance
-                k, v = val.split("_exact:", 1)
-                try:
-                    selected_facets[k].append(v)
-                except KeyError:
-                    selected_facets[k] = [v]
-
-        return selected_facets
-
-    def _get_query_parameters(self):
-        excluded_parameters = (
-            "page",
-            "selected_facets",
-            "amp",
-            "_",
-        )
-        query_parameters = [
-            (param, val)
-            for (param, val) in self.request.GET.items()
-            if param not in excluded_parameters
-        ]
-        query_parameters += [
-            ("selected_facets", param)
-            for param in self.request.GET.getlist("selected_facets")
-        ]
-
-        if query_parameters:
-            return urlencode(query_parameters)
-
-        return ""
 
 
 class ChicagoPersonDetailView(PersonDetailView):
@@ -332,6 +332,41 @@ class ChicagoPersonDetailView(PersonDetailView):
             .order_by("-last_action")[:10]
         )
 
+        attendance = []
+        # get all events across all memberships
+        events = (
+            ChicagoEvent.objects.filter(
+                participants__entity_type="organization",
+                participants__name__in=[
+                    x.organization.name for x in person.current_memberships.all()
+                ],
+                status="passed",
+                start_date__gte=person.latest_council_membership.start_date_dt,
+            )
+            .order_by("-start_date")
+            .all()
+        )
+
+        for e in events:
+            if len(e.attendance) > 0:
+                attended = (
+                    len([p for p in e.attendance if person.id == p.person_id]) > 0
+                )
+                attendance.append(
+                    {
+                        "event": e,
+                        "attended": attended,
+                    }
+                )
+
+        context["attendance"] = attendance
+        context["attendance_present"] = len([a for a in attendance if a["attended"]])
+        context["attendance_absent"] = len(
+            [a for a in attendance if a["attended"] is False]
+        )
+        context["attendance_percent"] = "{:.0%}".format(
+            context["attendance_present"] / (len(attendance))
+        )
         return context
 
 
