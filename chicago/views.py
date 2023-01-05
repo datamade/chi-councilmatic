@@ -333,21 +333,22 @@ class ChicagoPersonDetailView(PersonDetailView):
         )
 
         attendance = []
-        # get all events across all memberships
-        events = (
-            ChicagoEvent.objects.filter(
-                participants__entity_type="organization",
-                participants__name__in=[
-                    x.organization.name for x in person.current_memberships.all()
-                ],
-                status="passed",
-                start_date__gte=person.latest_council_membership.start_date_dt,
+        events = []
+        # get all events across all memberships tenures
+        for membership in person.current_memberships.all():
+            events.extend(
+                ChicagoEvent.objects.filter(
+                    participants__entity_type="organization",
+                    status="passed",
+                    participants__name=membership.organization.name,
+                    start_date__gte=membership.start_date_dt,
+                    start_date__lte=membership.end_date_dt,
+                )
+                .order_by("-start_date")
+                .all()
             )
-            .order_by("-start_date")
-            .all()
-        )
 
-        for e in events:
+        for e in sorted(events, key=attrgetter("start_time"), reverse=True):
             if len(e.attendance) > 0:
                 attended = (
                     len([p for p in e.attendance if person.id == p.person_id]) > 0
