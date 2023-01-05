@@ -28,6 +28,7 @@ from councilmatic_core.views import (
     CouncilmaticSearchForm,
 )
 from councilmatic_core.models import Post
+from opencivicdata.legislative.models import LegislativeSession
 
 from haystack.generic_views import FacetedSearchView
 
@@ -334,18 +335,22 @@ class ChicagoPersonDetailView(PersonDetailView):
 
         attendance = []
         events = []
-        # get all events across all memberships tenures
+
+        current_legislative_session = LegislativeSession.objects.get(
+            start_date__lt=timezone.now(), end_date__gt=timezone.now()
+        )
+
+        # fetch all events for the current legislative session for committees they're on
         for membership in person.current_memberships.all():
             events.extend(
                 ChicagoEvent.objects.filter(
-                    participants__entity_type="organization",
-                    status="passed",
-                    participants__name=membership.organization.name,
-                    start_date__gte=membership.start_date_dt,
-                    start_date__lte=membership.end_date_dt,
+                    participants__organization=membership.organization,
+                    start_date__gte=membership.start_date,
                 )
-                .order_by("-start_date")
-                .all()
+                .filter(start_date__gte=current_legislative_session.start_date)
+                .filter(participants__entity_type="person")
+                .distinct()
+                .prefetch_related("participants")
             )
 
         for e in sorted(events, key=attrgetter("start_time"), reverse=True):
