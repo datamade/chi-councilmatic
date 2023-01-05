@@ -102,9 +102,6 @@
                 <th>Date</th>
                 <th>Legislative body</th>
                 <th>Action</th>
-                <th>Votes for</th>
-                <th>Votes against</th>
-                <th>Other votes</th>
               </tr>
             </thead>
             <tbody>
@@ -114,68 +111,68 @@
                     <span datetime='{{action.date }}'>{{action.date}}</span>
                   </td>
                   <td>
-                    {{action.organization.link_html|safe}}
+                    <a href="{% url 'committee_detail' action.organization.councilmatic_organization.slug %} %}">{{action.organization.name}}</a>
                   </td>
                   <td>
                     <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
-                    {% if action.related_organization %}
-                      to
-                      {{action.related_organization.link_html|safe}}
-                    {% endif %}
-                  </td>
-                  <td>
+
                     {% if action.vote.counts.all|length > 0 %}
-                      {% for vote in action.vote.counts.all %}
-                        {% if vote.option == 'yes' %}
-                          <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
-                        {% endif %}
-                      {% endfor %}
+                      <table class='table table-responsive'>
+                        <thead>
+                          <tr>
+                            <th>Votes for</th>
+                            <th>Votes against</th>
+                            <th>Other votes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              {% for vote in action.vote.counts.all %}
+                                {% if vote.option == 'yes' %}
+                                  <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
+                                {% endif %}
+                              {% endfor %}
+                              <p class="small nowrap">
+                                {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
+                                  {% if personvote.option == 'yes' %}
+                                    <i class="fa fa-fw fa-check"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                  {% endif %}
+                                {% endfor %}
+                              </p>
+                            </td>
+                            <td>
+                              {% for vote in action.vote.counts.all %}
+                                {% if vote.option == 'no' %}
+                                  <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
+                                {% endif %}
+                              {% endfor %}
+                              <p class="small nowrap">
+                                {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
+                                  {% if personvote.option == 'no' %}
+                                    <i class="fa fa-fw fa-times"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                  {% endif %}
+                                {% endfor %}
+                              </p>
+                            </td>
+                            <td>
+                              {% for vote in action.vote.counts.all %}
+                                {% if vote.option != 'yes' and vote.option != 'no' %}
+                                  <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
+                                {% endif %}
+                              {% endfor %}
+                              <p class="small nowrap">
+                                {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
+                                  {% if personvote.option != 'yes' and personvote.option != 'no' %}
+                                    {{ personvote.option|capfirst}}: <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                  {% endif %}
+                                {% endfor %}
+                              </p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     {% endif %}
-                    <p class="small nowrap">
-                      {% if action.vote.votes.all|length > 0 %}
-                        {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
-                          {% if personvote.option == 'yes' %}
-                            <i class="fa fa-fw fa-check"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
-                          {% endif %}
-                        {% endfor %}
-                      {% endif %}
-                    </p>
-                  </td>
-                  <td>
-                    {% if action.vote.counts.all|length > 0 %}
-                      {% for vote in action.vote.counts.all %}
-                        {% if vote.option == 'no' %}
-                          <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
-                        {% endif %}
-                      {% endfor %}
-                    {% endif %}
-                    <p class="small nowrap">
-                      {% if action.vote.votes.all|length > 0 %}
-                        {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
-                          {% if personvote.option == 'no' %}
-                            <i class="fa fa-fw fa-times"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
-                          {% endif %}
-                        {% endfor %}
-                      {% endif %}
-                    </p>
-                  </td>
-                  <td>
-                    {% if action.vote.counts.all|length > 0 %}
-                      {% for vote in action.vote.counts.all %}
-                        {% if vote.option != 'yes' and vote.option != 'no' %}
-                          <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
-                        {% endif %}
-                      {% endfor %}
-                    {% endif %}
-                    <p class="small nowrap">
-                      {% if action.vote.votes.all|length > 0 %}
-                        {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
-                          {% if personvote.option != 'yes' and personvote.option != 'no' %}
-                            {{ personvote.option|capfirst}}: <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
-                          {% endif %}
-                        {% endfor %}
-                      {% endif %}
-                    </p>
                   </td>
                 </tr>
               {% endfor %}
