@@ -354,16 +354,13 @@ class ChicagoPersonDetailView(PersonDetailView):
             )
 
         for e in sorted(events, key=attrgetter("start_time"), reverse=True):
-            if len(e.attendance) > 0:
-                attended = (
-                    len([p for p in e.attendance if person.id == p.person_id]) > 0
-                )
-                attendance.append(
-                    {
-                        "event": e,
-                        "attended": attended,
-                    }
-                )
+            attended = e.participants.filter(person_id=person.id).exists()
+            attendance.append(
+                {
+                    "event": e,
+                    "attended": attended,
+                }
+            )
 
         context["committee_count"] = len(person.current_memberships) - 1
         context["attendance"] = attendance
