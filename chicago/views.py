@@ -360,6 +360,7 @@ class ChicagoPersonDetailView(PersonDetailView):
                     }
                 )
 
+        context["committee_count"] = len(person.current_memberships) - 1
         context["attendance"] = attendance
         context["attendance_present"] = len([a for a in attendance if a["attended"]])
         context["attendance_absent"] = len(
