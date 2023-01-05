@@ -90,14 +90,14 @@
         <li role="presentation" {% if request.GET.view == 'committees' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=committees">
           <span class="small-pill">
             <i class='fa fa-fw fa-group'></i>
-            Committees
+            Committees ({{committee_count}})
           </span>
         </a>
         </li>
         <li role="presentation" {% if request.GET.view == 'attendance' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=attendance">
           <span class="small-pill">
             <i class='fa fa-fw fa-calendar-o'></i>
-            Attendance
+            Attendance ({{attendance_percent}})
           </span>
         </a>
         </li>
@@ -158,7 +158,7 @@
 
       {% if request.GET.view == 'attendance' %}
         <h2>{{person.name}} has {{ attendance_percent }} attendance</h2>
-        <p>Attended {{attendance_present}} events and absent from {{attendance_absent}} events </p>
+        <p>Attended {{attendance_present}} events and absent from {{attendance_absent}} events in the current legislative session</p>
 
         <div class="table-responsive">
           <table class='table'>

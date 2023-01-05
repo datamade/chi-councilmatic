@@ -28,6 +28,7 @@ from councilmatic_core.views import (
     CouncilmaticSearchForm,
 )
 from councilmatic_core.models import Post
+from opencivicdata.legislative.models import LegislativeSession
 
 from haystack.generic_views import FacetedSearchView
 
@@ -333,32 +334,35 @@ class ChicagoPersonDetailView(PersonDetailView):
         )
 
         attendance = []
-        # get all events across all memberships
-        events = (
-            ChicagoEvent.objects.filter(
-                participants__entity_type="organization",
-                participants__name__in=[
-                    x.organization.name for x in person.current_memberships.all()
-                ],
-                status="passed",
-                start_date__gte=person.latest_council_membership.start_date_dt,
-            )
-            .order_by("-start_date")
-            .all()
+        events = []
+
+        current_legislative_session = LegislativeSession.objects.get(
+            start_date__lt=timezone.now(), end_date__gt=timezone.now()
         )
 
-        for e in events:
-            if len(e.attendance) > 0:
-                attended = (
-                    len([p for p in e.attendance if person.id == p.person_id]) > 0
+        # fetch all events for the current legislative session for committees they're on
+        for membership in person.current_memberships.all():
+            events.extend(
+                ChicagoEvent.objects.filter(
+                    participants__organization=membership.organization,
+                    start_date__gte=membership.start_date,
                 )
-                attendance.append(
-                    {
-                        "event": e,
-                        "attended": attended,
-                    }
-                )
+                .filter(start_date__gte=current_legislative_session.start_date)
+                .filter(participants__entity_type="person")
+                .distinct()
+                .prefetch_related("participants")
+            )
 
+        for e in sorted(events, key=attrgetter("start_time"), reverse=True):
+            attended = e.participants.filter(person_id=person.id).exists()
+            attendance.append(
+                {
+                    "event": e,
+                    "attended": attended,
+                }
+            )
+
+        context["committee_count"] = len(person.current_memberships) - 1
         context["attendance"] = attendance
         context["attendance_present"] = len([a for a in attendance if a["attended"]])
         context["attendance_absent"] = len(
