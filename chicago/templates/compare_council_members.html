@@ -1,0 +1,51 @@
+{% extends "base_with_margins.html" %}
+{% load static %}
+{% load adv_cache %}
+{% block title %}Compare {{CITY_COUNCIL_NAME}} Members{% endblock %}
+
+{% block content %}
+
+  {% cache 86400 members_wrapper 'members' %}
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+          {% include 'partials/council_member_table.html' %}
+        </div>
+      </div>
+    </div>
+
+  {% endcache %}
+{% endblock %}
+
+{% block extra_js %}
+  {% cache 86400 js_wrapper 'js' %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+
+    <script>
+      var council_member_table = $("#council-members").DataTable({
+        "info": false,
+        "bLengthChange": false,
+        "paging": false,
+        "aaSorting": [ [2,'asc'] ],
+        "aoColumns": [
+          { "bSortable": false },
+          null,
+          { "sType": "num-html" }
+        ]
+      });
+
+      $( document ).ready(function() {
+        $('.thumbnail-square img').each(function() {
+          if ($(this).width() > $(this).height()) {
+            $(this).addClass('landscape');
+          }
+        });
+      });
+    </script>
+
+  {% endcache %}
+{% endblock %}

@@ -13,6 +13,7 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.db.models import Max
 from django.utils import timezone
+from django.views.generic import ListView
 
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization
 from councilmatic_core.views import (
@@ -372,6 +373,16 @@ class ChicagoPersonDetailView(PersonDetailView):
             context["attendance_present"] / (len(attendance))
         )
         return context
+
+
+class ChicagoCouncilMembersCompareView(ListView):
+    template_name = "compare_council_members.html"
+    context_object_name = "aldermen"
+
+    def get_queryset(self):
+        get_kwarg = {"name": settings.OCD_CITY_COUNCIL_NAME}
+
+        return Organization.objects.get(**get_kwarg).posts.all()
 
 
 class ChicagoCommitteesView(CommitteesView):
