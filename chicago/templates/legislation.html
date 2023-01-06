@@ -136,7 +136,13 @@
                               <p class="small nowrap">
                                 {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
                                   {% if personvote.option == 'yes' %}
-                                    <i class="fa fa-fw fa-check"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                    <i class="fa fa-fw fa-check"></i>
+                                    {% if personvote.voter.councilmatic_person %}
+                                      <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a>
+                                    {% else %}
+                                      {{personvote.voter.name}}
+                                    {% endif %}
+                                    <br />
                                   {% endif %}
                                 {% endfor %}
                               </p>
@@ -150,7 +156,13 @@
                               <p class="small nowrap">
                                 {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
                                   {% if personvote.option == 'no' %}
-                                    <i class="fa fa-fw fa-times"></i> <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                    <i class="fa fa-fw fa-times"></i>
+                                    {% if personvote.voter.councilmatic_person %}
+                                      <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a>
+                                    {% else %}
+                                      {{personvote.voter.name}}
+                                    {% endif %}
+                                    <br />
                                   {% endif %}
                                 {% endfor %}
                               </p>
@@ -164,7 +176,13 @@
                               <p class="small nowrap">
                                 {% for personvote in action.vote.votes.all|dictsort:"voter_name" %}
                                   {% if personvote.option != 'yes' and personvote.option != 'no' %}
-                                    {{ personvote.option|capfirst}}: <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a><br />
+                                    {{ personvote.option|capfirst}}:
+                                    {% if personvote.voter.councilmatic_person %}
+                                      <a href="{% url 'person' personvote.voter.councilmatic_person.slug %}">{{personvote.voter.name}}</a>
+                                    {% else %}
+                                      {{personvote.voter.name}}
+                                    {% endif %}
+                                    <br />
                                   {% endif %}
                                 {% endfor %}
                               </p>
