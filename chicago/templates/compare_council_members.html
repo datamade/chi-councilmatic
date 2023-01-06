@@ -1,6 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static %}
-{% load adv_cache %}
+{% load static chicago_extras adv_cache %}
 {% block title %}Compare {{CITY_COUNCIL_NAME}} Members{% endblock %}
 
 {% block content %}
@@ -9,9 +8,42 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-6">
-          <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
-          {% include 'partials/council_member_table.html' %}
+        <div class="col-sm-12">
+          <h1>Compare {{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+
+          <div class="table-responsive">
+            <table class='table' id='council-members'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
+                  <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
+                  <th>In office since</th>
+                  <th>Attendance</th>
+                  <th>Retiring</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for person in council_members %}
+                  <tr id="polygon-{{post.label | slugify}}">
+                    <td>
+                      <div class="thumbnail-square">
+                        <img src='{{person|get_person_headshot}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail' />
+                      </div>
+                    </td>
+                    <td>
+                      {{ person.link_html | safe }}
+                    </td>
+                    <td>{{ person.latest_council_membership.post.label }}</td>
+                    <td>{{person.latest_council_membership.start_date_dt|date:"M j, Y"}}</td>
+                    <td>{{ person.attendance_percent }}</td>
+                    <td>{{ person.retiring }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </div>
     </div>
@@ -34,7 +66,10 @@
         "aoColumns": [
           { "bSortable": false },
           null,
-          { "sType": "num-html" }
+          { "sType": "num-html" },
+          null,
+          null,
+          null
         ]
       });
 

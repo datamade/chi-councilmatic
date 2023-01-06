@@ -12,6 +12,7 @@ from chicago.views import (
     ChicagoEventDetailView,
     ChicagoEventsView,
     ChicagoCouncilMembersView,
+    ChicagoCouncilMembersCompareView,
     ChicagoCommitteeDetailView,
     ChicagoCommitteesView,
 )
@@ -44,6 +45,11 @@ patterns = (
             r"^legislation/(?P<slug>[^/]+)/rss/$",
             ChicagoBillDetailActionFeed(),
             name="bill_detail_action_feed",
+        ),
+        url(
+            r"^compare-council-members/$",
+            ChicagoCouncilMembersCompareView.as_view(),
+            name="compare-council-members",
         ),
         url(
             r"^council-members/$",

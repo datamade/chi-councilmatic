@@ -1,9 +1,14 @@
-from django.conf import settings
-from councilmatic_core.models import Bill, Event, Organization
-from datetime import datetime
-import pytz
-from .helpers import topic_classifier
 import re
+from operator import attrgetter
+import pytz
+from django.utils import timezone
+from datetime import datetime
+
+from councilmatic_core.models import Bill, Event, Organization, Person
+from opencivicdata.legislative.models import LegislativeSession
+
+from django.conf import settings
+from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -168,3 +173,60 @@ class ChicagoEvent(Event):
             )
         else:
             return None
+
+
+class ChicagoPerson(Person):
+    class Meta:
+        proxy = True
+        app_label = "chicago"
+
+    @property
+    def full_attendance(self):
+        attendance = []
+        events = []
+
+        current_legislative_session = LegislativeSession.objects.get(
+            start_date__lt=timezone.now(), end_date__gt=timezone.now()
+        )
+
+        # fetch all events for the current legislative session for committees they're on
+        for membership in self.current_memberships.all():
+            events.extend(
+                ChicagoEvent.objects.filter(
+                    participants__organization=membership.organization,
+                    start_date__gte=membership.start_date,
+                )
+                .filter(start_date__gte=current_legislative_session.start_date)
+                .filter(participants__entity_type="person")
+                .distinct()
+                .prefetch_related("participants")
+            )
+
+        for e in sorted(events, key=attrgetter("start_time"), reverse=True):
+            attended = e.participants.filter(person_id=self.id).exists()
+            attendance.append(
+                {
+                    "event": e,
+                    "attended": attended,
+                }
+            )
+
+        return attendance
+
+    @property
+    def attendance_percent(self):
+        attendance = self.full_attendance
+        if len(attendance) > 0:
+            attended = [a for a in attendance if a["attended"]]
+            return "{:.0%}".format(len(attended) / len(attendance))
+        else:
+            return 0
+
+    @property
+    def retiring(self):
+        retiring = [r for r in settings.RETIRING_ALDERS if self.slug.startswith(r)]
+
+        if len(retiring) > 0:
+            return "Retiring"
+        else:
+            return ""

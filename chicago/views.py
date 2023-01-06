@@ -4,6 +4,7 @@ import itertools
 from operator import attrgetter
 from django.db.models import Min
 from dateutil import parser
+from datetime import datetime
 import pytz
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
@@ -15,7 +16,7 @@ from django.db.models import Max
 from django.utils import timezone
 from django.views.generic import ListView
 
-from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization
+from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 from councilmatic_core.views import (
     IndexView,
     AboutView,
@@ -377,12 +378,22 @@ class ChicagoPersonDetailView(PersonDetailView):
 
 class ChicagoCouncilMembersCompareView(ListView):
     template_name = "compare_council_members.html"
-    context_object_name = "aldermen"
+    context_object_name = "council_members"
 
     def get_queryset(self):
-        get_kwarg = {"name": settings.OCD_CITY_COUNCIL_NAME}
+        return (
+            ChicagoPerson.objects.filter(
+                memberships__organization__name=settings.OCD_CITY_COUNCIL_NAME
+            )
+            .filter(memberships__end_date__gt=datetime.now())
+            .distinct()
+        )
 
-        return Organization.objects.get(**get_kwarg).posts.all()
+    def get_context_data(self, *args, **kwargs):
+        context = super(ChicagoCouncilMembersCompareView, self).get_context_data(
+            **kwargs
+        )
+        return context
 
 
 class ChicagoCommitteesView(CommitteesView):
