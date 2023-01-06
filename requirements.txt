@@ -4,7 +4,7 @@ django-councilmatic==2.6.1
 django-councilmatic-notifications==2.5.1
 django-haystack[elasticsearch]
 elasticsearch>=7.0.0,<7.14.0
-raven==6.10.0
+sentry-sdk==0.20.3
 gunicorn==19.6.0
 pytest==4.6.2
 pytest-django==3.5.0
