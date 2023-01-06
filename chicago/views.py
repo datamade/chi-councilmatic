@@ -27,7 +27,7 @@ from councilmatic_core.views import (
     CommitteeDetailView,
     CouncilmaticSearchForm,
 )
-from councilmatic_core.models import Post
+from councilmatic_core.models import Post, Organization
 from opencivicdata.legislative.models import LegislativeSession
 
 from haystack.generic_views import FacetedSearchView
@@ -376,6 +376,9 @@ class ChicagoPersonDetailView(PersonDetailView):
 
 class ChicagoCommitteesView(CommitteesView):
     template_name = "committees.html"
+
+    def get_queryset(self):
+        return Organization.committees().distinct("name")
 
 
 class ChicagoCommitteeDetailView(CommitteeDetailView):

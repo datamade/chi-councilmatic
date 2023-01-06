@@ -19,7 +19,42 @@ docker-compose up
 
 ### Load in the data
 
-Chicago Councilmatic needs to data work properly.
+Chicago Councilmatic needs to data work properly and the database is quite large (several GB). You can either restore from another database (faster) or scrape the data yourself.
+
+#### Option 1: Import data from production
+
+If you have existing data, bring down your existing data & volumes
+
+```bash
+docker-compose down --volumes
+```
+
+spin up just the postgres container. this will initialize your database
+
+```bash
+docker-compose up postgres
+```
+
+in a new terminal window, shell into the postgres container
+
+```bash
+docker exec -it CONTAINER_ID /bin/bash
+psql -d postgres -U postgres
+```
+
+in the PSQL interpreter, delete the old database
+
+```sql
+DROP DATABASE chi_councilmatic;
+```
+
+then, exit out of PSQL and the container. while the postgres container is still running, run the `heroku pg:pull` command to restore the production data to your local database. This will take about an hour.
+
+```bash
+PGUSER=postgres PGPASSWORD=postgres PGHOST=127.0.0.1 PGPORT=32001 heroku pg:pull DATABASE_URL chi_councilmatic --app chi-councilmatic-production
+```
+
+#### Option 2: Scrape directly from the source
 
 The `docker-compose-scrape.yml` file contains a service to scrape Legistar web API and
 populate your database with standardized data on the council and its members,
