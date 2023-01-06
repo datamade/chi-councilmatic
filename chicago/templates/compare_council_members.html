@@ -19,6 +19,7 @@
                   <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
                   <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
                   <th>In office since</th>
+                  <th>Legislation sponsored</th>
                   <th>Attendance</th>
                   <th>Retiring</th>
                 </tr>
@@ -36,6 +37,7 @@
                     </td>
                     <td>{{ person.latest_council_membership.post.label }}</td>
                     <td>{{person.latest_council_membership.start_date_dt|date:"M j, Y"}}</td>
+                    <td>{{ person.legislation_count }} bills</td>
                     <td>{{ person.attendance_percent }}</td>
                     <td>{{ person.retiring }}</td>
                   </tr>
@@ -68,6 +70,7 @@
           null,
           { "sType": "num-html" },
           null,
+          { "sType": "num-html" },
           null,
           null
         ]

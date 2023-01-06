@@ -223,6 +223,12 @@ class ChicagoPerson(Person):
             return 0
 
     @property
+    def legislation_count(self):
+        return ChicagoBill.objects.filter(
+            sponsorships__person=self, sponsorships__primary=True
+        ).count()
+
+    @property
     def retiring(self):
         retiring = [r for r in settings.RETIRING_ALDERS if self.slug.startswith(r)]
 
