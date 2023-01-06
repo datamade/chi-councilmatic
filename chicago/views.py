@@ -84,7 +84,6 @@ class ChicagoIndexView(IndexView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-
         # Find activity at last council meeting
         council_bills = self.council_bills()
         context["council_bills"] = council_bills
