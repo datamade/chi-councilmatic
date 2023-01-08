@@ -9,6 +9,7 @@ from councilmatic_core.models import Bill, Event, Organization, Person
 from opencivicdata.legislative.models import LegislativeSession
 
 from django.conf import settings
+from django.db import models
 from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
@@ -247,3 +248,16 @@ class ChicagoPerson(Person):
             datetime.now(pytz.timezone("US/Central")),
             self.latest_council_membership.start_date_dt,
         ).years
+
+
+class ChicagoPersonStatistic(models.Model):
+    person = models.ForeignKey(
+        Person,
+        related_name="statistics",
+        on_delete=models.CASCADE,
+        help_text="A link to the Person connected to this statistic record.",
+    )
+
+    attendance_list = models.JSONField
+    attendance_percent = models.CharField(max_length=10)
+    legislation_count = models.IntegerField()
