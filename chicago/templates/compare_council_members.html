@@ -18,10 +18,10 @@
                   <th></th>
                   <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
                   <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
-                  <th>In office since</th>
-                  <th>Legislation sponsored</th>
-                  <th>Attendance</th>
-                  <th>Retiring</th>
+                  <th>Years in office</th>
+                  <th>Non-routine legislation sponsored</th>
+                  <th>Attendance (this session)</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -36,10 +36,16 @@
                       {{ person.link_html | safe }}
                     </td>
                     <td>{{ person.latest_council_membership.post.label }}</td>
-                    <td>{{person.latest_council_membership.start_date_dt|date:"M j, Y"}}</td>
+                    <td>{{ person.years_in_office }}</td>
                     <td>{{ person.legislation_count }} bills</td>
                     <td>{{ person.attendance_percent }}</td>
-                    <td>{{ person.retiring }}</td>
+                    <td>
+                      {% if person.election_status %}
+                        {{ person.election_status }}
+                      {% else %}
+                        Running for re-election
+                      {% endif %}
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>

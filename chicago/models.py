@@ -3,6 +3,7 @@ from operator import attrgetter
 import pytz
 from django.utils import timezone
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from councilmatic_core.models import Bill, Event, Organization, Person
 from opencivicdata.legislative.models import LegislativeSession
@@ -180,6 +181,7 @@ class ChicagoPerson(Person):
         proxy = True
         app_label = "chicago"
 
+    # this is a very expensive query - do not use on listing pages
     @property
     def full_attendance(self):
         attendance = []
@@ -229,10 +231,19 @@ class ChicagoPerson(Person):
         ).count()
 
     @property
-    def retiring(self):
-        retiring = [r for r in settings.RETIRING_ALDERS if self.slug.startswith(r)]
+    def election_status(self):
+        status = [
+            r for r in settings.ELECTION_STATUS if self.slug.startswith(r["name"])
+        ]
 
-        if len(retiring) > 0:
-            return "Retiring"
+        if len(status) > 0:
+            return status[0]["status"]
         else:
             return ""
+
+    @property
+    def years_in_office(self):
+        return relativedelta(
+            datetime.now(pytz.timezone("US/Central")),
+            self.latest_council_membership.start_date_dt,
+        ).years

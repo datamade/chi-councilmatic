@@ -338,18 +338,21 @@ COMMITTEE_DESCRIPTIONS = {
     "committee-on-zoning-landmarks-and-building-standards": "The Committee on Zoning, Landmarks and Building Standards shall have jurisdiction over all zoning matters and the operation of the Zoning Board of Appeals and the office of the Zoning Administrator; land use policy generally and land use recommendations of the Chicago Plan Commission and the Department of Planning and Development; building code ordinances and matters generally affecting the Department of Buildings; and designation, maintenance and preservation of historical and architectural landmarks. The Committee shall work in cooperation with those public and private organizations similarly engaged in matters affecting landmarks.",  # noqa
 }
 
-RETIRING_ALDERS = [
-    "austin-carrie-m",
-    "hairston-leslie-a",
-    "burke-edward-m",
-    "sawyer-roderick-t",
-    "cardenas-george-a",
-    "osterman-harry",
-    "cappleman-james",
-    "smith-michele",
-    "king-sophia",
-    "tunney-thomas",
-    "sadlowski-garza-susan",
+ELECTION_STATUS = [
+    {"name": "austin-carrie-m", "status": "Indicted, Retiring"},
+    {"name": "burke-edward-m", "status": "Indicted, Retiring"},
+    {"name": "hairston-leslie-a", "status": "Retiring"},
+    {"name": "cardenas-george-a", "status": "Elected to Board of Review"},
+    {"name": "osterman-harry", "status": "Retiring"},
+    {"name": "cappleman-james", "status": "Retiring"},
+    {"name": "smith-michele", "status": "Retiring"},
+    {"name": "tunney-thomas", "status": "Retiring"},
+    {"name": "sadlowski-garza-susan", "status": "Retiring"},
+    {
+        "name": "sawyer-roderick-t",
+        "status": "Running for Mayor, not seeking re-election",
+    },
+    {"name": "king-sophia", "status": "Running for Mayor, not seeking re-election"},
 ]
 
 ABOUT_BLURBS = {
