@@ -251,13 +251,13 @@ class ChicagoPerson(Person):
 
 
 class ChicagoPersonStatistic(models.Model):
-    person = models.ForeignKey(
-        Person,
+    person = models.OneToOneField(
+        ChicagoPerson,
         related_name="statistics",
         on_delete=models.CASCADE,
         help_text="A link to the Person connected to this statistic record.",
     )
 
-    attendance_list = models.JSONField
+    attendance_list = models.JSONField(null=True)
     attendance_percent = models.CharField(max_length=10)
     legislation_count = models.IntegerField()

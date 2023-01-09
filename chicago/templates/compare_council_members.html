@@ -37,8 +37,8 @@
                     </td>
                     <td>{{ person.latest_council_membership.post.label }}</td>
                     <td>{{ person.years_in_office }}</td>
-                    <td>{{ person.legislation_count }} bills</td>
-                    <td>{{ person.attendance_percent }}</td>
+                    <td>{{ person.statistics.legislation_count }} bills</td>
+                    <td>{{ person.statistics.attendance_percent }}</td>
                     <td>
                       {% if person.election_status %}
                         {{ person.election_status }}
