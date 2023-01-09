@@ -415,7 +415,11 @@ ALDER_EXTRAS = {
     "lee-nicole-t": {"image": "lee-nicole-t.jpg"},
     "lopez-raymond-a": {"image": "lopez-raymond-a.jpg", "caucus": "LGBT Caucus"},
     "lightfoot-lori-e": {"image": "lightfoot-lori-e.jpg"},
-    "maldonado-roberto": {"image": "maldonado-roberto.jpg", "caucus": "Latino Caucus"},
+    "maldonado-roberto": {
+        "image": "maldonado-roberto.jpg",
+        "election-status": "Retiring",
+        "caucus": "Latino Caucus",
+    },
     "martin-matthew-j": {
         "image": "martin-matthew-j.jpg",
         "caucus": "Black Caucus, Progressive Caucus",

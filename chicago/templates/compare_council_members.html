@@ -1,6 +1,6 @@
 {% extends "base_with_margins.html" %}
 {% load static extras chicago_extras adv_cache %}
-{% block title %}Compare {{CITY_COUNCIL_NAME}} Members{% endblock %}
+{% block title %}Compare {{CITY_VOCAB.COUNCIL_MEMBERS}}{% endblock %}
 
 {% block content %}
 
@@ -20,7 +20,6 @@
                   <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
                   <th>Years in office</th>
                   <th>Non-routine bills sponsored</th>
-                  <th>Bill success %</th>
                   <th>Attendance (this session)</th>
                   <th>Caucus</th>
                   <th>2023 election status</th>
@@ -44,7 +43,6 @@
                         {{ person.statistics.legislation_count }} bills
                       </a>
                     </td>
-                    <td>{{ person.statistics.legislation_success_rate }}</td>
                     <td>{{ person.statistics.attendance_percent }}</td>
                     <td>{{ person.caucus }}</td>
                     <td>
@@ -92,7 +90,6 @@
           { "sType": "num-html" },
           { "sType": "num-html" },
           { "sType": "num-html" },
-          null,
           null,
           null,
           null
