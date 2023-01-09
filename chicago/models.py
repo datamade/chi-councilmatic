@@ -261,3 +261,4 @@ class ChicagoPersonStatistic(models.Model):
     attendance_list = models.JSONField(null=True)
     attendance_percent = models.CharField(max_length=10)
     legislation_count = models.IntegerField()
+    legislation_success_rate = models.CharField(max_length=10, null=True)

@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static chicago_extras adv_cache %}
+{% load static extras chicago_extras adv_cache %}
 {% block title %}Compare {{CITY_COUNCIL_NAME}} Members{% endblock %}
 
 {% block content %}
@@ -19,8 +19,10 @@
                   <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
                   <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
                   <th>Years in office</th>
-                  <th>Non-routine legislation sponsored</th>
+                  <th>Non-routine bills sponsored</th>
+                  <th>Bill success %</th>
                   <th>Attendance (this session)</th>
+                  <th>Committee Chair(s)</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -37,13 +39,23 @@
                     </td>
                     <td>{{ person.latest_council_membership.post.label }}</td>
                     <td>{{ person.years_in_office }}</td>
-                    <td>{{ person.statistics.legislation_count }} bills</td>
+                    <td>
+                      <a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}&selected_facets=topics_exact%3ANon-Routine'>
+                        {{ person.statistics.legislation_count }} bills
+                      </a>
+                    </td>
+                    <td>{{ person.statistics.legislation_success_rate }}</td>
                     <td>{{ person.statistics.attendance_percent }}</td>
                     <td>
+                      {% for chair in person.chair_role_memberships %}
+                        {{chair.organization.name | committee_topic_only}}
+                      {% endfor %}
+                    </td>
+                    <td>
                       {% if person.election_status %}
-                        {{ person.election_status }}
+                        <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
                       {% else %}
-                        Running for re-election
+                        <i class='fa fa-fw fa-check'></i> Running for re-election
                       {% endif %}
                     </td>
                   </tr>
@@ -77,6 +89,8 @@
           { "sType": "num-html" },
           null,
           { "sType": "num-html" },
+          null,
+          null,
           null,
           null
         ]
