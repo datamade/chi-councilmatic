@@ -22,8 +22,8 @@
                   <th>Non-routine bills sponsored</th>
                   <th>Bill success %</th>
                   <th>Attendance (this session)</th>
-                  <th>Committee Chair(s)</th>
-                  <th>Status</th>
+                  <th>Caucus</th>
+                  <th>2023 election status</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,17 +46,19 @@
                     </td>
                     <td>{{ person.statistics.legislation_success_rate }}</td>
                     <td>{{ person.statistics.attendance_percent }}</td>
+                    <td>{{ person.caucus }}</td>
                     <td>
-                      {% for chair in person.chair_role_memberships %}
-                        {{chair.organization.name | committee_topic_only}}
-                      {% endfor %}
-                    </td>
-                    <td>
-                      {% if person.election_status %}
-                        <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
-                      {% else %}
-                        <i class='fa fa-fw fa-check'></i> Running for re-election
-                      {% endif %}
+                      <span class="h3">
+                        {% if person.election_status %}
+                          <span class="label label-failed">
+                            <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
+                          </span>
+                        {% else %}
+                          <span class="label label-info">
+                            <i class='fa fa-fw fa-check'></i> Running for re-election
+                          </span>
+                        {% endif %}
+                      </span>
                     </td>
                   </tr>
                 {% endfor %}
@@ -80,6 +82,7 @@
     <script>
       var council_member_table = $("#council-members").DataTable({
         "info": false,
+        "searching": true,
         "bLengthChange": false,
         "paging": false,
         "aaSorting": [ [2,'asc'] ],

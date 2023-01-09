@@ -243,6 +243,14 @@ class ChicagoPerson(Person):
         return ""
 
     @property
+    def caucus(self):
+        for p in settings.ALDER_EXTRAS:
+            if self.slug.startswith(p) and "caucus" in settings.ALDER_EXTRAS[p]:
+                return settings.ALDER_EXTRAS[p]["caucus"]
+
+        return ""
+
+    @property
     def years_in_office(self):
         years = relativedelta(
             datetime.now(pytz.timezone("US/Central")),
