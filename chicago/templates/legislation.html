@@ -58,7 +58,7 @@
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
                       </div>
                     </td>
                     <td>
@@ -75,7 +75,7 @@
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive img-thumbnail' />
+                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
                       </div>
                     </td>
                     <td>
@@ -222,7 +222,7 @@
               {{ address }} {{ CITY_NAME }}</a></li>
           {% endfor %}
         </ul>
-        <img class='img-thumbnail img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
+        <img class='img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
         <div class="divider"></div>
       {% endif %}
 
