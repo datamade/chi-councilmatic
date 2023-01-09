@@ -49,7 +49,7 @@ patterns = (
         url(
             r"^compare-council-members/$",
             ChicagoCouncilMembersCompareView.as_view(),
-            name="compare-council-members",
+            name="compare_council_members",
         ),
         url(
             r"^council-members/$",

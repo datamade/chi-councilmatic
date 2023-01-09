@@ -233,21 +233,26 @@ class ChicagoPerson(Person):
 
     @property
     def election_status(self):
-        status = [
-            r for r in settings.ELECTION_STATUS if self.slug.startswith(r["name"])
-        ]
+        for p in settings.ALDER_EXTRAS:
+            if (
+                self.slug.startswith(p)
+                and "election-status" in settings.ALDER_EXTRAS[p]
+            ):
+                return settings.ALDER_EXTRAS[p]["election-status"]
 
-        if len(status) > 0:
-            return status[0]["status"]
-        else:
-            return ""
+        return ""
 
     @property
     def years_in_office(self):
-        return relativedelta(
+        years = relativedelta(
             datetime.now(pytz.timezone("US/Central")),
             self.latest_council_membership.start_date_dt,
         ).years
+
+        if years == 0:
+            return "< 1"
+        else:
+            return years
 
 
 class ChicagoPersonStatistic(models.Model):

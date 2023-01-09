@@ -338,23 +338,6 @@ COMMITTEE_DESCRIPTIONS = {
     "committee-on-zoning-landmarks-and-building-standards": "The Committee on Zoning, Landmarks and Building Standards shall have jurisdiction over all zoning matters and the operation of the Zoning Board of Appeals and the office of the Zoning Administrator; land use policy generally and land use recommendations of the Chicago Plan Commission and the Department of Planning and Development; building code ordinances and matters generally affecting the Department of Buildings; and designation, maintenance and preservation of historical and architectural landmarks. The Committee shall work in cooperation with those public and private organizations similarly engaged in matters affecting landmarks.",  # noqa
 }
 
-ELECTION_STATUS = [
-    {"name": "austin-carrie-m", "status": "Indicted, Retiring"},
-    {"name": "burke-edward-m", "status": "Indicted, Retiring"},
-    {"name": "hairston-leslie-a", "status": "Retiring"},
-    {"name": "cardenas-george-a", "status": "Elected to Board of Review"},
-    {"name": "osterman-harry", "status": "Retiring"},
-    {"name": "cappleman-james", "status": "Retiring"},
-    {"name": "smith-michele", "status": "Retiring"},
-    {"name": "tunney-thomas", "status": "Retiring"},
-    {"name": "sadlowski-garza-susan", "status": "Retiring"},
-    {
-        "name": "sawyer-roderick-t",
-        "status": "Running for Mayor, not seeking re-election",
-    },
-    {"name": "king-sophia", "status": "Running for Mayor, not seeking re-election"},
-]
-
 ABOUT_BLURBS = {
     "COMMITTEES": "<p>Most meaningful legislative activity happens in committee meetings, where committee members debate proposed legislation. These meetings are open to the public.</p><p>Each committee has a Chair, who controls the committee meeting agenda (and thus, the legislation to be considered).</p><p>Committee jurisdiction, memberships, and appointments all require City Council approval.</p>",  # noqa
     "EVENTS": "<p>There are two types of meetings: committee meetings and full city council meetings.</p><p>Most of the time, meaningful legislative debate happens in committee meetings, which occur several times a month.</p><p>Meetings of the entire City Council generally occur once a month at City Hall.</p><p>All City Council meetings are open to public participation.</p>",  # noqa
@@ -370,15 +353,21 @@ EXTRA_TITLES = {
     "valencia-anna-m-257a68ccbc17": "City Clerk",
 }
 
-MANUAL_HEADSHOTS = {
+ALDER_EXTRAS = {
     "arena-john": {"image": "arena-john.jpg"},
-    "austin-carrie-m": {"image": "austin-carrie-m.jpg"},
+    "austin-carrie-m": {
+        "image": "austin-carrie-m.jpg",
+        "election-status": "Indicted, Retiring",
+    },
     "beale-anthony": {"image": "beale-anthony.jpg"},
     "brookins-jr-howard": {"image": "brookins-jr-howard.jpg"},
-    "burke-edward-m": {"image": "burke-edward-m.jpg"},
+    "burke-edward-m": {
+        "image": "burke-edward-m.jpg",
+        "election-status": "Indicted, Retiring",
+    },
     "burnett-jr-walter": {"image": "burnett-jr-walter.jpg"},
     "burns-william-d": {"image": "burns-william-d.jpg"},
-    "cappleman-james": {"image": "cappleman-james.jpg"},
+    "cappleman-james": {"image": "cappleman-james.jpg", "election-status": "Retiring"},
     "cardenas-george-a": {"image": "cardenas-george-a.jpg"},
     "cardona-jr-felix": {"image": "cardona-jr-felix.jpg"},
     "cochran-willie": {"image": "cochran-willie.jpg"},
@@ -390,10 +379,16 @@ MANUAL_HEADSHOTS = {
     "foulkes-toni": {"image": "foulkes-toni.jpg"},
     "gardiner-james-m": {"image": "gardiner-james-m.jpg"},
     "hadden-maria-e": {"image": "hadden-maria-e.jpg"},
-    "hairston-leslie-a": {"image": "hairston-leslie-a.jpg"},
+    "hairston-leslie-a": {
+        "image": "hairston-leslie-a.jpg",
+        "election-status": "Retiring",
+    },
     "harris-michelle-a": {"image": "harris-michelle-a.jpg"},
     "hopkins-brian": {"image": "hopkins-brian.jpg"},
-    "king-sophia": {"image": "king-sophia.jpg"},
+    "king-sophia": {
+        "image": "king-sophia.jpg",
+        "election-status": "Running for Mayor, not seeking re-election",
+    },
     "knudsen-timothy-r": {"image": "knudsen-timothy-r.jpg"},
     "la-spata-daniel": {"image": "la-spata-daniel.jpg"},
     "laurino-margaret": {"image": "laurino-margaret.jpg"},
@@ -414,7 +409,7 @@ MANUAL_HEADSHOTS = {
     "nugent-samantha": {"image": "nugent-samantha.jpg"},
     "oconnor-patrick": {"image": "oconnor-patrick.jpg"},
     "oshea-matthew-j": {"image": "oshea-matthew-j.jpg"},
-    "osterman-harry": {"image": "osterman-harry.jpg"},
+    "osterman-harry": {"image": "osterman-harry.jpg", "election-status": "Retiring"},
     "pawar-ameya": {"image": "pawar-ameya.jpg"},
     "quinn-marty": {"image": "quinn-marty.jpg"},
     "ramirez-rosa-carlos": {"image": "ramirez-rosa-carlos.jpg"},
@@ -422,21 +417,27 @@ MANUAL_HEADSHOTS = {
     "reilly-brendan": {"image": "reilly-brendan.jpg"},
     "rodriguez-michael-d": {"image": "rodriguez-michael-d.jpg"},
     "rodriguez-sanchez-rossana": {"image": "rodriguez-sanchez-rossana.jpg"},
-    "sadlowski-garza-susan": {"image": "sadlowski-garza-susan.jpg"},
+    "sadlowski-garza-susan": {
+        "image": "sadlowski-garza-susan.jpg",
+        "election-status": "Retiring",
+    },
     "santiago-milagros-s": {"image": "santiago-milagros-s.jpg"},
-    "sawyer-roderick-t": {"image": "sawyer-roderick-t.jpg"},
+    "sawyer-roderick-t": {
+        "image": "sawyer-roderick-t.jpg",
+        "election-status": "Running for Mayor, not seeking re-election",
+    },
     "scott-jr-michael": {"image": "scott-jr-michael.jpg"},
     "scott-monique-l": {"image": "scott-monique-l.jpg"},
     "sigcho-lopez-byron": {"image": "sigcho-lopez-byron.jpg"},
     "silverstein-debra-l": {"image": "silverstein-debra-l.jpg"},
-    "smith-michele": {"image": "smith-michele.jpg"},
+    "smith-michele": {"image": "smith-michele.jpg", "election-status": "Retiring"},
     "solis-daniel": {"image": "solis-daniel.jpg"},
     "sposato-nicholas": {"image": "sposato-nicholas.png"},
     "tabares-silvana": {"image": "tabares-silvana.jpg"},
     "taliaferro-chris": {"image": "taliaferro-chris.jpg"},
     "taylor-jeanette-b": {"image": "taylor-jeanette-b.jpg"},
     "thompson-patrick-d": {"image": "thompson-patrick-d.jpg"},
-    "tunney-thomas": {"image": "tunney-thomas.jpg"},
+    "tunney-thomas": {"image": "tunney-thomas.jpg", "election-status": "Retiring"},
     "valencia-anna-m": {"image": "valencia-anna-m.jpg"},
     "vasquez-jr-andre": {"image": "vasquez-jr-andre.jpg"},
     "villegas-gilbert": {"image": "villegas-gilbert.jpg"},
