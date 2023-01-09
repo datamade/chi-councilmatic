@@ -2,6 +2,7 @@ import re
 from operator import attrgetter
 import pytz
 from django.utils import timezone
+from django.utils.functional import cached_property
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -183,7 +184,7 @@ class ChicagoPerson(Person):
         app_label = "chicago"
 
     # this is a very expensive query - do not use on listing pages
-    @property
+    @cached_property
     def full_attendance(self):
         attendance = []
         events = []
@@ -253,8 +254,7 @@ class ChicagoPerson(Person):
     @property
     def years_in_office(self):
         years = relativedelta(
-            datetime.now(pytz.timezone("US/Central")),
-            self.latest_council_membership.start_date_dt,
+            timezone.now(), self.latest_council_membership.start_date_dt
         ).years
 
         if years == 0:
