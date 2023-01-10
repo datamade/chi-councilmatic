@@ -50,18 +50,12 @@
                     </td>
                     <td>{{ person.statistics.attendance_percent }}</td>
                     <td>{{ person.caucus }}</td>
-                    <td>
-                      <span class="h3">
-                        {% if person.election_status %}
-                          <span class="label label-failed">
-                            <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
-                          </span>
-                        {% else %}
-                          <span class="label label-info">
-                            <i class='fa fa-fw fa-check'></i> Running for re-election
-                          </span>
-                        {% endif %}
-                      </span>
+                    <td class="{% if person.election_status %}danger{% else %}info{% endif %}">
+                      {% if person.election_status %}
+                        <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
+                      {% else %}
+                        <i class='fa fa-fw fa-check'></i> Running for re-election
+                      {% endif %}
                     </td>
                   </tr>
                 {% endfor %}
