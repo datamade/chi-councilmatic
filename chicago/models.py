@@ -252,10 +252,21 @@ class ChicagoPerson(Person):
         return ""
 
     @property
+    def term_active(self):
+        return self.latest_council_membership.end_date_dt > timezone.now()
+
+    @property
     def years_in_office(self):
-        years = relativedelta(
-            timezone.now(), self.latest_council_membership.start_date_dt
-        ).years
+        years = 0
+        if self.term_active:
+            years = relativedelta(
+                timezone.now(), self.latest_council_membership.start_date_dt
+            ).years
+        else:
+            years = relativedelta(
+                self.latest_council_membership.end_date_dt,
+                self.latest_council_membership.start_date_dt,
+            ).years
 
         if years == 0:
             return "< 1"
