@@ -511,11 +511,6 @@ textarea {
   font-size: 0.75em;
 }
 
-.img-thumbnail {
-  padding: 0px;
-  border: none;
-}
-
 p.search-result em,
 .highlighted {
   background-color: #d9edf7;

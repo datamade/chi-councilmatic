@@ -22,11 +22,24 @@
 
   <div class="row-fluid">
     <div class="col-sm-3">
-      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-thumbnail img-padded' id="person-detail-headshot" />
+      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
 
       {% if tenure_start %}
         <br>
-        <p>In office since <strong>{{ tenure_start }}</strong></p>
+        <p>In office since <strong>{{ tenure_start }}</strong> ({{ person.years_in_office }} years)</p>
+      {% endif %}
+
+      <p>
+        <strong>2023 election status</strong><br />
+        {% if person.election_status %}
+          {{ person.election_status }}
+        {% else %}
+          Running for re-election
+        {% endif %}
+      </p>
+
+      {% if person.caucus %}
+        <p><strong>Caucuses with</strong><br />{{ person.caucus }}</p>
       {% endif %}
 
       {% if chair_positions %}
@@ -64,7 +77,7 @@
     </div>
     <div class="col-sm-4">
       {% if map_geojson %}
-        <div id='map-detail' class='img-responsive img-thumbnail img-padded'></div>
+        <div id='map-detail' class='img-responsive img-padded'></div>
         <p class='small'>
           {% if person.current_council_seat %}
             <i class="fa fa-map" aria-hidden="true"></i> {{ person.latest_council_membership.post.label }} map

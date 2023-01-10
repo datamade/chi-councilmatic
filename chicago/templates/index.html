@@ -39,37 +39,45 @@
           <div class="divider"></div>
 
           <div class='row'>
-            <div class='col-sm-8'>
-              <p>Chicago City Council consists of <a href='/council-members/' target="_blank">50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/lightfoot-lori-e-f6faf37c9643/'  target="_blank">Lori Lightfoot</a>, the Mayor, and <a href='/person/valencia-anna-m-257a68ccbc17/' target="_blank">Anna Valencia</a>, the City Clerk.</p>
+            <div class='col-sm-6'>
+              <p>Chicago City Council consists of <a href='/council-members/'>50 elected aldermen</a> and meets monthly to shape the city. The council works with <a href='/person/lightfoot-lori-e-f6faf37c9643/' >Lori Lightfoot</a>, the Mayor, and <a href='/person/valencia-anna-m-257a68ccbc17/'>Anna Valencia</a>, the City Clerk.</p>
 
               <p>
                 <strong>Chicago Councilmatic</strong> tracks all things related to Chicago City Council:
                 <ul>
                   <li>
-                    the <a href='/search/' target="_blank">legislation</a> introduced and passed
+                    the <a href='/search/'>legislation</a> introduced and passed
                   </li>
                   <li>
-                    its various <a href='/committees/' target="_blank">committees</a> and the <a href='/events/'  target="_blank">meetings</a> they hold
+                    its various <a href='/committees/'>committees</a> and the <a href='/events/'  >meetings</a> they hold
                   </li>
                   <li>
-                    the <a href='/council-members/' target="_blank">aldermen</a> themselves
+                    the <a href='/council-members/'>aldermen</a> themselves
                   </li>
                 </ul>
               </p>
               <p>
                 <span>
-                  <a href='/about#about-city-council' target="_blank">More on how City Council works &raquo;</a>
+                  <a href='/about#about-city-council'>More on how City Council works &raquo;</a>
                 </span>
 
               </p>
             </div>
 
-            <div class= 'col-sm-4'>
+            <div class= 'col-sm-2'>
               <p>
-                <a href='/council-members/' target="_blank"><img id="map-screenshot" src='/static/images/chicago_map.jpg' class='img-responsive img-rounded' alt="Find your Alderman" /></a>
+                <a href='/council-members/'><img src='/static/images/chicago_map.jpg' class='img-responsive img-thumbnail' alt="Find your Alderman" /></a>
               </p>
               <p>
                 <a class="btn btn-primary" href="{% url 'council_members' %}">Find your Alderman <i class="fa fa-fw fa-chevron-right"></i></a>
+              </p>
+            </div>
+            <div class= 'col-sm-2 col-sm-offset-1'>
+              <p>
+                <a href='/compare-council-members/'><img src='/static/images/compare-aldermen.jpg' class='img-responsive img-thumbnail' alt="Compare Alderman" /></a>
+              </p>
+              <p>
+                <a class="btn btn-primary" href="/compare-council-members/">Compare Aldermen <i class="fa fa-fw fa-chevron-right"></i></a>
               </p>
             </div>
           </div>
@@ -93,7 +101,7 @@
           <div class='row'>
             <div class='col-sm-6'>
               <h4>Citywide issues</h4>
-              <p>The Mayor proposes most city-wide policies. These include <a href='/search/?q=&selected_facets=topics_exact:City Business' target="_blank">business transactions</a>, changes to the <a href='/search/?q=&selected_facets=topics_exact:Municipal Code' target="_blank">municipal code</a>, <a href='/search/?q=&selected_facets=topics_exact:Bonds' target="_blank">bond issuance</a> and <a href='/search/?q=&selected_facets=topics_exact:Appointment' target="_blank">appointments</a>.</p>
+              <p>The Mayor proposes most city-wide policies. These include <a href='/search/?q=&selected_facets=topics_exact:City Business'>business transactions</a>, changes to the <a href='/search/?q=&selected_facets=topics_exact:Municipal Code'>municipal code</a>, <a href='/search/?q=&selected_facets=topics_exact:Bonds'>bond issuance</a> and <a href='/search/?q=&selected_facets=topics_exact:Appointment'>appointments</a>.</p>
 
               <p>
                 <a class='btn btn-primary' href='/search/?q=&selected_facets=topics_exact:City Matters'>
@@ -104,7 +112,7 @@
             </div>
             <div class='col-sm-6'>
               <h4>Local issues</h4>
-              <p>At the local level, matters like <a href='/search/?q=&selected_facets=topics_exact:Land Use' target="_blank">land use</a>, <a href='/search/?q=&selected_facets=topics_exact:Sign permits' target="_blank">signs</a>, <a href='/search/?q=&selected_facets=topics_exact:Parking' target="_blank">street parking</a>, <a href='/search/?q=&selected_facets=topics_exact:Business Permits and Privileges' target="_blank">business permits</a>, and other <a href='/search/?q=&selected_facets=topics_exact:Residents' target="_blank">residents issues</a> require the local Alderman's support.</p>
+              <p>At the local level, matters like <a href='/search/?q=&selected_facets=topics_exact:Land Use'>land use</a>, <a href='/search/?q=&selected_facets=topics_exact:Sign permits'>signs</a>, <a href='/search/?q=&selected_facets=topics_exact:Parking'>street parking</a>, <a href='/search/?q=&selected_facets=topics_exact:Business Permits and Privileges'>business permits</a>, and other <a href='/search/?q=&selected_facets=topics_exact:Residents'>residents issues</a> require the local Alderman's support.</p>
 
               <p>
                 <a class='btn btn-primary' href='/council-members/'>
@@ -182,15 +190,15 @@
           </h2>
 
           <p class="big">
-            At the <a href="{{last_council_meeting.event_page_url}}" target="_blank"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{council_bills | length}}</strong> pieces of legislation, including <strong>{{nonroutine_council_bills | length}}</strong> that are <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
+            At the <a href="{{last_council_meeting.event_page_url}}"><strong>latest City Council meeting</strong></a> on {{last_council_meeting.start_time | date:"M jS"}}, council members took action on <strong>{{council_bills | length}}</strong> pieces of legislation, including <strong>{{nonroutine_council_bills | length}}</strong> that are <a href="/search/?q=&selected_facets=topics_exact:Non-Routine">non-routine</a>.
           </p>
 
           <p>
-            One of the more unusual aspects of Chicago City Council is the volume of ordinances that are introduced and passed every month. Most of these are routine items like <a href='/search/?q=&selected_facets=topics_exact:Sign%20permits' target="_blank">sign permits</a>, <a href='/search/?q=&selected_facets=topics_exact:Damage to vehicle claim' target="_blank">damaged vehicle claims</a>, <a href='/search/?q=&selected_facets=topics_exact:Sidewalk cafe' target="_blank">sidewalk cafe approvals</a> and <a href='/search/?q=&selected_facets=topics_exact:Honorifics' target="_blank">honorifics</a>.
+            One of the more unusual aspects of Chicago City Council is the volume of ordinances that are introduced and passed every month. Most of these are routine items like <a href='/search/?q=&selected_facets=topics_exact:Sign%20permits'>sign permits</a>, <a href='/search/?q=&selected_facets=topics_exact:Damage to vehicle claim'>damaged vehicle claims</a>, <a href='/search/?q=&selected_facets=topics_exact:Sidewalk cafe'>sidewalk cafe approvals</a> and <a href='/search/?q=&selected_facets=topics_exact:Honorifics'>honorifics</a>.
           </p>
 
           <p>
-            To help sort through all of this, we classify all legislation and tag it appropriately. If something doesn’t look like a routine piece of legislation, we tag it as <a href='/search/?q=&selected_facets=topics_exact:Non-Routine' target="_blank">Non-Routine</a> to make it easier to discover.
+            To help sort through all of this, we classify all legislation and tag it appropriately. If something doesn’t look like a routine piece of legislation, we tag it as <a href='/search/?q=&selected_facets=topics_exact:Non-Routine'>Non-Routine</a> to make it easier to discover.
           </p>
 
           <div class="divider"></div>
@@ -280,7 +288,7 @@
             <p>
               After {{last_council_meeting.start_time | date:"M jS"}}, City Council introduced
               <strong>{{recent_bills | length}}</strong> new pieces of legislation, including <strong>{{nonroutine_recent_bills | length}}</strong> that are
-              <a href="/search/?q=&selected_facets=topics_exact:Non-Routine" target="_blank">non-routine</a>.
+              <a href="/search/?q=&selected_facets=topics_exact:Non-Routine">non-routine</a>.
             </p>
           </div>
         </div>

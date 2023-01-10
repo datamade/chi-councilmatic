@@ -1,9 +1,17 @@
-from django.conf import settings
-from councilmatic_core.models import Bill, Event, Organization
-from datetime import datetime
-import pytz
-from .helpers import topic_classifier
 import re
+from operator import attrgetter
+import pytz
+from django.utils import timezone
+from django.utils.functional import cached_property
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+from councilmatic_core.models import Bill, Event, Organization, Person
+from opencivicdata.legislative.models import LegislativeSession
+
+from django.conf import settings
+from django.db import models
+from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
@@ -168,3 +176,102 @@ class ChicagoEvent(Event):
             )
         else:
             return None
+
+
+class ChicagoPerson(Person):
+    class Meta:
+        proxy = True
+        app_label = "chicago"
+
+    # this is a very expensive query - do not use on listing pages
+    @cached_property
+    def full_attendance(self):
+        attendance = []
+        events = []
+
+        current_legislative_session = LegislativeSession.objects.get(
+            start_date__lt=timezone.now(), end_date__gt=timezone.now()
+        )
+
+        # fetch all events for the current legislative session for committees they're on
+        for membership in self.current_memberships.all():
+            events.extend(
+                ChicagoEvent.objects.filter(
+                    participants__organization=membership.organization,
+                    start_date__gte=membership.start_date,
+                )
+                .filter(start_date__gte=current_legislative_session.start_date)
+                .filter(participants__entity_type="person")
+                .distinct()
+                .prefetch_related("participants")
+            )
+
+        for e in sorted(events, key=attrgetter("start_time"), reverse=True):
+            attended = e.participants.filter(person_id=self.id).exists()
+            attendance.append(
+                {
+                    "event": e,
+                    "attended": attended,
+                }
+            )
+
+        return attendance
+
+    @property
+    def attendance_percent(self):
+        attendance = self.full_attendance
+        if len(attendance) > 0:
+            attended = [a for a in attendance if a["attended"]]
+            return "{:.0%}".format(len(attended) / len(attendance))
+        else:
+            return 0
+
+    @property
+    def legislation_count(self):
+        return ChicagoBill.objects.filter(
+            sponsorships__person=self, sponsorships__primary=True
+        ).count()
+
+    @property
+    def election_status(self):
+        for p in settings.ALDER_EXTRAS:
+            if (
+                self.slug.startswith(p)
+                and "election-status" in settings.ALDER_EXTRAS[p]
+            ):
+                return settings.ALDER_EXTRAS[p]["election-status"]
+
+        return ""
+
+    @property
+    def caucus(self):
+        for p in settings.ALDER_EXTRAS:
+            if self.slug.startswith(p) and "caucus" in settings.ALDER_EXTRAS[p]:
+                return settings.ALDER_EXTRAS[p]["caucus"]
+
+        return ""
+
+    @property
+    def years_in_office(self):
+        years = relativedelta(
+            timezone.now(), self.latest_council_membership.start_date_dt
+        ).years
+
+        if years == 0:
+            return "< 1"
+        else:
+            return years
+
+
+class ChicagoPersonStatistic(models.Model):
+    person = models.OneToOneField(
+        ChicagoPerson,
+        related_name="statistics",
+        on_delete=models.CASCADE,
+        help_text="A link to the Person connected to this statistic record.",
+    )
+
+    attendance_list = models.JSONField(null=True)
+    attendance_percent = models.CharField(max_length=10)
+    legislation_count = models.IntegerField()
+    legislation_success_rate = models.CharField(max_length=10, null=True)

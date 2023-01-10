@@ -4,6 +4,7 @@ import itertools
 from operator import attrgetter
 from django.db.models import Min
 from dateutil import parser
+from datetime import datetime
 import pytz
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
@@ -13,8 +14,9 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.db.models import Max
 from django.utils import timezone
+from django.views.generic import ListView
 
-from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization
+from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 from councilmatic_core.views import (
     IndexView,
     AboutView,
@@ -28,8 +30,6 @@ from councilmatic_core.views import (
     CouncilmaticSearchForm,
 )
 from councilmatic_core.models import Post, Organization
-from opencivicdata.legislative.models import LegislativeSession
-
 from haystack.generic_views import FacetedSearchView
 
 
@@ -312,6 +312,7 @@ class ChicagoCouncilMembersView(CouncilMembersView):
 
 class ChicagoPersonDetailView(PersonDetailView):
     template_name = "person.html"
+    model = ChicagoPerson
 
     def get_context_data(self, **kwargs):
         context = super(ChicagoPersonDetailView, self).get_context_data(**kwargs)
@@ -333,35 +334,7 @@ class ChicagoPersonDetailView(PersonDetailView):
             .order_by("-last_action")[:10]
         )
 
-        attendance = []
-        events = []
-
-        current_legislative_session = LegislativeSession.objects.get(
-            start_date__lt=timezone.now(), end_date__gt=timezone.now()
-        )
-
-        # fetch all events for the current legislative session for committees they're on
-        for membership in person.current_memberships.all():
-            events.extend(
-                ChicagoEvent.objects.filter(
-                    participants__organization=membership.organization,
-                    start_date__gte=membership.start_date,
-                )
-                .filter(start_date__gte=current_legislative_session.start_date)
-                .filter(participants__entity_type="person")
-                .distinct()
-                .prefetch_related("participants")
-            )
-
-        for e in sorted(events, key=attrgetter("start_time"), reverse=True):
-            attended = e.participants.filter(person_id=person.id).exists()
-            attendance.append(
-                {
-                    "event": e,
-                    "attended": attended,
-                }
-            )
-
+        attendance = person.full_attendance
         context["committee_count"] = len(person.current_memberships) - 1
         context["attendance"] = attendance
         context["attendance_present"] = len([a for a in attendance if a["attended"]])
@@ -370,6 +343,26 @@ class ChicagoPersonDetailView(PersonDetailView):
         )
         context["attendance_percent"] = "{:.0%}".format(
             context["attendance_present"] / (len(attendance))
+        )
+        return context
+
+
+class ChicagoCouncilMembersCompareView(ListView):
+    template_name = "compare_council_members.html"
+    context_object_name = "council_members"
+
+    def get_queryset(self):
+        return (
+            ChicagoPerson.objects.filter(
+                memberships__organization__name=settings.OCD_CITY_COUNCIL_NAME
+            )
+            .filter(memberships__end_date__gt=datetime.now())
+            .distinct()
+        )
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ChicagoCouncilMembersCompareView, self).get_context_data(
+            **kwargs
         )
         return context
 
