@@ -446,7 +446,11 @@ ALDER_EXTRAS = {
         "image": "ramirez-rosa-carlos.jpg",
         "caucus": "Democratic Socialist, Latino Caucus, Progressive Caucus, LGBT Caucus",  # noqa
     },
-    "reboyras-ariel": {"image": "reboyras-ariel.jpg", "caucus": "Latino Caucus"},
+    "reboyras-ariel": {
+        "image": "reboyras-ariel.jpg",
+        "caucus": "Latino Caucus",
+        "election-status": "Retiring",
+    },
     "reilly-brendan": {"image": "reilly-brendan.jpg"},
     "rodriguez-michael-d": {
         "image": "rodriguez-michael-d.jpg",
