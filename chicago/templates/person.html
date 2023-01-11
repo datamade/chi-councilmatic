@@ -15,7 +15,7 @@
     <div class="col-sm-10">
       <h1>
         {{person.name}}
-        <small>{{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
+        <small>{% if not person.term_active %}Former {% endif %}{{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
       </h1>
     </div>
   </div>
@@ -24,19 +24,24 @@
     <div class="col-sm-3">
       <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
 
-      {% if tenure_start %}
-        <br>
-        <p>In office since <strong>{{ tenure_start }}</strong> ({{ person.years_in_office }} years)</p>
-      {% endif %}
-
-      <p>
-        <strong>2023 election status</strong><br />
-        {% if person.election_status %}
-          {{ person.election_status }}
-        {% else %}
-          Running for re-election
+      {% if person.term_active %}
+        {% if tenure_start %}
+          <br>
+          <p>In office since <strong>{{ tenure_start }}</strong> ({{ person.years_in_office }} years)</p>
         {% endif %}
-      </p>
+
+        <p>
+          <strong>2023 election status</strong><br />
+          {% if person.election_status %}
+            {{ person.election_status }}
+          {% else %}
+            Running for re-election
+          {% endif %}
+        </p>
+      {% else %}
+        <br>
+        <p>In office from <strong>{{ tenure_start }}</strong> to <strong>{{ tenure_end }}</strong> ({{ person.years_in_office }} years)</p>
+      {% endif %}
 
       {% if person.caucus %}
         <p><strong>Caucuses with</strong><br />{{ person.caucus }}</p>
@@ -110,7 +115,7 @@
         <li role="presentation" {% if request.GET.view == 'attendance' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=attendance">
           <span class="small-pill">
             <i class='fa fa-fw fa-calendar-o'></i>
-            Attendance ({{attendance_percent}})
+            Attendance ({{person.attendance_percent}})
           </span>
         </a>
         </li>

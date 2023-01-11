@@ -323,6 +323,9 @@ class ChicagoPersonDetailView(PersonDetailView):
             context[
                 "tenure_start"
             ] = person.latest_council_membership.start_date_dt.strftime("%B %d, %Y")
+            context[
+                "tenure_end"
+            ] = person.latest_council_membership.end_date_dt.strftime("%B %d, %Y")
 
         context["chair_positions"] = person.chair_role_memberships
 
@@ -340,9 +343,6 @@ class ChicagoPersonDetailView(PersonDetailView):
         context["attendance_present"] = len([a for a in attendance if a["attended"]])
         context["attendance_absent"] = len(
             [a for a in attendance if a["attended"] is False]
-        )
-        context["attendance_percent"] = "{:.0%}".format(
-            context["attendance_present"] / (len(attendance))
         )
         return context
 
