@@ -294,6 +294,24 @@ def substitute_ordinance_redirect(request, substitute_ordinance_slug):
     return redirect("bill_detail", slug=substitute_ordinance_slug[1:], permanent=True)
 
 
+class ChicagoSplitVotesView(ListView):
+    template_name = "split_votes.html"
+    context_object_name = "bills"
+
+    def get_queryset(self):
+        return (
+            ChicagoBill.objects.filter(
+                actions__vote__counts__value__gt=15, actions__vote__counts__value__lt=35
+            )
+            .annotate(last_action=Max("actions__date"))
+            .order_by("-last_action")[:10]
+        )
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ChicagoSplitVotesView, self).get_context_data(**kwargs)
+        return context
+
+
 class ChicagoCouncilMembersView(CouncilMembersView):
     template_name = "council_members.html"
 

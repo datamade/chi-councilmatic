@@ -1,0 +1,25 @@
+{% extends "base_with_margins.html" %}
+{% load static extras chicago_extras adv_cache %}
+{% block title %}Compare {{CITY_VOCAB.COUNCIL_MEMBERS}}{% endblock %}
+
+{% block content %}
+
+  {% cache 86400 split_votes_wrapper 'split-votes' %}
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1>Split Votes</h1>
+
+          {% for legislation in bills %}
+
+            {% include "partials/legislation_item.html" %}
+
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+  {% endcache %}
+{% endblock %}

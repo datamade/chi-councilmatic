@@ -8,6 +8,7 @@ from chicago.views import (
     ChicagoAboutView,
     substitute_ordinance_redirect,
     ChicagoBillDetailView,
+    ChicagoSplitVotesView,
     ChicagoPersonDetailView,
     ChicagoEventDetailView,
     ChicagoEventsView,
@@ -45,6 +46,11 @@ patterns = (
             r"^legislation/(?P<slug>[^/]+)/rss/$",
             ChicagoBillDetailActionFeed(),
             name="bill_detail_action_feed",
+        ),
+        url(
+            r"^split-votes/$",
+            ChicagoSplitVotesView.as_view(),
+            name="split_votes",
         ),
         url(
             r"^compare-council-members/$",
