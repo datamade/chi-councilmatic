@@ -1,6 +1,6 @@
 {% extends "base_with_margins.html" %}
 {% load static extras chicago_extras adv_cache %}
-{% block title %}Split Votes{% endblock %}
+{% block title %}Dissenting Votes{% endblock %}
 
 {% block content %}
 
@@ -8,11 +8,13 @@
 
     <div class="container-fluid">
       <div class="row">
+        <div class="col-sm-8">
+          <h1>Dissenting Votes</h1>
+
+          <p>Since 2011, there have been {{bills|length}} Council Votes with any dissenting "No" votes (sometimes referred to as a divided roll call). Everything else has either been held in committee with no vote or is considered noncontroversial and has passed unanimously.</p>
+
+        </div>
         <div class="col-sm-12">
-          <h1>Split Votes</h1>
-
-          <p>Since 2010, there have been {{bills|length}} Council Votes with more than 10 dissenting votes.</p>
-
           <div class="table-responsive">
             <table class='table' id='split-votes'>
               <thead>
