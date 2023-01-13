@@ -301,10 +301,10 @@ class ChicagoSplitVotesView(ListView):
     def get_queryset(self):
         return (
             ChicagoBill.objects.filter(
-                actions__vote__counts__value__gt=15, actions__vote__counts__value__lt=35
+                actions__vote__counts__value__gt=10, actions__vote__counts__option="no"
             )
             .annotate(last_action=Max("actions__date"))
-            .order_by("-last_action")[:10]
+            .order_by("-last_action")
         )
 
     def get_context_data(self, *args, **kwargs):

@@ -1,6 +1,6 @@
 {% extends "base_with_margins.html" %}
 {% load static extras chicago_extras adv_cache %}
-{% block title %}Compare {{CITY_VOCAB.COUNCIL_MEMBERS}}{% endblock %}
+{% block title %}Split Votes{% endblock %}
 
 {% block content %}
 
@@ -11,15 +11,110 @@
         <div class="col-sm-12">
           <h1>Split Votes</h1>
 
-          {% for legislation in bills %}
+          <p>Since 2010, there have been {{bills|length}} Council Votes with more than 10 dissenting votes.</p>
 
-            {% include "partials/legislation_item.html" %}
-
-          {% endfor %}
-
+          <div class="table-responsive">
+            <table class='table' id='split-votes'>
+              <thead>
+                <tr>
+                  <th>Legislation</th>
+                  <th>Primary sponsor</th>
+                  <th>Topics</th>
+                  <th>Date of last action</th>
+                  <th>Status</th>
+                  <th>Votes for</th>
+                  <th>Votes against</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for legislation in bills %}
+                  <tr>
+                    <td>
+                      <p class='h4'><a href="/legislation/{{ legislation.slug }}/">{{ legislation.friendly_name }}</a></p>
+                      {{ legislation.listing_description | short_blurb }}
+                    </td>
+                    <td class="nowrap">
+                      {{legislation.primary_sponsor.person.name}}
+                    </td>
+                    <td>
+                      {% if legislation.topics %}
+                        <i class="fa fa-fw fa-tag"></i>
+                        {% for tag in legislation.topics %}
+                          <span class="badge badge-muted pseudo-topic-tag">
+                            <a href='/search/?q=&selected_facets=topics_exact:{{ tag }}'>{{ tag }}</a>
+                          </span>
+                        {% endfor %}
+                        <br/>
+                      {% else %}
+                        <i class="fa fa-fw fa-tag"></i>
+                        {% for tag in legislation.pseudo_topics %}
+                          <span class="badge badge-muted pseudo-topic-tag">
+                            <a href='/search/?q=&selected_facets=topics_exact:{{ tag | committee_topic_only}}'>{{ tag | committee_topic_only }}</a>
+                          </span>
+                        {% endfor %}
+                        <br/>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% firstof legislation.last_action_date|date:'n/d/Y' legislation.get_last_action_date|date:'n/d/Y' %}
+                    </td>
+                    <td>
+                      {{ legislation.inferred_status | inferred_status_label | safe }}
+                    </td>
+                    <td>
+                      {% for action in legislation.actions.all %}
+                        {% for vote in action.vote.counts.all %}
+                          {% if vote.option == 'yes' %}
+                            {{vote.value}}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% for action in legislation.actions.all %}
+                        {% for vote in action.vote.counts.all %}
+                          {% if vote.option == 'no' %}
+                            {{vote.value}}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+
+  {% endcache %}
+{% endblock %}
+
+{% block extra_js %}
+  {% cache 86400 js_wrapper 'js' %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+
+    <script>
+      var council_member_table = $("#split-votes").DataTable({
+        "info": false,
+        "searching": true,
+        "bLengthChange": false,
+        "paging": false,
+        "aaSorting": [ [3,'desc'] ],
+        "aoColumns": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      });
+    </script>
 
   {% endcache %}
 {% endblock %}
