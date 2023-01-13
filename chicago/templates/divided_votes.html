@@ -1,6 +1,6 @@
 {% extends "base_with_margins.html" %}
 {% load static extras chicago_extras adv_cache %}
-{% block title %}Dissenting Votes{% endblock %}
+{% block title %}Divided Votes{% endblock %}
 
 {% block content %}
 
@@ -9,13 +9,13 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-8">
-          <h1>Dissenting Votes - {{ legislative_session.name }}</h1>
+          <h1>Divided Votes - {{ legislative_session.name }}</h1>
 
-          <p>For the {{ legislative_session.name }} of {{ settings.OCD_CITY_COUNCIL_NAME }}, there have been <strong>{{bills|length}} votes</strong> with any dissenting "No" votes (sometimes referred to as a divided roll call). Everything else has either been held in committee with no vote or is considered noncontroversial and has passed unanimously.</p>
+          <p>For the {{ legislative_session.name }} of Chicago City Council under <strong>Mayor {{legislative_session.identifier|get_mayor}}</strong>, there have been <strong>{{bills|length}} votes</strong> with any dissenting "No" votes (sometimes referred to as a divided roll call). Everything else has either been held in committee with no vote or is considered noncontroversial and has passed unanimously.</p>
 
           <p>Filter by legislative term:
-            {% for term in settings.LEGISLATIVE_SESSIONS %}
-              <a href="/split-votes/{{term}}/" class="btn btn-primary">{{term}}</a>
+            {% for term in legislative_session_options %}
+              <a href="/divided-votes/{{term}}/" class="btn btn-primary {% if legislative_session.identifier == term %}active{% endif %}">{{term}}</a>
             {% endfor %}
           </p>
         </div>
@@ -37,7 +37,7 @@
                 {% for legislation in bills %}
                   <tr>
                     <td>
-                      <p class='h4'><a href="/legislation/{{ legislation.slug }}/">{{ legislation.friendly_name }}</a></p>
+                      <p class='h4'><a href="{% url 'bill_detail' legislation.slug %}">{{ legislation.friendly_name }}</a></p>
                       {{ legislation.listing_description | short_blurb }}
                     </td>
                     <td class="nowrap">
@@ -69,19 +69,19 @@
                       {{ legislation.inferred_status | inferred_status_label | safe }}
                     </td>
                     <td>
-                      {% for action in legislation.actions.all %}
-                        {% for vote in action.vote.counts.all %}
-                          {% if vote.option == 'yes' and action.organization.name == settings.OCD_CITY_COUNCIL_NAME %}
-                            {{vote.value}}
+                      {% for vote_event in legislation.votes.all %}
+                        {% for count in vote_event.counts.all %}
+                          {% if count.option == 'yes' %}
+                            {{count.value}}
                           {% endif %}
                         {% endfor %}
                       {% endfor %}
                     </td>
                     <td>
-                      {% for action in legislation.actions.all %}
-                        {% for vote in action.vote.counts.all %}
-                          {% if vote.option == 'no' and action.organization.name == settings.OCD_CITY_COUNCIL_NAME %}
-                            {{vote.value}}
+                      {% for vote_event in legislation.votes.all %}
+                        {% for count in vote_event.counts.all %}
+                          {% if count.option == 'no' %}
+                            {{count.value}}
                           {% endif %}
                         {% endfor %}
                       {% endfor %}

@@ -295,25 +295,32 @@ def substitute_ordinance_redirect(request, substitute_ordinance_slug):
     return redirect("bill_detail", slug=substitute_ordinance_slug[1:], permanent=True)
 
 
-class ChicagoSplitVotesView(ListView):
-    template_name = "split_votes.html"
+class ChicagoDividedVotesView(ListView):
+    template_name = "divided_votes.html"
     context_object_name = "bills"
 
     def get_queryset(self):
+        if self.kwargs["legislative_session"] not in settings.LEGISLATIVE_SESSIONS:
+            raise Http404
+
         return (
             ChicagoBill.objects.filter(
-                actions__vote__counts__value__gt=0,
                 actions__vote__counts__option="no",
                 actions__organization__name=settings.OCD_CITY_COUNCIL_NAME,
                 legislative_session__identifier=self.kwargs["legislative_session"],
             )
+            .filter(
+                actions__vote__counts__option="yes",
+            )
             .annotate(last_action=Max("actions__date"))
             .order_by("-last_action")
+            .prefetch_related("actions__vote__counts")
         )
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ChicagoSplitVotesView, self).get_context_data(**kwargs)
-        context["settings"] = settings
+        context = super(ChicagoDividedVotesView, self).get_context_data(**kwargs)
+        # remove 2007 - there is very little data
+        context["legislative_session_options"] = settings.LEGISLATIVE_SESSIONS[1:]
 
         legislative_session = LegislativeSession.objects.get(
             identifier=self.kwargs["legislative_session"]
