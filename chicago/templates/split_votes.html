@@ -9,10 +9,15 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-8">
-          <h1>Dissenting Votes</h1>
+          <h1>Dissenting Votes - {{ legislative_session.name }}</h1>
 
-          <p>Since 2011, there have been {{bills|length}} Council Votes with any dissenting "No" votes (sometimes referred to as a divided roll call). Everything else has either been held in committee with no vote or is considered noncontroversial and has passed unanimously.</p>
+          <p>For the {{ legislative_session.name }} of {{ settings.OCD_CITY_COUNCIL_NAME }}, there have been <strong>{{bills|length}} votes</strong> with any dissenting "No" votes (sometimes referred to as a divided roll call). Everything else has either been held in committee with no vote or is considered noncontroversial and has passed unanimously.</p>
 
+          <p>Filter by legislative term:
+            {% for term in settings.LEGISLATIVE_SESSIONS %}
+              <a href="/split-votes/{{term}}/" class="btn btn-primary">{{term}}</a>
+            {% endfor %}
+          </p>
         </div>
         <div class="col-sm-12">
           <div class="table-responsive">
@@ -66,7 +71,7 @@
                     <td>
                       {% for action in legislation.actions.all %}
                         {% for vote in action.vote.counts.all %}
-                          {% if vote.option == 'yes' %}
+                          {% if vote.option == 'yes' and action.organization.name == settings.OCD_CITY_COUNCIL_NAME %}
                             {{vote.value}}
                           {% endif %}
                         {% endfor %}
@@ -75,7 +80,7 @@
                     <td>
                       {% for action in legislation.actions.all %}
                         {% for vote in action.vote.counts.all %}
-                          {% if vote.option == 'no' %}
+                          {% if vote.option == 'no' and action.organization.name == settings.OCD_CITY_COUNCIL_NAME %}
                             {{vote.value}}
                           {% endif %}
                         {% endfor %}

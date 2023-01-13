@@ -16,6 +16,7 @@ from django.db.models import Max
 from django.utils import timezone
 from django.views.generic import ListView
 
+from opencivicdata.legislative.models import LegislativeSession
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 from councilmatic_core.views import (
     IndexView,
@@ -301,7 +302,10 @@ class ChicagoSplitVotesView(ListView):
     def get_queryset(self):
         return (
             ChicagoBill.objects.filter(
-                actions__vote__counts__value__gt=0, actions__vote__counts__option="no"
+                actions__vote__counts__value__gt=0,
+                actions__vote__counts__option="no",
+                actions__organization__name=settings.OCD_CITY_COUNCIL_NAME,
+                legislative_session__identifier=self.kwargs["legislative_session"],
             )
             .annotate(last_action=Max("actions__date"))
             .order_by("-last_action")
@@ -309,6 +313,12 @@ class ChicagoSplitVotesView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ChicagoSplitVotesView, self).get_context_data(**kwargs)
+        context["settings"] = settings
+
+        legislative_session = LegislativeSession.objects.get(
+            identifier=self.kwargs["legislative_session"]
+        )
+        context["legislative_session"] = legislative_session
         return context
 
 

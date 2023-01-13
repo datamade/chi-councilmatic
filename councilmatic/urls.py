@@ -48,10 +48,11 @@ patterns = (
             name="bill_detail_action_feed",
         ),
         url(
-            r"^split-votes/$",
+            r"^split-votes/(?P<legislative_session>\w+)/$",
             ChicagoSplitVotesView.as_view(),
             name="split_votes",
         ),
+        url(r"^split-votes/$", RedirectView.as_view(url="/split-votes/2019/")),
         url(
             r"^compare-council-members/$",
             ChicagoCouncilMembersCompareView.as_view(),
