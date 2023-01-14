@@ -176,9 +176,9 @@ RQ_QUEUES = {
 }
 
 # Enforce SSL in production
-# if DEBUG is False:
-#     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-#     SECURE_SSL_REDIRECT = True
+if DEBUG is False:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
 
 # These are all the settings that are specific to a jurisdiction
 
