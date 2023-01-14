@@ -1,5 +1,4 @@
 {% load static %}
-{% load adv_cache %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,60 +20,55 @@
 
   </head>
   <body>
-    {% cache 600 nav_wrapper 'nav' %}
 
-      <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid container-fluid-nav">
-          <div id="nav-title">
-            <a class="navbar-brand" href="/">
-              <img id="logo" src="{% static 'images/logo.png' %}"></img>
-              <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
-            </a>
-          </div>
-          <ul id="nav-items">
-            <li>
-              <a href="{% url 'about' %}">About</a>
-            </li>
-            <li>
-              <a href="{% url 'council_members' %}">{{ CITY_VOCAB.COUNCIL_MEMBERS }}</a>
-            </li>
-            <li>
-              <a href="/compare-council-members">Compare Aldermen</a>
-            </li>
-            <li>
-              <a href="/divided-votes">Divided Votes</a>
-            </li>
-            <li>
-              <a href="{% url 'committees' %}">Committees</a>
-            </li>
-            <li>
-              <a href="{% url 'events' %}">{{ CITY_VOCAB.EVENTS }}</a>
-            </li>
-            <li>
-              <a href="{% url 'search' %}">Legislation</a>
-            </li>
-          </ul>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid container-fluid-nav">
+        <div id="nav-title">
+          <a class="navbar-brand" href="/">
+            <img id="logo" src="{% static 'images/logo.png' %}"></img>
+            <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
+          </a>
         </div>
-      </nav>
+        <ul id="nav-items">
+          <li>
+            <a href="{% url 'about' %}">About</a>
+          </li>
+          <li>
+            <a href="{% url 'council_members' %}">{{ CITY_VOCAB.COUNCIL_MEMBERS }}</a>
+          </li>
+          <li>
+            <a href="/compare-council-members">Compare Aldermen</a>
+          </li>
+          <li>
+            <a href="/divided-votes">Divided Votes</a>
+          </li>
+          <li>
+            <a href="{% url 'committees' %}">Committees</a>
+          </li>
+          <li>
+            <a href="{% url 'events' %}">{{ CITY_VOCAB.EVENTS }}</a>
+          </li>
+          <li>
+            <a href="{% url 'search' %}">Legislation</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-      <br>
-      {% nocache %}
-        {% if messages %}
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-12">
-                {% for message in messages %}
-                  <div {% if message.tags %}class="alert-signup alert alert-info {{ message.tags }}"{% endif %} role="alert">
-                    {{ message }}
-                  </div>
-                {% endfor %}
+    <br>
+    {% if messages %}
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            {% for message in messages %}
+              <div {% if message.tags %}class="alert-signup alert alert-info {{ message.tags }}"{% endif %} role="alert">
+                {{ message }}
               </div>
-            </div>
+            {% endfor %}
           </div>
-        {% endif %}
-      {% endnocache %}
-
-    {% endcache %}
+        </div>
+      </div>
+    {% endif %}
 
     {% block full_content %}
     {% endblock %}
