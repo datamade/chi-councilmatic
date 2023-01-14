@@ -47,7 +47,7 @@
 
 
 {% block extra_js %}
-  {% cache 86400 js_wrapper 'js' %}
+  {% cache 86400 js_wrapper_compare 'js' %}
     {% include 'partials/map.html' %}
     <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
