@@ -86,7 +86,6 @@ INSTALLED_APPS = (
     "notifications",
     "django_rq",
     "password_reset",
-    "adv_cache_tag",
 )
 
 try:
@@ -98,7 +97,9 @@ MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -175,9 +176,9 @@ RQ_QUEUES = {
 }
 
 # Enforce SSL in production
-if DEBUG is False:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_SSL_REDIRECT = True
+# if DEBUG is False:
+#     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+#     SECURE_SSL_REDIRECT = True
 
 # These are all the settings that are specific to a jurisdiction
 

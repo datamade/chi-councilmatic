@@ -1,119 +1,110 @@
 {% extends "base_with_margins.html" %}
 {% load static %}
-{% load adv_cache %}
 {% block title %}{{CITY_COUNCIL_NAME}} Members{% endblock %}
 
 {% block extra_css %}
-  {% cache 86400 leaflet_wrapper 'leaflet' %}
-    {% if map_geojson %}
-      <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
-    {% endif %}
-  {% endcache %}
+  {% if map_geojson %}
+    <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+  {% endif %}
 {% endblock %}
 
 {% block content %}
 
-  {% cache 86400 members_wrapper 'members' %}
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6">
-          <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
-          <h4>Look up your council member</h4>
-          <div class="input-group address-search">
-            <input name="search_address" id='search_address' type="text" class="form-control" placeholder="Enter your address">
-            <div class='input-group-btn'>
-              <button id='btn_search' class="btn btn-primary" title='Search'>
-                <i class='fa fa-fw fa-search'></i><span class="non-mobile-only"> Search</span>
-              </button>
-              <a class='btn btn-default' id='reset' title='Reset the map' href='#'>
-                <i class='glyphicon glyphicon-repeat'></i> Reset
-              </a>
-            </div>
-          </div>
-          <div id="council-member-scroll-area">
-            {% include 'partials/council_member_table.html' %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>{{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+        <h4>Look up your council member</h4>
+        <div class="input-group address-search">
+          <input name="search_address" id='search_address' type="text" class="form-control" placeholder="Enter your address">
+          <div class='input-group-btn'>
+            <button id='btn_search' class="btn btn-primary" title='Search'>
+              <i class='fa fa-fw fa-search'></i><span class="non-mobile-only"> Search</span>
+            </button>
+            <a class='btn btn-default' id='reset' title='Reset the map' href='#'>
+              <i class='glyphicon glyphicon-repeat'></i> Reset
+            </a>
           </div>
         </div>
-        <div class='col-sm-6 hidden-xs'>
-          <div id="map"></div>
+        <div id="council-member-scroll-area">
+          {% include 'partials/council_member_table.html' %}
         </div>
       </div>
+      <div class='col-sm-6 hidden-xs'>
+        <div id="map"></div>
+      </div>
     </div>
-
-  {% endcache %}
+  </div>
 
 {% endblock %}
 
 
 {% block extra_js %}
-  {% cache 86400 js_wrapper_compare 'js' %}
-    {% include 'partials/map.html' %}
-    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
-    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+  {% include 'partials/map.html' %}
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+  <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 
-    <script>
-      var council_member_table = $("#council-members").DataTable({
-        "info": false,
-        "bLengthChange": false,
-        "paging": false,
-        "aaSorting": [ [2,'asc'] ],
-        "aoColumns": [
-          { "bSortable": false },
-          null,
-          { "sType": "num-html" }
-        ]
+  <script>
+    var council_member_table = $("#council-members").DataTable({
+      "info": false,
+      "bLengthChange": false,
+      "paging": false,
+      "aaSorting": [ [2,'asc'] ],
+      "aoColumns": [
+        { "bSortable": false },
+        null,
+        { "sType": "num-html" }
+      ]
+    });
+
+    $( document ).ready(function() {
+      $('.thumbnail-square img').each(function() {
+        if ($(this).width() > $(this).height()) {
+          $(this).addClass('landscape');
+        }
       });
+    });
 
-      $( document ).ready(function() {
-        $('.thumbnail-square img').each(function() {
-          if ($(this).width() > $(this).height()) {
-            $(this).addClass('landscape');
+
+    {% if map_geojson %}
+      $('tbody tr').on( 'mouseover', function () {
+        hoverOnRow(this.id);
+        $('tr').css('background-color', 'inherit')
+        $(this).css('background-color', '#eee');
+      } );
+
+      $('tbody tr').on( "mouseout", function() {
+        $('tr').css('background-color', 'inherit');
+        hoverOffRow(this.id);
+      } )
+
+      function hoverOffRow(select_id){
+        districts.eachLayer(function (layer) {
+
+          if (layer.feature.properties.select_id === select_id){
+            layer.fire('tableout');
           }
+
         });
-      });
+
+      }
+
+      function hoverOnRow(select_id) {
+        districts.eachLayer(function (layer) {
+
+          layer.setStyle({'fillOpacity': .2})
 
 
-      {% if map_geojson %}
-        $('tbody tr').on( 'mouseover', function () {
-          hoverOnRow(this.id);
-          $('tr').css('background-color', 'inherit')
-          $(this).css('background-color', '#eee');
-        } );
+          if (layer.feature.properties.select_id === select_id){
+            layer.fire('tableover');
+          }
 
-        $('tbody tr').on( "mouseout", function() {
-          $('tr').css('background-color', 'inherit');
-          hoverOffRow(this.id);
-        } )
+        });
+      }
 
-        function hoverOffRow(select_id){
-          districts.eachLayer(function (layer) {
+    {% endif %}
 
-            if (layer.feature.properties.select_id === select_id){
-              layer.fire('tableout');
-            }
+  </script>
 
-          });
-
-        }
-
-        function hoverOnRow(select_id) {
-          districts.eachLayer(function (layer) {
-
-            layer.setStyle({'fillOpacity': .2})
-
-
-            if (layer.feature.properties.select_id === select_id){
-              layer.fire('tableover');
-            }
-
-          });
-        }
-
-      {% endif %}
-
-    </script>
-
-  {% endcache %}
 {% endblock %}

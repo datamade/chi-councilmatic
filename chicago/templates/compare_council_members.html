@@ -1,108 +1,103 @@
 {% extends "base_with_margins.html" %}
-{% load static extras chicago_extras adv_cache %}
+{% load static extras chicago_extras %}
 {% block title %}Compare {{CITY_VOCAB.COUNCIL_MEMBERS}}{% endblock %}
 
 {% block content %}
 
-  {% cache 86400 compare_members_wrapper 'compare-members' %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>Compare {{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6">
-          <h1>Compare {{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+        <p>On February 28, 2023, Chicago will hold a municipal election for Mayor, City Clerk, Treasurer and all 50 City Council Seats. See who is retiring and who is running for re-election and compare their attendance and legislative accomplishments.</p>
 
-          <p>On February 28, 2023, Chicago will hold a municipal election for Mayor, City Clerk, Treasurer and all 50 City Council Seats. See who is retiring and who is running for re-election and compare their attendance and legislative accomplishments.</p>
-
-          <p>Not sure who your Alderman is? <a href="{% url 'council_members' %}">Look them up by your address ></a></p>
-        </div>
-        <div class="col-sm-12">
-          <div class="table-responsive">
-            <table class='table' id='council-members'>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
-                  <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
-                  <th>Years in office</th>
-                  <th>Non-routine bills sponsored</th>
-                  <th>Attendance (this session)</th>
-                  <th>Caucus</th>
-                  <th>2023 election status</th>
+        <p>Not sure who your Alderman is? <a href="{% url 'council_members' %}">Look them up by your address ></a></p>
+      </div>
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class='table' id='council-members'>
+            <thead>
+              <tr>
+                <th></th>
+                <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
+                <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
+                <th>Years in office</th>
+                <th>Non-routine bills sponsored</th>
+                <th>Attendance (this session)</th>
+                <th>Caucus</th>
+                <th>2023 election status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for person in council_members %}
+                <tr id="polygon-{{post.label | slugify}}">
+                  <td>
+                    <div class="thumbnail-square">
+                      <img src='{{person|get_person_headshot}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive' />
+                    </div>
+                  </td>
+                  <td>
+                    {{ person.link_html | safe }}
+                  </td>
+                  <td>{{ person.latest_council_membership.post.label }}</td>
+                  <td>{{ person.years_in_office }}</td>
+                  <td>
+                    <a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}&selected_facets=topics_exact%3ANon-Routine'>
+                      {{ person.statistics.legislation_count }} bills
+                    </a>
+                  </td>
+                  <td>{{ person.statistics.attendance_percent }}</td>
+                  <td>{{ person.caucus }}</td>
+                  <td class="{% if person.election_status %}danger{% else %}info{% endif %}">
+                    {% if person.election_status %}
+                      <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
+                    {% else %}
+                      <i class='fa fa-fw fa-check'></i> Running for re-election
+                    {% endif %}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {% for person in council_members %}
-                  <tr id="polygon-{{post.label | slugify}}">
-                    <td>
-                      <div class="thumbnail-square">
-                        <img src='{{person|get_person_headshot}}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive' />
-                      </div>
-                    </td>
-                    <td>
-                      {{ person.link_html | safe }}
-                    </td>
-                    <td>{{ person.latest_council_membership.post.label }}</td>
-                    <td>{{ person.years_in_office }}</td>
-                    <td>
-                      <a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}&selected_facets=topics_exact%3ANon-Routine'>
-                        {{ person.statistics.legislation_count }} bills
-                      </a>
-                    </td>
-                    <td>{{ person.statistics.attendance_percent }}</td>
-                    <td>{{ person.caucus }}</td>
-                    <td class="{% if person.election_status %}danger{% else %}info{% endif %}">
-                      {% if person.election_status %}
-                        <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
-                      {% else %}
-                        <i class='fa fa-fw fa-check'></i> Running for re-election
-                      {% endif %}
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
+
       </div>
     </div>
+  </div>
 
-  {% endcache %}
 {% endblock %}
 
 {% block extra_js %}
-  {% cache 86400 js_wrapper 'js' %}
-    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
-    <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+  <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 
-    <script>
-      var council_member_table = $("#council-members").DataTable({
-        "info": false,
-        "searching": true,
-        "bLengthChange": false,
-        "paging": false,
-        "aaSorting": [ [2,'asc'] ],
-        "aoColumns": [
-          { "bSortable": false },
-          null,
-          { "sType": "num-html" },
-          { "sType": "num-html" },
-          { "sType": "num-html" },
-          null,
-          null,
-          null
-        ]
+  <script>
+    var council_member_table = $("#council-members").DataTable({
+      "info": false,
+      "searching": true,
+      "bLengthChange": false,
+      "paging": false,
+      "aaSorting": [ [2,'asc'] ],
+      "aoColumns": [
+        { "bSortable": false },
+        null,
+        { "sType": "num-html" },
+        { "sType": "num-html" },
+        { "sType": "num-html" },
+        null,
+        null,
+        null
+      ]
+    });
+
+    $( document ).ready(function() {
+      $('.thumbnail-square img').each(function() {
+        if ($(this).width() > $(this).height()) {
+          $(this).addClass('landscape');
+        }
       });
+    });
+  </script>
 
-      $( document ).ready(function() {
-        $('.thumbnail-square img').each(function() {
-          if ($(this).width() > $(this).height()) {
-            $(this).addClass('landscape');
-          }
-        });
-      });
-    </script>
-
-  {% endcache %}
 {% endblock %}
