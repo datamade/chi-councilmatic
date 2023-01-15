@@ -66,6 +66,7 @@ CACHES = {
     "default": {
         "BACKEND": f"django.core.cache.backends.{cache_backend}",
         "LOCATION": "site_cache",
+        "TIMEOUT": 21600,  # 6 hours
     }
 }
 
