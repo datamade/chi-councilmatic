@@ -70,6 +70,11 @@ CACHES = {
     }
 }
 
+# settings for cache middleware
+CACHE_MIDDLEWARE_ALIAS = "default"
+CACHE_MIDDLEWARE_SECONDS = (21600,)  # 6 hours
+CACHE_MIDDLEWARE_KEY_PREFIX = ""
+
 
 INSTALLED_APPS = (
     "django.contrib.admin",
