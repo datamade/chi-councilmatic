@@ -66,13 +66,13 @@ CACHES = {
     "default": {
         "BACKEND": f"django.core.cache.backends.{cache_backend}",
         "LOCATION": "site_cache",
-        "TIMEOUT": 21600,  # 6 hours
+        "TIMEOUT": 86400,  # 24 hours
     }
 }
 
 # settings for cache middleware
 CACHE_MIDDLEWARE_ALIAS = "default"
-CACHE_MIDDLEWARE_SECONDS = 21600  # 6 hours
+CACHE_MIDDLEWARE_SECONDS = (86400,)  # 24 hours
 CACHE_MIDDLEWARE_KEY_PREFIX = ""
 
 

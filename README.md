@@ -116,6 +116,10 @@ breaks. To run them, add some data to your database, as described in
 docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
 
+## Production site data updates
+
+The data updates for the production instance of this site is done with GitHub actions in the https://github.com/datamade/chicago-council-scrapers repository.
+
 ## Team
 
 ### Original project team
