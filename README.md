@@ -1,6 +1,21 @@
 # 👀 Chicago Councilmatic
 
-Keep track of what the Chicago City Council is doing.
+Chicago Councilmatic tracks all things related to Chicago City Council: the legislation introduced and passed, its various committees and the meetings they hold, and the aldermen themselves.
+
+You can search and browse legislation from 2011 onwards. Some interesting searches include:
+
+- changes in how properties are zoned
+- what the City is paying out in settlements
+- committee appointments
+- celebrating birthdays?!
+
+Chicago Councilmatic is a free and easy way to access official Chicago City Council information.
+
+## Production data and SQLite archive
+
+If you'd like to explore the data for Chicago Councilmatic yourself, we make a SQLite database using Datasette](https://datasette.io/) available here: https://puddle.bunkum.us/chicago_council. This data is updated nightly.
+
+The data updates for the production instance of this site is done with GitHub actions in the https://github.com/datamade/chicago-council-scrapers repository. Data is also updated nightly.
 
 ## Setup
 
@@ -115,10 +130,6 @@ breaks. To run them, add some data to your database, as described in
 ```bash
 docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
-
-## Production site data updates
-
-The data updates for the production instance of this site is done with GitHub actions in the https://github.com/datamade/chicago-council-scrapers repository.
 
 ## Team
 
