@@ -104,20 +104,24 @@
             </span>
           </a>
         </li>
-        <li role="presentation" {% if request.GET.view == 'committees' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=committees">
-          <span class="small-pill">
-            <i class='fa fa-fw fa-group'></i>
-            Committees ({{committee_count}})
-          </span>
-        </a>
-        </li>
-        <li role="presentation" {% if request.GET.view == 'attendance' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=attendance">
-          <span class="small-pill">
-            <i class='fa fa-fw fa-calendar-o'></i>
-            Attendance ({{person.attendance_percent}})
-          </span>
-        </a>
-        </li>
+        {% if committee_count > 0 %}
+          <li role="presentation" {% if request.GET.view == 'committees' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=committees">
+            <span class="small-pill">
+              <i class='fa fa-fw fa-group'></i>
+              Committees ({{committee_count}})
+            </span>
+          </a>
+          </li>
+        {% endif %}
+        {% if person.attendance_percent != 0 %}
+          <li role="presentation" {% if request.GET.view == 'attendance' %}class='active' {% endif %}>    <a href="/person/{{person.slug}}/?view=attendance">
+            <span class="small-pill">
+              <i class='fa fa-fw fa-calendar-o'></i>
+              Attendance ({{person.attendance_percent}})
+            </span>
+          </a>
+          </li>
+        {% endif %}
       </ul>
 
       {% if request.GET.view == 'bills' or request.GET.view == None %}

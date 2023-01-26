@@ -7,8 +7,9 @@ register = template.Library()
 @register.filter
 def get_person_headshot(person):
     for p in ALDER_EXTRAS:
-        if person.slug.startswith(p):
-            return f"/static/images/manual-headshots/{ALDER_EXTRAS[p]['image']}"
+        if person:
+            if person.slug.startswith(p):
+                return f"/static/images/manual-headshots/{ALDER_EXTRAS[p]['image']}"
 
     return "/static/images/headshot_placeholder.png"
 
