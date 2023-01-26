@@ -253,10 +253,17 @@ class ChicagoPerson(Person):
 
     @property
     def term_active(self):
+        # older entries may not have a latest_council_membership
+        if self.latest_council_membership is None:
+            return False
+
         return self.latest_council_membership.end_date_dt > timezone.now()
 
     @property
     def years_in_office(self):
+        if self.latest_council_membership is None:
+            return ""
+
         years = 0
         if self.term_active:
             years = relativedelta(
