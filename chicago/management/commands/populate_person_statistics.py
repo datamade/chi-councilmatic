@@ -5,7 +5,7 @@ from chicago.models import ChicagoPerson, ChicagoPersonStatistic, ChicagoBill
 
 
 class Command(BaseCommand):
-    help = "populate statistics for Chicago Aldermen"
+    help = "populate statistics for Chicago Alders"
 
     def handle(self, *args, **options):
         ChicagoPersonStatistic.objects.all().delete()
