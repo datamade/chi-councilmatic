@@ -1,6 +1,6 @@
 # 👀 Chicago Councilmatic
 
-Chicago Councilmatic tracks all things related to Chicago City Council: the legislation introduced and passed, its various committees and the meetings they hold, and the aldermen themselves.
+Chicago Councilmatic tracks all things related to Chicago City Council: the legislation introduced and passed, its various committees and the meetings they hold, and the alders themselves.
 
 You can search and browse legislation from 2011 onwards. Some interesting searches include:
 

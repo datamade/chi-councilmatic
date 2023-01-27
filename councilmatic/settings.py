@@ -204,8 +204,8 @@ CITY_NAME_SHORT = "Chicago"
 CITY_VOCAB = {
     "MUNICIPAL_DISTRICT": "Ward",  # e.g. 'District'
     "SOURCE": "Chicago City Clerk",
-    "COUNCIL_MEMBER": "Alderman",  # e.g. 'Council Member'
-    "COUNCIL_MEMBERS": "Aldermen",  # e.g. 'Council Members'
+    "COUNCIL_MEMBER": "Alder",  # e.g. 'Council Member'
+    "COUNCIL_MEMBERS": "Alders",  # e.g. 'Council Members'
     "EVENTS": "Meetings",  # label for the events listing, e.g. 'Events'
 }
 
@@ -220,7 +220,7 @@ APP_NAME = "chicago"
 # this is for populating meta tags
 SITE_META = {
     "site_name": "Chicago Councilmatic",
-    "site_desc": "City Council, demystified. Keep tabs on Chicago legislation, aldermen, & meetings.",  # noqa
+    "site_desc": "City Council, demystified. Keep tabs on Chicago legislation, alders, & meetings.",  # noqa
     "site_author": "DataMade",
     "site_url": "https://chicago.councilmatic.org",
     "twitter_site": "@DataMadeCo",
@@ -320,7 +320,7 @@ LEGISLATION_TYPE_DESCRIPTIONS = [
         "search_term": "oath of office",
         "fa_icon": "user",
         "html_desc": True,
-        "desc": "Official swearing in of individuals to leadership positions at the City of Chicago, including Aldermen and board members.",  # noqa
+        "desc": "Official swearing in of individuals to leadership positions at the City of Chicago, including Alders and board members.",  # noqa
     },
 ]
 

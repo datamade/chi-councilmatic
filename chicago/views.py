@@ -337,10 +337,10 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         seo.update(settings.SITE_META)
         seo[
             "site_desc"
-        ] = "Look up your local Alderman, and see what they're \
+        ] = "Look up your local Alder, and see what they're \
           doing in your ward & your city"
         seo["image"] = "/static/images/chicago_map.jpg"
-        seo["title"] = "Wards & Aldermen - Chicago Councilmatic"
+        seo["title"] = "Wards & Alders - Chicago Councilmatic"
 
         return seo
 
