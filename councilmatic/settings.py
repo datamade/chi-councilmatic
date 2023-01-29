@@ -369,7 +369,11 @@ ALDER_EXTRAS = {
         "caucus": "Black Caucus",
     },
     "beale-anthony": {"image": "beale-anthony.jpg", "caucus": "Black Caucus"},
-    "brookins-jr-howard": {"image": "brookins-jr-howard.jpg", "caucus": "Black Caucus"},
+    "brookins-jr-howard": {
+        "image": "brookins-jr-howard.jpg",
+        "caucus": "Black Caucus",
+        "election-status": "Retiring",
+    },
     "burke-edward-m": {
         "image": "burke-edward-m.jpg",
         "election-status": "Indicted, Retiring",
