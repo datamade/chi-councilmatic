@@ -12,7 +12,7 @@
 
       <p>Filter by legislative term: <br class="visible-xs" />
         {% for term in legislative_session_options %}
-          <a href="/divided-votes/{{term}}/" class="btn btn-primary {% if legislative_session.identifier == term %}active{% endif %}">{{term}}</a>
+          <a href="/divided-votes/{{term}}/" class="btn btn-primary {% if legislative_session.identifier == term %}active{% endif %}">{{term}} - {{term|add:"4"}}</a>
         {% endfor %}
       </p>
     </div>
