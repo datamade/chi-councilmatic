@@ -23,6 +23,8 @@ def get_legistar_link(object):
 
 @register.filter
 def get_mayor(year):
+    if year == "2023":
+        return "Brandon Johnson"
     if year == "2019":
         return "Lori Lightfoot"
     if year == "2015" or year == "2011":
