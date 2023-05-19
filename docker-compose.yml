@@ -1,4 +1,4 @@
-version: '2.4'
+version: "2.4"
 
 services:
   app:
@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/app
     environment:
-      DJANGO_MANAGEPY_MIGRATE: "True"
+      DJANGO_MANAGEPY_MIGRATE: "False"
     entrypoint: /app/scripts/docker-entrypoint.sh
     command: python manage.py runserver 0.0.0.0:8000
 
