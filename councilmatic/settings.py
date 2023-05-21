@@ -518,6 +518,19 @@ ALDER_EXTRAS = {
         "caucus": "Progressive Caucus",
     },
     "zalewski-michael-r": {"image": "zalewski-michael-r.jpg"},
+    "yancy-desmon-c": {"image": "yancy-desmon-c.jpg"},
+    "robinson-lamont": {"image": "robinson-lamont.jpg"},
+    "ramirez-julia-m": {"image": "ramirez-julia-m.jpg"},
+    "mosley-ronnie-l": {"image": "mosley-ronnie-l.jpg"},
+    "manaa-hoppenworth-leni": {"image": "manaa-hoppenworth-leni.jpg"},
+    "lawson-bennett-r": {"image": "lawson-bennett-r.jpg"},
+    "hall-william-e": {"image": "hall-william-e.jpg"},
+    "gutierrez-jeylu-b": {"image": "gutierrez-jeylu-b.jpg"},
+    "fuentes-jessica": {"image": "fuentes-jessica.jpg"},
+    "cruz-ruth": {"image": "cruz-ruth.jpg"},
+    "conway-william": {"image": "conway-william.jpg"},
+    "clay-angela": {"image": "clay-angela.jpg"},
+    "chico-peter": {"image": "chico-peter.jpg"},
 }
 
 TOPIC_HIERARCHY = [
