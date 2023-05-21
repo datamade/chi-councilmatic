@@ -28,15 +28,6 @@
           <br>
           <p>In office since <strong>{{ tenure_start }}</strong> ({{ person.years_in_office }} years)</p>
         {% endif %}
-
-        <p>
-          <strong>2023 election status</strong><br />
-          {% if person.election_status %}
-            {{ person.election_status }}
-          {% else %}
-            Running for re-election
-          {% endif %}
-        </p>
       {% else %}
         <br>
         <p>In office from <strong>{{ tenure_start }}</strong> to <strong>{{ tenure_end }}</strong> ({{ person.years_in_office }} years)</p>
