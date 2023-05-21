@@ -25,7 +25,6 @@
                 <th>Non-routine bills sponsored</th>
                 <th>Attendance (this session)</th>
                 <th>Caucus</th>
-                <th>2023 election status</th>
               </tr>
             </thead>
             <tbody>
@@ -48,13 +47,6 @@
                   </td>
                   <td>{{ person.statistics.attendance_percent }}</td>
                   <td>{{ person.caucus }}</td>
-                  <td class="{% if person.election_status %}danger{% else %}info{% endif %}">
-                    {% if person.election_status %}
-                      <i class='fa fa-fw fa-times'></i> {{ person.election_status }}
-                    {% else %}
-                      <i class='fa fa-fw fa-check'></i> Running for re-election
-                    {% endif %}
-                  </td>
                 </tr>
               {% endfor %}
             </tbody>
