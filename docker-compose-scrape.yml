@@ -1,4 +1,4 @@
-version: '2.4'
+version: "2.4"
 
 services:
   postgres:
@@ -25,11 +25,12 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: 'postgis://postgres:postgres@postgres/chi_councilmatic'
+      DATABASE_URL: "postgis://postgres:postgres@postgres/chi_councilmatic"
       SHARED_DB: "True"
     command: sh -c "
-        pupa update --rpm=0 chicago bills window=0.001 &&
-        pupa update --rpm=0 lametro events window=7"
+      pupa update --rpm=0 chicago bills window=30 &&
+      pupa update --rpm=0 chicago events &&
+      pupa update --rpm=0 chicago people"
 
 volumes:
   chi-councilmatic-db-data:
