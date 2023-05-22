@@ -532,6 +532,7 @@ ALDER_EXTRAS = {
     "conway-william": {"image": "conway-william.jpg"},
     "clay-angela": {"image": "clay-angela.jpg"},
     "chico-peter": {"image": "chico-peter.jpg"},
+    "johnson-brandon": {"image": "johnson-brandon.jpg"},
 }
 
 TOPIC_HIERARCHY = [
