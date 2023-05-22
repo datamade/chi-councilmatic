@@ -357,6 +357,7 @@ EXTRA_TITLES = {
     "mendoza-susana-a-a465109bd96a": "City Clerk",
     "emanuel-rahm-3af71de0e6ca": "Mayor",
     "lightfoot-lori-e-f6faf37c9643": "Mayor",
+    "johnson-brandon-e5293d9f2ef3": "Mayor",
     "valencia-anna-m-257a68ccbc17": "City Clerk",
 }
 
