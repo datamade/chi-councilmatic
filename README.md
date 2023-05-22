@@ -77,10 +77,28 @@ legislation, and events. The default command scrapes all committees and people,
 and any events and legislation updated in the last 30 days or scheduled for a
 future date.
 
-To import data:
+To import / update everything:
 
 ```bash
 docker-compose -f docker-compose-scrape.yml up
+```
+
+To import / update bills from the past 30 days (window=30):
+
+```bash
+docker-compose -f docker-compose-scrape.yml run scrapers pupa update --rpm=0 chicago bills window=30
+```
+
+To import / update people:
+
+```bash
+docker-compose -f docker-compose-scrape.yml run scrapers pupa update --rpm=0 chicago people
+```
+
+To import / update events:
+
+```bash
+docker-compose -f docker-compose-scrape.yml run scrapers pupa update --rpm=0 chicago events
 ```
 
 This may take a few minutes to an hour, depending on the volume of recent
