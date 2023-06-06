@@ -196,6 +196,7 @@ LEGISLATIVE_SESSIONS = [
     "2011",
     "2015",
     "2019",
+    "2023",
 ]  # the last one in this list should be the current legislative session
 CITY_NAME = "Chicago"
 CITY_NAME_SHORT = "Chicago"
