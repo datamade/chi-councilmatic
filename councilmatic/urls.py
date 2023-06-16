@@ -52,7 +52,7 @@ patterns = (
             ChicagoDividedVotesView.as_view(),
             name="divided_votes",
         ),
-        url(r"^divided-votes/$", RedirectView.as_view(url="/divided-votes/2019/")),
+        url(r"^divided-votes/$", RedirectView.as_view(url="/divided-votes/2023/")),
         url(
             r"^compare-council-members/$",
             ChicagoCouncilMembersCompareView.as_view(),
