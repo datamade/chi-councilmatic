@@ -89,9 +89,6 @@ INSTALLED_APPS = (
     "councilmatic_core",
     "opencivicdata.core",
     "opencivicdata.legislative",
-    "notifications",
-    "django_rq",
-    "password_reset",
 )
 
 try:
@@ -672,4 +669,4 @@ TOPIC_HIERARCHY = [
     },
 ]
 
-USING_NOTIFICATIONS = False
+USING_NOTIFICATIONS=False

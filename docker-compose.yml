@@ -16,12 +16,11 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_started
-      redis:
-        condition: service_started
     volumes:
       - .:/app
     environment:
       DJANGO_MANAGEPY_MIGRATE: "False"
+      DJANGO_DEBUG: "True"
     entrypoint: /app/scripts/docker-entrypoint.sh
     command: python manage.py runserver 0.0.0.0:8000
 
@@ -40,13 +39,6 @@ services:
       - chi-councilmatic-db-data:/var/lib/postgresql/data
     ports:
       - 32001:5432
-
-  redis:
-    image: redis
-    container_name: chi-councilmatic-redis
-    ports:
-      - 6380:6379
-    restart: on-failure
 
   elasticsearch:
     image: elasticsearch:7.14.2

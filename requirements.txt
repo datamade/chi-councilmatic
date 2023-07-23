@@ -1,7 +1,6 @@
 dj-database-url
 whitenoise
-django-councilmatic==2.6.1
-django-councilmatic-notifications==2.5.1
+django-councilmatic==3.2
 django-haystack[elasticsearch]
 elasticsearch>=7.0.0,<7.14.0
 sentry-sdk==0.20.3
