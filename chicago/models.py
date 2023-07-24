@@ -129,14 +129,9 @@ class ChicagoBill(Bill):
         override this if instead of having full text as string stored in
         full_text, it is a PDF document that you can embed on the page
         """
-        base_url = "https://pic.datamade.us/chicago/document/"
-
         if self.versions.all():
-            legistar_doc_url = self.versions.first().links.first().url
-            doc_url = "{0}?filename={2}&document_url={1}".format(
-                base_url, legistar_doc_url, self.identifier
-            )
-            return doc_url
+            most_recent = self.versions.first().links.first().url
+            return f"https://corsproxy.bunkum.us/corsproxy/?apiurl={most_recent}"
         else:
             return None
 
