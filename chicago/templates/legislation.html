@@ -30,6 +30,16 @@
       <br/>
       <p>{{ legislation.title }}</p>
 
+      {% if legislation.other_identifiers %}
+        <p>
+          Alternate identifiers:
+          {% for identifier in legislation.other_identifiers.all %}
+            {{ identifier.identifier }}
+            {% if not forloop.last %} , {% endif %}
+          {% endfor %}
+        </p>
+      {% endif %}
+
       <div class="divider"></div>
 
       {% if legislation.sponsorships.all %}
