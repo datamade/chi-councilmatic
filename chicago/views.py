@@ -8,7 +8,6 @@ from datetime import datetime
 import pytz
 from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
-from django.shortcuts import redirect
 from django.conf import settings
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
@@ -289,10 +288,6 @@ class ChicagoBillDetailView(BillDetailView):
         if bill_classification in {"claim"} or bill_identifier == "Or 2013-382":
             context["seo"]["nofollow"] = True
         return context
-
-
-def substitute_ordinance_redirect(request, substitute_ordinance_slug):
-    return redirect("bill_detail", slug=substitute_ordinance_slug[1:], permanent=True)
 
 
 class ChicagoDividedVotesView(ListView):
