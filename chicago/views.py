@@ -1,5 +1,3 @@
-import re
-
 import itertools
 from operator import attrgetter
 from django.db.models import Min
@@ -217,39 +215,18 @@ class ChicagoBillDetailView(BillDetailView):
             bill = self.model.objects.get(slug=slug)
             return super().dispatch(request, *args, **kwargs)
         except ChicagoBill.DoesNotExist:
-            bill = None
-
-        if not bill:
-            """
-            Chicago Councilmatic requires redirects for several old bill slugs:
-            (1) original Councilmatic slug, which used the Legistar GUID
-            (2) a mangled form: an added space, e.g.,  o-2018-2302 (old slug)
-            vs. o2018-2302
-            """
+            # the new Clerk LMS minted new IDs for existing bills in Legistar
+            # this handles redirects from old bill IDs to new ones
             try:
-                pattern = "?ID=%s&GUID" % slug
-                bill = ChicagoBill.objects.get(sources__url__contains=pattern)
+                bill = self.model.objects.get(
+                    other_identifiers__identifier__iexact=slug
+                )
                 return HttpResponsePermanentRedirect(
                     reverse("bill_detail", args=[bill.slug])
                 )
-            except ChicagoBill.DoesNotExist:
-                try:
-                    added_space = r"^([A-Za-z]+)-([-\d]+)$"
-                    match_added_space = re.match(added_space, slug)
-                    if match_added_space:
-                        prefix = match_added_space.group(1)
-                        remainder = match_added_space.group(2)
-                        repaired_slug = "{prefix}{remainder}".format(
-                            prefix=prefix, remainder=remainder
-                        )
-                        bill = self.model.objects.get(slug=repaired_slug)
-                        return HttpResponsePermanentRedirect(
-                            reverse("bill_detail", args=[bill.slug])
-                        )
-                except ChicagoBill.DoesNotExist:
-                    raise Http404
 
-        raise Http404
+            except ChicagoBill.DoesNotExist:
+                raise Http404
 
     def get_object(self, queryset=None):
         """
