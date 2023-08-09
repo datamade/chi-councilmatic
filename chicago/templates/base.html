@@ -34,7 +34,10 @@
             <a href="{% url 'about' %}">About</a>
           </li>
           <li>
-            <a href="{% url 'council_members' %}">{{ CITY_VOCAB.COUNCIL_MEMBERS }}</a>
+            <a href="/updates">Updates</a>
+          </li>
+          <li>
+            <a href="{% url 'council_members' %}">Find your Ward</a>
           </li>
           <li>
             <a href="/compare-council-members">Compare Alders</a>
@@ -77,7 +80,7 @@
       <div class='col-sm-12'>
         <div class='clearfix'></div>
 
-        <p>Part of the <a href='https://www.councilmatic.org' target="_blank">Councilmatic family</a>. Proudly brought to you by <a href="https://datamade.us">DataMade</a>. &copy; 2022</p>
+        <p>Part of the <a href='https://www.councilmatic.org' target="_blank">Councilmatic family</a>. Proudly brought to you by <a href="https://datamade.us">DataMade</a>. &copy; {% now "Y" %}</p>
 
       </div>
     </div>
