@@ -387,12 +387,12 @@ ALDER_EXTRAS = {
     "cardenas-george-a": {"image": "cardenas-george-a.jpg", "caucus": "Latino Caucus"},
     "cardona-jr-felix": {
         "image": "cardona-jr-felix.jpg",
-        "caucus": "Latino Caucus, Progressive Caucus",
+        "caucus": "Latino Caucus",
     },
     "cochran-willie": {"image": "cochran-willie.jpg"},
     "coleman-stephanie-d": {
         "image": "coleman-stephanie-d.jpg",
-        "caucus": "Black Caucus, Progressive Caucus",
+        "caucus": "Black Caucus",
     },
     "curtis-derrick-g": {"image": "curtis-derrick-g.jpg", "caucus": "Black Caucus"},
     "dowell-pat": {"image": "dowell-pat.jpg", "caucus": "Black Caucus"},
@@ -440,7 +440,7 @@ ALDER_EXTRAS = {
     "mitts-emma": {"image": "mitts-emma.jpg", "caucus": "Black Caucus"},
     "moore-david-h": {
         "image": "moore-david-h.jpg",
-        "caucus": "Black Caucus, Progressive Caucus",
+        "caucus": "Black Caucus",
     },
     "moore-joseph": {"image": "moore-joseph.jpg"},
     "moreno-proco-joe": {"image": "moreno-proco-joe.jpg"},
@@ -494,7 +494,7 @@ ALDER_EXTRAS = {
     "tabares-silvana": {"image": "tabares-silvana.jpg", "caucus": "Latino Caucus"},
     "taliaferro-chris": {
         "image": "taliaferro-chris.jpg",
-        "caucus": "Progressive Caucus",
+        "caucus": "Black Caucus",
     },
     "taylor-jeanette-b": {
         "image": "taylor-jeanette-b.jpg",
@@ -514,22 +514,52 @@ ALDER_EXTRAS = {
     "villegas-gilbert": {"image": "villegas-gilbert.jpg", "caucus": "Latino Caucus"},
     "waguespack-scott": {
         "image": "waguespack-scott.jpg",
-        "caucus": "Progressive Caucus",
+        "caucus": "",
     },
     "zalewski-michael-r": {"image": "zalewski-michael-r.jpg"},
-    "yancy-desmon-c": {"image": "yancy-desmon-c.jpg"},
-    "robinson-lamont": {"image": "robinson-lamont.jpg"},
-    "ramirez-julia-m": {"image": "ramirez-julia-m.jpg"},
-    "mosley-ronnie-l": {"image": "mosley-ronnie-l.jpg"},
+    "yancy-desmon-c": {
+        "image": "yancy-desmon-c.jpg",
+        "caucus": "Black Caucus, Progressive Caucus",
+    },
+    "robinson-lamont": {
+        "image": "robinson-lamont.jpg",
+        "caucus": "Black Caucus",
+    },
+    "ramirez-julia-m": {
+        "image": "ramirez-julia-m.jpg",
+        "caucus": "Latino Caucus, Progressive Caucus",
+    },
+    "mosley-ronnie-l": {
+        "image": "mosley-ronnie-l.jpg",
+        "caucus": "Black Caucus",
+    },
     "manaa-hoppenworth-leni": {"image": "manaa-hoppenworth-leni.jpg"},
     "lawson-bennett-r": {"image": "lawson-bennett-r.jpg"},
-    "hall-william-e": {"image": "hall-william-e.jpg"},
-    "gutierrez-jeylu-b": {"image": "gutierrez-jeylu-b.jpg"},
-    "fuentes-jessica": {"image": "fuentes-jessica.jpg"},
-    "cruz-ruth": {"image": "cruz-ruth.jpg"},
+    "hall-william-e": {
+        "image": "hall-william-e.jpg",
+        "caucus": "Black Caucus",
+    },
+    "gutierrez-jeylu-b": {
+        "image": "gutierrez-jeylu-b.jpg",
+        "caucus": "Latino Caucus, Progressive Caucus",
+    },
+    "fuentes-jessica": {
+        "image": "fuentes-jessica.jpg",
+        "caucus": "Latino Caucus, Progressive Caucus",
+    },
+    "cruz-ruth": {
+        "image": "cruz-ruth.jpg",
+        "caucus": "Latino Caucus, Progressive Caucus",
+    },
     "conway-william": {"image": "conway-william.jpg"},
-    "clay-angela": {"image": "clay-angela.jpg"},
-    "chico-peter": {"image": "chico-peter.jpg"},
+    "clay-angela": {
+        "image": "clay-angela.jpg",
+        "caucus": "Progressive Caucus",
+    },
+    "chico-peter": {
+        "image": "chico-peter.jpg",
+        "caucus": "Latino Caucus",
+    },
     "johnson-brandon": {"image": "johnson-brandon.jpg"},
 }
 
@@ -669,4 +699,4 @@ TOPIC_HIERARCHY = [
     },
 ]
 
-USING_NOTIFICATIONS=False
+USING_NOTIFICATIONS = False
