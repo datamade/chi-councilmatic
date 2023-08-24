@@ -117,10 +117,6 @@ class ChicagoAboutView(AboutView):
     template_name = "about.html"
 
 
-class ChicagoUpdatesView(AboutView):
-    template_name = "updates.html"
-
-
 class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
 
     form_class = CouncilmaticSearchForm

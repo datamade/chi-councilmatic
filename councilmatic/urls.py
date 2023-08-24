@@ -6,7 +6,6 @@ from chicago.views import (
     ChicagoCouncilmaticFacetedSearchView,
     ChicagoIndexView,
     ChicagoAboutView,
-    ChicagoUpdatesView,
     ChicagoBillDetailView,
     ChicagoDividedVotesView,
     ChicagoPersonDetailView,
@@ -32,7 +31,6 @@ patterns = (
         url(r"^search/", ChicagoCouncilmaticFacetedSearchView.as_view(), name="search"),
         url(r"^$", ChicagoIndexView.as_view(), name="index"),
         url(r"^about/$", ChicagoAboutView.as_view(), name="about"),
-        url(r"^updates/$", ChicagoUpdatesView.as_view(), name="updates"),
         url(
             r"^legislation/(?P<slug>[^/]+)/$",
             ChicagoBillDetailView.as_view(),
