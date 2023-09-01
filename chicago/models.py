@@ -172,6 +172,30 @@ class ChicagoEvent(Event):
         else:
             return None
 
+    @property
+    def clean_agenda_items(self):
+        agenda_items = (
+            self.agenda.order_by("order").all().prefetch_related("related_entities")
+        )
+        agenda_deduped = []
+        descriptions_seen = []
+        for a in agenda_items:
+            if a.description not in descriptions_seen:
+                descriptions_seen.append(a.description)
+                agenda_deduped.append(a)
+
+        return agenda_deduped
+
+    @property
+    def video_vimeo_id(self):
+        try:
+            link = self.media.first().links.first().url
+            vimeo_id = re.match(".*?([0-9]+)$", link).group(1)
+            print(link, vimeo_id)
+            return vimeo_id
+        except AttributeError:
+            return None
+
 
 class ChicagoPerson(Person):
     class Meta:

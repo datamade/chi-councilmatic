@@ -23,28 +23,50 @@
     <i class="fa fa-fw fa-map-marker"></i> {{event.location}}
   </p>
 
+  {% if event.video_vimeo_id %}
+    <iframe src="https://player.vimeo.com/video/{{event.video_vimeo_id}}?h=b9331c0f77&title=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <p><a href="https://vimeo.com/{{event.video_vimeo_id}}">View on Vimeo</a></p>
+  {% endif %}
   <hr />
   <div class="row-fluid">
     <div class="col-sm-6">
       {% if event.clean_agenda_items %}
         <h4>Agenda</h4>
-        <p>
-          <ol>
+        <table class="table table table-responsive">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Description</th>
+              <th>ID</th>
+              <th>Sponsor(s)</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for agenda_item in event.clean_agenda_items %}
-              {% if agenda_item.description|lower != 'page break' %}
-                <li>
-                  {% if agenda_item.related_bills.all %}
-                    <a href="/legislation/{{agenda_item.related_bills.first.bill.slug}}/">
-                      {{agenda_item.related_bills.first.bill.friendly_name}}
-                    </a>
-                    <br/>
+              <tr>
+                {% if agenda_item.description|lower != 'page break' %}
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{agenda_item.description}}</td>
+                  {% if agenda_item.related_entities.first.bill.councilmatic_bill %}
+                    <td>
+                      <a href="/legislation/{{agenda_item.related_entities.first.bill.councilmatic_bill.slug}}/">
+                        {{ agenda_item.related_entities.first.bill.councilmatic_bill.friendly_name }}
+                      </a>
+                    </td>
+                    <td>
+                      {% for s in agenda_item.related_entities.first.bill.councilmatic_bill.sponsorships.all %}
+                        {{ s.person.link_html | safe }}{% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                    </td>
+                  {% else %}
+                    <td></td>
+                    <td></td>
                   {% endif %}
-                  {{agenda_item.description}}
-                </li>
-              {% endif %}
+                {% endif %}
+              </tr>
             {% endfor %}
-          </ol>
-        </p>
+          </tbody>
+        </table>
       {% endif %}
 
       {% if event.documents.all %}
