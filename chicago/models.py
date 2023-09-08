@@ -11,6 +11,7 @@ from opencivicdata.legislative.models import LegislativeSession
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Prefetch
 from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
@@ -174,17 +175,25 @@ class ChicagoEvent(Event):
 
     @property
     def clean_agenda_items(self):
-        agenda_items = (
-            self.agenda.order_by("order").all().prefetch_related("related_entities")
-        )
-        agenda_deduped = []
-        descriptions_seen = []
-        for a in agenda_items:
-            if a.description not in descriptions_seen:
-                descriptions_seen.append(a.description)
-                agenda_deduped.append(a)
 
-        return agenda_deduped
+        agenda_items = self.agenda.order_by("order").prefetch_related(
+            Prefetch(
+                "related_entities__bill__councilmatic_bill",
+                to_attr="councilmatic_bills",
+            )
+        )[:10]
+        print(agenda_items.query)
+        # agenda_deduped = []
+        # descriptions_seen = []
+        # for a in agenda_items:
+        #     if a.description not in descriptions_seen:
+        #         descriptions_seen.append(a.description)
+        #         agenda_deduped.append(a)
+
+        for a in agenda_items:
+            print(a.councilmatic_bills)
+
+        return agenda_items
 
     @property
     def video_vimeo_id(self):

@@ -47,7 +47,7 @@
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>{{ forloop.counter }}</td>
                   <td>{{agenda_item.description}}</td>
-                  {% if agenda_item.related_entities.first.bill.councilmatic_bill %}
+                  {% if agenda_item.related_entities.first.bill %}
                     <td>
                       <a href="/legislation/{{agenda_item.related_entities.first.bill.councilmatic_bill.slug}}/">
                         {{ agenda_item.related_entities.first.bill.councilmatic_bill.friendly_name }}
