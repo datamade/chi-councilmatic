@@ -1,17 +1,19 @@
 import re
-from operator import attrgetter
-import pytz
-from django.utils import timezone
-from django.utils.functional import cached_property
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
+from operator import attrgetter
 
+import pytz
 from councilmatic_core.models import Bill, Event, Organization, Person
-from opencivicdata.legislative.models import LegislativeSession
-
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
 from django.db.models import Prefetch
+from django.utils import timezone
+from django.utils.functional import cached_property
+from opencivicdata.legislative.models import (BillSponsorship,
+                                              EventRelatedEntity,
+                                              LegislativeSession)
+
 from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
@@ -176,22 +178,19 @@ class ChicagoEvent(Event):
     @property
     def clean_agenda_items(self):
 
-        agenda_items = self.agenda.order_by("order").prefetch_related(
-            Prefetch(
-                "related_entities__bill__councilmatic_bill",
-                to_attr="councilmatic_bills",
+        sponsors = BillSponsorship.objects.filter(entity_type="person").select_related(
+            "person__councilmatic_person"
+        )
+        related_bill = (
+            EventRelatedEntity.objects.filter(entity_type="bill")
+            .select_related("bill__councilmatic_bill")
+            .prefetch_related(
+                Prefetch("bill__sponsorships", queryset=sponsors, to_attr="sponsors")
             )
-        )[:10]
-        print(agenda_items.query)
-        # agenda_deduped = []
-        # descriptions_seen = []
-        # for a in agenda_items:
-        #     if a.description not in descriptions_seen:
-        #         descriptions_seen.append(a.description)
-        #         agenda_deduped.append(a)
-
-        for a in agenda_items:
-            print(a.councilmatic_bills)
+        )
+        agenda_items = self.agenda.order_by("order").prefetch_related(
+            Prefetch("related_entities", queryset=related_bill, to_attr="bills")
+        )
 
         return agenda_items
 

@@ -47,15 +47,15 @@
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>{{ forloop.counter }}</td>
                   <td>{{agenda_item.description}}</td>
-                  {% if agenda_item.related_entities.first.bill %}
+                  {% if agenda_item.bills %}
                     <td>
-                      <a href="/legislation/{{agenda_item.related_entities.first.bill.councilmatic_bill.slug}}/">
-                        {{ agenda_item.related_entities.first.bill.councilmatic_bill.friendly_name }}
+                      <a href="/legislation/{{agenda_item.bills.0.bill.councilmatic_bill.slug}}/">
+                        {{ agenda_item.bills.0.bill.councilmatic_bill.friendly_name }}
                       </a>
                     </td>
                     <td>
-                      {% for s in agenda_item.related_entities.first.bill.councilmatic_bill.sponsorships.all %}
-                        {{ s.person.link_html | safe }}{% if not forloop.last %},{% endif %}
+                      {% for s in agenda_item.bills.0.bill.sponsors %}
+                        {{ s.person.councilmatic_person.link_html | safe }}{% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   {% else %}
