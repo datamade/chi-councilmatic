@@ -1,34 +1,34 @@
 import itertools
-from operator import attrgetter
-from django.db.models import Min
-from dateutil import parser
 from datetime import datetime
-import pytz
-from dateutil.relativedelta import relativedelta
+from operator import attrgetter
 from urllib.parse import urlencode
-from django.conf import settings
-from django.http import Http404, HttpResponsePermanentRedirect
-from django.urls import reverse
-from django.db.models import Max
-from django.utils import timezone
-from django.views.generic import ListView
 
-from opencivicdata.legislative.models import LegislativeSession
-from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
+import pytz
+from councilmatic_core.models import Organization, Post
 from councilmatic_core.views import (
-    IndexView,
     AboutView,
     BillDetailView,
-    CouncilMembersView,
-    PersonDetailView,
-    EventsView,
-    EventDetailView,
-    CommitteesView,
     CommitteeDetailView,
+    CommitteesView,
     CouncilmaticSearchForm,
+    CouncilMembersView,
+    EventDetailView,
+    EventsView,
+    IndexView,
+    PersonDetailView,
 )
-from councilmatic_core.models import Post, Organization
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
+from django.conf import settings
+from django.db.models import Max, Min, Prefetch
+from django.http import Http404, HttpResponsePermanentRedirect
+from django.urls import reverse
+from django.utils import timezone
+from django.views.generic import ListView, DetailView
 from haystack.generic_views import FacetedSearchView
+from opencivicdata.legislative.models import LegislativeSession, PersonVote
+
+from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 
 
 class ChicagoIndexView(IndexView):
@@ -203,20 +203,19 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         return ""
 
 
-class ChicagoBillDetailView(BillDetailView):
-    template_name = "legislation.html"
-
+class ChicagoBillDetailView(DetailView):
     model = ChicagoBill
+    template_name = "legislation.html"
+    context_object_name = "legislation"
 
-    def dispatch(self, request, *args, **kwargs):
-        slug = self.kwargs["slug"]
+    def get(self, request, *args, **kwargs):
 
         try:
-            bill = self.model.objects.get(slug=slug)
-            return super().dispatch(request, *args, **kwargs)
-        except ChicagoBill.DoesNotExist:
+            return super().get(request, *args, **kwargs)
+        except Http404:
             # the new Clerk LMS minted new IDs for existing bills in Legistar
             # this handles redirects from old bill IDs to new ones
+            slug = self.kwargs["slug"]
             try:
                 bill = self.model.objects.get(
                     other_identifiers__identifier__iexact=slug
@@ -225,45 +224,39 @@ class ChicagoBillDetailView(BillDetailView):
                     reverse("bill_detail", args=[bill.slug])
                 )
 
-            except ChicagoBill.DoesNotExist:
+            except self.model.DoesNotExist:
                 raise Http404
 
-    def get_object(self, queryset=None):
-        """
-        Returns a bill based on slug. If no bill found,
-        looks for bills based on legistar id (so that
-        urls from old Chicago councilmatic don't break)
-        """
-
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        slug = self.kwargs.get(self.slug_url_kwarg)
-        if slug is None:
-            raise AttributeError(
-                "Generic detail view %s must be called with "
-                "either an object pk or a slug." % self.__class__.__name__
-            )
-
-        # Try looking up by slug
-        if slug is not None:
-            slug_field = self.get_slug_field()
-            queryset = queryset.filter(**{slug_field: slug})
-
-        try:
-            # Get the single item from the filtered queryset
-            obj = queryset.get()
-        except queryset.model.DoesNotExist:
-            raise Http404("No bill found matching the query")
-
-        return obj
-
     def get_context_data(self, **kwargs):
-        context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
-        (bill_classification,) = context["object"].classification
-        bill_identifier = context["object"].identifier
+        context = super().get_context_data(**kwargs)
+
+        bill = self.object
+
+        context["actions"] = (
+            bill.actions.order_by("-order")
+            .select_related("organization__councilmatic_organization")
+            .select_related("vote")
+            .prefetch_related(
+                Prefetch(
+                    "vote__votes",
+                    queryset=PersonVote.objects.select_related(
+                        "voter__councilmatic_person"
+                    ),
+                )
+            )
+        )
+
+        seo = {}
+        seo.update(settings.SITE_META)
+        seo["site_desc"] = bill.listing_description
+        seo["title"] = "%s - %s" % (bill.friendly_name, settings.SITE_META["site_name"])
+        context["seo"] = seo
+
+        (bill_classification,) = bill.classification
+        bill_identifier = bill.identifier
         if bill_classification in {"claim"} or bill_identifier == "Or 2013-382":
-            context["seo"]["nofollow"] = True
+            context["seo"]["noindex"] = True
+
         return context
 
 
@@ -512,7 +505,7 @@ class ChicagoEventDetailView(EventDetailView):
         for event_org in event_orgs:
             org_members = event_org.organization.memberships.filter(
                 start_date__lte=event.start_time, end_date__gte=event.start_time
-            )
+            ).select_related("person__councilmatic_person")
             expected_attendees.update([m.person for m in org_members])
 
         attendees = set()
