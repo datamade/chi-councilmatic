@@ -126,7 +126,7 @@ class ChicagoBill(Bill):
 
         return []
 
-    @property
+    @cached_property
     def full_text_doc_url(self):
         """
         override this if instead of having full text as string stored in
@@ -175,26 +175,7 @@ class ChicagoEvent(Event):
         else:
             return None
 
-    @property
-    def clean_agenda_items(self):
-
-        sponsors = BillSponsorship.objects.filter(entity_type="person").select_related(
-            "person__councilmatic_person"
-        )
-        related_bill = (
-            EventRelatedEntity.objects.filter(entity_type="bill")
-            .select_related("bill__councilmatic_bill")
-            .prefetch_related(
-                Prefetch("bill__sponsorships", queryset=sponsors, to_attr="sponsors")
-            )
-        )
-        agenda_items = self.agenda.order_by("order").prefetch_related(
-            Prefetch("related_entities", queryset=related_bill, to_attr="bills")
-        )
-
-        return agenda_items
-
-    @property
+    @cached_property
     def video_vimeo_id(self):
         try:
             link = self.media.first().links.first().url

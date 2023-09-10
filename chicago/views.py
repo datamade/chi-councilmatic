@@ -4,15 +4,13 @@ from operator import attrgetter
 from urllib.parse import urlencode
 
 import pytz
-from councilmatic_core.models import Organization, Post
+from councilmatic_core.models import BillAction, Organization, Post
 from councilmatic_core.views import (
     AboutView,
-    BillDetailView,
     CommitteeDetailView,
     CommitteesView,
     CouncilmaticSearchForm,
     CouncilMembersView,
-    EventDetailView,
     EventsView,
     IndexView,
     PersonDetailView,
@@ -24,9 +22,16 @@ from django.db.models import Max, Min, Prefetch
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView, ListView
 from haystack.generic_views import FacetedSearchView
-from opencivicdata.legislative.models import LegislativeSession, PersonVote
+from opencivicdata.core.models import Membership
+from opencivicdata.legislative.models import (
+    BillSponsorship,
+    EventAgendaItem,
+    EventRelatedEntity,
+    LegislativeSession,
+    PersonVote,
+)
 
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 
@@ -227,13 +232,11 @@ class ChicagoBillDetailView(DetailView):
             except self.model.DoesNotExist:
                 raise Http404
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
 
-        bill = self.object
-
-        context["actions"] = (
-            bill.actions.order_by("-order")
+        # Getting a handle on vote details
+        actions_qs = (
+            BillAction.objects.order_by("-order")
             .select_related("organization__councilmatic_organization")
             .select_related("vote")
             .prefetch_related(
@@ -245,6 +248,37 @@ class ChicagoBillDetailView(DetailView):
                 )
             )
         )
+
+        # Getting a handle on sponsors and council posts
+        sponsorships_qs = (
+            BillSponsorship.objects.filter(person_id__isnull=False)
+            .select_related("person__councilmatic_person")
+            .prefetch_related(
+                Prefetch(
+                    "person__memberships",
+                    queryset=Membership.objects.filter(
+                        organization__name=settings.OCD_CITY_COUNCIL_NAME
+                    )
+                    .order_by("-start_date", "-end_date")
+                    .select_related("post"),
+                    to_attr="council_posts",
+                )
+            )
+        )
+
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(Prefetch("actions", queryset=actions_qs))
+            .prefetch_related(
+                Prefetch("sponsorships", queryset=sponsorships_qs, to_attr="sponsors")
+            )
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        bill = self.object
 
         seo = {}
         seo.update(settings.SITE_META)
@@ -490,12 +524,13 @@ class ChicagoEventsView(EventsView):
         return context
 
 
-class ChicagoEventDetailView(EventDetailView):
+class ChicagoEventDetailView(DetailView):
     model = ChicagoEvent
     template_name = "event.html"
+    context_object_name = "event"
 
     def get_context_data(self, **kwargs):
-        context = super(EventDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         event = context["event"]
 
         # getting expected attendees and actual attendees
@@ -540,3 +575,28 @@ class ChicagoEventDetailView(EventDetailView):
         context["seo"] = seo
 
         return context
+
+    def get_queryset(self):
+
+        sponsors_qs = BillSponsorship.objects.filter(
+            person_id__isnull=False
+        ).select_related("person__councilmatic_person")
+
+        related_bill_qs = (
+            EventRelatedEntity.objects.filter(entity_type="bill")
+            .select_related("bill__councilmatic_bill")
+            .prefetch_related(
+                Prefetch("bill__sponsorships", queryset=sponsors_qs, to_attr="sponsors")
+            )
+        )
+
+        agenda_items_qs = EventAgendaItem.objects.order_by("order").prefetch_related(
+            Prefetch("related_entities", queryset=related_bill_qs, to_attr="bills")
+        )
+
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(Prefetch("agenda", queryset=agenda_items_qs))
+            .prefetch_related("documents")
+        )

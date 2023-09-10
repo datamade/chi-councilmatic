@@ -30,7 +30,7 @@
   <hr />
   <div class="row-fluid">
     <div class="col-sm-6">
-      {% if event.clean_agenda_items %}
+      {% if event.agenda.all %}
         <h4>Agenda</h4>
         <table class="table table table-responsive">
           <thead>
@@ -42,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for agenda_item in event.clean_agenda_items %}
+            {% for agenda_item in event.agenda.all %}
               <tr>
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>{{ forloop.counter }}</td>
