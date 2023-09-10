@@ -18,7 +18,7 @@ from councilmatic_core.views import (
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
-from django.db.models import Max, Min, Prefetch
+from django.db.models import Max, Min, Prefetch, Subquery
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.utils import timezone
@@ -247,17 +247,37 @@ class ChicagoBillDetailView(DetailView):
                     ),
                 )
             )
+            .prefetch_related("vote__counts")
         )
 
-        # Getting a handle on sponsors and council posts
-        sponsorships_qs = (
-            BillSponsorship.objects.filter(person_id__isnull=False)
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(Prefetch("actions", queryset=actions_qs))
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        bill = self.object
+
+        # we have to  do the sponsors here, instead of in get_queryset
+        # because we need a handle on the actual bill object in order
+        # to get the council post as of the first action on the bill
+        first_action_date_subquery = (
+            BillAction.objects.filter(bill_id=bill).order_by("order").values("date")[:1]
+        )
+
+        sponsors = (
+            bill.sponsorships.filter(person_id__isnull=False)
             .select_related("person__councilmatic_person")
             .prefetch_related(
                 Prefetch(
                     "person__memberships",
                     queryset=Membership.objects.filter(
-                        organization__name=settings.OCD_CITY_COUNCIL_NAME
+                        organization__name=settings.OCD_CITY_COUNCIL_NAME,
+                        start_date__lte=Subquery(first_action_date_subquery),
+                        end_date__gte=Subquery(first_action_date_subquery),
                     )
                     .order_by("-start_date", "-end_date")
                     .select_related("post"),
@@ -266,19 +286,7 @@ class ChicagoBillDetailView(DetailView):
             )
         )
 
-        return (
-            super()
-            .get_queryset()
-            .prefetch_related(Prefetch("actions", queryset=actions_qs))
-            .prefetch_related(
-                Prefetch("sponsorships", queryset=sponsorships_qs, to_attr="sponsors")
-            )
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        bill = self.object
+        context["sponsors_qs"] = sponsors
 
         seo = {}
         seo.update(settings.SITE_META)

@@ -30,19 +30,22 @@
       <br/>
       <p>{{ legislation.title }}</p>
 
-      {% if legislation.other_identifiers.all %}
+      {% with other_identifiers=legislation.other_identifiers.all %}
+      {% if other_identifiers %}
         <p>
           Alternate identifiers:
-          {% for identifier in legislation.other_identifiers.all %}
+          {% for identifier in other_identifiers %}
             {{ identifier.identifier }}
             {% if not forloop.last %} , {% endif %}
           {% endfor %}
         </p>
       {% endif %}
+      {% endwith %}
 
       <div class="divider"></div>
 
-      {% if legislation.sponsors %}
+      {% with sponsors=sponsors_qs.all %}
+      {% if sponsors %}
         <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
 
         <div class="table-responsive">
@@ -51,8 +54,8 @@
               <tr>
                 <th></th>
                 <th>
-                  {% if legislation.sponsors.all|length > 1 %}
-                    Sponsors ({{legislation.sponsors.all|length}})
+                  {% if sponsors|length > 1 %}
+                    Sponsors ({{sponsors|length}})
                   {% else %}
                     Sponsor
                   {% endif %}
@@ -63,7 +66,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for s in legislation.sponsors %}
+              {% for s in sponsors %}
                 {% if s.primary %}
                   <tr>
                     <td>
@@ -80,7 +83,7 @@
                   </tr>
                 {% endif %}
               {% endfor %}
-              {% for s in legislation.sponsors %}
+              {% for s in sponsors %}
                 {% if not s.primary %}
                   <tr>
                     <td>
@@ -102,6 +105,7 @@
         </div>
         <div class="divider"></div>
       {% endif %}
+      {% endwith %}
 
       {% if legislation.actions %}
         <h3 class="no-pad-bottom"><i class='fa fa-fw fa-list-ul'></i> History</h3>
