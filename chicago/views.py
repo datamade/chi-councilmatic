@@ -1,34 +1,39 @@
 import itertools
-from operator import attrgetter
-from django.db.models import Min
-from dateutil import parser
 from datetime import datetime
-import pytz
-from dateutil.relativedelta import relativedelta
+from operator import attrgetter
 from urllib.parse import urlencode
+
+import pytz
+from councilmatic_core.models import BillAction, Organization, Post
+from councilmatic_core.views import (
+    AboutView,
+    CommitteeDetailView,
+    CommitteesView,
+    CouncilmaticSearchForm,
+    CouncilMembersView,
+    EventsView,
+    IndexView,
+    PersonDetailView,
+)
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
+from django.db.models import Max, Min, Prefetch, Subquery
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
-from django.db.models import Max
 from django.utils import timezone
-from django.views.generic import ListView
-
-from opencivicdata.legislative.models import LegislativeSession
-from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
-from councilmatic_core.views import (
-    IndexView,
-    AboutView,
-    BillDetailView,
-    CouncilMembersView,
-    PersonDetailView,
-    EventsView,
-    EventDetailView,
-    CommitteesView,
-    CommitteeDetailView,
-    CouncilmaticSearchForm,
-)
-from councilmatic_core.models import Post, Organization
+from django.views.generic import DetailView, ListView
 from haystack.generic_views import FacetedSearchView
+from opencivicdata.core.models import Membership
+from opencivicdata.legislative.models import (
+    BillSponsorship,
+    EventAgendaItem,
+    EventRelatedEntity,
+    LegislativeSession,
+    PersonVote,
+)
+
+from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 
 
 class ChicagoIndexView(IndexView):
@@ -203,20 +208,19 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         return ""
 
 
-class ChicagoBillDetailView(BillDetailView):
-    template_name = "legislation.html"
-
+class ChicagoBillDetailView(DetailView):
     model = ChicagoBill
+    template_name = "legislation.html"
+    context_object_name = "legislation"
 
-    def dispatch(self, request, *args, **kwargs):
-        slug = self.kwargs["slug"]
+    def get(self, request, *args, **kwargs):
 
         try:
-            bill = self.model.objects.get(slug=slug)
-            return super().dispatch(request, *args, **kwargs)
-        except ChicagoBill.DoesNotExist:
+            return super().get(request, *args, **kwargs)
+        except Http404:
             # the new Clerk LMS minted new IDs for existing bills in Legistar
             # this handles redirects from old bill IDs to new ones
+            slug = self.kwargs["slug"]
             try:
                 bill = self.model.objects.get(
                     other_identifiers__identifier__iexact=slug
@@ -225,45 +229,76 @@ class ChicagoBillDetailView(BillDetailView):
                     reverse("bill_detail", args=[bill.slug])
                 )
 
-            except ChicagoBill.DoesNotExist:
+            except self.model.DoesNotExist:
                 raise Http404
 
-    def get_object(self, queryset=None):
-        """
-        Returns a bill based on slug. If no bill found,
-        looks for bills based on legistar id (so that
-        urls from old Chicago councilmatic don't break)
-        """
+    def get_queryset(self):
 
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        slug = self.kwargs.get(self.slug_url_kwarg)
-        if slug is None:
-            raise AttributeError(
-                "Generic detail view %s must be called with "
-                "either an object pk or a slug." % self.__class__.__name__
+        # Getting a handle on vote details
+        actions_qs = (
+            BillAction.objects.order_by("-order")
+            .select_related("organization__councilmatic_organization")
+            .select_related("vote")
+            .prefetch_related(
+                Prefetch(
+                    "vote__votes",
+                    queryset=PersonVote.objects.select_related(
+                        "voter__councilmatic_person"
+                    ),
+                )
             )
+            .prefetch_related("vote__counts")
+        )
 
-        # Try looking up by slug
-        if slug is not None:
-            slug_field = self.get_slug_field()
-            queryset = queryset.filter(**{slug_field: slug})
-
-        try:
-            # Get the single item from the filtered queryset
-            obj = queryset.get()
-        except queryset.model.DoesNotExist:
-            raise Http404("No bill found matching the query")
-
-        return obj
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(Prefetch("actions", queryset=actions_qs))
+        )
 
     def get_context_data(self, **kwargs):
-        context = super(ChicagoBillDetailView, self).get_context_data(**kwargs)
-        (bill_classification,) = context["object"].classification
-        bill_identifier = context["object"].identifier
+        context = super().get_context_data(**kwargs)
+
+        bill = self.object
+
+        # we have to  do the sponsors here, instead of in get_queryset
+        # because we need a handle on the actual bill object in order
+        # to get the council post as of the first action on the bill
+        first_action_date_subquery = (
+            BillAction.objects.filter(bill_id=bill).order_by("order").values("date")[:1]
+        )
+
+        sponsors = (
+            bill.sponsorships.filter(person_id__isnull=False)
+            .select_related("person__councilmatic_person")
+            .prefetch_related(
+                Prefetch(
+                    "person__memberships",
+                    queryset=Membership.objects.filter(
+                        organization__name=settings.OCD_CITY_COUNCIL_NAME,
+                        start_date__lte=Subquery(first_action_date_subquery),
+                        end_date__gte=Subquery(first_action_date_subquery),
+                    )
+                    .order_by("-start_date", "-end_date")
+                    .select_related("post"),
+                    to_attr="council_posts",
+                )
+            )
+        )
+
+        context["sponsors_qs"] = sponsors
+
+        seo = {}
+        seo.update(settings.SITE_META)
+        seo["site_desc"] = bill.listing_description
+        seo["title"] = "%s - %s" % (bill.friendly_name, settings.SITE_META["site_name"])
+        context["seo"] = seo
+
+        (bill_classification,) = bill.classification
+        bill_identifier = bill.identifier
         if bill_classification in {"claim"} or bill_identifier == "Or 2013-382":
-            context["seo"]["nofollow"] = True
+            context["seo"]["noindex"] = True
+
         return context
 
 
@@ -497,12 +532,13 @@ class ChicagoEventsView(EventsView):
         return context
 
 
-class ChicagoEventDetailView(EventDetailView):
+class ChicagoEventDetailView(DetailView):
     model = ChicagoEvent
     template_name = "event.html"
+    context_object_name = "event"
 
     def get_context_data(self, **kwargs):
-        context = super(EventDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         event = context["event"]
 
         # getting expected attendees and actual attendees
@@ -512,7 +548,7 @@ class ChicagoEventDetailView(EventDetailView):
         for event_org in event_orgs:
             org_members = event_org.organization.memberships.filter(
                 start_date__lte=event.start_time, end_date__gte=event.start_time
-            )
+            ).select_related("person__councilmatic_person")
             expected_attendees.update([m.person for m in org_members])
 
         attendees = set()
@@ -547,3 +583,28 @@ class ChicagoEventDetailView(EventDetailView):
         context["seo"] = seo
 
         return context
+
+    def get_queryset(self):
+
+        sponsors_qs = BillSponsorship.objects.filter(
+            person_id__isnull=False
+        ).select_related("person__councilmatic_person")
+
+        related_bill_qs = (
+            EventRelatedEntity.objects.filter(entity_type="bill")
+            .select_related("bill__councilmatic_bill")
+            .prefetch_related(
+                Prefetch("bill__sponsorships", queryset=sponsors_qs, to_attr="sponsors")
+            )
+        )
+
+        agenda_items_qs = EventAgendaItem.objects.order_by("order").prefetch_related(
+            Prefetch("related_entities", queryset=related_bill_qs, to_attr="bills")
+        )
+
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(Prefetch("agenda", queryset=agenda_items_qs))
+            .prefetch_related("documents")
+        )

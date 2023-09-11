@@ -30,19 +30,22 @@
       <br/>
       <p>{{ legislation.title }}</p>
 
-      {% if legislation.other_identifiers %}
+      {% with other_identifiers=legislation.other_identifiers.all %}
+      {% if other_identifiers %}
         <p>
           Alternate identifiers:
-          {% for identifier in legislation.other_identifiers.all %}
+          {% for identifier in other_identifiers %}
             {{ identifier.identifier }}
             {% if not forloop.last %} , {% endif %}
           {% endfor %}
         </p>
       {% endif %}
+      {% endwith %}
 
       <div class="divider"></div>
 
-      {% if legislation.sponsorships.all %}
+      {% with sponsors=sponsors_qs.all %}
+      {% if sponsors %}
         <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
 
         <div class="table-responsive">
@@ -51,8 +54,8 @@
               <tr>
                 <th></th>
                 <th>
-                  {% if legislation.sponsorships.all|length > 1 %}
-                    Sponsors ({{legislation.sponsorships.all|length}})
+                  {% if sponsors|length > 1 %}
+                    Sponsors ({{sponsors|length}})
                   {% else %}
                     Sponsor
                   {% endif %}
@@ -63,36 +66,36 @@
               </tr>
             </thead>
             <tbody>
-              {% for s in legislation.sponsorships.all %}
-                {% if s.is_primary %}
+              {% for s in sponsors %}
+                {% if s.primary %}
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
+                        <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
                       </div>
                     </td>
                     <td>
-                      {{ s.person.link_html | safe }} <span class="badge badge-default">Primary Sponsor</span>
+		      <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a><span class="badge badge-default">Primary Sponsor</span>
                     </td>
                     <td>
-                      {{s.person.latest_council_membership.post.label}}
+                      {{s.person.council_posts.0.post.label}}
                     </td>
                   </tr>
                 {% endif %}
               {% endfor %}
-              {% for s in legislation.sponsorships.all %}
-                {% if not s.is_primary %}
+              {% for s in sponsors %}
+                {% if not s.primary %}
                   <tr>
                     <td>
                       <div class="thumbnail-square">
-                        <img src='{{s.person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
+                        <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
                       </div>
                     </td>
                     <td>
-                      {{ s.person.link_html | safe }}
+                      <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a>
                     </td>
                     <td>
-                      {{s.person.latest_council_membership.post.label}}
+                      {{s.person.council_posts.0.post.label}}
                     </td>
                   </tr>
                 {% endif %}
@@ -102,8 +105,9 @@
         </div>
         <div class="divider"></div>
       {% endif %}
+      {% endwith %}
 
-      {% if actions %}
+      {% if legislation.actions %}
         <h3 class="no-pad-bottom"><i class='fa fa-fw fa-list-ul'></i> History</h3>
         <div class="table-responsive">
           <table class='table table-responsive' id='committee-actions'>
@@ -115,7 +119,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for action in actions %}
+              {% for action in legislation.actions.all %}
                 <tr>
                   <td class='nowrap text-muted'>
                     <span datetime='{{action.date }}'>{{action.date}}</span>
@@ -215,7 +219,7 @@
 
         {% for event in legislation.unique_related_upcoming_events %}
           <p>
-            {{event.start_time | date:'M d, Y' }} - {{event.link_html | safe}}
+            {{event.start_time | date:'M d, Y' }} - <a href="{% url event_detail event.slug %}" title="View Event Details">{{ event.name }}</a>
           </p>
         {% endfor %}
 
@@ -278,7 +282,7 @@
       "sourceOrganization": "{{ CITY_COUNCIL_NAME }}",
       "name": "{{ legislation.friendly_name }}",
       "alternateName": ["{{ legislation.identifier }}", "{{ legislation.identifier.split|join:'' }}"],
-      {% if actions %}"datePublished": "{{actions.0.date|date:'Y-m-d'}}", {% endif %}
+      {% if legislation.actions %}"datePublished": "{{legislation.actions.0.date|date:'Y-m-d'}}", {% endif %}
       "description": "{{ legislation.description }}",
       "text": "{% firstof legislation.full_text legislation.ocr_full_text %}"
     }

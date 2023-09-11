@@ -1,16 +1,16 @@
 import re
-from operator import attrgetter
-import pytz
-from django.utils import timezone
-from django.utils.functional import cached_property
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
+from operator import attrgetter
 
+import pytz
 from councilmatic_core.models import Bill, Event, Organization, Person
-from opencivicdata.legislative.models import LegislativeSession
-
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+from django.utils.functional import cached_property
+from opencivicdata.legislative.models import LegislativeSession
+
 from .helpers import topic_classifier
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
@@ -123,7 +123,7 @@ class ChicagoBill(Bill):
 
         return []
 
-    @property
+    @cached_property
     def full_text_doc_url(self):
         """
         override this if instead of having full text as string stored in
@@ -170,6 +170,15 @@ class ChicagoEvent(Event):
                 .latest("start_time")
             )
         else:
+            return None
+
+    @cached_property
+    def video_vimeo_id(self):
+        try:
+            link = self.media.first().links.first().url
+            vimeo_id = re.match(".*?([0-9]+)$", link).group(1)
+            return vimeo_id
+        except AttributeError:
             return None
 
 
