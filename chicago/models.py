@@ -7,12 +7,9 @@ from councilmatic_core.models import Bill, Event, Organization, Person
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
-from django.db.models import Prefetch
 from django.utils import timezone
 from django.utils.functional import cached_property
-from opencivicdata.legislative.models import (BillSponsorship,
-                                              EventRelatedEntity,
-                                              LegislativeSession)
+from opencivicdata.legislative.models import LegislativeSession
 
 from .helpers import topic_classifier
 
@@ -180,7 +177,6 @@ class ChicagoEvent(Event):
         try:
             link = self.media.first().links.first().url
             vimeo_id = re.match(".*?([0-9]+)$", link).group(1)
-            print(link, vimeo_id)
             return vimeo_id
         except AttributeError:
             return None
