@@ -28,10 +28,10 @@
     <p><a href="https://vimeo.com/{{event.video_vimeo_id}}">View on Vimeo</a></p>
   {% endif %}
   <hr />
-  <div class="row-fluid">
-    <div class="col-sm-6">
+  <div class="row">
+    <div class="col-sm-10">
       {% if event.agenda.all %}
-        <h4>Agenda</h4>
+        <h4>Agenda: {{event.agenda.all|length}} items</h4>
         <table class="table table table-responsive">
           <thead>
             <tr>
@@ -55,7 +55,7 @@
                     </td>
                     <td>
                       {% for s in agenda_item.bills.0.bill.sponsors %}
-                        {{ s.person.councilmatic_person.link_html | safe }}{% if not forloop.last %},{% endif %}
+                        <span class="nowrap">{{ s.person.councilmatic_person.link_html | safe }}</span>{% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   {% else %}
@@ -69,24 +69,10 @@
         </table>
       {% endif %}
 
-      {% if event.documents.all %}
-        <h4>Attachments</h4>
-        <p>
-          {% for document in event.documents.all %}
-            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.links.first.url}}">{{document.note}}</a><br />
-          {% endfor %}
-        </p>
-      {% endif %}
-      <div class="modal-links">
-        <!-- View on legistar -->
-        {{ event|get_legistar_link|safe }}
-      </div>
-    </div>
-    <div class="col-sm-6">
       <!-- only show attendance for past events that weren't cancelled -->
       {% if event.status == 'passed' %}
         {% if attendance_taken %}
-          <h4>Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
+          <h4>Alder Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
           <table class="table">
             <tr>
               <th></th>
@@ -110,10 +96,23 @@
             {% endfor %}
           </table>
         {% else %}
-          <h4>Attendance</h4>
+          <h4>Alder Attendance</h4>
           <p>Attendance was not taken for this meeting or has not been posted by the Clerk's office</p>
         {% endif %}
       {% endif %}
+
+      {% if event.documents.all %}
+        <h4>Attachments</h4>
+        <p>
+          {% for document in event.documents.all %}
+            <i class='fa fa-fw fa-file-text-o'></i> <a href="{{document.links.first.url}}">{{document.note}}</a><br />
+          {% endfor %}
+        </p>
+      {% endif %}
+      <div class="modal-links">
+        <!-- View on legistar -->
+        {{ event|get_legistar_link|safe }}
+      </div>
     </div>
   </div>
 
