@@ -1,28 +1,23 @@
 import itertools
+import json
+import re
 from datetime import datetime
 from operator import attrgetter
 from urllib.parse import urlencode
 
 import pytz
 from councilmatic_core.models import BillAction, Organization, Post
-from councilmatic_core.views import (
-    AboutView,
-    CommitteeDetailView,
-    CommitteesView,
-    CouncilmaticSearchForm,
-    CouncilMembersView,
-    EventsView,
-    IndexView,
-    PersonDetailView,
-)
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db.models import Max, Min, Prefetch, Subquery
 from django.http import Http404, HttpResponsePermanentRedirect
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import DetailView, ListView
+from django.utils.text import slugify
+from django.views.generic import DetailView, ListView, TemplateView
+from haystack.forms import FacetedSearchForm
 from haystack.generic_views import FacetedSearchView
 from opencivicdata.core.models import Membership
 from opencivicdata.legislative.models import (
@@ -36,7 +31,7 @@ from opencivicdata.legislative.models import (
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 
 
-class ChicagoIndexView(IndexView):
+class IndexView(TemplateView):
     template_name = "index.html"
     bill_model = ChicagoBill
     event_model = ChicagoEvent
@@ -86,7 +81,7 @@ class ChicagoIndexView(IndexView):
         return topic_hierarchy
 
     def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         # Find activity at last council meeting
         council_bills = self.council_bills()
         context["council_bills"] = council_bills
@@ -118,13 +113,23 @@ class ChicagoIndexView(IndexView):
         return context
 
 
-class ChicagoAboutView(AboutView):
+class AboutView(TemplateView):
     template_name = "about.html"
 
 
-class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
+class SearchForm(FacetedSearchForm):
+    def __init__(self, *args, **kwargs):
+        self.load_all = True
 
-    form_class = CouncilmaticSearchForm
+        super().__init__(*args, **kwargs)
+
+    def no_query_found(self):
+        return self.searchqueryset.all()
+
+
+class CouncilmaticFacetedSearchView(FacetedSearchView):
+
+    form_class = SearchForm
     facet_fields = [
         "bill_type",
         "sponsorships",
@@ -208,7 +213,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         return ""
 
 
-class ChicagoBillDetailView(DetailView):
+class BillDetailView(DetailView):
     model = ChicagoBill
     template_name = "legislation.html"
     context_object_name = "legislation"
@@ -302,7 +307,7 @@ class ChicagoBillDetailView(DetailView):
         return context
 
 
-class ChicagoDividedVotesView(ListView):
+class DividedVotesView(ListView):
     template_name = "divided_votes.html"
     context_object_name = "bills"
 
@@ -336,8 +341,51 @@ class ChicagoDividedVotesView(ListView):
         return context
 
 
-class ChicagoCouncilMembersView(CouncilMembersView):
+class CouncilMembersView(ListView):
     template_name = "council_members.html"
+    context_object_name = "posts"
+
+    def map(self):
+        map_geojson = {"type": "FeatureCollection", "features": []}
+
+        for post in self.object_list:
+            if post.shape:
+                council_member = "Vacant"
+                detail_link = ""
+                if post.current_member:
+                    council_member = post.current_member.person.name
+                    detail_link = post.current_member.person.slug
+
+                feature = {
+                    "type": "Feature",
+                    "geometry": json.loads(post.shape.json),
+                    "properties": {
+                        "district": post.label,
+                        "council_member": council_member,
+                        "detail_link": "/person/" + detail_link,
+                        "select_id": "polygon-{}".format(slugify(post.label)),
+                    },
+                }
+
+                map_geojson["features"].append(feature)
+
+        return json.dumps(map_geojson)
+
+    def get_queryset(self):
+        get_kwarg = {"name": settings.OCD_CITY_COUNCIL_NAME}
+
+        return Organization.objects.get(**get_kwarg).posts.all()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["seo"] = self.get_seo_blob()
+
+        if settings.MAP_CONFIG:
+            context["map_geojson"] = self.map
+        else:
+            context["map_geojson"] = None
+
+        return context
 
     def get_seo_blob(self):
         seo = {}
@@ -352,9 +400,10 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         return seo
 
 
-class ChicagoPersonDetailView(PersonDetailView):
+class PersonDetailView(DetailView):
     template_name = "person.html"
     model = ChicagoPerson
+    context_object_name = "person"
 
     def get_context_data(self, **kwargs):
         context = super(ChicagoPersonDetailView, self).get_context_data(**kwargs)
@@ -386,10 +435,56 @@ class ChicagoPersonDetailView(PersonDetailView):
         context["attendance_absent"] = len(
             [a for a in attendance if a["attended"] is False]
         )
+
+        context["map_geojson"] = None
+
+        if (
+            settings.MAP_CONFIG
+            and person.latest_council_membership
+            and person.latest_council_membership.post
+            and person.latest_council_membership.post.shape
+        ):
+            map_geojson = {"type": "FeatureCollection", "features": []}
+
+            feature = {
+                "type": "Feature",
+                "geometry": json.loads(
+                    person.latest_council_membership.post.shape.json
+                ),
+                "properties": {
+                    "district": person.latest_council_membership.post.label,
+                },
+            }
+
+            map_geojson["features"].append(feature)
+
+            context["map_geojson"] = json.dumps(map_geojson)
+
+        seo = {}
+        seo.update(settings.SITE_META)
+        if person.current_council_seat:
+            short_name = re.sub(r",.*", "", person.name)
+            seo[
+                "site_desc"
+            ] = "%s - %s representative in %s. See what %s has been up to!" % (
+                person.name,
+                person.current_council_seat,
+                settings.CITY_COUNCIL_NAME,
+                short_name,
+            )
+        else:
+            seo["site_desc"] = "Details on %s, %s" % (
+                person.name,
+                settings.CITY_COUNCIL_NAME,
+            )
+        seo["title"] = "%s - %s" % (person.name, settings.SITE_META["site_name"])
+        seo["image"] = static(person.headshot.url)
+        context["seo"] = seo
+
         return context
 
 
-class ChicagoCouncilMembersCompareView(ListView):
+class CouncilMembersCompareView(ListView):
     template_name = "compare_council_members.html"
     context_object_name = "council_members"
 
@@ -409,20 +504,21 @@ class ChicagoCouncilMembersCompareView(ListView):
         return context
 
 
-class ChicagoCommitteesView(CommitteesView):
+class CommitteesView(ListView):
     template_name = "committees.html"
+    context_object_name = "committees"
 
     def get_queryset(self):
         return Organization.committees().distinct("name")
 
 
-class ChicagoCommitteeDetailView(CommitteeDetailView):
+class CommitteeDetailView(DetailView):
     template_name = "committee.html"
     context_object_name = "committee"
     model = ChicagoOrganization
 
     def get_context_data(self, **kwargs):
-        context = super(CommitteeDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         committee = context["committee"]
         context["memberships"] = committee.memberships.all()
@@ -453,11 +549,11 @@ class ChicagoCommitteeDetailView(CommitteeDetailView):
         return context
 
 
-class ChicagoEventsView(EventsView):
+class EventsView(TemplateView):
     template_name = "events.html"
 
     def get_context_data(self, **kwargs):
-        context = super(EventsView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # Get year range for datepicker.
         aggregates = ChicagoEvent.objects.aggregate(
@@ -532,7 +628,7 @@ class ChicagoEventsView(EventsView):
         return context
 
 
-class ChicagoEventDetailView(DetailView):
+class EventDetailView(DetailView):
     model = ChicagoEvent
     template_name = "event.html"
     context_object_name = "event"

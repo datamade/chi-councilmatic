@@ -2,23 +2,23 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 
-from chicago.views import (
-    ChicagoCouncilmaticFacetedSearchView,
-    ChicagoIndexView,
-    ChicagoAboutView,
-    ChicagoBillDetailView,
-    ChicagoDividedVotesView,
-    ChicagoPersonDetailView,
-    ChicagoEventDetailView,
-    ChicagoEventsView,
-    ChicagoCouncilMembersView,
-    ChicagoCouncilMembersCompareView,
-    ChicagoCommitteeDetailView,
-    ChicagoCommitteesView,
-)
 from chicago.feeds import (
     ChicagoBillDetailActionFeed,
     ChicagoCouncilmaticFacetedSearchFeed,
+)
+from chicago.views import (
+    AboutView,
+    BillDetailView,
+    CommitteeDetailView,
+    CommitteesView,
+    CouncilmaticFacetedSearchView,
+    CouncilMembersCompareView,
+    CouncilMembersView,
+    DividedVotesView,
+    EventDetailView,
+    EventsView,
+    IndexView,
+    PersonDetailView,
 )
 
 patterns = (
@@ -28,12 +28,12 @@ patterns = (
             ChicagoCouncilmaticFacetedSearchFeed(),
             name="councilmatic_search_feed",
         ),
-        url(r"^search/", ChicagoCouncilmaticFacetedSearchView.as_view(), name="search"),
-        url(r"^$", ChicagoIndexView.as_view(), name="index"),
-        url(r"^about/$", ChicagoAboutView.as_view(), name="about"),
+        url(r"^search/", CouncilmaticFacetedSearchView.as_view(), name="search"),
+        url(r"^$", IndexView.as_view(), name="index"),
+        url(r"^about/$", AboutView.as_view(), name="about"),
         url(
             r"^legislation/(?P<slug>[^/]+)/$",
-            ChicagoBillDetailView.as_view(),
+            BillDetailView.as_view(),
             name="bill_detail",
         ),
         url(
@@ -43,18 +43,18 @@ patterns = (
         ),
         url(
             r"^divided-votes/(?P<legislative_session>\w+)/$",
-            ChicagoDividedVotesView.as_view(),
+            DividedVotesView.as_view(),
             name="divided_votes",
         ),
         url(r"^divided-votes/$", RedirectView.as_view(url="/divided-votes/2023/")),
         url(
             r"^compare-council-members/$",
-            ChicagoCouncilMembersCompareView.as_view(),
+            CouncilMembersCompareView.as_view(),
             name="compare_council_members",
         ),
         url(
             r"^council-members/$",
-            ChicagoCouncilMembersView.as_view(),
+            CouncilMembersView.as_view(),
             name="council_members",
         ),
         url(
@@ -64,21 +64,21 @@ patterns = (
         ),
         url(
             r"^person/(?P<slug>[^/]+)/$",
-            ChicagoPersonDetailView.as_view(),
+            PersonDetailView.as_view(),
             name="person",
         ),
         url(
             r"^event/(?P<slug>[^/]+)/$",
-            ChicagoEventDetailView.as_view(),
+            EventDetailView.as_view(),
             name="event_detail",
         ),
-        url(r"^events/$", ChicagoEventsView.as_view(), name="events"),
+        url(r"^events/$", EventsView.as_view(), name="events"),
         url(
             r"^committee/(?P<slug>[^/]+)/$",
-            ChicagoCommitteeDetailView.as_view(),
+            CommitteeDetailView.as_view(),
             name="committee_detail",
         ),
-        url(r"^committees/$", ChicagoCommitteesView.as_view(), name="committees"),
+        url(r"^committees/$", CommitteesView.as_view(), name="committees"),
     ],
     "chicago",
 )
