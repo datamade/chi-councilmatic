@@ -17,8 +17,9 @@ def get_person_headshot(person):
 @register.filter
 def get_legistar_link(object):
     for source in object.sources.all():
-        if source.note == "web":
-            return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-external-link'></i> View on the {CITY_VOCAB['SOURCE']} website</a>"  # noqa
+        return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-external-link'></i> View on the {CITY_VOCAB['SOURCE']} website</a>"  # noqa
+
+    return ""
 
 
 @register.filter

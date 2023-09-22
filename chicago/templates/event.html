@@ -70,7 +70,7 @@
       {% endif %}
 
       <!-- only show attendance for past events that weren't cancelled -->
-      {% if event.status == 'passed' %}
+      {% if event.status == 'passed' or event.status == 'confirmed' %}
         {% if attendance_taken %}
           <h4>Alder Attendance: {{attendance_present}} Present, {{attendance_absent}} Absent</h4>
           <table class="table">
