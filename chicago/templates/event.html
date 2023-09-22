@@ -24,7 +24,7 @@
   </p>
 
   {% if event.video_vimeo_id %}
-    <iframe src="https://player.vimeo.com/video/{{event.video_vimeo_id}}?h=b9331c0f77&title=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://player.vimeo.com/video/{{event.video_vimeo_id}}?h=b9331c0f77&title=0" width="100%" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
     <p><a href="https://vimeo.com/{{event.video_vimeo_id}}">View on Vimeo</a></p>
   {% endif %}
   <hr />
@@ -32,10 +32,10 @@
     <div class="col-sm-10">
       {% if event.agenda.all %}
         <h4>Agenda: {{event.agenda.all|length}} items</h4>
-        <table class="table table table-responsive">
+        <table class="table table table-responsive table-condensed">
           <thead>
             <tr>
-              <th>Order</th>
+              <th>#</th>
               <th>Description</th>
               <th>ID</th>
               <th>Sponsor(s)</th>
@@ -55,7 +55,7 @@
                     </td>
                     <td>
                       {% for s in agenda_item.bills.0.bill.sponsors %}
-                        <span class="nowrap">{{ s.person.councilmatic_person.link_html | safe }}</span>{% if not forloop.last %},{% endif %}
+                        {{ s.person.councilmatic_person.link_html | safe }}{% if not forloop.last %},{% endif %}
                       {% endfor %}
                     </td>
                   {% else %}
