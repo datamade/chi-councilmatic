@@ -31,80 +31,80 @@
       <p>{{ legislation.title }}</p>
 
       {% with other_identifiers=legislation.other_identifiers.all %}
-      {% if other_identifiers %}
-        <p>
-          Alternate identifiers:
-          {% for identifier in other_identifiers %}
-            {{ identifier.identifier }}
-            {% if not forloop.last %} , {% endif %}
-          {% endfor %}
-        </p>
-      {% endif %}
+        {% if other_identifiers %}
+          <p>
+            Alternate identifiers:
+            {% for identifier in other_identifiers %}
+              {{ identifier.identifier }}
+              {% if not forloop.last %} , {% endif %}
+            {% endfor %}
+          </p>
+        {% endif %}
       {% endwith %}
 
       <div class="divider"></div>
 
       {% with sponsors=sponsors_qs.all %}
-      {% if sponsors %}
-        <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
+        {% if sponsors %}
+          <h3 class="no-pad-bottom"><i class='fa fa-fw fa-users'></i> Sponsors</h3>
 
-        <div class="table-responsive">
-          <table class='table table-responsive' id='council-members'>
-            <thead>
-              <tr>
-                <th></th>
-                <th>
-                  {% if sponsors|length > 1 %}
-                    Sponsors ({{sponsors|length}})
-                  {% else %}
-                    Sponsor
+          <div class="table-responsive">
+            <table class='table table-responsive' id='council-members'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>
+                    {% if sponsors|length > 1 %}
+                      Sponsors ({{sponsors|length}})
+                    {% else %}
+                      Sponsor
+                    {% endif %}
+                  </th>
+                  <th>
+                    {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for s in sponsors %}
+                  {% if s.primary %}
+                    <tr>
+                      <td>
+                        <div class="thumbnail-square">
+                          <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
+                        </div>
+                      </td>
+                      <td>
+                        <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a><span class="badge badge-default">Primary Sponsor</span>
+                      </td>
+                      <td>
+                        {{s.person.council_posts.0.post.label}}
+                      </td>
+                    </tr>
                   {% endif %}
-                </th>
-                <th>
-                  {{CITY_VOCAB.MUNICIPAL_DISTRICT}}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for s in sponsors %}
-                {% if s.primary %}
-                  <tr>
-                    <td>
-                      <div class="thumbnail-square">
-                        <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
-                      </div>
-                    </td>
-                    <td>
-		      <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a><span class="badge badge-default">Primary Sponsor</span>
-                    </td>
-                    <td>
-                      {{s.person.council_posts.0.post.label}}
-                    </td>
-                  </tr>
-                {% endif %}
-              {% endfor %}
-              {% for s in sponsors %}
-                {% if not s.primary %}
-                  <tr>
-                    <td>
-                      <div class="thumbnail-square">
-                        <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
-                      </div>
-                    </td>
-                    <td>
-                      <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a>
-                    </td>
-                    <td>
-                      {{s.person.council_posts.0.post.label}}
-                    </td>
-                  </tr>
-                {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <div class="divider"></div>
-      {% endif %}
+                {% endfor %}
+                {% for s in sponsors %}
+                  {% if not s.primary %}
+                    <tr>
+                      <td>
+                        <div class="thumbnail-square">
+                          <img src='{{s.person.councilmatic_person|get_person_headshot}}' alt='{{s.person.name}}' title='{{s.person.name}}' class='img-responsive' />
+                        </div>
+                      </td>
+                      <td>
+                        <a href="{% url 'person' s.person.councilmatic_person.slug %}">{{ s.person.name }}</a>
+                      </td>
+                      <td>
+                        {{s.person.council_posts.0.post.label}}
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="divider"></div>
+        {% endif %}
       {% endwith %}
 
       {% if legislation.actions %}
@@ -131,6 +131,9 @@
                     <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
 
                     {% if action.vote.counts.all|length > 0 %}
+                      {% if action.vote.motion_text %}
+                        <p>{{action.vote.motion_text}}</p>
+                      {% endif %}
                       <table class='table table-responsive'>
                         <thead>
                           <tr>
