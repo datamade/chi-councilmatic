@@ -523,6 +523,53 @@ fieldset[disabled] .form-control {
   background-color: #fff;
 }
 
+@media only screen and (max-width: 768px) {
+  /* Force table to not be like tables anymore */
+  table.rows-and-columns,
+  .rows-and-columns thead,
+  .rows-and-columns tbody,
+  .rows-and-columns th,
+  .rows-and-columns td,
+  .rows-and-columns tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .rows-and-columns thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .rows-and-columns tr {
+    border: 1px solid #ccc;
+    margin-bottom: 1em;
+    background-color: white;
+    padding: 0.2rem;
+  }
+
+  .rows-and-columns td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 0;
+    padding-left: 10%;
+  }
+
+  .rows-and-columns td:before {
+    display: block;
+    color: black;
+    margin-left: -10%;
+    font-size: 0.8em;
+  }
+}
+
+.small-table-header {
+  font-size: 0.8em;
+  font-weight: 900;
+  color: #777;
+}
+
 /* medium screens */
 @media only screen and (max-width: 767px) {
   .navbar-brand {
