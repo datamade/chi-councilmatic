@@ -46,25 +46,25 @@
               <tr>
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>
-                    <p class="hidden-lg hidden-md hidden-sm small-table-header">#</p>
-                    <span class="table-content">{{ forloop.counter }}</span>
+                    <span class="visible-xs-block small-table-header">#</span>
+                    {{ forloop.counter }}
                   </td>
                   <td>
-                    <p class="hidden-lg hidden-md hidden-sm small-table-header">Description</p>
-                    <span class="table-content">{{agenda_item.description}}</span>
+                    <span class="visible-xs-block small-table-header">Description</span>
+                    {{agenda_item.description}}
                   </td>
                   {% if agenda_item.bills %}
                     <td>
-                      <p class="hidden-lg hidden-md hidden-sm small-table-header">ID</p>
-                      <span class="table-content"><a href="/legislation/{{agenda_item.bills.0.bill.councilmatic_bill.slug}}/">
+                      <span class="visible-xs-block small-table-header">ID</span>
+                      <a href="/legislation/{{agenda_item.bills.0.bill.councilmatic_bill.slug}}/">
                         {{ agenda_item.bills.0.bill.councilmatic_bill.friendly_name }}
-                      </a></span>
+                      </a>
                     </td>
                     <td>
-                      <p class="hidden-lg hidden-md hidden-sm small-table-header">Sponsors</p>
-                      <span class="table-content">{% for s in agenda_item.bills.0.bill.sponsors %}
+                      <span class="visible-xs-block small-table-header">Sponsor(s)</span>
+                      {% for s in agenda_item.bills.0.bill.sponsors %}
                         {{ s.person.councilmatic_person.link_html | safe }}{% if not forloop.last %},{% endif %}
-                      {% endfor %}</span>
+                      {% endfor %}
                     </td>
                   {% else %}
                     <td></td>

@@ -541,26 +541,21 @@ fieldset[disabled] .form-control {
     left: -9999px;
   }
 
-  .rows-and-columns tr {
+  .rows-and-columns tbody tr {
     border: 1px solid #ccc;
     margin-bottom: 1em;
-    background-color: white;
     padding: 0.2rem;
   }
 
-  .rows-and-columns td {
-    /* Behave  like a "row" */
+  .rows-and-columns tbody > tr > td {
+    /* remove default table border */
     border: none;
-    border-bottom: 1px solid #eee;
-    padding: 0;
-    padding-left: 10%;
+    background-color: #fbfbfb;
   }
 
-  .rows-and-columns td:before {
-    display: block;
-    color: black;
-    margin-left: -10%;
-    font-size: 0.8em;
+  .rows-and-columns tbody > tr > td ~ td {
+    /* add a top border to all elements but the first one */
+    border-top: 1px solid #ccc;
   }
 }
 
