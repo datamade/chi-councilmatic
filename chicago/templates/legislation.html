@@ -110,7 +110,7 @@
       {% if legislation.actions %}
         <h3 class="no-pad-bottom"><i class='fa fa-fw fa-list-ul'></i> History</h3>
         <div class="table-responsive">
-          <table class='table table-responsive' id='committee-actions'>
+          <table class='table rows-and-columns' id='committee-actions'>
             <thead>
               <tr>
                 <th>Date</th>
@@ -122,19 +122,22 @@
               {% for action in legislation.actions.all %}
                 <tr>
                   <td class='nowrap text-muted'>
+                    <span class="visible-xs-block small-table-header">Date</span>
                     <span datetime='{{action.date }}'>{{action.date}}</span>
                   </td>
                   <td>
+                    <span class="visible-xs-block small-table-header">Legislative body</span>
                     <a href="{% url 'committee_detail' action.organization.councilmatic_organization.slug %} %}">{{action.organization.name}}</a>
                   </td>
                   <td>
+                    <span class="visible-xs-block small-table-header">Action</span>
                     <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
 
                     {% if action.vote.counts.all|length > 0 %}
                       {% if action.vote.motion_text %}
                         <p>{{action.vote.motion_text}}</p>
                       {% endif %}
-                      <table class='table table-responsive'>
+                      <table class='table'>
                         <thead>
                           <tr>
                             <th>Votes for</th>
@@ -145,6 +148,7 @@
                         <tbody>
                           <tr>
                             <td>
+                              <span class="visible-xs-block small-table-header">Votes for</span>
                               {% for vote in action.vote.counts.all %}
                                 {% if vote.option == 'yes' %}
                                   <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
@@ -165,6 +169,7 @@
                               </p>
                             </td>
                             <td>
+                              <span class="visible-xs-block small-table-header">Votes against</span>
                               {% for vote in action.vote.counts.all %}
                                 {% if vote.option == 'no' %}
                                   <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />
@@ -185,6 +190,7 @@
                               </p>
                             </td>
                             <td>
+                              <span class="visible-xs-block small-table-header">Other votes</span>
                               {% for vote in action.vote.counts.all %}
                                 {% if vote.option != 'yes' and vote.option != 'no' %}
                                   <strong>{{vote.option|capfirst}}: {{vote.value}}</strong><br />

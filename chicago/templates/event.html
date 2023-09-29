@@ -28,8 +28,8 @@
       <div class="col-sm-6">
         <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/{{event.video_vimeo_id}}?h=b9331c0f77&title=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-          <p><a href="https://vimeo.com/{{event.video_vimeo_id}}">View on Vimeo</a></p>
         </div>
+        <p><a href="https://vimeo.com/{{event.video_vimeo_id}}">View on Vimeo</a></p>
       </div>
     </div>
   {% endif %}
@@ -38,7 +38,7 @@
     <div class="col-sm-10">
       {% if event.agenda.all %}
         <h4>Agenda: {{event.agenda.all|length}} items</h4>
-        <table class="table table table-responsive table-condensed rows-and-columns">
+        <table class="table table-condensed rows-and-columns">
           <thead>
             <tr>
               <th>#</th>
