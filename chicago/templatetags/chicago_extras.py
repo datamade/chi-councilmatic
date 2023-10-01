@@ -1,4 +1,5 @@
 from django import template
+from django.core.exceptions import ObjectDoesNotExist
 from councilmatic.settings import ALDER_EXTRAS, CITY_VOCAB
 
 register = template.Library()
@@ -16,10 +17,12 @@ def get_person_headshot(person):
 
 @register.filter
 def get_legistar_link(object):
-    for source in object.sources.all():
+    try:
+        source = object.sources.get(note="web")
         return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-external-link'></i> View on the {CITY_VOCAB['SOURCE']} website</a>"  # noqa
 
-    return ""
+    except ObjectDoesNotExist:
+        return ""
 
 
 @register.filter
