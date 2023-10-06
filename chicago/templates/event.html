@@ -44,6 +44,7 @@
               <th>#</th>
               <th>Description</th>
               <th>ID</th>
+              <th>Action</th>
               <th>Sponsor(s)</th>
             </tr>
           </thead>
@@ -53,7 +54,7 @@
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>
                     <span class="visible-xs-block small-table-header">#</span>
-                    {{ forloop.counter }}
+                    {{ agenda_item.order }}
                   </td>
                   <td>
                     <span class="visible-xs-block small-table-header">Description</span>
@@ -65,6 +66,10 @@
                       <a href="/legislation/{{agenda_item.bills.0.bill.councilmatic_bill.slug}}/">
                         {{ agenda_item.bills.0.bill.councilmatic_bill.friendly_name }}
                       </a>
+                    </td>
+                    <td>
+                      <span class="visible-xs-block small-table-header">Action</span>
+                      {{ agenda_item.actions.0.vote_event.bill_action.description }}
                     </td>
                     <td>
                       <span class="visible-xs-block small-table-header">Sponsor(s)</span>

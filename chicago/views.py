@@ -598,8 +598,23 @@ class ChicagoEventDetailView(DetailView):
             )
         )
 
-        agenda_items_qs = EventAgendaItem.objects.order_by("order").prefetch_related(
-            Prefetch("related_entities", queryset=related_bill_qs, to_attr="bills")
+        related_action_qs = EventRelatedEntity.objects.filter(
+            entity_type="vote_event"
+        ).select_related("vote_event__bill_action")
+
+        agenda_items_qs = (
+            EventAgendaItem.objects.extra(
+                select={"order_numeric": 'CAST("order" as INTEGER)'}
+            )
+            .order_by("order_numeric")
+            .prefetch_related(
+                Prefetch("related_entities", queryset=related_bill_qs, to_attr="bills")
+            )
+            .prefetch_related(
+                Prefetch(
+                    "related_entities", queryset=related_action_qs, to_attr="actions"
+                )
+            )
         )
 
         return (
