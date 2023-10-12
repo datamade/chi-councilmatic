@@ -54,7 +54,7 @@
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>
                     <span class="visible-xs-block small-table-header">#</span>
-                    {{ agenda_item.order }}
+                    {{ agenda_item.order_numeric|add:1 }}
                   </td>
                   <td>
                     <span class="visible-xs-block small-table-header">Description</span>
