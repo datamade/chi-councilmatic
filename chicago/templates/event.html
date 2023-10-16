@@ -42,9 +42,9 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Action</th>
               <th>Description</th>
               <th>ID</th>
-              <th>Action</th>
               <th>Sponsor(s)</th>
             </tr>
           </thead>
@@ -57,6 +57,10 @@
                     {{ agenda_item.order_numeric|add:1 }}
                   </td>
                   <td>
+                    <span class="visible-xs-block small-table-header">Action</span>
+                    <span class='nowrap {{agenda_item.actions.0.vote_event.bill_action.description|label_from_text}}'>{{ agenda_item.actions.0.vote_event.bill_action.description }}</span>
+                  </td>
+                  <td>
                     <span class="visible-xs-block small-table-header">Description</span>
                     {{agenda_item.description}}
                   </td>
@@ -66,10 +70,6 @@
                       <a href="/legislation/{{agenda_item.bills.0.bill.councilmatic_bill.slug}}/">
                         {{ agenda_item.bills.0.bill.councilmatic_bill.friendly_name }}
                       </a>
-                    </td>
-                    <td>
-                      <span class="visible-xs-block small-table-header">Action</span>
-                      {{ agenda_item.actions.0.vote_event.bill_action.description }}
                     </td>
                     <td>
                       <span class="visible-xs-block small-table-header">Sponsor(s)</span>

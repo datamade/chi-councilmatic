@@ -26,6 +26,21 @@ def get_legistar_link(object):
 
 
 @register.filter
+def label_from_text(text):
+    text = text.lower()
+    success_list = ["passed", "approved", "adopted"]
+    failed_list = ["failed", "rejected"]
+
+    if any(word in text for word in success_list):
+        return "text-success"
+
+    if any(word in text for word in failed_list):
+        return "text-danger"
+
+    return ""
+
+
+@register.filter
 def get_mayor(year):
     if year == "2023":
         return "Brandon Johnson"
