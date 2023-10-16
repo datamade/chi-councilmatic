@@ -42,6 +42,7 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Action</th>
               <th>Description</th>
               <th>ID</th>
               <th>Sponsor(s)</th>
@@ -53,7 +54,11 @@
                 {% if agenda_item.description|lower != 'page break' %}
                   <td>
                     <span class="visible-xs-block small-table-header">#</span>
-                    {{ forloop.counter }}
+                    {{ agenda_item.order_numeric|add:1 }}
+                  </td>
+                  <td>
+                    <span class="visible-xs-block small-table-header">Action</span>
+                    <span class='nowrap {{agenda_item.actions.0.vote_event.bill_action.description|label_from_text}}'>{{ agenda_item.actions.0.vote_event.bill_action.description }}</span>
                   </td>
                   <td>
                     <span class="visible-xs-block small-table-header">Description</span>
