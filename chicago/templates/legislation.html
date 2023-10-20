@@ -30,7 +30,7 @@
       <br/>
       <p>{{ legislation.title }}</p>
 
-      {% with other_identifiers=legislation.other_identifiers.all %}
+      {% with other_identifiers=alternate_identifiers %}
         {% if other_identifiers %}
           <p>
             Alternate identifiers:
