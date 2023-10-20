@@ -261,6 +261,10 @@ class ChicagoBillDetailView(DetailView):
 
         bill = self.object
 
+        alternate_identifiers = bill.other_identifiers.exclude(
+            identifier=bill.identifier
+        )
+
         # we have to  do the sponsors here, instead of in get_queryset
         # because we need a handle on the actual bill object in order
         # to get the council post as of the first action on the bill
@@ -287,6 +291,7 @@ class ChicagoBillDetailView(DetailView):
         )
 
         context["sponsors_qs"] = sponsors
+        context["alternate_identifiers"] = alternate_identifiers
 
         seo = {}
         seo.update(settings.SITE_META)
