@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
+from django.urls import path
 from django.contrib import admin
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, TemplateView
+from django.contrib.sitemaps.views import views
 
 from chicago.views import (
     ChicagoCouncilmaticFacetedSearchView,
@@ -15,11 +17,22 @@ from chicago.views import (
     ChicagoCouncilMembersCompareView,
     ChicagoCommitteeDetailView,
     ChicagoCommitteesView,
+    ChicagoEventSitemap,
+    ChicagoCommitteeSitemap,
+    ChicagoPersonSitemap,
+    ChicagoBillSitemap,
 )
 from chicago.feeds import (
     ChicagoBillDetailActionFeed,
     ChicagoCouncilmaticFacetedSearchFeed,
 )
+
+sitemaps = {
+    "meetings": ChicagoEventSitemap,
+    "committees": ChicagoCommitteeSitemap,
+    "people": ChicagoPersonSitemap,
+    "legislation": ChicagoBillSitemap,
+}
 
 patterns = (
     [
@@ -79,6 +92,22 @@ patterns = (
             name="committee_detail",
         ),
         url(r"^committees/$", ChicagoCommitteesView.as_view(), name="committees"),
+        path(
+            "robots.txt",
+            TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        ),
+        path(
+            "sitemap.xml",
+            views.index,
+            {"sitemaps": sitemaps},
+            name="django.contrib.sitemaps.views.index",
+        ),
+        path(
+            "sitemap-<section>.xml",
+            views.sitemap,
+            {"sitemaps": sitemaps},
+            name="django.contrib.sitemaps.views.sitemap",
+        ),
     ],
     "chicago",
 )
