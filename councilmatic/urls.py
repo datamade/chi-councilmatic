@@ -2,7 +2,8 @@ from django.conf.urls import include, url
 from django.urls import path
 from django.contrib import admin
 from django.views.generic.base import RedirectView, TemplateView
-from django.contrib.sitemaps.views import views
+from django.contrib.sitemaps import views as sitemap_views
+from django.views.decorators.cache import cache_page
 
 from chicago.views import (
     ChicagoCouncilmaticFacetedSearchView,
@@ -17,21 +18,26 @@ from chicago.views import (
     ChicagoCouncilMembersCompareView,
     ChicagoCommitteeDetailView,
     ChicagoCommitteesView,
-    ChicagoEventSitemap,
-    ChicagoCommitteeSitemap,
-    ChicagoPersonSitemap,
-    ChicagoBillSitemap,
 )
 from chicago.feeds import (
     ChicagoBillDetailActionFeed,
     ChicagoCouncilmaticFacetedSearchFeed,
 )
+from chicago.views_sitemaps import (
+    ChicagoEventSitemap,
+    ChicagoCommitteeSitemap,
+    ChicagoPersonSitemap,
+    ChicagoBillSitemap,
+    StaticViewSitemap,
+)
 
+# to do: add static pages
 sitemaps = {
     "meetings": ChicagoEventSitemap,
     "committees": ChicagoCommitteeSitemap,
     "people": ChicagoPersonSitemap,
     "legislation": ChicagoBillSitemap,
+    "static": StaticViewSitemap,
 }
 
 patterns = (
@@ -98,15 +104,14 @@ patterns = (
         ),
         path(
             "sitemap.xml",
-            views.index,
-            {"sitemaps": sitemaps},
-            name="django.contrib.sitemaps.views.index",
+            cache_page(86400)(sitemap_views.index),
+            {"sitemaps": sitemaps, "sitemap_url_name": "chicago:sitemaps"},
         ),
         path(
-            "sitemap-<section>.xml",
-            views.sitemap,
+            "sitemap-<str:section>.xml",
+            cache_page(86400)(sitemap_views.sitemap),
             {"sitemaps": sitemaps},
-            name="django.contrib.sitemaps.views.sitemap",
+            name="sitemaps",
         ),
     ],
     "chicago",

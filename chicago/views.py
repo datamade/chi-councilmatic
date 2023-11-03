@@ -19,12 +19,10 @@ from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db.models import Max, Min, Prefetch, Subquery
-from django.core.paginator import Paginator
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
-from django.contrib.sitemaps import Sitemap
 from haystack.generic_views import FacetedSearchView
 from opencivicdata.core.models import Membership
 from opencivicdata.legislative.models import (
@@ -420,7 +418,7 @@ class ChicagoCommitteesView(CommitteesView):
     template_name = "committees.html"
 
     def get_queryset(self):
-        return Organization.committees().distinct("name")
+        return Organization.committees()
 
 
 class ChicagoCommitteeDetailView(CommitteeDetailView):
@@ -630,62 +628,3 @@ class ChicagoEventDetailView(DetailView):
             .prefetch_related(Prefetch("agenda", queryset=agenda_items_qs))
             .prefetch_related("documents")
         )
-
-
-# sitemap definitions
-
-
-class ChicagoEventSitemap(Sitemap):
-    changefreq = "weekly"
-    priority = 0.5
-
-    def items(self):
-        return ChicagoEvent.objects.all()
-
-    def lastmod(self, obj):
-        return obj.start_time
-
-    def location(self, obj):
-        return f"/events/{obj.slug}"
-
-
-class ChicagoCommitteeSitemap(Sitemap):
-    changefreq = "yearly"
-    priority = 0.5
-
-    def items(self):
-        return Organization.committees().distinct("name")
-
-    def location(self, obj):
-        return f"/committee/{obj.slug}"
-
-
-class ChicagoPersonSitemap(Sitemap):
-    changefreq = "yearly"
-    priority = 0.5
-
-    def items(self):
-        return (
-            ChicagoPerson.objects.filter(
-                memberships__organization__name=settings.OCD_CITY_COUNCIL_NAME
-            )
-            .filter(memberships__end_date__gt=datetime.now())
-            .distinct()
-        )
-
-    def location(self, obj):
-        return f"/person/{obj.slug}"
-
-
-class ChicagoBillSitemap(Sitemap):
-    changefreq = "daily"
-    priority = 1
-
-    def items(self):
-        return ChicagoBill.objects.all()
-
-    def paginator(self):
-        return Paginator(self.items(self), 1000)
-
-    def location(self, obj):
-        return f"/legislation/{obj.slug}"
