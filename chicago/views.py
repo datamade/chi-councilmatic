@@ -418,7 +418,7 @@ class ChicagoCommitteesView(CommitteesView):
     template_name = "committees.html"
 
     def get_queryset(self):
-        return Organization.committees().distinct("name")
+        return Organization.committees()
 
 
 class ChicagoCommitteeDetailView(CommitteeDetailView):
