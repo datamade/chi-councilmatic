@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://chicago.councilmatic.org/sitemap.xml
