@@ -58,15 +58,6 @@
       ]
     });
 
-    $( document ).ready(function() {
-      $('.thumbnail-square img').each(function() {
-        if ($(this).width() > $(this).height()) {
-          $(this).addClass('landscape');
-        }
-      });
-    });
-
-
     {% if map_geojson %}
       $('tbody tr').on( 'mouseover', function () {
         hoverOnRow(this.id);

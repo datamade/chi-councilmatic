@@ -325,12 +325,6 @@
       ]
     });
 
-    $('.thumbnail-square img').each(function() {
-      if ($(this).width() > $(this).height()) {
-        $(this).addClass('landscape');
-      }
-    });
-
     if (window.screen.width > 768){
       $("#pdf-embed").attr("src", "/pdfviewer/?file={{legislation.full_text_doc_url|urlencode}}");
     }

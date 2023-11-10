@@ -16,6 +16,12 @@
 
       <hr />
 
+      <h4><i class='fa fa-fw fa-group'></i> Committee Members ({{ committee.all_members|length }})</h4>
+
+      {% include 'partials/committee_person_table.html' %}
+
+      <hr />
+
       {% if committee.recent_events %}
         <h4 class="modal-links">
           <i class='fa fa-fw fa-calendar-o'></i> Committee {{ CITY_VOCAB.EVENTS }}&nbsp;
@@ -61,71 +67,11 @@
                   </td>
                 </tr>
               {% endfor %}
-              <tr>
-                <td colspan="3" align="center">
-                  <a href="" id="more-events"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
-                  <a href="" id="fewer-events"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
         <hr />
       {% endif %}
-
-      <h4 class="modal-links"><i class='fa fa-fw fa-list-ul'></i> Recent Legislative Activity&nbsp;
-        <small class="pull-right"><a href="actions/rss/" title="RSS feed for Recent Legislative Activity by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for recent legislative activity</a></small>
-      </h4>
-      {% if committee.recent_activity %}
-        <div class="table-responsive">
-          <table class='table' id='committee-actions'>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Action</th>
-                <th>Legislation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for action in committee.recent_activity %}
-                <tr class="activity-row">
-                  <td class='nowrap'>
-                    <p class="text-muted no-pad-bottom">
-                      {{action.date}}
-                    </p>
-                  </td>
-                  <td class='nowrap'>
-                    <p class="no-pad-bottom">
-                      <span class='text-{{action.label}}'>{{action.description | remove_action_subj}}</span>
-                    </p>
-                  </td>
-                  <td>
-                    <p class="no-pad-bottom">
-                      <a href="/legislation/{{action.bill.slug}}/">{{action.bill.friendly_name}}</a>
-                    </p>
-                    <p class="small no-pad-bottom">
-                      {{action.bill.title | short_blurb}}
-                    </p>
-                  </td>
-                </tr>
-              {% endfor %}
-              <tr>
-                <td colspan="3" align="center">
-                  <a href="" id="more-actions"><i class="fa fa-fw fa-chevron-down"></i>Show more</a>
-                  <a href="" id="fewer-actions"><i class="fa fa-fw fa-chevron-up"></i>Show fewer</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      {% else %}
-        <p>No recent legislative activity</p>
-      {% endif %}
-
-      <hr />
-      <h4><i class='fa fa-fw fa-group'></i> Committee Members ({{ committee.all_members|length }})</h4>
-
-      {% include 'partials/committee_person_table.html' %}
 
       <br />
       <h3>Tools</h3>
@@ -157,57 +103,6 @@
         null
       ]
     });
-
-    $('.thumbnail-square img').each(function() {
-      if ($(this).width() > $(this).height()) {
-        $(this).addClass('landscape');
-      }
-    });
-
-
-    function collapseActivity(){
-      $(".activity-row:gt(9)").hide();
-      $("#more-actions").show();
-      $("#fewer-actions").hide();
-    }
-    function expandActivity(){
-      $(".activity-row:gt(9)").show();
-      $("#more-actions").hide();
-      $("#fewer-actions").show();
-    }
-    function collapseEvents(){
-      $(".event-listing:gt(9)").hide();
-      $("#more-events").show();
-      $("#fewer-events").hide();
-    }
-    function expandEvents(){
-      $(".event-listing:gt(9)").show();
-      $("#more-events").hide();
-      $("#fewer-events").show();
-    }
-
-    collapseActivity();
-    collapseEvents();
-
-    $("#more-actions").click(function() {
-      expandActivity();
-      return false;
-    });
-    $("#fewer-actions").click(function() {
-      collapseActivity();
-      return false;
-    });
-    $("#more-events").click(function() {
-      expandEvents();
-      return false;
-    });
-    $("#fewer-events").click(function() {
-      collapseEvents();
-      return false;
-    });
-
-    // for reference purposes
-    console.log( "OCD ID: {{committee.ocd_id}}" )
 
   </script>
 {% endblock %}

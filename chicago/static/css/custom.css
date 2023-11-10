@@ -148,10 +148,6 @@ h4 {
   height: auto;
   width: auto;
 }
-.thumbnail-square img.landscape {
-  max-width: none;
-  max-height: 100%;
-}
 
 #council-members_filter {
   display: none;
