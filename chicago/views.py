@@ -349,10 +349,10 @@ class ChicagoCouncilMembersView(CouncilMembersView):
         seo.update(settings.SITE_META)
         seo[
             "site_desc"
-        ] = "Look up your local Alder, and see what they're \
-          doing in your ward & your city"
+        ] = "Enter your address or browse the map to find which of \
+          Chicago's 50 Wards you live in and who your Alder is."
         seo["image"] = "/static/images/chicago_map.jpg"
-        seo["title"] = "Wards & Alders - Chicago Councilmatic"
+        seo["title"] = "Find Your Ward and Alder - Chicago Councilmatic"
 
         return seo
 
@@ -437,20 +437,18 @@ class ChicagoCommitteeDetailView(CommitteeDetailView):
         if getattr(settings, "COMMITTEE_DESCRIPTIONS", None):
             for k in settings.COMMITTEE_DESCRIPTIONS:
                 if committee.slug.startswith(k):
-                    context["committee_description"] = settings.COMMITTEE_DESCRIPTIONS[
-                        k
-                    ]
+                    description = context[
+                        "committee_description"
+                    ] = settings.COMMITTEE_DESCRIPTIONS[k]
 
         seo = {}
         seo.update(settings.SITE_META)
-
+        seo["site_desc"] = "View members and meetings for %s's %s. " % (
+            settings.CITY_COUNCIL_NAME,
+            committee.name,
+        )
         if description:
-            seo["site_desc"] = description
-        else:
-            seo["site_desc"] = "See what %s's %s has been up to!" % (
-                settings.CITY_COUNCIL_NAME,
-                committee.name,
-            )
+            seo["site_desc"] += description
 
         seo["title"] = "%s - %s" % (committee.name, settings.SITE_META["site_name"])
         context["seo"] = seo
