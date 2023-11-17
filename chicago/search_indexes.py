@@ -54,7 +54,10 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
             return obj.last_action_date
 
     def prepare_sponsorships(self, obj):
-        return [str(sponsorship.person) for sponsorship in obj.sponsorships.all()]
+        return [
+            str(sponsorship.person)
+            for sponsorship in obj.sponsorships.filter(primary=True)
+        ]
 
     def prepare_actions(self, obj):
         return [str(action) for action in obj.actions.all()]
