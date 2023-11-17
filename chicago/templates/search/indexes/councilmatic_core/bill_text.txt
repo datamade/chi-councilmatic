@@ -5,7 +5,9 @@
 {{ object.description }}
 {{ object.abstract }}
 {% for s in object.sponsorships.all %}
+  {% if s.primary %}
     {{ s.person.name }}
+  {% endif %}
 {% endfor %}
 {% for a in object.actions.all %}
     {{ a.organization.name }}
