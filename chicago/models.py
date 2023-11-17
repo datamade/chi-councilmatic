@@ -41,16 +41,13 @@ class ChicagoBill(Bill):
 
         # history is a list of actions, where each action a list of one
         if history:
-            if bill_type.lower() in ["ordinance", "resolution"]:
-                if ["passage"] in history:
-                    return "Passed"
-                elif ["failure"] in history or ["committe-failure"] in history:
-                    return "Failed"
-            if bill_type.lower() in ["order", "appointment", "resolution"]:
-                if ["passage"] in history:
+            if ["passage"] in history:
+                if bill_type.lower() in ["appointment", "resolution", "order"]:
                     return "Approved"
                 else:
-                    return False
+                    return "Passed"
+            elif ["failure"] in history or ["committe-failure"] in history:
+                return "Failed"
 
         return False
 
