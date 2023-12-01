@@ -1,6 +1,6 @@
 dj-database-url
 whitenoise
-django-councilmatic==3.2
+https://github.com/datamade/django-councilmatic/archive/refs/heads/minimal.zip
 django-haystack[elasticsearch]
 elasticsearch>=7.0.0,<7.14.0
 sentry-sdk==0.20.3
