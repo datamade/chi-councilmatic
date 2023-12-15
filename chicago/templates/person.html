@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static chicago_extras %}
+{% load static extras %}
 {% block title %}{{ person.name }}{% endblock %}
 
 {% block extra_css %}
@@ -221,7 +221,7 @@
       {% endif %}
       "affiliation":    {
         "@type": "Organization",
-        "name": "{{ CITY_COUNCIL_NAME }}"
+        "name": "Chicago City Council"
       },
       "name": "{{person.name}}",
       "url": "{{person.website_url}}"
@@ -244,8 +244,8 @@
         dragging: false,
         touchZoom: false,
         doubleClickZoom: false,
-        center: {{MAP_CONFIG.center}},
-        zoom: {{MAP_CONFIG.zoom}},
+        center: [41.8369, -87.6847],
+        zoom: 10,
         zoomControl: false
       });
 
@@ -266,7 +266,7 @@
 
       var geojson = L.geoJson({{ map_geojson|safe }}, {
         style: {
-          "color": "{{MAP_CONFIG.highlight_color}}",
+          "color": "#C00000",
           "weight": 2,
           "opacity": 1,
           "fillOpacity": .4

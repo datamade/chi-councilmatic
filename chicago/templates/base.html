@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{% block title %}{% endblock %} - {{SITE_META.site_name}}</title>
+    <title>{% block title %}{% endblock %} - Chicago Councilmatic</title>
 
     {% include 'partials/seo.html' %}
     {% include 'partials/icons.html' %}
@@ -26,7 +26,7 @@
         <div id="nav-title">
           <a class="navbar-brand" href="/">
             <img id="logo" src="{% static 'images/logo.png' %}"></img>
-            <span id="logo-text">{{ CITY_NAME_SHORT }} Councilmatic</span>
+            <span id="logo-text">Chicago Councilmatic</span>
           </a>
         </div>
         <ul id="nav-items">
@@ -49,7 +49,7 @@
             <a href="{% url 'committees' %}">Committees</a>
           </li>
           <li>
-            <a href="{% url 'events' %}">{{ CITY_VOCAB.EVENTS }}</a>
+            <a href="{% url 'events' %}">Meetings</a>
           </li>
           <li>
             <a href="{% url 'search' %}">Legislation</a>

@@ -30,7 +30,7 @@
       <a href="/events/?form_datetime={{prev_month}}" class="btn btn-sm btn-primary">< Previous month</a>
       <a href="/events/?form_datetime={{next_month}}" class="btn btn-sm btn-primary">Next month ></a>
       {% if select_events %}
-        <h2><span>{{ CITY_VOCAB.EVENTS }} in {{select_date}}</span>
+        <h2><span>Meetings in {{select_date}}</span>
           <br class="non-desktop-only"/>
           <small><a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></small>
         </h2>
@@ -41,7 +41,7 @@
         {% endfor %}
 
       {% elif upcoming_events %}
-        <h2>Upcoming {{ CITY_VOCAB.EVENTS }}</h2>
+        <h2>Upcoming meetings</h2>
         <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a>
         <hr/>
         {% for date, event_list in upcoming_events %}
@@ -49,7 +49,7 @@
         {% endfor %}
       {% else %}
         <h2>
-          No {{ CITY_VOCAB.EVENTS }}
+          No meetings
         </h2>
 
         <p>Search for a month and year. <a href="rss/" title="RSS feed for Upcoming and Recent Events"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS</a></p>
@@ -58,7 +58,19 @@
 
     <div class="col-sm-4">
       <br/>
-      {% include 'partials/events_info_blurb.html' %}
+      <div class='well info-blurb'>
+        <h4><i class='fa fa-fw fa-info-circle'></i> What are these {{ CITY_VOCAB.EVENTS | lower}}?</h4>
+
+        <p>There are two types of meetings: committee meetings and full city council meetings.</p>
+
+        <p>Most of the time, meaningful legislative debate happens in committee meetings, which occur several times a month.</p>
+
+        <p>Meetings of the entire City Council generally occur once a month at City Hall.</p>
+
+        <p>All City Council meetings are open to public participation.</p>
+
+        <p><a href='/about/#about-city-council'>More on how City Council works &raquo;</a></p>
+      </div>
     </div>
   </div>
 

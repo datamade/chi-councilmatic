@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static extras chicago_extras %}
+{% load static extras %}
 {% block title %}{{ legislation.friendly_name }}{% endblock %}
 {% block content %}
 
@@ -241,11 +241,11 @@
         </h3>
         <ul class="list-unstyled">
           {% for address in legislation.addresses %}
-            <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+{{ CITY_NAME }}">
-              {{ address }} {{ CITY_NAME }}</a></li>
+            <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+Chicago">
+              {{ address }} Chicago</a></li>
           {% endfor %}
         </ul>
-        <img class='img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
+        <img class='img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+chicago{% endfor %}&key={{GOOGLE_API_KEY}}">
         <div class="divider"></div>
       {% endif %}
 

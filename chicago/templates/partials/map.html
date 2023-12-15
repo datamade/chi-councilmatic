@@ -8,7 +8,7 @@
 
 <script>
 
-  var locationScope = '{{CITY_NAME}}'.toLowerCase();
+  var locationScope = 'chicago';
   var currentPinpoint = null;
   var centerMark = null;
   var districts = null;
@@ -17,8 +17,8 @@
 
   var map = L.map('map', {
     scrollWheelZoom: false,
-    center: {{MAP_CONFIG.center}},
-    zoom: {{MAP_CONFIG.zoom}}
+    center: [41.8369, -87.6847],
+    zoom: 10
   });
 
   var google_map_styles = [
@@ -50,7 +50,7 @@
   }
 
   infoBox.clear = function(){
-    this._div.innerHTML = '<h4>{{CITY_NAME_SHORT}} Council {{CITY_VOCAB.MUNICIPAL_DISTRICT}}s</h4><p><i class="fa fa-hand-pointer-o fa-fw"></i><span class="non-mobile-only">Hover</span><span class="mobile-only">Tap a ward</span> for details</p>';
+    this._div.innerHTML = '<h4>Chicago City Council Alders</h4><p><i class="fa fa-hand-pointer-o fa-fw"></i><span class="non-mobile-only">Hover</span><span class="mobile-only">Tap a ward</span> for details</p>';
   }
 
   infoBox.addTo(map);
@@ -76,23 +76,23 @@
 
         layer.on('mouseover', function(e){
           infoBox.update(e.target.feature.properties);
-          e.target.setStyle({'fillOpacity': 0.6, 'color': "{{MAP_CONFIG.highlight_color}}"});
+          e.target.setStyle({'fillOpacity': 0.6, 'color': "#C00000"});
         });
 
         layer.on('mouseout', function(e){
           infoBox.clear();
-          e.target.setStyle({'fillOpacity': 0.2, 'color': "{{MAP_CONFIG.color}}"});
+          e.target.setStyle({'fillOpacity': 0.2, 'color': "#54afe8"});
         })
 
         layer.on('tableover', function(e){
           infoBox.update(e.target.feature.properties);
-          e.target.setStyle({'fillOpacity': 0.6, 'color': "{{MAP_CONFIG.highlight_color}}"})
+          e.target.setStyle({'fillOpacity': 0.6, 'color': "#C00000"})
         });
 
         layer.on('tableout', function(e){
           infoBox.clear();
           map.closePopup(e.target.layerPopup);
-          e.target.setStyle({'fillOpacity': 0.2, 'color': "{{MAP_CONFIG.color}}"});
+          e.target.setStyle({'fillOpacity': 0.2, 'color': "#54afe8"});
         });
       }
     }
@@ -100,7 +100,7 @@
 
   districts = L.geoJson({{ map_geojson|safe }}, {
     style: {
-      "color": "{{MAP_CONFIG.color}}",
+      "color": "#54afe8",
       "weight": 1,
       "opacity": 1,
       "fillOpacity": .2
@@ -141,7 +141,7 @@
             }
           }
           else {
-            alert("'" + address + "' is not within {{CITY_NAME}}");
+            alert("'" + address + "' is not within Chicago city limits.");
           }
 
 

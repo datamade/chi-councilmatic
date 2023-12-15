@@ -38,5 +38,4 @@ SITE_META = {
     "twitter_creator": "@DataMadeCo",
 }
 
-MAP_CONFIG = {}
 CONTACT_INFO = {}

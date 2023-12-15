@@ -1,6 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load extras chicago_extras %}
-{% load static %}
+{% load extras static %}
 {% block title %}{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}{% endblock %}
 {% block content %}
 

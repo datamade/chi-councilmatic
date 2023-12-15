@@ -110,7 +110,7 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
-ROOT_URLCONF = "councilmatic.urls"
+ROOT_URLCONF = "chicago.urls"
 
 TEMPLATES = [
     {
@@ -123,14 +123,13 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "councilmatic_core.views.city_context",
             ],
         },
     },
 ]
 
 
-WSGI_APPLICATION = "councilmatic.wsgi.application"
+WSGI_APPLICATION = "chicago.wsgi.application"
 
 
 # Internationalization
@@ -228,15 +227,6 @@ SITE_META = {
 
 LEGISTAR_URL = "https://chicago.legistar.com/Legislation.aspx"
 
-
-# this is for configuring a map of council districts using data from the posts
-# set MAP_CONFIG = None to hide map
-MAP_CONFIG = {
-    "center": [41.8369, -87.6847],
-    "zoom": 10,
-    "color": "#54afe8",
-    "highlight_color": "#C00000",
-}
 
 # this is the default text in search bars
 SEARCH_PLACEHOLDER_TEXT = "police, zoning, O2015-7825, etc."
@@ -342,12 +332,6 @@ COMMITTEE_DESCRIPTIONS = {
     "committee-on-transportation-and-public-way": "The Committee on Transportation and Public Way has jurisdiction over all matters relating to the Chicago Transit Authority, the subways and the furnishing of public transportation within the City by any and all means of conveyance. The Committee has jurisdiction over all orders, ordinances and resolutions affecting street naming and layout, the City map, privileges in public ways, special assessments and matters generally affecting the Bureau of Maps and Plats or other agencies dealing with street and alley patterns and elevations, and the Board of Local Improvements.",  # noqa
     "committee-on-workforce-development-and-audit": "The Committee on Workforce Development and Audit shall have jurisdiction over the audit and review of expenditures of funds appropriated by the Council or under the custody of the City Treasurer, as well as management audits and other audits intended to examine the effectiveness or propriety of City operational procedures. The Committee's jurisdiction shall also include collective bargaining agreements regardless of bargaining unit and regardless of department; employee benefits; matters affecting pensions of city employees, regardless of pension fund; and all other personnel matters generally relating to the City government, excepting claims under the Workers' Compensation Act. The Committee's jurisdiction shall also include efforts intended to expand the city's private workforce and to create increased job opportunities in the city's private sector through business attraction efforts, business retention efforts, relocation services, incentive programs, training and retraining programs, or any other means.",  # noqa
     "committee-on-zoning-landmarks-and-building-standards": "The Committee on Zoning, Landmarks and Building Standards shall have jurisdiction over all zoning matters and the operation of the Zoning Board of Appeals and the office of the Zoning Administrator; land use policy generally and land use recommendations of the Chicago Plan Commission and the Department of Planning and Development; building code ordinances and matters generally affecting the Department of Buildings; and designation, maintenance and preservation of historical and architectural landmarks. The Committee shall work in cooperation with those public and private organizations similarly engaged in matters affecting landmarks.",  # noqa
-}
-
-ABOUT_BLURBS = {
-    "COMMITTEES": "<p>Most meaningful legislative activity happens in committee meetings, where committee members debate proposed legislation. These meetings are open to the public.</p><p>Each committee has a Chair, who controls the committee meeting agenda (and thus, the legislation to be considered).</p><p>Committee jurisdiction, memberships, and appointments all require City Council approval.</p>",  # noqa
-    "EVENTS": "<p>There are two types of meetings: committee meetings and full city council meetings.</p><p>Most of the time, meaningful legislative debate happens in committee meetings, which occur several times a month.</p><p>Meetings of the entire City Council generally occur once a month at City Hall.</p><p>All City Council meetings are open to public participation.</p>",  # noqa
-    "COUNCIL_MEMBERS": "",
 }
 
 # notable positions that aren't district representatives, e.g. mayor & city clerk
