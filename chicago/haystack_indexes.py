@@ -19,7 +19,7 @@ class BillIndex(indexes.SearchIndex):
     )
     slug = indexes.CharField(model_attr="slug", indexed=False)
     id = indexes.CharField(model_attr="id", indexed=False)
-    bill_type = indexes.CharField(faceted=True)
+    bill_type = indexes.CharField()
     identifier = indexes.CharField(model_attr="identifier")
     description = indexes.CharField(model_attr="title", boost=1.25)
     source_url = indexes.CharField(model_attr="sources__url", indexed=False)
@@ -29,7 +29,7 @@ class BillIndex(indexes.SearchIndex):
     )
 
     friendly_name = indexes.CharField()
-    sort_name = indexes.CharField()
+    sort_name = indexes.CharField(faceted=True)
     sponsorships = indexes.MultiValueField(faceted=True)
     actions = indexes.MultiValueField()
     controlling_body = indexes.MultiValueField(faceted=True)
