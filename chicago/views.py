@@ -297,6 +297,7 @@ class ChicagoBillDetailView(DetailView):
 
         context["sponsors_qs"] = sponsors
         context["alternate_identifiers"] = alternate_identifiers
+        context["GOOGLE_API_KEY"] = settings.GOOGLE_API_KEY
 
         seo = {}
         seo.update(settings.SITE_META)

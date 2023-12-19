@@ -223,18 +223,6 @@
         <div class="divider"></div>
       {% endif %}
 
-      {% if legislation.unique_related_upcoming_events %}
-        <h3><i class='fa fa-fw fa-calendar-o'></i> Upcoming {{ CITY_VOCAB.EVENTS }}</h3>
-
-        {% for event in legislation.unique_related_upcoming_events %}
-          <p>
-            {{event.start_time | date:'M d, Y' }} - <a href="{% url event_detail event.slug %}" title="View Event Details">{{ event.name }}</a>
-          </p>
-        {% endfor %}
-
-        <div class="divider"></div>
-      {% endif %}
-
       {% if legislation.addresses %}
         <h3>
           <i class='fa fa-map-marker'></i> Locations mentioned
