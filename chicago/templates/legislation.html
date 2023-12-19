@@ -269,12 +269,6 @@
       <h3>Tools</h3>
       <div class="modal-links">
         <a href="rss/" title="RSS feed for Legislation {{legislation.friendly_name}}"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> RSS updates for this legislation</a><br />
-
-        <!-- Embed -->
-        {% with slug=legislation.slug widget='bill_widget' frameheight='260px' %}
-          {% include 'partials/widget_modal.html' %}
-        {% endwith %}
-        <br />
         <!-- Link to legistar -->
         {{ legislation|get_legistar_link|safe }}
       </div>

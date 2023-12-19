@@ -220,7 +220,6 @@ class ChicagoBillDetailView(DetailView):
     context_object_name = "legislation"
 
     def get(self, request, *args, **kwargs):
-
         try:
             return super().get(request, *args, **kwargs)
         except Http404:

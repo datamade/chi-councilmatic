@@ -4,14 +4,14 @@ from datetime import datetime
 from django.conf import settings
 from haystack import indexes
 
-from councilmatic_core.templatetags.extras import clean_html
+from chicago.templatetags.extras import clean_html
 from chicago.models import ChicagoBill
 
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
 
-class BillIndex(indexes.SearchIndex):
+class BillIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True,
         use_template=True,
@@ -19,7 +19,7 @@ class BillIndex(indexes.SearchIndex):
     )
     slug = indexes.CharField(model_attr="slug", indexed=False)
     id = indexes.CharField(model_attr="id", indexed=False)
-    bill_type = indexes.CharField()
+    bill_type = indexes.CharField(faceted=True)
     identifier = indexes.CharField(model_attr="identifier")
     description = indexes.CharField(model_attr="title", boost=1.25)
     source_url = indexes.CharField(model_attr="sources__url", indexed=False)
