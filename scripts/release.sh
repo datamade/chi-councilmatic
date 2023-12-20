@@ -1,9 +1,15 @@
 #!/bin/bash
-set -euo pipefail
 
-if [ -n ${NO_DATABASE} ]; then
-   echo "NO_DATABASE is set, skipping database setup"
-   exit 1
+if [ -n "${PRODUCTION}" ]; then
+    echo "PRODUCTION is set, running setup management commands"
+
+    python manage.py migrate --noinput
+    python manage.py import_shapes data/final/chicago_shapes.geojson
+    python manage.py populate_person_statistics
+    python manage.py collectstatic --noinput
+    python manage.py createcachetable
+    python manage.py clear_cache
+
 else
-    echo "NO_DATABASE is not set, setting up database"
+    echo "PRODUCTION is not set, skipping setup management commands"
 fi
