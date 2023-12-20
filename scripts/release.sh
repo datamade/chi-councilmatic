@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ -v "${NO_DATABASE}" ]; then
+   echo "NO_DATABASE is set, skipping database setup"
+   exit 1
+fi
+
 python manage.py migrate --noinput
 python manage.py import_shapes data/final/chicago_shapes.geojson
 python manage.py populate_person_statistics
