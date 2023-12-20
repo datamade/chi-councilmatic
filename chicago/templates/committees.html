@@ -114,13 +114,11 @@
       <div class='well info-blurb'>
         <h4><i class='fa fa-fw fa-info-circle'></i> What do committees do?</h4>
 
-        {{ ABOUT_BLURBS.COMMITTEES | safe }}
+        <p>Most meaningful legislative activity happens in committee meetings, where committee members debate proposed legislation. These meetings are open to the public.</p>
 
-        {% if taskforces %}
-          <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees, {{subcommittees | length }} Subcommittees and {{taskforces | length }} Task Forces.</p>
-        {% else %}
-          <p>{{CITY_COUNCIL_NAME}} is currently composed of {{committees | length }} Committees{% if subcommittees %} and {{subcommittees | length }} Subcommittees{% endif %}.</p>
-        {% endif %}
+        <p>Each committee has a Chair, who controls the committee meeting agenda (and thus, the legislation to be considered).</p>
+
+        <p>Committee jurisdiction, memberships, and appointments all require City Council approval.</p>
 
         <p><a href='/about/#about-city-council'>More on how City Council works &raquo;</a></p>
       </div>

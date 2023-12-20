@@ -1,5 +1,5 @@
 {% extends "base_with_margins.html" %}
-{% load static extras chicago_extras %}
+{% load static extras %}
 {% block title %}{{ legislation.friendly_name }}{% endblock %}
 {% block content %}
 
@@ -223,29 +223,17 @@
         <div class="divider"></div>
       {% endif %}
 
-      {% if legislation.unique_related_upcoming_events %}
-        <h3><i class='fa fa-fw fa-calendar-o'></i> Upcoming {{ CITY_VOCAB.EVENTS }}</h3>
-
-        {% for event in legislation.unique_related_upcoming_events %}
-          <p>
-            {{event.start_time | date:'M d, Y' }} - <a href="{% url event_detail event.slug %}" title="View Event Details">{{ event.name }}</a>
-          </p>
-        {% endfor %}
-
-        <div class="divider"></div>
-      {% endif %}
-
       {% if legislation.addresses %}
         <h3>
           <i class='fa fa-map-marker'></i> Locations mentioned
         </h3>
         <ul class="list-unstyled">
           {% for address in legislation.addresses %}
-            <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+{{ CITY_NAME }}">
-              {{ address }} {{ CITY_NAME }}</a></li>
+            <li><a target='_blank' href="https://maps.google.com/maps?q={{ address|urlencode }}+Chicago">
+              {{ address }} Chicago</a></li>
           {% endfor %}
         </ul>
-        <img class='img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+{{ CITY_NAME }}{% endfor %}&key={{GOOGLE_API_KEY}}">
+        <img class='img-rounded' src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&zoom=13&maptype=roadmap{% for address in legislation.addresses %}&markers={{ address }}+chicago{% endfor %}&key={{GOOGLE_API_KEY}}">
         <div class="divider"></div>
       {% endif %}
 
@@ -269,12 +257,6 @@
       <h3>Tools</h3>
       <div class="modal-links">
         <a href="rss/" title="RSS feed for Legislation {{legislation.friendly_name}}"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> RSS updates for this legislation</a><br />
-
-        <!-- Embed -->
-        {% with slug=legislation.slug widget='bill_widget' frameheight='260px' %}
-          {% include 'partials/widget_modal.html' %}
-        {% endwith %}
-        <br />
         <!-- Link to legistar -->
         {{ legislation|get_legistar_link|safe }}
       </div>

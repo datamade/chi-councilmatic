@@ -1,29 +1,50 @@
+import pytz
 from datetime import datetime
 
-from councilmatic_core.haystack_indexes import BillIndex
 from django.conf import settings
 from haystack import indexes
-import pytz
 
+from chicago.templatetags.extras import clean_html
 from chicago.models import ChicagoBill
 
 
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
 
-class ChicagoBillIndex(BillIndex, indexes.Indexable):
+class BillIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(
+        document=True,
+        use_template=True,
+        template_name="search/indexes/councilmatic_core/bill_text.txt",
+    )
+    slug = indexes.CharField(model_attr="slug", indexed=False)
+    id = indexes.CharField(model_attr="id", indexed=False)
+    bill_type = indexes.CharField(faceted=True)
+    identifier = indexes.CharField(model_attr="identifier")
+    description = indexes.CharField(model_attr="title", boost=1.25)
+    source_url = indexes.CharField(model_attr="sources__url", indexed=False)
+    source_note = indexes.CharField(model_attr="sources__note")
+    abstract = indexes.CharField(
+        model_attr="abstracts__abstract", boost=1.25, default=""
+    )
 
-    topics = indexes.MultiValueField(faceted=True)
-    # faceted = True creates a keyword field instead of a text field for full
-    # text searches. By default, text fields cannot be used for faceting or
-    # sorting in ElasticSearch.
+    friendly_name = indexes.CharField()
     sort_name = indexes.CharField(faceted=True)
+    sponsorships = indexes.MultiValueField(faceted=True)
+    actions = indexes.MultiValueField()
+    controlling_body = indexes.MultiValueField(faceted=True)
+    full_text = indexes.CharField(model_attr="full_text", default="")
+    ocr_full_text = indexes.CharField(model_attr="ocr_full_text", default="")
+    last_action_date = indexes.DateTimeField()
+    inferred_status = indexes.CharField(faceted=True)
+    legislative_session = indexes.CharField(faceted=True)
+    topics = indexes.MultiValueField(faceted=True)
 
     def get_model(self):
         return ChicagoBill
 
     def prepare(self, obj):
-        data = super(ChicagoBillIndex, self).prepare(obj)
+        data = super().prepare(obj)
 
         boost = 0
 
@@ -61,3 +82,31 @@ class ChicagoBillIndex(BillIndex, indexes.Indexable):
 
     def prepare_actions(self, obj):
         return [str(action) for action in obj.actions.all()]
+
+    def prepare_friendly_name(self, obj):
+        return obj.friendly_name
+
+    def prepare_sort_name(self, obj):
+        return obj.friendly_name.replace(" ", "")
+
+    def prepare_bill_type(self, obj):
+        return obj.bill_type.lower()
+
+    def prepare_controlling_body(self, obj):
+        if obj.controlling_body:
+            return [org.name for org in obj.controlling_body]
+
+    def prepare_full_text(self, obj):
+        return clean_html(obj.full_text)
+
+    def prepare_inferred_status(self, obj):
+        return obj.inferred_status
+
+    def prepare_legislative_session(self, obj):
+        return obj.legislative_session.identifier
+
+    def prepare_ocr_full_text(self, obj):
+        return clean_html(obj.ocr_full_text)
+
+    def get_updated_field(self):
+        return "updated_at"
