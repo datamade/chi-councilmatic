@@ -228,10 +228,6 @@ SITE_META = {
 LEGISTAR_URL = "https://chicago.legistar.com/Legislation.aspx"
 
 
-# this is the default text in search bars
-SEARCH_PLACEHOLDER_TEXT = "police, zoning, O2015-7825, etc."
-
-
 # THE FOLLOWING ARE VOCAB SETTINGS RELEVANT TO DATA MODELS, LOGIC
 # (this is diff from VOCAB above, which is all for the front end)
 

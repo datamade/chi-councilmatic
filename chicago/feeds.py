@@ -11,7 +11,7 @@ from .models import Person, Bill, Organization, Event
 from .utils import to_datetime
 
 
-class ChicagoCouncilmaticFacetedSearchFeed(Feed):
+class FacetedSearchFeed(Feed):
     title_template = "feeds/search_item_title.html"
     description_template = "feeds/search_item_description.html"
     bill_model = Bill
@@ -208,7 +208,7 @@ class CommitteeDetailActionFeed(Feed):
         return obj.recent_activity[: self.NUM_RECENT_COMMITTEE_ACTIONS]
 
 
-class ChicagoBillDetailActionFeed(Feed):
+class BillDetailActionFeed(Feed):
     """
     Return the last 20 actions for a given bill.
     """

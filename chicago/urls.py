@@ -8,47 +8,45 @@ from django.views.decorators.cache import cache_page
 import chicago.views as views
 import chicago.feeds as feeds
 from chicago.views_sitemaps import (
-    ChicagoEventSitemap,
-    ChicagoCommitteeSitemap,
-    ChicagoPersonSitemap,
-    ChicagoBillSitemap,
+    EventSitemap,
+    CommitteeSitemap,
+    PersonSitemap,
+    BillSitemap,
     StaticViewSitemap,
 )
 
 # to do: add static pages
 sitemaps = {
-    "meetings": ChicagoEventSitemap,
-    "committees": ChicagoCommitteeSitemap,
-    "people": ChicagoPersonSitemap,
-    "legislation": ChicagoBillSitemap,
+    "meetings": EventSitemap,
+    "committees": CommitteeSitemap,
+    "people": PersonSitemap,
+    "legislation": BillSitemap,
     "static": StaticViewSitemap,
 }
 
 patterns = [
-    url(
-        r"^search/", views.ChicagoCouncilmaticFacetedSearchView.as_view(), name="search"
-    ),
-    url(r"^$", views.ChicagoIndexView.as_view(), name="index"),
-    url(r"^about/$", views.ChicagoAboutView.as_view(), name="about"),
+    url(r"^search/", views.FacetedSearchView.as_view(), name="search"),
+    url(r"^$", views.IndexView.as_view(), name="index"),
+    url(r"^about/$", views.AboutView.as_view(), name="about"),
     url(
         r"^legislation/(?P<slug>[^/]+)/$",
-        views.ChicagoBillDetailView.as_view(),
+        views.BillDetailView.as_view(),
         name="bill_detail",
     ),
     url(
         r"^divided-votes/(?P<legislative_session>\w+)/$",
-        views.ChicagoDividedVotesView.as_view(),
+        views.DividedVotesView.as_view(),
         name="divided_votes",
     ),
     url(r"^divided-votes/$", RedirectView.as_view(url="/divided-votes/2023/")),
     url(
         r"^compare-council-members/$",
-        views.ChicagoCouncilMembersCompareView.as_view(),
+        views.CouncilMembersCompareView.as_view(),
         name="compare_council_members",
     ),
     url(
         r"^council-members/$",
-        views.ChicagoCouncilMembersView.as_view(),
+        views.CouncilMembersView.as_view(),
         name="council_members",
     ),
     url(
@@ -58,21 +56,21 @@ patterns = [
     ),
     url(
         r"^person/(?P<slug>[^/]+)/$",
-        views.ChicagoPersonDetailView.as_view(),
+        views.PersonDetailView.as_view(),
         name="person",
     ),
     url(
         r"^event/(?P<slug>[^/]+)/$",
-        views.ChicagoEventDetailView.as_view(),
+        views.EventDetailView.as_view(),
         name="event_detail",
     ),
-    url(r"^events/$", views.ChicagoEventsView.as_view(), name="events"),
+    url(r"^events/$", views.EventsView.as_view(), name="events"),
     url(
         r"^committee/(?P<slug>[^/]+)/$",
-        views.ChicagoCommitteeDetailView.as_view(),
+        views.CommitteeDetailView.as_view(),
         name="committee_detail",
     ),
-    url(r"^committees/$", views.ChicagoCommitteesView.as_view(), name="committees"),
+    url(r"^committees/$", views.CommitteesView.as_view(), name="committees"),
     url(r"^flush-cache/(.*)/$", views.flush, name="flush"),
     url(r"^pdfviewer/$", views.pdfviewer, name="pdfviewer"),
     path(
@@ -95,12 +93,12 @@ patterns = [
 feed_patterns = [
     url(
         r"^search/rss/",
-        feeds.ChicagoCouncilmaticFacetedSearchFeed(),
+        feeds.FacetedSearchFeed(),
         name="councilmatic_search_feed",
     ),
     url(
         r"^legislation/(?P<slug>[^/]+)/rss/$",
-        feeds.ChicagoBillDetailActionFeed(),
+        feeds.BillDetailActionFeed(),
         name="bill_detail_action_feed",
     ),
     url(

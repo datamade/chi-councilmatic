@@ -7,7 +7,7 @@ from councilmatic_core.models import Organization
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoPerson
 
 
-class ChicagoEventSitemap(Sitemap):
+class EventSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.5
 
@@ -21,7 +21,7 @@ class ChicagoEventSitemap(Sitemap):
         return reverse("event_detail", args=[obj.slug])
 
 
-class ChicagoCommitteeSitemap(Sitemap):
+class CommitteeSitemap(Sitemap):
     changefreq = "yearly"
     priority = 0.5
 
@@ -35,7 +35,7 @@ class ChicagoCommitteeSitemap(Sitemap):
         return reverse("committee_detail", args=[obj.slug])
 
 
-class ChicagoPersonSitemap(Sitemap):
+class PersonSitemap(Sitemap):
     changefreq = "yearly"
     priority = 0.5
 
@@ -52,7 +52,7 @@ class ChicagoPersonSitemap(Sitemap):
         return reverse("person", args=[obj.slug])
 
 
-class ChicagoBillSitemap(Sitemap):
+class BillSitemap(Sitemap):
     changefreq = "daily"
     priority = 1
     limit = 10000

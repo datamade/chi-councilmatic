@@ -32,19 +32,19 @@ from opencivicdata.legislative.models import (
 from chicago.models import ChicagoBill, ChicagoEvent, ChicagoOrganization, ChicagoPerson
 
 
-class ChicagoIndexView(TemplateView):
+class IndexView(TemplateView):
     template_name = "index.html"
     bill_model = ChicagoBill
     event_model = ChicagoEvent
 
     def last_meeting(self):
-        return ChicagoEvent.most_recent_past_city_council_meeting()
+        return self.event_model.most_recent_past_city_council_meeting()
 
     def date_cutoff(self):
         return self.last_meeting().start_time.date()
 
     def council_bills(self):
-        return ChicagoBill.objects.filter(
+        return self.bill_model.objects.filter(
             actions__date=self.date_cutoff(),
             from_organization__name=settings.OCD_CITY_COUNCIL_NAME,
         ).prefetch_related("actions")
@@ -114,11 +114,11 @@ class ChicagoIndexView(TemplateView):
         return context
 
 
-class ChicagoAboutView(TemplateView):
+class AboutView(TemplateView):
     template_name = "about.html"
 
 
-class CouncilmaticSearchForm(FacetedSearchForm):
+class SearchForm(FacetedSearchForm):
     def __init__(self, *args, **kwargs):
         self.load_all = True
 
@@ -128,9 +128,9 @@ class CouncilmaticSearchForm(FacetedSearchForm):
         return self.searchqueryset.all()
 
 
-class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
+class FacetedSearchView(FacetedSearchView):
 
-    form_class = CouncilmaticSearchForm
+    form_class = SearchForm
     facet_fields = [
         "bill_type",
         "sponsorships",
@@ -214,7 +214,7 @@ class ChicagoCouncilmaticFacetedSearchView(FacetedSearchView):
         return ""
 
 
-class ChicagoBillDetailView(DetailView):
+class BillDetailView(DetailView):
     model = ChicagoBill
     template_name = "legislation.html"
     context_object_name = "legislation"
@@ -313,7 +313,7 @@ class ChicagoBillDetailView(DetailView):
         return context
 
 
-class ChicagoDividedVotesView(ListView):
+class DividedVotesView(ListView):
     template_name = "divided_votes.html"
     context_object_name = "bills"
 
@@ -336,7 +336,7 @@ class ChicagoDividedVotesView(ListView):
         )
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ChicagoDividedVotesView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         # remove 2007 - there is very little data
         context["legislative_session_options"] = settings.LEGISLATIVE_SESSIONS[1:]
 
@@ -347,7 +347,7 @@ class ChicagoDividedVotesView(ListView):
         return context
 
 
-class ChicagoCouncilMembersView(ListView):
+class CouncilMembersView(ListView):
     template_name = "council_members.html"
     context_object_name = "posts"
 
@@ -403,7 +403,7 @@ class ChicagoCouncilMembersView(ListView):
         return seo
 
 
-class ChicagoPersonDetailView(DetailView):
+class PersonDetailView(DetailView):
     template_name = "person.html"
     model = ChicagoPerson
     context_object_name = "person"
@@ -464,7 +464,7 @@ class ChicagoPersonDetailView(DetailView):
         return context
 
 
-class ChicagoCouncilMembersCompareView(ListView):
+class CouncilMembersCompareView(ListView):
     template_name = "compare_council_members.html"
     context_object_name = "council_members"
 
@@ -477,14 +477,8 @@ class ChicagoCouncilMembersCompareView(ListView):
             .distinct()
         )
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ChicagoCouncilMembersCompareView, self).get_context_data(
-            **kwargs
-        )
-        return context
 
-
-class ChicagoCommitteesView(ListView):
+class CommitteesView(ListView):
     template_name = "committees.html"
     context_object_name = "committees"
 
@@ -492,7 +486,7 @@ class ChicagoCommitteesView(ListView):
         return Organization.committees()
 
 
-class ChicagoCommitteeDetailView(DetailView):
+class CommitteeDetailView(DetailView):
     template_name = "committee.html"
     context_object_name = "committee"
     model = ChicagoOrganization
@@ -527,7 +521,7 @@ class ChicagoCommitteeDetailView(DetailView):
         return context
 
 
-class ChicagoEventsView(TemplateView):
+class EventsView(TemplateView):
     template_name = "events.html"
 
     def get_context_data(self, **kwargs):
@@ -606,7 +600,7 @@ class ChicagoEventsView(TemplateView):
         return context
 
 
-class ChicagoEventDetailView(DetailView):
+class EventDetailView(DetailView):
     model = ChicagoEvent
     template_name = "event.html"
     context_object_name = "event"
