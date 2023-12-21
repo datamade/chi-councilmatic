@@ -684,5 +684,3 @@ TOPIC_HIERARCHY = [
         ],
     },
 ]
-
-USING_NOTIFICATIONS = False
