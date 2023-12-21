@@ -37,7 +37,7 @@ if os.getenv("SENTRY_DSN"):
     sentry_sdk.init(
         dsn=os.environ["SENTRY_DSN"],
         integrations=[DjangoIntegration()],
-        release=os.environ['HEROKU_RELEASE_VERSION']
+        release=f"{os.environ['HEROKU_APP_NAME']}-{os.environ['HEROKU_RELEASE_VERSION']}",
     )
 
 DATABASES = {}
