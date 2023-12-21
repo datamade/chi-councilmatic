@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
 from councilmatic_core.models import Action, Bill
 
+
 class Command(BaseCommand):
-    help = 'custom data fixes for Chicago'
+    help = "custom data fixes for Chicago"
 
     def handle(self, *args, **options):
 
@@ -11,7 +12,7 @@ class Command(BaseCommand):
 
     def fix_action_dates(self):
         bad_year = 3013
-        
+
         wrong_actions = Action.objects.filter(date__year=bad_year).all()
         wrong_actions.delete()
 
@@ -22,8 +23,8 @@ class Command(BaseCommand):
             b.save()
 
     def delete_test_bills(self):
-        invalid_bills = Bill.objects.filter(description='Test')
+        invalid_bills = Bill.objects.filter(description="Test")
         invalid_bills.delete()
 
-        invalid_bills = Bill.objects.filter(description__contains='TEST')
+        invalid_bills = Bill.objects.filter(description__contains="TEST")
         invalid_bills.delete()
