@@ -17,7 +17,6 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import dj_database_url
-from chicago.logging import before_send
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,7 +36,6 @@ if DEBUG:
 if os.getenv("SENTRY_DSN"):
     sentry_sdk.init(
         dsn=os.environ["SENTRY_DSN"],
-        before_send=before_send,
         integrations=[DjangoIntegration()],
     )
 
@@ -158,11 +156,18 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
         },
+        "null": {
+            "class": "logging.NullHandler",
+        },
     },
     "loggers": {
         "django": {
             "handlers": ["console"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+        },
+        "django.security.DisallowedHost": {
+            "handlers": ["null"],
+            "propagate": False,
         },
     },
 }
