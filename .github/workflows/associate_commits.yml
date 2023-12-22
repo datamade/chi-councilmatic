@@ -14,5 +14,11 @@ jobs:
           machine: api.heroku.com
           username: ${{ secrets.HEROKU_ACCOUNT }}
           password: ${{ secrets.HEROKU_API_KEY }}
+      - name: set up .netrc
+        uses: extractions/netrc@v1
+        with:
+          machine: git.heroku.com
+          username: ${{ secrets.HEROKU_ACCOUNT }}
+          password: ${{ secrets.HEROKU_API_KEY }}
       - name: login into heroku
         run: heroku login
