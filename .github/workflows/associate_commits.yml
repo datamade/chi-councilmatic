@@ -2,15 +2,16 @@ on:
   workflow_dispatch
 
 jobs:
-  name: associate commits to heroku release in sentry
-  runs-on: ubuntu-latest
+  associate:
+    name: associate commits to heroku release in sentry
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: set up .netrc
-      uses: extractions/netrc@v1
-      with:
-        machine: api.heroku.com
-        username: ${{ secrets.HEROKU_ACCOUNT }}
-        password: ${{ secrets.HEROKU_API_KEY }}
-    - name: login into heroku
-      run: heroku login
+    steps:
+      - name: set up .netrc
+        uses: extractions/netrc@v1
+        with:
+          machine: api.heroku.com
+          username: ${{ secrets.HEROKU_ACCOUNT }}
+          password: ${{ secrets.HEROKU_API_KEY }}
+      - name: login into heroku
+        run: heroku login
