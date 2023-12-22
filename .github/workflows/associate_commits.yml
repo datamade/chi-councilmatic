@@ -17,6 +17,6 @@ jobs:
       - name: inform sentry about release
         env:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_AUTH_TOKEN: $${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: sentry-cli releases new -p chicago-councilmatic $HEROKU_RELEASE_VERSION
         
