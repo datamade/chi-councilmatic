@@ -5,7 +5,7 @@ on:
 
 jobs:
   associate:
-    if: github.event.deployment_status.state == 'success'
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == chi-councilmatic-production
     runs-on: ubuntu-latest
 
     steps:
@@ -16,8 +16,12 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: "${{ github.event.deployment_status.deployment.ref }}"
+          fetch-depth: 0
       - name: install sentry-cli
         run: pip install sentry-cli
+      - name: Sleep for 30 to make sure that heroku deployment is really done
+        run: sleep 30
+        shell: bash
       - name: get release version
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
