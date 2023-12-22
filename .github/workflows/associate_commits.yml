@@ -5,29 +5,28 @@ on:
 
 jobs:
   associate:
-    if: github.event.deployment_status.state == 'success'
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == chi-councilmatic-production
     runs-on: ubuntu-latest
 
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v3
         with:
           ref: "${{ github.event.deployment_status.deployment.ref }}"
+          fetch-depth: 0
       - name: install sentry-cli
         run: pip install sentry-cli
-      - name: get release version
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: echo "HEROKU_RELEASE=`heroku config:get HEROKU_RELEASE_VERSION -a chi-councilmatic-production`-chi-councilmatic-production"  >> "$GITHUB_ENV"
-      - name: inform sentry about release
+      - name: create release
         env:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          COMMIT: "${{ github.event.deployment_status.deployment.ref }}" 
         run: |
-          sentry-cli releases new -p chicago-councilmatic $HEROKU_RELEASE
-          sentry-cli releases set-commits $HEROKU_RELEASE
-          sentry-cli releases finalize $HEROKU_RELEASE
+          sentry-cli releases new -p chicago-councilmatic $COMMIT
+          sentry-cli releases set-commits $COMMIT
+          sentry-cli releases finalize $COMMIT
+      - name: set HEROKU_SLUG_COMMIT
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          COMMIT: "${{ github.event.deployment_status.deployment.ref }}" 
+        run: heroku config:set HEROKU_SLUG_COMMIT=$COMMIT -a chi-councilmatic-production`
         
