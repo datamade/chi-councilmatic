@@ -5,7 +5,7 @@ on:
 
 jobs:
   associate:
-    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == chi-councilmatic-production
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'chi-councilmatic-production'
     runs-on: ubuntu-latest
 
     steps:
