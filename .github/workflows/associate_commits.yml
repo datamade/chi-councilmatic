@@ -1,19 +1,27 @@
 name: Associate commits to heroku release in sentry
 
 on:
-  workflow_dispatch
+  deployment_status
 
 jobs:
   associate:
+    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
 
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v3
+        with:
+          ref: "${{ github.event.deployment_status.deployment.ref }}"
+      - name: install sentry-cli
+        run: pip install sentry-cli
       - name: get release version
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: echo "HEROKU_RELEASE=`heroku config:get HEROKU_RELEASE_VERSION -a chi-councilmatic-production`-chi-councilmatic-production"  >> "$GITHUB_ENV"
-      - name: install sentry-cli
-        run: pip install sentry-cli
       - name: inform sentry about release
         env:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
