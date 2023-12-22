@@ -8,14 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: set up .netrc
-        uses: extractions/netrc@v1
+      - uses: extractions/netrc@v1
         with:
           machine: api.heroku.com
           username: ${{ secrets.HEROKU_ACCOUNT }}
           password: ${{ secrets.HEROKU_API_KEY }}
-      - name: set up .netrc
-        uses: extractions/netrc@v1
+      - uses: extractions/netrc@v1
         with:
           machine: git.heroku.com
           username: ${{ secrets.HEROKU_ACCOUNT }}
