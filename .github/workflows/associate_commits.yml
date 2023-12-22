@@ -8,7 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: get release name
+      - name: get release version
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku config:get HEROKU_RELEASE_VERSION -a chi-councilmatic-production
+        run: echo "HEROKU_RELEASE_VERSION=`heroku config:get HEROKU_RELEASE_VERSION -a chi-councilmatic-production`-chi-councilmatic-production"  >> "$GITHUB_ENV"
+      - name: install sentry-cli
+        run: npm install @sentry/cli
+      - name: inform sentry about release
+        env:
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_AUTH_TOKEN: $${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: sentry-cli releases new -p chicago-councilmatic $HEROKU_RELEASE_VERSION
+        
