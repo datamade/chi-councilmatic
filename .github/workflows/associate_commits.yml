@@ -1,9 +1,10 @@
+name: Associate commits to heroku release in sentry
+
 on:
   workflow_dispatch
 
 jobs:
   associate:
-    name: associate commits to heroku release in sentry
     runs-on: ubuntu-latest
 
     steps:
