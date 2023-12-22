@@ -19,8 +19,8 @@ jobs:
           fetch-depth: 0
       - name: install sentry-cli
         run: pip install sentry-cli
-      - name: Sleep for 30 to make sure that heroku deployment is really done
-        run: sleep 30
+      - name: Sleep to make sure that heroku deployment is really done
+        run: sleep 120
         shell: bash
       - name: get release version
         env:
