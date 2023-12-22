@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: login into heroku
+      - name: get release name
         env:
-          HEROKU_API_KEY: ${secrets.HEROKU_API_KEY}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku config:get HEROKU_RELEASE_VERSION -a chi-councilmatic-production
