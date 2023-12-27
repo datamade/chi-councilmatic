@@ -170,5 +170,5 @@ Report it here: https://github.com/datamade/chi-councilmatic/issues
 
 ## Copyright
 
-Copyright (c) 2015-2020 Participatory Politics Foundation and DataMade. Released
+Copyright (c) 2015-2023 Participatory Politics Foundation and DataMade. Released
 under the [MIT License](https://github.com/datamade/chi-councilmatic/blob/master/LICENSE).
