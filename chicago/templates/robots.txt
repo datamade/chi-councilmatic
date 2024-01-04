@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /search/
 Sitemap: https://chicago.councilmatic.org/sitemap.xml
