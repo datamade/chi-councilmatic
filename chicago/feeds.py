@@ -7,7 +7,7 @@ from django.utils.feedgenerator import Rss201rev2Feed
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
 
-from .models import Person, Bill, Organization, Event
+from .models import ChicagoPerson, Bill, Organization, Event
 from .utils import to_datetime
 
 
@@ -107,7 +107,7 @@ class PersonDetailFeed(Feed):
     NUM_RECENT_BILLS = 20
 
     def get_object(self, request, slug):
-        o = Person.objects.get(slug=slug)
+        o = ChicagoPerson.objects.get(slug=slug)
         return o
 
     def title(self, obj):
@@ -132,9 +132,7 @@ class PersonDetailFeed(Feed):
         return "Recent sponsored bills from " + obj.name + "."
 
     def items(self, person):
-        sponsored_bills = [s.bill for s in person.primary_sponsorships][:10]
-        recent_sponsored_bills = sponsored_bills[: self.NUM_RECENT_BILLS]
-        return recent_sponsored_bills
+        return person.primary_sponsorships[: self.NUM_RECENT_BILLS]
 
 
 class CommitteeDetailEventsFeed(Feed):
