@@ -281,6 +281,16 @@ class ChicagoPerson(Person):
         else:
             return years
 
+    @property
+    def primary_sponsorships(self):
+        return (
+            ChicagoBill.objects.filter(
+                sponsorships__person=self, sponsorships__primary=True
+            )
+            .annotate(last_action=models.Max("actions__date"))
+            .order_by("-last_action")
+        )
+
 
 class ChicagoPersonStatistic(models.Model):
     person = models.OneToOneField(

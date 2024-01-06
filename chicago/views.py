@@ -422,14 +422,7 @@ class PersonDetailView(DetailView):
             ] = person.latest_council_membership.end_date_dt.strftime("%B %d, %Y")
 
         context["chair_positions"] = person.chair_role_memberships
-
-        context["sponsored_legislation"] = (
-            ChicagoBill.objects.filter(
-                sponsorships__person=person, sponsorships__primary=True
-            )
-            .annotate(last_action=Max("actions__date"))
-            .order_by("-last_action")[:10]
-        )
+        context["sponsored_legislation"] = person.primary_sponsorships[:10]
 
         attendance = person.full_attendance
         context["committee_count"] = len(person.current_memberships) - 1
