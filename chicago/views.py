@@ -182,12 +182,14 @@ class FacetedSearchView(FacetedSearchView):
 
         for val in self.request.GET.getlist("selected_facets"):
             if val:
-                # e.g., bill_type_exact:ordinance -> bill_type, ordinance
-                k, v = val.split("_exact:", 1)
+                k, v = val.split(":", 1)
+                k = remove_suffix(k, "_exact")
                 try:
                     selected_facets[k].append(v)
                 except KeyError:
                     selected_facets[k] = [v]
+
+        print(selected_facets)
 
         return selected_facets
 
@@ -422,7 +424,14 @@ class PersonDetailView(DetailView):
             ] = person.latest_council_membership.end_date_dt.strftime("%B %d, %Y")
 
         context["chair_positions"] = person.chair_role_memberships
-        context["sponsored_legislation"] = person.primary_sponsorships[:10]
+
+        context["sponsored_legislation"] = (
+            ChicagoBill.objects.filter(
+                sponsorships__person=person, sponsorships__primary=True
+            )
+            .annotate(last_action=Max("actions__date"))
+            .order_by("-last_action")[:10]
+        )
 
         attendance = person.full_attendance
         context["committee_count"] = len(person.current_memberships) - 1
@@ -701,3 +710,12 @@ def flush(request, flush_key):
 @xframe_options_exempt
 def pdfviewer(request):
     return render(request, "pdfviewer.html")
+
+
+def remove_suffix(string, suffix):
+
+    if string.endswith(suffix):
+        return string[: -len(suffix)]
+
+    else:
+        return string
