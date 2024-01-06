@@ -288,6 +288,7 @@ class ChicagoPerson(Person):
                 sponsorships__person=self, sponsorships__primary=True
             )
             .annotate(last_action=models.Max("actions__date"))
+            .filter(last_action__isnull=False)
             .order_by("-last_action")
         )
 
