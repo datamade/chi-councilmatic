@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import socket
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -25,12 +24,6 @@ DEBUG = False if os.getenv("DJANGO_DEBUG", True) == "False" else True
 allowed_hosts = os.getenv("DJANGO_ALLOWED_HOSTS", [])
 ALLOWED_HOSTS = allowed_hosts.split(",") if allowed_hosts else []
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
-
-if DEBUG:
-    # Add dynamically generated Docker IP
-    # Don't do this in production!
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1"]
 
 # Configure Sentry for error logging
 if os.getenv("SENTRY_DSN"):
@@ -92,11 +85,6 @@ INSTALLED_APPS = (
     "opencivicdata.core",
     "opencivicdata.legislative",
 )
-
-try:
-    INSTALLED_APPS += EXTRA_APPS
-except NameError:
-    pass
 
 MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
@@ -175,16 +163,6 @@ LOGGING = {
     },
 }
 
-
-RQ_QUEUES = {
-    "default": {
-        "HOST": "localhost",
-        "PORT": 6379,
-        "DB": 1,
-        "PASSWORD": "",
-        "DEFAULT_TIMEOUT": 360,
-    }
-}
 
 # Enforce SSL in production
 if DEBUG is False:
