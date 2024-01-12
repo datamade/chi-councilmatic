@@ -189,8 +189,6 @@ class FacetedSearchView(FacetedSearchView):
                 except KeyError:
                     selected_facets[k] = [v]
 
-        print(selected_facets)
-
         return selected_facets
 
     def _get_query_parameters(self):
