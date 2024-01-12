@@ -25,7 +25,7 @@ sitemaps = {
 }
 
 patterns = [
-    url(r"^search/", views.FacetedSearchView.as_view(), name="search"),
+    url(r"^search/$", views.FacetedSearchView.as_view(), name="search"),
     url(r"^$", views.IndexView.as_view(), name="index"),
     url(r"^about/$", views.AboutView.as_view(), name="about"),
     url(
@@ -92,7 +92,7 @@ patterns = [
 
 feed_patterns = [
     url(
-        r"^search/rss/",
+        r"^search/rss/$",
         feeds.FacetedSearchFeed(),
         name="councilmatic_search_feed",
     ),

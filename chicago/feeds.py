@@ -70,11 +70,8 @@ class FacetedSearchFeed(Feed):
         return title
 
     def link(self, obj):
-        # return the main non-RSS search URL somehow
-        # XXX maybe "quargs" - evz
-        # return reverse('councilmatic_search', args=(searchqueryset=self.sqs,))
         url = self.url_with_querystring(
-            reverse("{}:councilmatic_search_feed".format(settings.APP_NAME)),
+            reverse("search"),
             q=self.query,
         )
         return url
