@@ -12,19 +12,11 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "identifier",
-            help=(
-                "The identifier of the bill to preview"
-            ),
+            help=("The identifier of the bill to preview"),
         )
-
-
 
     def handle(self, *args, **kwargs):
 
-            
-
-
-        b = ChicagoBill.objects.get(identifier=kwargs['identifier'])
+        b = ChicagoBill.objects.get(identifier=kwargs["identifier"])
 
         self.stdout.write(pprint.pformat(BillIndex().prepare(b), indent=4))
-
