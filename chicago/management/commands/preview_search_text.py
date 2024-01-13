@@ -19,4 +19,4 @@ class Command(BaseCommand):
 
         b = ChicagoBill.objects.get(identifier=kwargs["identifier"])
 
-        self.stdout.write(pprint.pformat(BillIndex().prepare(b), indent=4))
+        self.stdout.write(pprint.pformat(BillIndex().prepare(b))
