@@ -1,7 +1,9 @@
+import pprint
+
 from django.core.management.base import BaseCommand
+
 from chicago.models import ChicagoBill
 from chicago.search_indexes import BillIndex
-import pprint
 
 
 class Command(BaseCommand):
