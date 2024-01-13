@@ -76,10 +76,6 @@ class ChicagoBill(Bill):
             return "Active"
 
     @property
-    def listing_description(self):
-        return self.title
-
-    @property
     def topics(self):
         tags = topic_classifier(self.title)
         if "Routine" in tags:

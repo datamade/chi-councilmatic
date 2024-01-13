@@ -301,7 +301,7 @@ class BillDetailView(DetailView):
 
         seo = {}
         seo.update(settings.SITE_META)
-        seo["site_desc"] = bill.listing_description
+        seo["site_desc"] = bill.title
         seo["title"] = "%s - %s" % (bill.friendly_name, settings.SITE_META["site_name"])
         context["seo"] = seo
 

@@ -274,7 +274,7 @@
       "name": "{{ legislation.friendly_name }}",
       "alternateName": ["{{ legislation.identifier }}", "{{ legislation.identifier.split|join:'' }}"],
       {% if legislation.actions %}"datePublished": "{{legislation.actions.0.date|date:'Y-m-d'}}", {% endif %}
-      "description": "{{ legislation.description }}",
+      "description": "{{ legislation.title }}",
       "text": "{% firstof legislation.full_text legislation.ocr_full_text %}"
     }
   </script>
