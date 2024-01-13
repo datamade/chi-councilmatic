@@ -26,7 +26,7 @@ ALLOWED_HOSTS = allowed_hosts.split(",") if allowed_hosts else []
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 # Configure Sentry for error logging
-if os.getenv("SENTRY_DSN"):
+if os.getenv("SENTRY_DSN") and os.getenv("PRODUCTION"):
     sentry_sdk.init(
         dsn=os.environ["SENTRY_DSN"],
         integrations=[DjangoIntegration()],
