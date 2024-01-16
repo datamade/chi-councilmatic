@@ -33,7 +33,7 @@
               <tr>
                 <td>
                   <p class='h4'><a href="{% url 'bill_detail' legislation.slug %}">{{ legislation.friendly_name }}</a> {{ legislation.inferred_status | inferred_status_label | safe }}</p>
-                  {{ legislation.listing_description | short_blurb }}
+                  {{ legislation.title | short_blurb }}
 
                   {% if legislation.topics %}
                     <br />

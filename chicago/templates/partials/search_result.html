@@ -9,11 +9,11 @@
   <div class="col-xs-11">
     {% if query %}
       <p class="search-result">
-        {% highlight r.object.listing_description with query %}
+        {% highlight r.object.title with query %}
       </p>
     {% else %}
       <p>
-        {{ r.object.listing_description | short_blurb }}
+        {{ r.object.title | short_blurb }}
       </p>
     {% endif %}
   </div>
