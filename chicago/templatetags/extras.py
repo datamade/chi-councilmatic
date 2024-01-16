@@ -97,15 +97,6 @@ def clean_html(text):
 
 
 @register.filter
-@stringfilter
-def alternative_identifiers(id_original):
-    id_1 = re.sub(" ", " 0", id_original)
-    id_2 = re.sub(" ", "", id_original)
-    id_3 = re.sub(" ", "", id_1)
-    return " ".join(i for i in set([id_original, id_1, id_2, id_3]))
-
-
-@register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
 

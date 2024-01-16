@@ -15,18 +15,15 @@ class BillIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True,
         use_template=True,
-        template_name="search/indexes/councilmatic_core/bill_text.txt",
+        template_name="search/bill_text.txt",
     )
     slug = indexes.CharField(model_attr="slug", indexed=False)
     id = indexes.CharField(model_attr="id", indexed=False)
     bill_type = indexes.CharField(faceted=True)
     identifier = indexes.CharField(model_attr="identifier")
-    description = indexes.CharField(model_attr="title", boost=1.25)
+    title = indexes.CharField(model_attr="title", boost=1.25)
     source_url = indexes.CharField(model_attr="sources__url", indexed=False)
     source_note = indexes.CharField(model_attr="sources__note")
-    abstract = indexes.CharField(
-        model_attr="abstracts__abstract", boost=1.25, default=""
-    )
 
     friendly_name = indexes.CharField()
     sort_name = indexes.CharField(faceted=True)
@@ -38,7 +35,7 @@ class BillIndex(indexes.SearchIndex, indexes.Indexable):
     last_action_date = indexes.DateTimeField()
     inferred_status = indexes.CharField(faceted=True)
     legislative_session = indexes.CharField(faceted=True)
-    topics = indexes.MultiValueField(faceted=True)
+    topics = indexes.MultiValueField(model_attr="topics", faceted=True)
 
     def get_model(self):
         return ChicagoBill
@@ -59,9 +56,6 @@ class BillIndex(indexes.SearchIndex, indexes.Indexable):
         data["boost"] = boost
 
         return data
-
-    def prepare_topics(self, obj):
-        return obj.topics
 
     def prepare_last_action_date(self, obj):
         if not obj.last_action_date:

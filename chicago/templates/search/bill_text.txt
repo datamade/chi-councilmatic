@@ -1,9 +1,12 @@
 {% load extras %}
-{{ object.identifier | alternative_identifiers }}
 {{ object.friendly_name }}
-{{ object.classification }}
-{{ object.description }}
-{{ object.abstract }}
+{% for identifier in object.other_identifiers.all %}
+    {{ identifier.identifier }}
+{% endfor %}
+{% for classification in object.classification %}
+{{ classification }}
+{% endfor %}
+{{ object.title }}
 {% for s in object.sponsorships.all %}
   {% if s.primary %}
     {{ s.person.name }}
@@ -16,4 +19,4 @@
 {% for t in object.topics %}
 	{{t}}
 {% endfor %}
-{{ object.ocr_full_text|clean_html }}
+{{ object.ocr_full_text }}
