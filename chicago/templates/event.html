@@ -4,7 +4,7 @@
 {% block content %}
 
   <br/>
-  <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> {{ CITY_VOCAB.EVENTS }}</a></p>
+  <p><a href='/events/'><i class="fa fa-angle-double-left" aria-hidden="true"></i> Meetings</a></p>
   <h1>{%if event.status == 'cancelled'%}CANCELLED: {% endif %}{{event.name}}</h1>
   <p>{{event.description}}</p>
 

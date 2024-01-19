@@ -16,11 +16,12 @@ class FacetedSearchFeed(Feed):
     description_template = "feeds/search_item_description.html"
     bill_model = Bill
 
-    all_results = None
+    results = None
     sqs = (
         SearchQuerySet()
         .facet("bill_type")
-        .facet("sponsorships", sort="index")
+        .facet("topics")
+        .facet("sponsorships")
         .facet("controlling_body")
         .facet("inferred_status")
     )
@@ -30,9 +31,9 @@ class FacetedSearchFeed(Feed):
         return path + "?" + urllib.parse.urlencode(kwargs)
 
     def get_object(self, request):
-        self.queryDict = request.GET
+        self.query = request.GET.urlencode()
 
-        all_results = SearchQuerySet().all()
+        results = self.sqs
         facets = None
 
         if "selected_facets" in request.GET:
@@ -40,19 +41,13 @@ class FacetedSearchFeed(Feed):
 
         if "q" in request.GET:
             self.query = request.GET["q"]
-            results = all_results.filter(content=self.query)
+            results = results.filter(content=self.query)
 
-            if facets:
-                for facet in facets:
-                    (facet_name, facet_value) = facet.split(":")
-                    facet_name = facet_name.rsplit("_exact")[0]
-                    results = results.narrow("%s:%s" % (facet_name, facet_value))
-        elif facets:
+        if facets:
             for facet in facets:
-                (facet_name, facet_value) = facet.split(":")
-                facet_name = facet_name.rsplit("_exact")[0]
-                results = all_results.narrow("%s:%s" % (facet_name, facet_value))
+                results = results.narrow(facet)
 
+        self.results = results
         return results.order_by("-last_action_date")
 
     def title(self, obj):
@@ -63,7 +58,6 @@ class FacetedSearchFeed(Feed):
                 + self.query.capitalize()
                 + "'"
             )
-            # XXX: create a nice title based on all search parameters
         else:
             title = settings.SITE_META["site_name"] + ": Filtered Search"
 
@@ -85,8 +79,8 @@ class FacetedSearchFeed(Feed):
     def description(self, obj):
         return "Bills returned from search"
 
-    def items(self, query):
-        l_items = query[:20]
+    def items(self, results):
+        l_items = results[:20]
         pks = [i.pk for i in l_items]
         bills = self.bill_model.objects.filter(pk__in=pks).order_by("-last_action_date")
         return bills

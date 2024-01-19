@@ -2,333 +2,326 @@
 {% load extras %}
 {% load highlight %}
 {% block title %}
-    {% if request.GET.q %}
-        Search results for '{{ request.GET.q }}'
-    {% else %}
-        Search Legislation
-    {% endif %}
+  {% if request.GET.q %}
+    Search results for '{{ request.GET.q }}'
+  {% else %}
+    Search Legislation
+  {% endif %}
 {% endblock %}
 {% block content %}
 
-    <br/>
-    <div class='jumbotron' id='search-jumbotron'>
-        <!-- Add partial, so the title above search can be easily customized for site. -->
-        {% include 'partials/search_header.html' %}
+  <br/>
+  <div class='jumbotron' id='search-jumbotron'>
+    <!-- Add partial, so the title above search can be easily customized for site. -->
+    {% include 'partials/search_header.html' %}
 
-        <form method="get" action=".">
-            <div class="input-group site-intro-search">
+    <form method="get" action=".">
+      <div class="input-group site-intro-search">
 
-                {% for facet, selections in selected_facets.items %}
-                    {% for s in selections %}
-                        <input name="selected_facets" type="hidden" class="form-control" value="{{facet}}_exact:{{s}}">
-                    {% endfor %}
-                {% endfor %}
-
-                {% if 'sort_by=date' in request.get_full_path %}
-                    <input name="sort_by" type="hidden" class="form-control" value="date">
-                {% endif %}
-
-                {% if 'sort_by=title' in request.get_full_path %}
-                    <input name="sort_by" type="hidden" class="form-control" value="title">
-                {% endif %}
-
-                {% if 'sort_by=relevance' in request.get_full_path %}
-                    <input name="sort_by" type="hidden" class="form-control" value="relevance">
-                {% endif %}
-
-                {% if 'order_by=asc' in request.get_full_path %}
-                    <input name="order_by" type="hidden" class="form-control" value="asc">
-                {% endif %}
-
-                {% if 'order_by=desc' in request.get_full_path %}
-                    <input name="order_by" type="hidden" class="form-control" value="desc">
-                {% endif %}
-
-                {% with formatted_q=request.GET.q|remove_question %}
-                    {% include 'partials/search_bar.html' %}
-                {% endwith %}
-            </div>
-        </form>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4">
-
-            {% if selected_facets %}
-                <p>
-                    <a href="/search/" class="btn btn-sm btn-default">
-                    <i class='fa fa-times'></i>
-                    Clear all filters
-                    </a>
-                </p>
-            {% endif %}
-
-            <!-- Legislation Status -->
-            {% with facet_name='inferred_status' facet_label='Status' item_list=facets.fields.inferred_status selected_list=selected_facets.inferred_status %}
-                {% include 'partials/search_filter.html' %}
-            {% endwith %}
-
-
-            <!-- Legislation Type -->
-            {% with facet_name='bill_type' facet_label='Legislation Type' item_list=facets.fields.bill_type selected_list=selected_facets.bill_type %}
-                {% include 'partials/search_filter.html' %}
-            {% endwith %}
-
-
-            <!-- Topic -->
-            {% if facets.fields.topics %}
-                {% with facet_name='topics' facet_label='Topic' item_list=facets.fields.topics selected_list=selected_facets.topics %}
-                    {% include 'partials/search_filter.html' %}
-                {% endwith %}
-            {% endif %}
-
-
-            <!-- Controlling Body -->
-            {% with facet_name='controlling_body' facet_label='Controlling Body' item_list=facets.fields.controlling_body selected_list=selected_facets.controlling_body %}
-                {% include 'partials/search_filter.html' %}
-            {% endwith %}
-
-
-            <!-- Sponsor -->
-            {% with facet_name='sponsorships' facet_label='Sponsor' item_list=facets.fields.sponsorships selected_list=selected_facets.sponsorships %}
-                {% include 'partials/search_filter.html' %}
-            {% endwith %}
-
-
-            <!-- Legislative Session -->
-            {% if facets.fields.legislative_session %}
-                <!-- only show leg sesh filter pane if there is more than one leg sesh to select from -->
-                {% if facets.fields.legislative_session|length > 1 %}
-
-                    {% with facet_name='legislative_session' facet_label='Legislative Session' item_list=facets.fields.legislative_session selected_list=selected_facets.legislative_session %}
-                        {% include 'partials/search_filter.html' %}
-                    {% endwith %}
-
-                {% endif %}
-            {% endif %}
-
-
-
-            <div class="divider"></div>
-        </div>
-
-        <div class="col-sm-8 order-nav">
-
-            <nav class="nav nav-inline order-nav">
-
-                Order by:
-
-                {% with sort_name='date' order_name='desc' %}
-                    {% include 'partials/order_by_filter.html' %}
-                {% endwith %}
-
-                {% with sort_name='title' order_name='asc' %}
-                    {% include 'partials/order_by_filter.html' %}
-                {% endwith %}
-
-                <!-- The templating logic is different for Relevance sort. The Relevance sort does not require a direction, and it should be bolded by default after submitting a query.-->
-                {% if 'sort_by=relevance' in request.get_full_path or 'order_by=' not in request.get_full_path and 'q=' in request.get_full_path %}
-                    <strong><a class="nav-link assort" href="{% search_with_querystring request sort_by='relevance' %}" data='sort_by=relevance'>
-                        Relevance
-                    </a></strong>
-                {% else %}
-                    <a class="sort-by nav-link" href="{% search_with_querystring request sort_by='relevance' %}" data='sort_by=relevance'>
-                        Relevance
-                    </a>
-                {% endif %}
-
-                {% if 'sort_by' in request.get_full_path %}
-                    <a href ="#" class="remove-order-value btn btn-sm btn-primary hidden-xs"
-                        {% if 'sort_by=date' in request.get_full_path %}
-                            data='sort_by=date'
-                        {% elif 'sort_by=title' in request.get_full_path%}
-                            data='sort_by=title'
-                        {% elif 'sort_by=relevance' in request.get_full_path%}
-                            data='sort_by=relevance'
-                        {% endif %}
-                        ><i class="fa fa-times"></i>
-                        Remove
-                    </a>
-
-                    <a href ="#" class="remove-order-value btn btn-sm btn-primary visible-xs"
-                        {% if 'sort_by=date' in request.get_full_path %}
-                            data='sort_by=date'
-                        {% elif 'sort_by=title' in request.get_full_path%}
-                            data='sort_by=title'
-                        {% elif 'sort_by=relevance' in request.get_full_path%}
-                            data='sort_by=relevance'
-                        {% endif %}
-                        ><i class="fa fa-times"></i>
-                    </a>
-                {% endif %}
-
-            </nav>
-
-            <hr>
-
-            {% if query or selected_facets %}
-            <h3 class="modal-links">
-
-                <!-- with elasticsearch, only showing the top 10,000 results -->
-                {{ paginator.count }} legislation result{{ paginator.count|pluralize }} 
-                {% if query %}for '{{ request.GET.q }}'{% endif %}
-
-                <small class="pull-right">
-                {% if query and selected_facets %}
-                    <a href="/search/rss/?q={{request.GET.q}}{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for this search</a>
-                {% elif selected_facets %}
-                    <a href="/search/rss/?{% for key, values in selected_facets.items %}{% for value in values %}&selected_facets={{key}}:{{value}}{% endfor %}{% endfor %}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for this search</a>
-                {% else %}
-                    <a href="/search/rss/?q={{request.GET.q}}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed of all Chicago legislation</a>
-                {% endif %}
-
-                </small>
-            </h3>
-            <div class='row'>
-                <div class='col-sm-8' id='search_message'></div>
-            </div>
-            {% endif %}
-
-        {% for result in object_list %}
-
-            <!-- Legislation result -->
-
-            {% with r=result %}
-                {% include 'partials/search_result.html' %}
-            {% endwith %}
-
-
-            {% include 'partials/tags.html' %}
-
-
-        {% empty %}
-            {% include 'partials/empty_search_message.html' %}
+        {% for facet, selections in selected_facets.items %}
+          {% for s in selections %}
+            <input name="selected_facets" type="hidden" class="form-control" value="{{facet}}_exact:{{s}}">
+          {% endfor %}
         {% endfor %}
-        </div>
+
+        {% if 'sort_by=date' in request.get_full_path %}
+          <input name="sort_by" type="hidden" class="form-control" value="date">
+        {% endif %}
+
+        {% if 'sort_by=title' in request.get_full_path %}
+          <input name="sort_by" type="hidden" class="form-control" value="title">
+        {% endif %}
+
+        {% if 'sort_by=relevance' in request.get_full_path %}
+          <input name="sort_by" type="hidden" class="form-control" value="relevance">
+        {% endif %}
+
+        {% if 'order_by=asc' in request.get_full_path %}
+          <input name="order_by" type="hidden" class="form-control" value="asc">
+        {% endif %}
+
+        {% if 'order_by=desc' in request.get_full_path %}
+          <input name="order_by" type="hidden" class="form-control" value="desc">
+        {% endif %}
+
+        {% with formatted_q=request.GET.q|remove_question %}
+          {% include 'partials/search_bar.html' %}
+        {% endwith %}
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+
+      {% if selected_facets %}
+        <p>
+          <a href="/search/" class="btn btn-sm btn-default">
+            <i class='fa fa-times'></i>
+            Clear all filters
+          </a>
+        </p>
+      {% endif %}
+
+      <!-- Legislation Status -->
+      {% with facet_name='inferred_status' facet_label='Status' item_list=facets.fields.inferred_status selected_list=selected_facets.inferred_status %}
+        {% include 'partials/search_filter.html' %}
+      {% endwith %}
+
+
+      <!-- Legislation Type -->
+      {% with facet_name='bill_type' facet_label='Legislation Type' item_list=facets.fields.bill_type selected_list=selected_facets.bill_type %}
+        {% include 'partials/search_filter.html' %}
+      {% endwith %}
+
+
+      <!-- Topic -->
+      {% if facets.fields.topics %}
+        {% with facet_name='topics' facet_label='Topic' item_list=facets.fields.topics selected_list=selected_facets.topics %}
+          {% include 'partials/search_filter.html' %}
+        {% endwith %}
+      {% endif %}
+
+
+      <!-- Controlling Body -->
+      {% with facet_name='controlling_body' facet_label='Controlling Body' item_list=facets.fields.controlling_body selected_list=selected_facets.controlling_body %}
+        {% include 'partials/search_filter.html' %}
+      {% endwith %}
+
+
+      <!-- Sponsor -->
+      {% with facet_name='sponsorships' facet_label='Sponsor' item_list=facets.fields.sponsorships selected_list=selected_facets.sponsorships %}
+        {% include 'partials/search_filter.html' %}
+      {% endwith %}
+
+
+      <!-- Legislative Session -->
+      {% if facets.fields.legislative_session %}
+        <!-- only show leg sesh filter pane if there is more than one leg sesh to select from -->
+        {% if facets.fields.legislative_session|length > 1 %}
+
+          {% with facet_name='legislative_session' facet_label='Legislative Session' item_list=facets.fields.legislative_session selected_list=selected_facets.legislative_session %}
+            {% include 'partials/search_filter.html' %}
+          {% endwith %}
+
+        {% endif %}
+      {% endif %}
+
+
+
+      <div class="divider"></div>
     </div>
 
-    {% if page_obj.has_previous or page_obj.has_next %}
-        <div class="row">
-            <div class="col-md-8 col-md-offset-4">
-                <nav>
-                    <ul class="pagination">
-                        {% if page_obj.has_previous %}
-                            <li>
-                                <a href="?{{ q_filters }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
-                            </li>
-                        {% else %}
-                            <li class="disabled">
-                                <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
-                            </li>
-                        {% endif %}
+    <div class="col-sm-8 order-nav">
 
-                        {% if page_obj.has_next %}
-                            <li>
-                                <a href="?{{ q_filters }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
-                            </li>
-                        {% else %}
-                            <li class="disabled">
-                                <a href="#" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
+      <nav class="nav nav-inline order-nav">
+
+        Order by:
+
+        {% with sort_name='date' order_name='desc' %}
+          {% include 'partials/order_by_filter.html' %}
+        {% endwith %}
+
+        {% with sort_name='title' order_name='asc' %}
+          {% include 'partials/order_by_filter.html' %}
+        {% endwith %}
+
+        <!-- The templating logic is different for Relevance sort. The Relevance sort does not require a direction, and it should be bolded by default after submitting a query.-->
+        {% if 'sort_by=relevance' in request.get_full_path or 'order_by=' not in request.get_full_path and 'q=' in request.get_full_path %}
+          <strong><a class="nav-link assort" href="{% search_with_querystring request sort_by='relevance' %}" data='sort_by=relevance'>
+            Relevance
+          </a></strong>
+        {% else %}
+          <a class="sort-by nav-link" href="{% search_with_querystring request sort_by='relevance' %}" data='sort_by=relevance'>
+            Relevance
+          </a>
+        {% endif %}
+
+        {% if 'sort_by' in request.get_full_path %}
+          <a href ="#" class="remove-order-value btn btn-sm btn-primary hidden-xs"
+            {% if 'sort_by=date' in request.get_full_path %}
+              data='sort_by=date'
+            {% elif 'sort_by=title' in request.get_full_path%}
+              data='sort_by=title'
+            {% elif 'sort_by=relevance' in request.get_full_path%}
+              data='sort_by=relevance'
+            {% endif %}
+          ><i class="fa fa-times"></i>
+            Remove
+          </a>
+
+          <a href ="#" class="remove-order-value btn btn-sm btn-primary visible-xs"
+            {% if 'sort_by=date' in request.get_full_path %}
+              data='sort_by=date'
+            {% elif 'sort_by=title' in request.get_full_path%}
+              data='sort_by=title'
+            {% elif 'sort_by=relevance' in request.get_full_path%}
+              data='sort_by=relevance'
+            {% endif %}
+          ><i class="fa fa-times"></i>
+          </a>
+        {% endif %}
+
+      </nav>
+
+      <hr>
+
+      {% if query or selected_facets %}
+        <h3 class="modal-links">
+
+          <!-- with elasticsearch, only showing the top 10,000 results -->
+          {{ paginator.count }} legislation result{{ paginator.count|pluralize }}
+          {% if query %}for '{{ request.GET.q }}'{% endif %}
+
+          <small class="pull-right">
+            <a href="/search/rss/?{{request.GET.urlencode}}" title="RSS feed"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for this search</a>
+          </small>
+        </h3>
+        <div class='row'>
+          <div class='col-sm-8' id='search_message'></div>
         </div>
-    {% endif %}
+      {% endif %}
+
+      {% for result in object_list %}
+
+        <!-- Legislation result -->
+
+        {% with r=result %}
+          {% include 'partials/search_result.html' %}
+        {% endwith %}
+
+
+        {% include 'partials/tags.html' %}
+
+
+      {% empty %}
+        {% include 'partials/empty_search_message.html' %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if page_obj.has_previous or page_obj.has_next %}
+    <div class="row">
+      <div class="col-md-8 col-md-offset-4">
+        <nav>
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li>
+                <a href="?{{ q_filters }}&amp;page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo; Previous</span></a>
+              </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+              <li>
+                <a href="?{{ q_filters }}&amp;page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <a href="#" aria-label="Next"><span aria-hidden="true">Next &raquo;</span></a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  {% endif %}
 
 {% endblock %}
 
 {% block extra_js %}
-    {{ selected_facets|json_script:"selected-facets" }}
-    <script>
+  {{ selected_facets|json_script:"selected-facets" }}
+  <script>
     $(document).ready(function() {
-        $("#searchSubscribe").click(function() {
-            var bullHorn    = $(this).parents().find(".createSubscription");
-            var bullHornNew = $(this).parents().find(".removeSubscription");
+      $("#searchSubscribe").click(function() {
+        var bullHorn    = $(this).parents().find(".createSubscription");
+        var bullHornNew = $(this).parents().find(".removeSubscription");
 
-            if ('{{ request.user }}' != 'AnonymousUser') {
-                posturl2 = "/search_check_subscription/"
-                facets2 = $('#selected-facets').text();
-                stuff2 = $.post(posturl2, { query: "{{request.GET.q}}", selected_facets: facets2 },
-                    function(data, status) {
-                    console.log("returned from post with data: ", data, "status:", status);
-                }).error(function() {
-                console.log("Could not check subscription for interest {{request.GET.q}} with {{facets2}}" );
-                }),
-                posturl = "/search_subscribe/" //+ "{{request.GET.q}}"
-                facets =  $('#selected-facets').text();
-                $.post(posturl, { query: "{{request.GET.q}}", selected_facets: facets }).then(function() {
-                    $(bullHorn).hide();
-                    $(bullHornNew).show();
+        if ('{{ request.user }}' != 'AnonymousUser') {
+          posturl2 = "/search_check_subscription/"
+          facets2 = $('#selected-facets').text();
+          stuff2 = $.post(posturl2, { query: "{{request.GET.q}}", selected_facets: facets2 },
+            function(data, status) {
+              console.log("returned from post with data: ", data, "status:", status);
+            }).error(function() {
+              console.log("Could not check subscription for interest {{request.GET.q}} with {{facets2}}" );
+            }),
+          posturl = "/search_subscribe/" //+ "{{request.GET.q}}"
+          facets =  $('#selected-facets').text();
+          $.post(posturl, { query: "{{request.GET.q}}", selected_facets: facets }).then(function() {
+            $(bullHorn).hide();
+            $(bullHornNew).show();
 
-                }, function (error) {
-                    console.error("Error subscribing to interest {{request.GET.q}} with {{selected_facets}}" );
-                })
-            }
-            else {
-                $('#search_message').html(alertMsg);
-            }
+          }, function (error) {
+            console.error("Error subscribing to interest {{request.GET.q}} with {{selected_facets}}" );
+          })
         }
-    )});
-    </script>
+        else {
+          $('#search_message').html(alertMsg);
+        }
+      }
+      )});
+  </script>
 
 
 
-    <script>
-        $(function() {
-            // filters are collapsed be default b/c they are long
-            // filters w/ class panel-show (i.e. filters that have been selected) are expanded
-            $('.panel-show').addClass('in');
+  <script>
+    $(function() {
+      // filters are collapsed be default b/c they are long
+      // filters w/ class panel-show (i.e. filters that have been selected) are expanded
+      $('.panel-show').addClass('in');
 
-            $(".panel-heading").click(function () {
-                if ($(this).parent().children().eq(1).hasClass("in")){
-                    $(this).find('i').removeClass("fa-minus").addClass("fa-plus");
-                } else{
-                    $(this).find('i').removeClass("fa-plus").addClass("fa-minus");
-                }
-            });
+      $(".panel-heading").click(function () {
+        if ($(this).parent().children().eq(1).hasClass("in")){
+          $(this).find('i').removeClass("fa-minus").addClass("fa-plus");
+        } else{
+          $(this).find('i').removeClass("fa-plus").addClass("fa-minus");
+        }
+      });
 
-            var existing_q = decodeURIComponent("{{ q_filters }}").replace(/&amp;/g, '&').replace(/\+/g, ' ');
+      var existing_q = decodeURIComponent("{{ q_filters }}").replace(/&amp;/g, '&').replace(/\+/g, ' ');
 
-            $(".filter-value").click(function() {
-                var addtl_filter = $(this).attr('data');
+      $(".filter-value").click(function() {
+        var addtl_filter = $(this).attr('data');
 
-                if(existing_q){
-                    window.location.assign('/search/?'+existing_q+'&selected_facets='+encodeURIComponent(addtl_filter));
-                }
-                else{
-                    window.location.assign ('/search/?selected_facets=' + encodeURIComponent(addtl_filter));
-                };
+        if(existing_q){
+          window.location.assign('/search/?'+existing_q+'&selected_facets='+encodeURIComponent(addtl_filter));
+        }
+        else{
+          window.location.assign ('/search/?selected_facets=' + encodeURIComponent(addtl_filter));
+        };
 
-            });
+      });
 
-            $(".remove-filter-value").click(function() {
+      $(".remove-filter-value").click(function() {
 
-                var to_remove = encodeURIComponent('selected_facets='+$(this).attr('data'))
+        var to_remove = encodeURIComponent('selected_facets='+$(this).attr('data'))
 
-                var existing_components = existing_q.split("&")
-                var new_components = $.grep(existing_components, function(value) {
-                    return encodeURIComponent(value) != to_remove;
-                });
-
-                window.location.assign('/search/?' + new_components.join('&'));
-            });
-
-            $(".remove-order-value").click(function() {
-                var to_remove = $(this).attr('data');
-                var existing_components = existing_q.split("&")
-
-                for(var i = existing_components.length -1; i >= 0 ; i--){
-                    var el = existing_components[i]
-                    if(el.includes('asc') || el.includes(to_remove) || el.includes('desc')) {
-                        existing_components.splice(i, 1);
-                    }
-                }
-
-                window.location.assign('/search/?' + existing_components.join('&'));
-            });
-
+        var existing_components = existing_q.split("&")
+        var new_components = $.grep(existing_components, function(value) {
+          return encodeURIComponent(value) != to_remove;
         });
-    </script>
+
+        window.location.assign('/search/?' + new_components.join('&'));
+      });
+
+      $(".remove-order-value").click(function() {
+        var to_remove = $(this).attr('data');
+        var existing_components = existing_q.split("&")
+
+        for(var i = existing_components.length -1; i >= 0 ; i--){
+          var el = existing_components[i]
+          if(el.includes('asc') || el.includes(to_remove) || el.includes('desc')) {
+            existing_components.splice(i, 1);
+          }
+        }
+
+        window.location.assign('/search/?' + existing_components.join('&'));
+      });
+
+    });
+  </script>
 {% endblock %}

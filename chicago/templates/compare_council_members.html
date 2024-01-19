@@ -1,15 +1,15 @@
 {% extends "base_with_margins.html" %}
 {% load static extras %}
-{% block title %}Compare {{CITY_VOCAB.COUNCIL_MEMBERS}}{% endblock %}
+{% block title %}Compare Alders{% endblock %}
 
 {% block content %}
 
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6">
-        <h1>Compare {{ CITY_VOCAB.COUNCIL_MEMBERS }}</h1>
+        <h1>Compare Alders</h1>
 
-        <p>On February 28, 2023, Chicago will hold a municipal election for Mayor, City Clerk, Treasurer and all 50 City Council Seats. See who is retiring and who is running for re-election and compare their attendance and legislative accomplishments.</p>
+        <p>Compare Alders on their tenure, attendance and legislative accomplishments.</p>
 
         <p>Not sure who your Alder is? <a href="{% url 'council_members' %}">Look them up by your address ></a></p>
       </div>
@@ -19,8 +19,8 @@
             <thead>
               <tr>
                 <th></th>
-                <th>{{ CITY_VOCAB.COUNCIL_MEMBER }}</th>
-                <th>{{CITY_VOCAB.MUNICIPAL_DISTRICT}}</th>
+                <th>Alder</th>
+                <th>Ward</th>
                 <th>Years in office</th>
                 <th>Non-routine bills sponsored</th>
                 <th>Attendance (this session)</th>
