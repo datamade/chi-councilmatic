@@ -11,8 +11,6 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from opencivicdata.legislative.models import LegislativeSession
 
-from .helpers import topic_classifier
-
 app_timezone = pytz.timezone(settings.TIME_ZONE)
 
 
@@ -77,14 +75,9 @@ class ChicagoBill(Bill):
 
     @property
     def topics(self):
-        tags = topic_classifier(self.title)
-        if "Routine" in tags:
-            tags.remove("Routine")
-            tags = ["Routine"] + tags
-        elif "Non-Routine" in tags:
-            tags.remove("Non-Routine")
-            tags = ["Non-Routine"] + tags
-        return tags
+        return ["Routine" if self.extras["routine"] else "Non-Routine"] + self.extras[
+            "topics"
+        ]
 
     @property
     def addresses(self):
