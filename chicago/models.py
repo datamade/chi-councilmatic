@@ -75,9 +75,12 @@ class ChicagoBill(Bill):
 
     @property
     def topics(self):
-        return ["Routine" if self.extras["routine"] else "Non-Routine"] + self.extras[
-            "topics"
-        ]
+        if "topics" in self.extras:
+            return [
+                "Routine" if self.extras["routine"] else "Non-Routine"
+            ] + self.extras["topics"]
+
+        return []
 
     @property
     def addresses(self):
