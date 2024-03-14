@@ -74,7 +74,10 @@ class FacetedSearchFeed(Feed):
         return reverse("bill_detail", args=(bill.slug,))
 
     def item_pubdate(self, bill):
-        return to_datetime(bill.last_action_date)
+        try:
+            return to_datetime(bill.last_action_date)
+        except AttributeError:
+            return None
 
     def description(self, obj):
         return "Bills returned from search"

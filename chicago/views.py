@@ -614,10 +614,11 @@ class EventDetailView(DetailView):
         event_orgs = event.participants.filter(entity_type="organization")
         context["event_orgs"] = event_orgs
         for event_org in event_orgs:
-            org_members = event_org.organization.memberships.filter(
-                start_date__lte=event.start_time, end_date__gte=event.start_time
-            ).select_related("person__councilmatic_person")
-            expected_attendees.update([m.person for m in org_members])
+            if event_org.organization:
+                org_members = event_org.organization.memberships.filter(
+                    start_date__lte=event.start_time, end_date__gte=event.start_time
+                ).select_related("person__councilmatic_person")
+                expected_attendees.update([m.person for m in org_members])
 
         attendees = set()
         for event_person in event.attendance:
