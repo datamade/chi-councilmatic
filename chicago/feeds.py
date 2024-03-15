@@ -6,6 +6,7 @@ from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
+from sentry_sdk import capture_exception
 
 from .models import ChicagoPerson, Bill, Organization, Event
 from .utils import to_datetime
@@ -76,7 +77,8 @@ class FacetedSearchFeed(Feed):
     def item_pubdate(self, bill):
         try:
             return to_datetime(bill.last_action_date)
-        except AttributeError:
+        except AttributeError as e:
+            capture_exception(e)
             return None
 
     def description(self, obj):
