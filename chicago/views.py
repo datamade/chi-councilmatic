@@ -20,6 +20,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.generic import TemplateView, DetailView, ListView
 from haystack.generic_views import FacetedSearchView
 from haystack.forms import FacetedSearchForm
+from sentry_sdk import capture_exception
+
 from opencivicdata.core.models import Membership
 from opencivicdata.legislative.models import (
     BillSponsorship,
@@ -614,10 +616,14 @@ class EventDetailView(DetailView):
         event_orgs = event.participants.filter(entity_type="organization")
         context["event_orgs"] = event_orgs
         for event_org in event_orgs:
-            org_members = event_org.organization.memberships.filter(
-                start_date__lte=event.start_time, end_date__gte=event.start_time
-            ).select_related("person__councilmatic_person")
-            expected_attendees.update([m.person for m in org_members])
+            try:
+                org_members = event_org.organization.memberships.filter(
+                    start_date__lte=event.start_time, end_date__gte=event.start_time
+                ).select_related("person__councilmatic_person")
+                expected_attendees.update([m.person for m in org_members])
+            except AttributeError as e:
+                # found an event without an organization
+                capture_exception(e)
 
         attendees = set()
         for event_person in event.attendance:
