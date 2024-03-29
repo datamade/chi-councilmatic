@@ -13,7 +13,7 @@ Chicago Councilmatic is a free and easy way to access official Chicago City Coun
 
 ## Production data and SQLite archive
 
-If you'd like to explore the data for Chicago Councilmatic yourself, we make a SQLite database using [Datasette](https://datasette.io/) available here: https://puddle.bunkum.us/chicago_council. This data is updated nightly.
+If you'd like to explore the data for Chicago Councilmatic yourself, we make a SQLite database using [Datasette](https://datasette.io/) available here: https://puddle.datamade.us/chicago_council. This data is updated nightly.
 
 The data updates for the production instance of this site is done with GitHub actions in the https://github.com/datamade/chicago-council-scrapers repository. Data is also updated nightly.
 

@@ -6,7 +6,7 @@
     Legislation text
   </h3>
   <p>
-    <a id="pdf-download-link" target='_blank' href='{{legislation.full_text_doc_url}}'><i class='fa fa-fw fa-download'></i> Download PDF</a>
+    <a id="pdf-download-link" target='_blank' href='{{legislation.full_text_doc_url|proxy_url}}'><i class='fa fa-fw fa-download'></i> Download PDF</a>
   </p>
   <iframe
     id="pdf-embed"
@@ -22,7 +22,7 @@
   {% if legislation.ocr_full_text|clean_html|length > 65 %}
     <h3>
       <i class='fa fa-fw fa-file-text-o'></i>
-      Legislation text
+      Legislation Text
     </h3>
     <div class='panel panel-default'>
       <div class='panel-body'>
