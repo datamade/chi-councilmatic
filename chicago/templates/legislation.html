@@ -237,22 +237,18 @@
         <div class="divider"></div>
       {% endif %}
 
-      {% if legislation.attachments %}
-        <h3>
-          <i class='fa fa-fw fa-paperclip'></i>
-          Attachments ({{ legislation.attachments | length }})
-        </h3>
+      {% include 'partials/legislation_text.html' %}
+
+      {% if legislation.documents.all %}
+        <h3>Additional Documents</h3>
         <ul>
-          {% for doc in legislation.attachments %}
+          {% for document in legislation.documents.all|dictsort:"note" %}
             <li>
-              <a href="{{doc.url}}" target="blank">{{ doc.note }}</a>
+              <a href="{{document.links.first.url|proxy_url}}">{{ document.note }}</a>
             </li>
           {% endfor %}
         </ul>
-        <div class="divider"></div>
       {% endif %}
-
-      {% include 'partials/legislation_text.html' %}
 
       <h3>Tools</h3>
       <div class="modal-links">
@@ -308,7 +304,7 @@
     });
 
     if (window.screen.width > 768){
-      $("#pdf-embed").attr("src", "/pdfviewer/?file={{legislation.full_text_doc_url|urlencode}}");
+      $("#pdf-embed").attr("src", "/pdfviewer/?file={{legislation.full_text_doc_url|proxy_url|urlencode}}");
     }
     else{
       $('#pdf-embed').hide()

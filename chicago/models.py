@@ -120,7 +120,7 @@ class ChicagoBill(Bill):
         """
         if self.versions.all():
             most_recent = self.versions.first().links.first().url
-            return f"https://corsproxy.bunkum.us/corsproxy/?apiurl={most_recent}"
+            return most_recent
         else:
             return None
 

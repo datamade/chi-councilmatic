@@ -198,3 +198,8 @@ def get_mayor(year):
         return "Richard M. Daley"
     else:
         return ""
+
+
+@register.filter
+def proxy_url(url):
+    return f"https://corsproxy.bunkum.us/corsproxy/?apiurl={url}"
