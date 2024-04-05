@@ -30,6 +30,11 @@
       <br/>
       <p>{{ legislation.title }}</p>
 
+      {% if legislation.current_version.extras.summary %}
+        <h3><i class="fa-solid fa-robot"></i> Auto-generated summary</h3>
+        <p>{{legislation.current_version.extras.summary }}</p>
+      {% endif %}
+
       {% with other_identifiers=alternate_identifiers %}
         {% if other_identifiers %}
           <p>
