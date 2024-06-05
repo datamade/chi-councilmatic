@@ -6,6 +6,7 @@ import re
 from django.conf import settings
 
 from urllib.parse import urlsplit, parse_qs, urlencode
+from chicago.utils import get_alder_extras
 
 register = template.Library()
 
@@ -149,6 +150,16 @@ def create_facet_string(selected_facets, query=None):
 @register.filter
 def remove_question(text):
     return text.rstrip("?")
+
+
+@register.filter
+def get_person_headshot(person):
+    """used for getting person images when we don't have access to the model"""
+    extra = get_alder_extras(person.slug)
+    if extra:
+        return f"/static/images/manual-headshots/{extra['image']}"  # noqa
+
+    return "/static/images/headshot_placeholder.png"
 
 
 @register.filter
