@@ -210,6 +210,9 @@
 
       {% if request.GET.view == 'donations' and map_geojson %}
         <h3>Campaign Donations</h3>
+        <p>Political campaign contributions are required to be disclosed to the <a href='http://www.elections.il.gov/' target='_blank'>Illinois State Board of Elections</a>, which has data going back to 1994.</p>
+        <p><a href="https://illinoissunshine.org/candidates/{{ person.candidate_id }}/" target="_blank">Explore more campaign donations for <strong>{{person.name}}</strong> on Illinois Sunshine ></a></p>
+
         <div class="table-responsive">
           <table id="campaign-donations" class="table">
             <thead>
