@@ -103,7 +103,7 @@
               <tr class="{% if not p.attended %}danger{% endif %}">
                 <td>
                   <div class="thumbnail-square">
-                    <img src='{{p.attendee|get_person_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive' />
+                    <img src='{{p.attendee.manual_headshot}}' alt='{{p.attendee.name}}' title='{{p.attendee.name}}' class='img-responsive' />
                   </div>
                 </td>
                 <td><a href="{% url 'person' p.attendee.slug %}">{{p.attendee.name}}</a></td>

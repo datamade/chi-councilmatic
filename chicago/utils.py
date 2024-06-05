@@ -1,7 +1,10 @@
+import os
 import datetime
 import pytz
+from csv import DictReader
 
 from django.conf import settings
+from django.core.cache import cache
 from haystack.utils.highlighting import Highlighter
 
 
@@ -40,3 +43,28 @@ def to_datetime(date, local=False):
 
     else:
         return dt
+
+
+def get_alder_extras(key):
+    if cache.get("alder_extras"):
+        extras = cache.get("alder_extras")
+    else:
+        extras = {}
+        alder_extras_file = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "..",
+            "data",
+            "final",
+            "alder_extras.csv",
+        )
+        alder_extras_reader = DictReader(open(alder_extras_file))
+        for row in alder_extras_reader:
+            extras[row["_key"]] = row
+
+        cache.set("alder_extras", extras)
+
+    for p in extras:
+        if key.startswith(p):
+            return extras[p]
+
+    return None

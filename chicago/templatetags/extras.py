@@ -152,16 +152,6 @@ def remove_question(text):
 
 
 @register.filter
-def get_person_headshot(person):
-    for p in settings.ALDER_EXTRAS:
-        if person:
-            if person.slug.startswith(p):
-                return f"/static/images/manual-headshots/{settings.ALDER_EXTRAS[p]['image']}"  # noqa
-
-    return "/static/images/headshot_placeholder.png"
-
-
-@register.filter
 def get_legistar_link(object):
     try:
         source = object.sources.get(note="web")
