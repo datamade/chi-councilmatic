@@ -82,6 +82,7 @@ h4 {
   border-radius: 0px;
   padding: 12px 10px 12px 10px;
   color: #3d8a8e;
+  border-bottom: 8px solid #ffffff;
 }
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
