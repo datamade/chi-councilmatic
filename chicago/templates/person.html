@@ -214,7 +214,7 @@
         <p><a href="https://illinoissunshine.org/candidates/{{ person.candidate_id }}/" target="_blank">Explore more campaign donations for <strong>{{person.name}}</strong> on Illinois Sunshine ></a></p>
 
         <div class="table-responsive">
-          <table id="campaign-donations" class="table">
+          <table id="campaign-donations" class="table rows-and-columns">
             <thead>
               <tr>
                 <th>Commitee Name</th>
@@ -228,19 +228,6 @@
                 <th>Filing</th>
               </tr>
             </thead>
-            <tfoot>
-              <tr>
-                <th>Commitee Name</th>
-                <th>Received Date</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Donor Name</th>
-                <th>Occupation</th>
-                <th>Employer</th>
-                <th>City, State Zip</th>
-                <th>Filing</th>
-              </tr>
-            </tfoot>
           </table>
         </div>
       {% endif %}
@@ -336,42 +323,61 @@
   {% if person.candidate_id %}
     <!-- Campaign Donations table -->
     <script type="text/javascript" language="javascript" class="init">
+      function addHeader(keyName, formatter) {
+        function addKeyedHeader(data, type, row, meta) {
+          if (formatter){
+            if (formatter.display) {
+              data = formatter.display(data, type, row, meta)
+            }
+            else {
+              data = formatter(data, type, row, meta)
+            }
+          }
+
+          return `<span class="visible-xs-block small-table-header">${keyName}</span>
+          ${data? data : "&nbsp;"}`
+        }
+        return addKeyedHeader
+      }
+
+      function formatFilingLink(data, type, row, meta) {
+        if (type === "display") {
+          const encoded_doc_id = encodeURIComponent(row.filed_doc_id);
+          let path = "";
+          switch (row.doc_name) {
+            case "A-1":
+              path = `A1List.aspx?FiledDocID=${encoded_doc_id}&ContributionType=wOGh3QTPfKqV2YWjeRmjTeStk426RfVK&Archived=Gl5sibpnFrQ%3d`;
+              break;
+            case "Final":
+              path = `D2Semiannual.aspx?id=${encoded_doc_id}`;
+              break;
+            default:
+              path = `D2Quarterly.aspx?id=${encoded_doc_id}`;
+          }
+          return `<a href="https://www.elections.il.gov/CampaignDisclosure/${path}">${row.filed_doc_id}</a>`;
+        }
+      }
+
       $(document).ready(function () {
 
         $("#campaign-donations").DataTable({
           columns: [
-            { data: "committee_name" },
-            { data: "received_date" },
+            { data: "committee_name", render: addHeader("Committee Name") },
+            { data: "received_date", render: addHeader("Received Date") },
             {
               data: "amount",
-              render: $.fn.dataTable.render.number(",", ".", 0, "$"),
+              render: addHeader("Amount", $.fn.dataTable.render.number(",", ".", 0, "$")),
               className: "dt-body-right",
             },
-            { data: "type" },
-            { data: "name" },
-            { data: "occupation" },
-            { data: "employer" },
-            { data: "city_state_zip" },
+            { data: "type", render: addHeader("Type") },
+            { data: "name", render: addHeader("Name") },
+            { data: "occupation", render: addHeader("Occupation") },
+            { data: "employer", render: addHeader("Employer")},
+            { data: "city_state_zip", render: addHeader("City, State, Zip") },
             {
               data: "filed_doc_id",
               defaultContent: "",
-              render: function (data, type, row, meta) {
-                if (type === "display") {
-                  const encoded_doc_id = encodeURIComponent(row.filed_doc_id);
-                  let path = "";
-                  switch (row.doc_name) {
-                    case "A-1":
-                      path = `A1List.aspx?FiledDocID=${encoded_doc_id}&ContributionType=wOGh3QTPfKqV2YWjeRmjTeStk426RfVK&Archived=Gl5sibpnFrQ%3d`;
-                      break;
-                    case "Final":
-                      path = `D2Semiannual.aspx?id=${encoded_doc_id}`;
-                      break;
-                    default:
-                      path = `D2Quarterly.aspx?id=${encoded_doc_id}`;
-                  }
-                  return `<a href="https://www.elections.il.gov/CampaignDisclosure/${path}">${row.filed_doc_id}</a>`;
-                }
-              },
+              render: addHeader("Filing", formatFilingLink)
             },
           ],
           order: [[1, "desc"]],
