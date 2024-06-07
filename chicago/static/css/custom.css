@@ -502,6 +502,10 @@ fieldset[disabled] .form-control {
   background-color: #fff;
 }
 
+div.dataTables_wrapper div.dataTables_processing {
+  background-color: #ffffffbb;
+}
+
 @media only screen and (max-width: 768px) {
   /* Force table to not be like tables anymore */
   table.rows-and-columns,
