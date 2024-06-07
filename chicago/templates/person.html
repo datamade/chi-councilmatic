@@ -21,7 +21,7 @@
 
   <div class="row-fluid">
     <div class="col-sm-3">
-      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
+      <img src='{{ person.manual_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
 
       {% if person.term_active %}
         {% if tenure_start %}
@@ -113,6 +113,17 @@
           </a>
           </li>
         {% endif %}
+        {% if person.candidate_id %}
+          <li role="presentation" {% if request.GET.view == 'donations' %}class='active' {% endif %}>
+            <a href="/person/{{person.slug}}/?view=donations">
+              <span class="small-pill">
+                <i class='fa fa-fw fa-money'></i>
+                <span class="desktop-only">Campaign </span>
+                Donations
+              </span>
+            </a>
+          </li>
+        {% endif %}
       </ul>
 
       {% if request.GET.view == 'bills' or request.GET.view == None %}
@@ -197,6 +208,43 @@
 
       {% endif %}
 
+      {% if request.GET.view == 'donations' and map_geojson %}
+        <h3>Campaign Donations</h3>
+        <p>Political campaign contributions are required to be disclosed to the <a href='http://www.elections.il.gov/' target='_blank'>Illinois State Board of Elections</a>, which has data going back to 1994.</p>
+        <p><a href="https://illinoissunshine.org/candidates/{{ person.candidate_id }}/" target="_blank">Explore more campaign donations for <strong>{{person.name}}</strong> on Illinois Sunshine ></a></p>
+
+        <div class="table-responsive">
+          <table id="campaign-donations" class="table">
+            <thead>
+              <tr>
+                <th>Commitee Name</th>
+                <th>Received Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Donor Name</th>
+                <th>Occupation</th>
+                <th>Employer</th>
+                <th>City, State Zip</th>
+                <th>Filing</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Commitee Name</th>
+                <th>Received Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Donor Name</th>
+                <th>Occupation</th>
+                <th>Employer</th>
+                <th>City, State Zip</th>
+                <th>Filing</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      {% endif %}
+
       <br />
       <h3>Tools</h3>
       <div class="modal-links">
@@ -215,7 +263,7 @@
       "@context": "http://schema.org",
       "@type": "Person",
       "email": "{{person.email}}",
-      "image": "{{ person|get_person_headshot }}",
+      "image": "{{ person.manual_headshot }}",
       {% if person.current_council_seat %}
         "jobTitle": "{{ person.current_council_seat }} Representative",
       {% endif %}
@@ -231,6 +279,9 @@
 {% endblock %}
 
 {% block extra_js %}
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.sorting.js' %}"></script>
+  <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 
   {% if map_geojson %}
 
@@ -280,6 +331,57 @@
 
     </script>
 
+  {% endif %}
+
+  {% if person.candidate_id %}
+    <!-- Campaign Donations table -->
+    <script type="text/javascript" language="javascript" class="init">
+      $(document).ready(function () {
+
+        $("#campaign-donations").DataTable({
+          columns: [
+            { data: "committee_name" },
+            { data: "received_date" },
+            {
+              data: "amount",
+              render: $.fn.dataTable.render.number(",", ".", 0, "$"),
+              className: "dt-body-right",
+            },
+            { data: "type" },
+            { data: "name" },
+            { data: "occupation" },
+            { data: "employer" },
+            { data: "city_state_zip" },
+            {
+              data: "filed_doc_id",
+              defaultContent: "",
+              render: function (data, type, row, meta) {
+                if (type === "display") {
+                  const encoded_doc_id = encodeURIComponent(row.filed_doc_id);
+                  let path = "";
+                  switch (row.doc_name) {
+                    case "A-1":
+                      path = `A1List.aspx?FiledDocID=${encoded_doc_id}&ContributionType=wOGh3QTPfKqV2YWjeRmjTeStk426RfVK&Archived=Gl5sibpnFrQ%3d`;
+                      break;
+                    case "Final":
+                      path = `D2Semiannual.aspx?id=${encoded_doc_id}`;
+                      break;
+                    default:
+                      path = `D2Quarterly.aspx?id=${encoded_doc_id}`;
+                  }
+                  return `<a href="https://www.elections.il.gov/CampaignDisclosure/${path}">${row.filed_doc_id}</a>`;
+                }
+              },
+            },
+          ],
+          order: [[1, "desc"]],
+          processing: true,
+          serverSide: true,
+          searching: true,
+          ajax: "https://puddle.bunkum.us/il_campaign_disclosure.datatable?sql=select%0D%0A++committees.name+AS+committee_name%2C%0D%0A++strftime+(%27%25Y-%25m-%25d%27%2C+received_date)+AS+received_date%2C%0D%0A++amount%2C%0D%0A++CASE%0D%0A++++WHEN+d2_part+%3D+%271A%27+THEN+%27individual+contribution%27%0D%0A++++WHEN+d2_part+%3D+%272A%27+THEN+%27transfer%27%0D%0A++++WHEN+d2_part+%3D+%273A%27+THEN+%27loan%27%0D%0A++++WHEN+d2_part+%3D+%274A%27+THEN+%27other+receipts%27%0D%0A++++WHEN+d2_part+%3D+%275A%27+THEN+%27in-kind%27%0D%0A++END+AS+type%2C%0D%0A++CASE%0D%0A++++WHEN+first_name+IS+NOT+NULL+THEN+first_name+||+%27+%27+||+last_name%0D%0A++++ELSE+last_name%0D%0A++END+AS+name%2C%0D%0A++occupation%2C%0D%0A++employer%2C%0D%0A++receipts.city+||+%27%2C+%27+||+receipts.state+||+%27+%27+||+receipts.zipcode+AS+city_state_zip%2C%0D%0A++filed_doc_id%2C%0D%0A++doc_name%0D%0Afrom%0D%0A++committee_candidate_links%0D%0A++inner+join+committees+on+committee_candidate_links.committee_id+%3D+committees.id%0D%0A++inner+join+receipts+using+(committee_id)%0D%0A++INNER+JOIN+filed_docs+ON+filed_doc_id+%3D+filed_docs.id%0D%0Awhere%0D%0A++candidate_id+%3D+{{ person.candidate_id }}%0D%0A++and+type+!%3D+%27Political+Action%27%0D%0A++and+receipts.archived+%3D+0"
+        });
+      });
+    </script>
   {% endif %}
 
 {% endblock %}
