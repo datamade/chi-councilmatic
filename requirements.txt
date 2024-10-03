@@ -1,7 +1,7 @@
 dj-database-url
 whitenoise
 https://github.com/datamade/django-councilmatic/archive/refs/heads/minimal.zip
-django-haystack[elasticsearch]
+django-haystack[elasticsearch]==3.2.1
 elasticsearch>=7.0.0,<7.14.0
 sentry-sdk[django]==1.39.1
 gunicorn==19.6.0
@@ -10,4 +10,3 @@ pytest-django==3.5.0
 setuptools
 psycopg2>=2.8,<2.9
 python-dateutil>=2.7,<2.8
-https://github.com/opencivicdata/python-opencivicdata/archive/refs/heads/3.2-model-permissions.zip

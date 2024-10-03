@@ -6,6 +6,7 @@ import re
 from django.conf import settings
 
 from urllib.parse import urlsplit, parse_qs, urlencode
+from chicago.utils import get_alder_extras
 
 register = template.Library()
 
@@ -153,10 +154,10 @@ def remove_question(text):
 
 @register.filter
 def get_person_headshot(person):
-    for p in settings.ALDER_EXTRAS:
-        if person:
-            if person.slug.startswith(p):
-                return f"/static/images/manual-headshots/{settings.ALDER_EXTRAS[p]['image']}"  # noqa
+    """used for getting person images when we don't have access to the model"""
+    extra = get_alder_extras(person.slug)
+    if extra:
+        return f"/static/images/manual-headshots/{extra['image']}"  # noqa
 
     return "/static/images/headshot_placeholder.png"
 

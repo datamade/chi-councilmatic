@@ -4,6 +4,7 @@ from operator import attrgetter
 
 import pytz
 from councilmatic_core.models import Bill, Event, Organization, Person
+from chicago.utils import get_alder_extras
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models
@@ -236,24 +237,28 @@ class ChicagoPerson(Person):
             sponsorships__person=self, sponsorships__primary=True
         ).count()
 
-    @property
-    def election_status(self):
-        for p in settings.ALDER_EXTRAS:
-            if (
-                self.slug.startswith(p)
-                and "election-status" in settings.ALDER_EXTRAS[p]
-            ):
-                return settings.ALDER_EXTRAS[p]["election-status"]
+    def extra_props(self, key):
+        extra = get_alder_extras(self.slug)
+        if extra and key in extra:
+            return extra[key]
 
         return ""
 
     @property
     def caucus(self):
-        for p in settings.ALDER_EXTRAS:
-            if self.slug.startswith(p) and "caucus" in settings.ALDER_EXTRAS[p]:
-                return settings.ALDER_EXTRAS[p]["caucus"]
+        return self.extra_props("caucus")
 
-        return ""
+    @property
+    def candidate_id(self):
+        return self.extra_props("candidate_id")
+
+    @property
+    def manual_headshot(self):
+        image_path = self.extra_props("image")
+        if image_path:
+            return f"/static/images/manual-headshots/{image_path}"  # noqa
+
+        return "/static/images/headshot_placeholder.png"
 
     @property
     def term_active(self):

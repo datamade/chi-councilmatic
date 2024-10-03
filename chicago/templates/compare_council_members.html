@@ -15,7 +15,7 @@
       </div>
       <div class="col-sm-12">
         <div class="table-responsive">
-          <table class='table' id='council-members'>
+          <table class='table rows-and-columns' id='council-members'>
             <thead>
               <tr>
                 <th></th>
@@ -36,17 +36,31 @@
                     </div>
                   </td>
                   <td>
+                    <span class="visible-xs-block small-table-header">Alder</span>
                     {{ person.link_html | safe }}
                   </td>
-                  <td>{{ person.latest_council_membership.post.label }}</td>
-                  <td>{{ person.years_in_office }}</td>
                   <td>
+                    <span class="visible-xs-block small-table-header">Ward</span>
+                    {{ person.latest_council_membership.post.label }}
+                  </td>
+                  <td>
+                    <span class="visible-xs-block small-table-header">Years in office</span>
+                    {{ person.years_in_office }}
+                  </td>
+                  <td>
+                    <span class="visible-xs-block small-table-header">Non-routine bills sponsored</span>
                     <a href='/search/?q=&selected_facets=sponsorships_exact:{{person.name}}&selected_facets=topics_exact%3ANon-Routine'>
                       {{ person.statistics.legislation_count }} bills
                     </a>
                   </td>
-                  <td>{{ person.statistics.attendance_percent }}</td>
-                  <td>{{ person.caucus }}</td>
+                  <td>
+                    <span class="visible-xs-block small-table-header">Attendance (this session)</span>
+                    {{ person.statistics.attendance_percent }}
+                  </td>
+                  <td>
+                    <span class="visible-xs-block small-table-header">Caucus</span>
+                    {{ person.caucus }}
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
