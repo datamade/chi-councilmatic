@@ -113,14 +113,25 @@ class ChicagoBill(Bill):
 
         return []
 
+    @property
+    def current_version(self):
+        # this needs to be improved to use some logic to pick out
+        # the most recent version instead of just first()
+        if self.versions.all():
+            return self.versions.first()
+        else:
+            return None
+
     @cached_property
     def full_text_doc_url(self):
         """
         override this if instead of having full text as string stored in
         full_text, it is a PDF document that you can embed on the page
         """
-        if self.versions.all():
-            most_recent = self.versions.first().links.first().url
+
+        current_version = self.current_version
+        if current_version:
+            most_recent = current_version.links.first().url
             return most_recent
         else:
             return None
