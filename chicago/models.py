@@ -140,6 +140,7 @@ class ChicagoBill(Bill):
 class SearchBill(models.Model):
     text = models.TextField()
     last_updated = models.DateTimeField(auto_now_add=True, blank=True)
+    extras = models.JSONField(null=True)
     bill = models.OneToOneField(ChicagoBill, on_delete=models.CASCADE, primary_key=True)
 
 
