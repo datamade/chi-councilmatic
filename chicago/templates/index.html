@@ -93,7 +93,6 @@
       <div class='col-sm-10 col-sm-offset-1'>
         <h2>
           <span>
-            <i class="fa fa-institution"></i>
             Engage City Council
           </span>
         </h2>
@@ -133,20 +132,19 @@
 
         {% if next_council_meeting or upcoming_committee_meetings %}
           <h2>
-            <i class="fa fa-fw fa-calendar-o"></i>
+            <i class="fa fa-fw fa-calendar"></i>
             Upcoming Meetings
           </h2>
           <br/>
 
           {% if next_council_meeting %}
 
-            <h4><i class="fa fa-fw fa-institution"></i> Next City Council meeting</h4>
+            <h4>Next City Council meeting</h4>
 
             <p class="small text-muted">
-              <i class="fa fa-fw fa-calendar-o"></i> {{next_council_meeting.start_time | date:"D n/d/Y"}}<br/>
-              <i class="fa fa-fw fa-clock-o"></i> {{next_council_meeting.start_time| date:"g:ia"}}<br/>
-              <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall<br />
-              <i class="fa fa-fw"></i> 121 N LaSalle St, Chicago, IL
+              <i class="fa fa-fw fa-calendar"></i> {{next_council_meeting.start_time | date:"D n/d/Y"}}<br/>
+              <i class="fa fa-fw fa-clock"></i> {{next_council_meeting.start_time| date:"g:ia"}}<br/>
+              <i class="fa fa-fw fa-map-marker"></i> Council Chambers, City Hall 121 N LaSalle St, Chicago, IL
             </p>
             <a class='btn btn-info btn-sm' href="{{next_council_meeting.event_page_url}}">
               Details
@@ -186,7 +184,7 @@
     <div class="row-fluid">
       <div class='col-sm-10 col-sm-offset-1'>
         <h2>
-          <i class="fa fa-fw fa-users"></i>Latest Council Meeting
+          <i class="fa fa-fw fa-users"></i> Latest Council Meeting
         </h2>
 
         <p class="big">
@@ -283,7 +281,7 @@
         <div class='col-sm-10 col-sm-offset-1'>
           <div class="divider"></div>
           <h2>
-            <i class="fa fa-fw fa-clock-o"></i>Since the last council meeting
+            <i class="fa fa-fw fa-clock"></i>Since the last council meeting
           </h2>
           <p>
             After {{last_council_meeting.start_time | date:"M jS"}}, City Council introduced

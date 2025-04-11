@@ -30,7 +30,7 @@ repos:
     rev: v2.5.1
     hooks:
       - id: prettier
-        exclude: ^(chicago/static/js/lib/|chicago/static/css/bootstrap|chicago/templates/)
+        exclude: ^(chicago/static/js/|chicago/static/css/bootstrap|chicago/templates/)
         files: \.(js|ts|jsx|tsx|css|less|json|markdown|md|yaml|yml)$
 
   - repo: https://github.com/pre-commit/mirrors-eslint

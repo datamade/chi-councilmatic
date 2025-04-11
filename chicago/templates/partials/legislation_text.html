@@ -2,7 +2,7 @@
 
 {% if legislation.full_text_doc_url %}
   <h3>
-    <i class='fa fa-fw fa-file-text-o'></i>
+    <i class='fa fa-fw fa-file'></i>
     Legislation text
   </h3>
   <p>
@@ -21,7 +21,7 @@
 {% elif legislation.ocr_full_text %}
   {% if legislation.ocr_full_text|clean_html|length > 65 %}
     <h3>
-      <i class='fa fa-fw fa-file-text-o'></i>
+      <i class='fa fa-fw fa-file'></i>
       Legislation Text
     </h3>
     <div class='panel panel-default'>
