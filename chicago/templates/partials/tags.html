@@ -2,11 +2,11 @@
 
 {% if result.last_action_date %}
   <p class="small text-muted condensed">
-    <i class="fa fa-fw fa-calendar-o"></i> {{result.last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
+    <i class="fa fa-fw fa-calendar"></i> {{result.last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
   </p>
 {% elif result.object.get_last_action_date %}
   <p class="small text-muted condensed">
-    <i class="fa fa-fw fa-calendar-o"></i> {{result.object.get_last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
+    <i class="fa fa-fw fa-calendar"></i> {{result.object.get_last_action_date|date:'n/d/Y'}} - {{result.object.current_action.description | remove_action_subj }}
   </p>
 {% endif %}
 

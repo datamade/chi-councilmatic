@@ -166,7 +166,7 @@ def get_person_headshot(person):
 def get_legistar_link(object):
     try:
         source = object.sources.get(note="web")
-        return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-external-link'></i> View on the {settings.CITY_VOCAB['SOURCE']} website</a>"  # noqa
+        return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-link'></i> View on the {settings.CITY_VOCAB['SOURCE']} website</a>"  # noqa
 
     except ObjectDoesNotExist:
         return ""

@@ -15,7 +15,7 @@
           <td>
             {% if post.current_member %}
               <div class="thumbnail-square">
-                <img src='{{post.current_member.person.manual_headshot}}' alt='{{post.current_member.person.name}}' title='{{post.current_member.person.name}}' class='img-responsive' />
+                <img src='{{post.current_member.person|get_person_headshot}}' alt='{{post.current_member.person.name}}' title='{{post.current_member.person.name}}' class='img-responsive' />
               </div>
             {% endif %}
           </td>
@@ -24,7 +24,7 @@
               {{ post.current_member.person.link_html | safe }}
               {% if post.current_member.person.is_speaker %}
                 <br /><span class='label label-default'>Council Speaker</span>
-                <span class='label label-success'><i class='fa fa-fw fa-check-square-o'></i> Verified</span>
+                <span class='label label-success'><i class='fa fa-fw fa-check-square'></i> Verified</span>
               {% endif %}
             {% else %}
               Vacant

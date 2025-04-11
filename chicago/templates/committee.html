@@ -15,7 +15,7 @@
 
       <hr />
 
-      <h4><i class='fa fa-fw fa-group'></i> Committee Members ({{ committee.all_members|length }})</h4>
+      <h4><i class='fa fa-fw fa-users'></i> Committee Members ({{ committee.all_members|length }})</h4>
 
       {% include 'partials/committee_person_table.html' %}
 
@@ -23,7 +23,7 @@
 
       {% if committee.recent_events %}
         <h4 class="modal-links">
-          <i class='fa fa-fw fa-calendar-o'></i> Committee meetings&nbsp;
+          <i class='fa fa-fw fa-calendar'></i> Committee meetings&nbsp;
 
           <small class="pull-right"><a href="events/rss/" title="RSS feed for Committee Events by {{committee.name}}"><i class="fa fa-rss-square" aria-hidden="true"></i> RSS feed for committee events</a></small>
 

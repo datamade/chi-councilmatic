@@ -13,11 +13,7 @@ module.exports = {
     "space-before-blocks": ["error", "always"],
     "react/prop-types": "off",
   },
-  ignorePatterns: [
-    "chicago/static/js/lib/**/*.js",
-    "venv/**/*",
-    "/static/**/*",
-  ],
+  ignorePatterns: ["chicago/static/js/**/*.js", "venv/**/*", "/static/**/*"],
   parserOptions: {
     sourceType: "module",
     allowImportExportEverywhere: true,

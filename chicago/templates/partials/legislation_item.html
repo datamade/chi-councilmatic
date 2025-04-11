@@ -22,7 +22,7 @@
 
 
 <p>
-  <span class="small text-muted"><i class="fa fa-fw fa-calendar-o"></i> {% firstof legislation.last_action_date|date:'n/d/Y' legislation.get_last_action_date|date:'n/d/Y' %} - {{legislation.current_action.description | remove_action_subj }}</span><br/>
+  <span class="small text-muted"><i class="fa fa-fw fa-calendar"></i> {% firstof legislation.last_action_date|date:'n/d/Y' legislation.get_last_action_date|date:'n/d/Y' %} - {{legislation.current_action.description | remove_action_subj }}</span><br/>
 
   {% if legislation.topics %}
     <i class="fa fa-fw fa-tag"></i>
