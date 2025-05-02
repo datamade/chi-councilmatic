@@ -14,10 +14,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      elasticsearch:
-        condition: service_started
     volumes:
       - .:/app
+      - /Users/derekeder/projects/datamade/postgres-fts-backend:/postgres-fts-backend
     environment:
       DJANGO_MANAGEPY_MIGRATE: "False"
       DJANGO_DEBUG: "True"
@@ -40,19 +39,19 @@ services:
     ports:
       - 32001:5432
 
-  elasticsearch:
-    image: elasticsearch:7.14.2
-    container_name: chi-councilmatic-elasticsearch
-    ports:
-      - 9200:9200
-    environment:
-      - discovery.type=single-node
-      - logger.org.elasticsearch.discovery=DEBUG
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    mem_limit: 1g
-    volumes:
-      - chi-councilmatic-es-data:/usr/share/elasticsearch/data
+  # elasticsearch:
+  #   image: elasticsearch:7.14.2
+  #   container_name: chi-councilmatic-elasticsearch
+  #   ports:
+  #     - 9200:9200
+  #   environment:
+  #     - discovery.type=single-node
+  #     - logger.org.elasticsearch.discovery=DEBUG
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   mem_limit: 1g
+  #   volumes:
+  #     - chi-councilmatic-es-data:/usr/share/elasticsearch/data
 
 volumes:
   chi-councilmatic-db-data:
-  chi-councilmatic-es-data:
+  # chi-councilmatic-es-data:
