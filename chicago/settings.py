@@ -31,8 +31,6 @@ if os.getenv("SENTRY_DSN") and os.getenv("PRODUCTION"):
         dsn=os.environ["SENTRY_DSN"],
         integrations=[DjangoIntegration()],
         release=f"{os.environ['HEROKU_RELEASE_VERSION']}-{os.environ['HEROKU_APP_NAME']}",  # noqa
-        enable_tracing=True,
-        traces_sample_rate=0.05,
     )
 
 DATABASES = {}
