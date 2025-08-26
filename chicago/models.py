@@ -137,6 +137,13 @@ class ChicagoBill(Bill):
             return None
 
 
+class SearchBill(models.Model):
+    text = models.TextField()
+    last_updated = models.DateTimeField(auto_now_add=True, blank=True)
+    extras = models.JSONField(null=True)
+    bill = models.OneToOneField(ChicagoBill, on_delete=models.CASCADE, primary_key=True)
+
+
 class ChicagoOrganization(Organization):
     class Meta:
         proxy = True

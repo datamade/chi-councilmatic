@@ -46,9 +46,8 @@ DATABASES["default"] = dj_database_url.parse(
 
 HAYSTACK_CONNECTIONS = {}
 HAYSTACK_CONNECTIONS["default"] = {
-    "ENGINE": "haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine",
-    "URL": os.getenv("HAYSTACK_URL", "http://elasticsearch:9200"),
-    "INDEX_NAME": "chicago",
+    "ENGINE": "postgres_fts_backend.PostgresFTSEngine",
+    "INDEX_NAME": "chicago_fts",
     "SILENTLY_FAIL": False,
     "BATCH_SIZE": 10,
 }
