@@ -14,7 +14,13 @@
     <div class="col-sm-10">
       <h1>
         {{person.name}}
-        <small>{% if not person.term_active %}Former {% endif %}{{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
+        <small>
+          {% if person.non_voting_title %}
+            {{ person.non_voting_title }}
+          {% elif not person.term_active %}
+            Former
+          {% endif %}
+          {{ person.latest_council_membership.post.label }} {{ person.latest_council_membership.role }}</small>
       </h1>
     </div>
   </div>
