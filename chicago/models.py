@@ -270,7 +270,6 @@ class ChicagoPerson(Person):
 
     @property
     def non_voting_title(self):
-        print(settings.EXTRA_TITLES.keys())
         if self.slug in list(settings.EXTRA_TITLES.keys()):
             return settings.EXTRA_TITLES[self.slug]
         else:
