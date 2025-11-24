@@ -5,8 +5,8 @@ django-haystack[elasticsearch]==3.2.1
 elasticsearch>=7.0.0,<7.14.0
 sentry-sdk[django]==1.39.1
 gunicorn==19.6.0
-pytest==4.6.2
-pytest-django==3.5.0
+pytest==6.2.5
+pytest-django==3.10.0
 setuptools
 psycopg2>=2.8,<2.9
 python-dateutil>=2.7,<2.8
