@@ -269,6 +269,13 @@ class ChicagoPerson(Person):
         return self.latest_council_membership.end_date_dt > timezone.now()
 
     @property
+    def non_voting_title(self):
+        if self.slug in list(settings.EXTRA_TITLES.keys()):
+            return settings.EXTRA_TITLES[self.slug]
+        else:
+            return ""
+
+    @property
     def years_in_office(self):
         if self.latest_council_membership is None:
             return ""

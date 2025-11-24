@@ -403,6 +403,7 @@ TOPIC_HIERARCHY = [
                 "children": [
                     {"name": "Zoning Reclassification"},
                     {"name": "Liquor and Package Store Restrictions"},
+                    {"name": "Historical Landmark"},
                 ],
             },
             {

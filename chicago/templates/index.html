@@ -232,30 +232,26 @@
                 <i class="fa fa-lg plusminus fa-plus pull-right"></i>
                 <span class="badge badge-default">{{parent.count}}</span> {{parent.name}}
               </div>
-              <div id="collapse-{{parent.name|slugify}}" class="panel-collapse collapse">
+              <div id="collapse-{{parent.name|slugify}}" class="panel-collapse">
                 <div class="panel-body">
                   {% for child in parent.children %}
                     <p class="no-pad-bottom">
-                      {% if child.count == 0 %}
-                        <span class="badge badge-default-light">{{child.count}}</span>
-                      {% else %}
+                      {% if child.count > 0 %}
                         <span class="badge badge-default">{{child.count}}</span>
+                        <a href="/search/?q=&selected_facets=topics_exact:{{child.name}}">
+                          {{child.name}}
+                        </a>
                       {% endif %}
-                      <a href="/search/?q=&selected_facets=topics_exact:{{child.name}}">
-                        {{child.name}}
-                      </a>
                     </p>
                     <ul>
                       {% for grandchild in child.children %}
                         <li class="small">
-                          {% if grandchild.count == 0 %}
-                            <span class="badge badge-default-light">{{grandchild.count}}</span>
-                          {% else %}
+                          {% if grandchild.count > 0 %}
                             <span class="badge badge-default">{{grandchild.count}}</span>
+                            <a href="/search/?q=&selected_facets=topics_exact:{{grandchild.name}}">
+                              {{grandchild.name}}
+                            </a>
                           {% endif %}
-                          <a href="/search/?q=&selected_facets=topics_exact:{{grandchild.name}}">
-                            {{grandchild.name}}
-                          </a>
                         </li>
                       {% endfor %}
                     </ul>
