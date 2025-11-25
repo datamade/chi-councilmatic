@@ -317,9 +317,9 @@ COMMITTEE_DESCRIPTIONS = {
 # notable positions that aren't district representatives, e.g. mayor & city clerk
 # keys should match person slugs
 EXTRA_TITLES = {
-    "mendoza-susana-a-a465109bd96a": "City Clerk",
-    "emanuel-rahm-3af71de0e6ca": "Mayor",
-    "lightfoot-lori-e-f6faf37c9643": "Mayor",
+    "mendoza-susana-a-a465109bd96a": "Former City Clerk",
+    "emanuel-rahm-3af71de0e6ca": "Former Mayor",
+    "lightfoot-lori-e-f6faf37c9643": "Former Mayor",
     "johnson-brandon-e5293d9f2ef3": "Mayor",
     "valencia-anna-m-257a68ccbc17": "City Clerk",
 }

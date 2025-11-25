@@ -64,7 +64,7 @@
                   {% for vote_event in legislation.votes.all %}
                     {% for count in vote_event.counts.all %}
                       {% if count.option == 'yes' %}
-                        {{count.value}}
+                        {{count.value}}<br />
                       {% endif %}
                     {% endfor %}
                   {% endfor %}
@@ -73,7 +73,7 @@
                   {% for vote_event in legislation.votes.all %}
                     {% for count in vote_event.counts.all %}
                       {% if count.option == 'no' %}
-                        {{count.value}}
+                        {{count.value}}<br />
                       {% endif %}
                     {% endfor %}
                   {% endfor %}
@@ -104,8 +104,8 @@
         null,
         null,
         null,
-        null,
-        null
+        { "sType": "num-html" },
+        { "sType": "num-html" }
       ]
     });
   </script>
