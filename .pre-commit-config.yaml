@@ -13,7 +13,7 @@ repos:
         exclude: ^(chicago/migrations/)
 
   - repo: https://github.com/pycqa/flake8
-    rev: "9f60881"
+    rev: "7.3.0"
     hooks:
       - id: flake8
         args: [--config=.flake8]

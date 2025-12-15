@@ -203,4 +203,4 @@ def get_mayor(year):
 
 @register.filter
 def proxy_url(url):
-    return f"https://corsproxy.bunkum.us/corsproxy/?apiurl={url}"
+    return f"https://proxy.councilmatic.org/?url={url}"
