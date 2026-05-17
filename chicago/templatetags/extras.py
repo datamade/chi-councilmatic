@@ -166,7 +166,19 @@ def get_person_headshot(person):
 def get_legistar_link(object):
     try:
         source = object.sources.get(note="web")
-        return f"<a href='{source.url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-link'></i> View on the {settings.CITY_VOCAB['SOURCE']} website</a>"  # noqa
+        url = source.url
+        # Bills scraped from the old chicago.legistar.com point at a host
+        # that's been replaced by the eLMS Matter page. Rewrite when we
+        # can: the bill's friendly_name doubles as eLMS's recordNumber,
+        # so the swap is just a URL change.
+        if "chicago.legistar.com" in url:
+            friendly_name = getattr(object, "friendly_name", "")
+            if friendly_name:
+                url = (
+                    "https://chicityclerkelms.chicago.gov/Matter/?recordNumber="
+                    + friendly_name
+                )
+        return f"<a href='{url}' target='_blank' rel='nofollow'><i class='fa fa-fw fa-link'></i> View on the {settings.CITY_VOCAB['SOURCE']} website</a>"  # noqa
 
     except ObjectDoesNotExist:
         return ""
