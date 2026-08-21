@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for membership in committee.chairs %}
+    {% for membership in chairs %}
       <tr>
         <td>
           <div class="thumbnail-square">
@@ -30,7 +30,7 @@
         </td>
       </tr>
     {% endfor %}
-    {% for membership in committee.vice_chairs %}
+    {% for membership in vice_chairs %}
       <tr>
         <td>
           <div class="thumbnail-square">
@@ -48,7 +48,7 @@
         </td>
       </tr>
     {% endfor %}
-    {% for membership in committee.non_chair_members %}
+    {% for membership in non_chair_members %}
       <tr>
         <td>
           <div class="thumbnail-square">

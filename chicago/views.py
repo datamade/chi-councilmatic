@@ -1,15 +1,15 @@
 import itertools
-from datetime import datetime
 from operator import attrgetter
 from urllib.parse import urlencode
 
 import pytz
 import json
 from councilmatic_core.models import BillAction, Organization, Post
+from councilmatic_core.models import Membership as CouncilmaticMembership
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
-from django.db.models import Max, Min, Prefetch, Subquery
+from django.db.models import Exists, Max, Min, OuterRef, Prefetch, Subquery
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.urls import reverse
 from django.utils import timezone
@@ -479,13 +479,10 @@ class CouncilMembersCompareView(ListView):
     context_object_name = "council_members"
 
     def get_queryset(self):
-        return (
-            ChicagoPerson.objects.filter(
-                memberships__organization__name=settings.OCD_CITY_COUNCIL_NAME
-            )
-            .filter(memberships__end_date__gt=datetime.now())
-            .distinct()
-        )
+        return ChicagoPerson.objects.filter(
+            memberships__organization__name=settings.OCD_CITY_COUNCIL_NAME,
+            memberships__end_date__gt=timezone.now(),
+        ).distinct()
 
 
 class CommitteesView(ListView):
@@ -493,7 +490,14 @@ class CommitteesView(ListView):
     context_object_name = "committees"
 
     def get_queryset(self):
-        return Organization.committees()
+        current_memberships = CouncilmaticMembership.objects.filter(
+            organization=OuterRef("pk"),
+            end_date_dt__gt=timezone.now(),
+        )
+
+        return ChicagoOrganization.objects.filter(classification="committee").filter(
+            Exists(current_memberships)
+        )
 
 
 class CommitteeDetailView(DetailView):
@@ -506,6 +510,21 @@ class CommitteeDetailView(DetailView):
 
         committee = context["committee"]
         context["memberships"] = committee.memberships.all()
+
+        chairs = committee.chairs
+        vice_chairs = committee.vice_chairs
+        non_chair_members = committee.non_chair_members
+
+        # committee.chairs et al. return the base councilmatic_core Person,
+        # which lacks chicago.models.ChicagoPerson properties like
+        # manual_headshot; upgrade in place since ChicagoPerson is a proxy
+        # model over the same table.
+        for membership in itertools.chain(chairs, vice_chairs, non_chair_members):
+            membership.person.__class__ = ChicagoPerson
+
+        context["chairs"] = chairs
+        context["vice_chairs"] = vice_chairs
+        context["non_chair_members"] = non_chair_members
 
         description = None
 
