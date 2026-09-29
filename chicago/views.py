@@ -104,13 +104,13 @@ class IndexView(TemplateView):
         seo["image"] = "/static/images/city_hall.jpg"
         context["seo"] = seo
 
-        context[
-            "last_council_meeting"
-        ] = self.event_model.most_recent_past_city_council_meeting
+        context["last_council_meeting"] = (
+            self.event_model.most_recent_past_city_council_meeting
+        )
         context["next_council_meeting"] = self.event_model.next_city_council_meeting
-        context[
-            "upcoming_committee_meetings"
-        ] = self.event_model.upcoming_committee_meetings
+        context["upcoming_committee_meetings"] = (
+            self.event_model.upcoming_committee_meetings
+        )
         context["topic_hierarchy"] = self.topic_hierarchy
 
         return context
@@ -121,9 +121,9 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "LEGISLATION_TYPE_DESCRIPTIONS"
-        ] = settings.LEGISLATION_TYPE_DESCRIPTIONS
+        context["LEGISLATION_TYPE_DESCRIPTIONS"] = (
+            settings.LEGISLATION_TYPE_DESCRIPTIONS
+        )
 
         return context
 
@@ -403,10 +403,10 @@ class CouncilMembersView(ListView):
     def get_seo_blob(self):
         seo = {}
         seo.update(settings.SITE_META)
-        seo[
-            "site_desc"
-        ] = "Enter your address or browse the map to find which of \
+        seo["site_desc"] = (
+            "Enter your address or browse the map to find which of \
           Chicago's 50 Wards you live in and who your Alder is."
+        )
         seo["image"] = "/static/images/chicago_map.jpg"
         seo["title"] = "Find Your Ward and Alder - Chicago Councilmatic"
 
@@ -424,12 +424,12 @@ class PersonDetailView(DetailView):
         person = context["person"]
 
         if person.latest_council_membership:
-            context[
-                "tenure_start"
-            ] = person.latest_council_membership.start_date_dt.strftime("%B %d, %Y")
-            context[
-                "tenure_end"
-            ] = person.latest_council_membership.end_date_dt.strftime("%B %d, %Y")
+            context["tenure_start"] = (
+                person.latest_council_membership.start_date_dt.strftime("%B %d, %Y")
+            )
+            context["tenure_end"] = (
+                person.latest_council_membership.end_date_dt.strftime("%B %d, %Y")
+            )
 
         context["chair_positions"] = person.chair_role_memberships
 
@@ -515,13 +515,6 @@ class CommitteeDetailView(DetailView):
         vice_chairs = committee.vice_chairs
         non_chair_members = committee.non_chair_members
 
-        # committee.chairs et al. return the base councilmatic_core Person,
-        # which lacks chicago.models.ChicagoPerson properties like
-        # manual_headshot; upgrade in place since ChicagoPerson is a proxy
-        # model over the same table.
-        for membership in itertools.chain(chairs, vice_chairs, non_chair_members):
-            membership.person.__class__ = ChicagoPerson
-
         context["chairs"] = chairs
         context["vice_chairs"] = vice_chairs
         context["non_chair_members"] = non_chair_members
@@ -531,9 +524,9 @@ class CommitteeDetailView(DetailView):
         if getattr(settings, "COMMITTEE_DESCRIPTIONS", None):
             for k in settings.COMMITTEE_DESCRIPTIONS:
                 if committee.slug.startswith(k):
-                    description = context[
-                        "committee_description"
-                    ] = settings.COMMITTEE_DESCRIPTIONS[k]
+                    description = context["committee_description"] = (
+                        settings.COMMITTEE_DESCRIPTIONS[k]
+                    )
 
         seo = {}
         seo.update(settings.SITE_META)
