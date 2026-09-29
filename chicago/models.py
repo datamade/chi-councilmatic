@@ -253,14 +253,6 @@ class ChicagoPerson(Person):
         return self.extra_props("candidate_id")
 
     @property
-    def manual_headshot(self):
-        image_path = self.extra_props("image")
-        if image_path:
-            return f"/static/images/manual-headshots/{image_path}"  # noqa
-
-        return "/static/images/headshot_placeholder.png"
-
-    @property
     def term_active(self):
         # older entries may not have a latest_council_membership
         if self.latest_council_membership is None:

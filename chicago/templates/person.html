@@ -27,7 +27,7 @@
 
   <div class="row-fluid">
     <div class="col-sm-3">
-      <img src='{{ person.manual_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
+      <img src='{{ person|get_person_headshot }}' alt='{{person.name}}' title='{{person.name}}' class='img-responsive img-padded' id="person-detail-headshot" />
 
       {% if person.non_voting_title == "" %}
         {% if person.term_active %}
@@ -223,7 +223,7 @@
       "@context": "http://schema.org",
       "@type": "Person",
       "email": "{{person.email}}",
-      "image": "{{ person.manual_headshot }}",
+      "image": "{{ person|get_person_headshot }}",
       {% if person.current_council_seat %}
         "jobTitle": "{{ person.current_council_seat }} Representative",
       {% endif %}
