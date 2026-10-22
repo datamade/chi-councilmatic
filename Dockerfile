@@ -1,15 +1,25 @@
-FROM python:3.9
-
+FROM python:3.10
 LABEL maintainer "DataMade <info@datamade.us>"
 
 # N.b., this _does not install_ dependencies required to extract text from PDFs.
 RUN apt-get update && \
-    apt-get install -y gdal-bin && \
-    apt-get clean && \
-    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
+  apt-get install -y --no-install-recommends \
+  gdal-bin \
+  ca-certificates \
+  curl && \
+  apt-get clean && \
+  rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 RUN mkdir /app
 WORKDIR /app
+
+# Install pip from source and upgrade setuptools and certifi
+RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+  python get-pip.py --no-cache-dir \
+  "pip" \
+  "setuptools<81" \
+  "certifi>=2026.10.19" && \
+  rm get-pip.py
 
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --use-feature=fast-deps --use-deprecated=legacy-resolver -r requirements.txt
