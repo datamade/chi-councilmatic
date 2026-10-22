@@ -15,11 +15,9 @@ WORKDIR /app
 
 # Install pip from source and upgrade setuptools and certifi
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-  python get-pip.py --no-cache-dir \
-  "pip" \
-  "setuptools<81" \
-  "certifi>=2026.10.19" && \
-  rm get-pip.py
+  python get-pip.py --no-cache-dir && \
+  rm get-pip.py && \
+  pip install --no-cache-dir setuptools "certifi>=2026.10.19"
 
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --use-feature=fast-deps --use-deprecated=legacy-resolver -r requirements.txt
