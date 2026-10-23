@@ -7,6 +7,6 @@ sentry-sdk[django]==1.39.1
 gunicorn==19.6.0
 pytest==6.2.5
 pytest-django==3.10.0
-setuptools
+setuptools<81
 psycopg2>=2.8,<2.9
 python-dateutil>=2.7,<2.8
