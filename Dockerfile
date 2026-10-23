@@ -10,7 +10,14 @@ RUN apt-get update && \
   apt-get clean && \
   rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
-RUN mkdir /app
+# Heroku's container runtime doesn't honor layer deletions, so CA symlinks that
+# ca-certificates removes from /etc/ssl/certs reappear on the dyno. The bundle
+# file is regenerated (not deleted), so it comes through clean: point OpenSSL
+# clients (curl, git, Python's stdlib ssl) at the bundle and an empty CApath.
+RUN mkdir -p /etc/ssl/empty-capath
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+  SSL_CERT_DIR=/etc/ssl/empty-capath
+
 WORKDIR /app
 
 # Install pip from source and upgrade setuptools and certifi
